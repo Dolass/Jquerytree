@@ -1,3 +1,4 @@
+#labels 更新日志,Log,zTree
 =ZTree 更新日志=
 
 *2010.04.27* v1.0 beta1
