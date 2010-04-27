@@ -1,6 +1,7 @@
 #labels 更新日志,Log,zTree
 =ZTree 更新日志=
 
-==2010.04.27== *Version 1.0 Beta1*
+==2010.04.27==
+  * Version 1.0 Beta1
   尝试编写Jquery控件。
   全静态一次性初始化的Tree，尚未加入Ajax功能，将在2.0版本中实现
