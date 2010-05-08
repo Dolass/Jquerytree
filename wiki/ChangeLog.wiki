@@ -1,6 +1,7 @@
 #labels 更新日志,Log,zTree
 =ZTree 更新日志=
 
+<font color=#041594>
 *下一步计划*
   * 修改css结构，保证ie、firefox兼容性
   * 修正代码
@@ -12,6 +13,7 @@
    # 支持js控制 展开、折叠全部节点；
    # 支持自定义鼠标右键菜单
   * 在能出正式版之前，制作api使用手册
+</font>
 
 *2010.05.08* v1.0 beta4
   * zTree的Html结构以及Css全面改版
