@@ -9,7 +9,7 @@
    # 支持自定义鼠标右键菜单
 </font>
 
-*2010.06.01* v1.0 <font color="red">迎六一，zTree v1.0 版本 正式发布</font>
+*2010.06.01* v1.0 <font color="red">迎六一，zTree v1.0 正式版 发布</font>
   * 整理css样式
   * 整理统一常量 例如: ul/switch/ico等
   * 增加对自定义节点图标的支持功能
