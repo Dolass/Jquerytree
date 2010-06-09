@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="style/zTreeStyle.css" type="text/css">
+  <style>
+	body {
+	background-color: white;
+	margin:0; padding:0;
+	text-align: center;
+	}
+	div, p, table, th, td {
+		list-style:none; 
+		margin:0; padding:0; 
+		color:#333; font-size:12px; 
+		font-family:dotum, Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+	}
+  </style>
+  <script type="text/javascript" src="jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-1.0.js"></script>
+
+  <SCRIPT LANGUAGE="JavaScript">
+  <!--
+	var zTree;
+
+	$(document).ready(function(){
+
+		var setting = {
+			showLine: true,
+			root:{ 
+				isRoot:true,
+				nodes:[]
+			}
+		};
+
+		zNodes =[
+			
+			{ name:"zTree 演示",	icon:"", target:"testIframe", open:true,
+
+				nodes: [
+					//节点连线、自定义图标、一个Web同时显示多个Tree
+					{ name:"基本效果", "url":"basic.html", "target":"testIframe"},
+					//checkbox 演示、onCheck、onClick事件
+					{ name:"CheckBox效果", "url":"checkbox.html", "target":"testIframe"},
+					//拖拽演示、拖拽事件
+					{ name:"拖拽效果", "url":"dragdrop.html", "target":"testIframe"},
+					//异步加载节点演示、异步事件
+					{ name:"异步加载效果", "url":"async.html", "target":"testIframe"},
+					//代码加载、移动、删除节点演示
+					{ name:"代码操作节点演示", "url":"jsadd.html", "target":"testIframe"}
+				]
+			}
+			
+		];
+
+		zTree = $("#tree").zTree(setting, zNodes);
+
+		var nodes = zTree.getNodes();
+		zTree.selectNode(nodes[0].nodes[0]);
+
+	});
+
+  //-->
+  </SCRIPT>
+ </HEAD>
+
+<BODY>
+<TABLE border=0 height=600px>
+	<TR>
+		<TD width=200px align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
+			<ul id="tree" class="tree" style="width:200px; overflow:auto;"></ul>
+		</td>
+		<TD width=800px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=NO width=100%  height=600px SRC="basic.html"></IFRAME></td>
+	</TR>
+</TABLE>
+
+ </BODY>
+</HTML>

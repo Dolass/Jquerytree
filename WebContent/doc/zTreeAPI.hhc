@@ -1,0 +1,518 @@
+<html><head></head><body>
+<OBJECT type="text/site properties"><param name="Window Styles" value="0x227"></OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="速查表">
+<PARAM NAME="Local" VALUE="index.htm">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="关于">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTree v1.0 介绍">
+<PARAM NAME="Local" VALUE="about.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="提交bug及获取更新">
+<PARAM NAME="Local" VALUE="bug.html">
+</OBJECT>
+</UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTree 核心函数">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTree(setting, [zTreeNodes])">
+<PARAM NAME="Local" VALUE="zTree.html">
+</OBJECT>
+</UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="参数说明">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="setting 详解">
+<PARAM NAME="Local" VALUE="setting.html">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="async">
+<PARAM NAME="Local" VALUE="s_async.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncUrl">
+<PARAM NAME="Local" VALUE="s_asyncUrl.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncParam">
+<PARAM NAME="Local" VALUE="s_asyncParam.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncParamOther">
+<PARAM NAME="Local" VALUE="s_asyncParamOther.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkable">
+<PARAM NAME="Local" VALUE="s_checkable.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkType">
+<PARAM NAME="Local" VALUE="s_checkType.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="editable">
+<PARAM NAME="Local" VALUE="s_editable.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="root">
+<PARAM NAME="Local" VALUE="s_root.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="showLine">
+<PARAM NAME="Local" VALUE="s_showLine.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[curTreeNode]">
+<PARAM NAME="Local" VALUE="s_curTreeNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[dragNodeShowBefore]">
+<PARAM NAME="Local" VALUE="s_dragNodeShowBefore.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[dragStatus]">
+<PARAM NAME="Local" VALUE="s_dragStatus.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[treeObjId]">
+<PARAM NAME="Local" VALUE="s_treeObjId.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeNodes 详解">
+<PARAM NAME="Local" VALUE="zTreeNodes.html">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checked">
+<PARAM NAME="Local" VALUE="s_checked.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="click">
+<PARAM NAME="Local" VALUE="s_click.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="icon">
+<PARAM NAME="Local" VALUE="s_icon.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="isParent">
+<PARAM NAME="Local" VALUE="s_isParent.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="name">
+<PARAM NAME="Local" VALUE="s_name.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nodes">
+<PARAM NAME="Local" VALUE="s_nodes.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="open">
+<PARAM NAME="Local" VALUE="s_open.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="target">
+<PARAM NAME="Local" VALUE="s_target.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="url">
+<PARAM NAME="Local" VALUE="s_url.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="*自定义*">
+<PARAM NAME="Local" VALUE="s_diy.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[checkedNew]">
+<PARAM NAME="Local" VALUE="s_checkedNew.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[isFirstNode]">
+<PARAM NAME="Local" VALUE="s_isFirstNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[isLastNode]">
+<PARAM NAME="Local" VALUE="s_isLastNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[level]">
+<PARAM NAME="Local" VALUE="s_level.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[parentNode]">
+<PARAM NAME="Local" VALUE="s_parentNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[tId]">
+<PARAM NAME="Local" VALUE="s_tId.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="skin 皮肤说明">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeStyle.css">
+<PARAM NAME="Local" VALUE="css.html">
+</OBJECT>
+</UL>
+</UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="方法">
+<PARAM NAME="ImageNumber" value="2">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="获取">
+<PARAM NAME="ImageNumber" value="2">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getCurNode()">
+<PARAM NAME="Local" VALUE="m_getCurNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodeByTId(tID)">
+<PARAM NAME="Local" VALUE="m_getNodeByTId.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodes()">
+<PARAM NAME="Local" VALUE="m_getNodes.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="操作">
+<PARAM NAME="ImageNumber" value="2">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="addNodes(parentNode, newNodes)">
+<PARAM NAME="Local" VALUE="m_addNodes.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expandAll(expandSign)">
+<PARAM NAME="Local" VALUE="m_expandAll.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expandNode(treeNode, expandSign, sonSign)">
+<PARAM NAME="Local" VALUE="m_expandNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="moveNode(targetNode, treeNode)">
+<PARAM NAME="Local" VALUE="m_moveNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="refresh()">
+<PARAM NAME="Local" VALUE="m_refresh.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="removeNode(treeNode)">
+<PARAM NAME="Local" VALUE="m_removeNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="selectNode(treeNode)">
+<PARAM NAME="Local" VALUE="m_selectNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="setEditable(editable)">
+<PARAM NAME="Local" VALUE="m_setEditable.html">
+</OBJECT>
+</UL>
+</UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="事件">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="callback 函数">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnClick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_zTreeOnClick.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnCheck(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_zTreeOnCheck.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnDrag(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_zTreeOnDrag.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnDrop(event, treeId, treeNode, targetNode)">
+<PARAM NAME="Local" VALUE="e_zTreeOnDrop.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnAsyncSuccess(event, treeId, msg)">
+<PARAM NAME="Local" VALUE="e_zTreeOnAsyncSuccess.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown)">
+<PARAM NAME="Local" VALUE="e_zTreeOnAsyncError.html">
+</OBJECT>
+</UL>
+</UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="常量">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="事件相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_CLICK">
+<PARAM NAME="Local" VALUE="c_ZTREE_CLICK.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_CHECK">
+<PARAM NAME="Local" VALUE="c_ZTREE_CHECK.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_DRAG">
+<PARAM NAME="Local" VALUE="c_ZTREE_DRAG.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_DROP">
+<PARAM NAME="Local" VALUE="c_ZTREE_DROP.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_ASYNC_SUCCESS">
+<PARAM NAME="Local" VALUE="c_ZTREE_ASYNC_SUCCESS.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_ASYNC_ERROR">
+<PARAM NAME="Local" VALUE="c_ZTREE_ASYNC_ERROR.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ID命名相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Switch">
+<PARAM NAME="Local" VALUE="c_IDMark_Switch.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Icon">
+<PARAM NAME="Local" VALUE="c_IDMark_Icon.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Ul">
+<PARAM NAME="Local" VALUE="c_IDMark_Ul.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_A">
+<PARAM NAME="Local" VALUE="c_IDMark_A.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="背景线条相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_Root">
+<PARAM NAME="Local" VALUE="c_LineMark_Root.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_Roots">
+<PARAM NAME="Local" VALUE="c_LineMark_Roots.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_Center">
+<PARAM NAME="Local" VALUE="c_LineMark_Center.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_Bottom">
+<PARAM NAME="Local" VALUE="c_LineMark_Bottom.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_NoLine">
+<PARAM NAME="Local" VALUE="c_LineMark_NoLine.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="LineMark_Line">
+<PARAM NAME="Local" VALUE="c_LineMark_Line.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="文件夹图标相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="FolderMark_Open">
+<PARAM NAME="Local" VALUE="c_FolderMark_Open.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="FolderMark_Close">
+<PARAM NAME="Local" VALUE="c_FolderMark_Close.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="FolderMark_Docu">
+<PARAM NAME="Local" VALUE="c_FolderMark_Docu.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="className相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Class_CurSelectedNode">
+<PARAM NAME="Local" VALUE="c_Class_CurSelectedNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Class_TmpTargetTree">
+<PARAM NAME="Local" VALUE="c_Class_TmpTargetTree.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Class_TmpTargetNode">
+<PARAM NAME="Local" VALUE="c_Class_TmpTargetNode.html">
+</OBJECT>
+</UL>
+</UL>
+</UL></body></html>

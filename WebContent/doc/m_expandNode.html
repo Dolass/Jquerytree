@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>expandNode(treeNode, expandSign, sonSign)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: 无</span>expandNode(treeNode, expandSign, sonSign)</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>让 zTree 展开指定节点。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>指定要 展开 或 折叠 的节点 JSON 数据</p>
+	<h4><strong>expandSign</strong><span>Boolean</span></h4>
+	<p>展开 (true) 或 折叠 (false) 标识</p>
+	<h4><strong>sonSign</strong><span>Boolean</span></h4>
+	<p>展开 或 折叠 是否影响子孙级节点标识</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>只展开节点的下一级节点</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+zTreeObj.expandNode(treeNode, true, false);
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_expandAll.html">expandAll(expandSign)</A></h4>
+
+</div>
+</div>
+
+</body></html>

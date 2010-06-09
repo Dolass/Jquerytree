@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="style/zTreeStyle.css" type="text/css">
+  <style>
+	body {
+	background-color: white;
+	margin:0; padding:0;
+	text-align: center;
+	}
+	div, p, table, th, td {
+		list-style:none; 
+		margin:0; padding:0; 
+		color:#333; font-size:12px; 
+		font-family:宋体;
+	}
+
+	.tb1, .tb1 td {
+		padding: 5px;
+		border:1px dashed #EAB221;   
+		border-collapse:collapse;  
+	}
+
+	.treeContent {
+		width:200px; 
+		height:400px; 
+		overflow:auto;
+		border:1px dashed #277327;  
+
+	}
+
+  </style>
+  <script type="text/javascript" src="jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-1.0.js"></script>
+
+  <SCRIPT LANGUAGE="JavaScript">
+  <!--
+	var zTree1;
+	var setting;
+
+		setting = {
+			
+		};
+
+		var zNodes =[
+			{ name:"手机", open:true,
+				nodes: [
+					{ name:"诺基亚"},
+					{ name:"三星"},
+					{ name:"索爱"},
+					{ name:"多普达"}
+				]},
+			{ name:"电脑", open:true,
+				nodes: [
+					{ name:"硬件"},
+					{ name:"整机"},
+					{ name:"网络"}
+				]},
+			{ name:"家电", open:true,
+				nodes: [
+					{ name:"电视"},
+					{ name:"冰箱"},
+					{ name:"空调"}
+				]}
+						
+		];
+
+	$(document).ready(function(){
+
+		setting.editable = getEditable();
+		zTree1 = $("#tree1").zTree(setting, zNodes);
+
+	});
+
+	function zTreeOnClick(event, treeId, treeNode) {
+		$("#lastClickNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name);
+	}
+
+	function zTreeOnDrag(event, treeId, treeNode) {
+		$("#dragNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name);
+	}
+
+	function zTreeOnDrop(event, treeId, treeNode, targetNode) {
+		if (treeNode) {
+				$("#dropNode").html("treeId=" + treeId + ";  Src Name = " + treeNode.name + "； Target Name = " + ((targetNode != null) ? targetNode.name : "root"));
+		} else {
+				$("#dropNode").html("treeId=" + treeId + ";  拖拽放弃。");
+		}
+	}
+
+	function getEditable() {
+		return $("#editable").attr("checked");
+	}
+
+	function refreshTree() {
+		zTree1.setEditable(getEditable());
+		$("#lastClickNode").html("");
+		$("#dragNode").html("");
+		$("#dropNode").html("");
+
+	}
+
+  //-->
+  </SCRIPT>
+ </HEAD>
+
+<BODY>
+<center style="margin:10px"><b>拖拽演示</b></center>
+<TABLE border=0 height=600px>
+	<TR>
+		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></td>
+		<TD height=120px align=center valign=top>
+			<TABLE border=0 align=center class="tb1">
+				<TR>
+					<TD width=200px align=center valign=middle>是否允许拖拽：<INPUT TYPE="checkbox" id="editable" checked onchange="refreshTree();"></td>
+				</TR>
+				<TR>
+					<TD width=200px align=center valign=middle style="color:red">修改上面配置后，重新拖拽试试看
+					<br/><br/>也可以水平方向拖拽节点试试看</TD>
+				</TR>
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD width=500px align=left valign=top><br/>
+		onClick 事件：<a id="lastClickNode"></a><br/><br/>
+		onDrag 事件：<a id="dragNode"></a><br/><br/>
+		onDrop 事件：<a id="dropNode"></a>
+		</td>
+	</TR>
+</TABLE>
+ </BODY>
+</HTML>

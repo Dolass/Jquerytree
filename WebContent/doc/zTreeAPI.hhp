@@ -1,0 +1,90 @@
+[OPTIONS]
+Compatibility=1.1 Or later
+Default Window=Main
+Default topic=E:\study\JS\JQuery Tree\doc\index.htm
+Default font=宋体,9,1
+Contents file=zTreeAPI.hhc
+Index file=zTreeAPI.hhk
+Display compile progress=Yes
+Full-text search=Yes
+Language=0x804 中文(简体，中国)
+
+[WINDOWS]
+Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","E:\study\JS\JQuery Tree\doc\index.htm","E:\study\JS\JQuery Tree\doc\index.htm",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
+
+[FILES]
+about.html
+bug.html
+c_Class_CurSelectedNode.html
+c_Class_TmpTargetNode.html
+c_Class_TmpTargetTree.html
+c_FolderMark_Close.html
+c_FolderMark_Docu.html
+c_FolderMark_Open.html
+c_IDMark_A.html
+c_IDMark_Icon.html
+c_IDMark_Switch.html
+c_IDMark_Ul.html
+c_LineMark_Bottom.html
+c_LineMark_Center.html
+c_LineMark_Line.html
+c_LineMark_NoLine.html
+c_LineMark_Root.html
+c_LineMark_Roots.html
+c_ZTREE_ASYNC_ERROR.html
+c_ZTREE_ASYNC_SUCCESS.html
+c_ZTREE_CHECK.html
+c_ZTREE_CLICK.html
+c_ZTREE_DRAG.html
+c_ZTREE_DROP.html
+css.html
+e_zTreeOnAsyncError.html
+e_zTreeOnAsyncSuccess.html
+e_zTreeOnCheck.html
+e_zTreeOnClick.html
+e_zTreeOnDrag.html
+e_zTreeOnDrop.html
+index.htm
+index.htm
+index.htm
+m_addNodes.html
+m_expandAll.html
+m_expandNode.html
+m_getCurNode.html
+m_getNodeByTId.html
+m_getNodes.html
+m_moveNode.html
+m_refresh.html
+m_removeNode.html
+m_selectNode.html
+m_setEditable.html
+s_async.html
+s_asyncParam.html
+s_asyncParamOther.html
+s_asyncUrl.html
+s_checkable.html
+s_checked.html
+s_checkedNew.html
+s_checkType.html
+s_click.html
+s_curTreeNode.html
+s_diy.html
+s_dragNodeShowBefore.html
+s_dragStatus.html
+s_editable.html
+s_icon.html
+s_isFirstNode.html
+s_isLastNode.html
+s_isParent.html
+s_level.html
+s_name.html
+s_nodes.html
+s_open.html
+s_parentNode.html
+s_root.html
+s_showLine.html
+s_target.html
+s_tId.html
+s_treeObjId.html
+s_url.html
+zTree.html
