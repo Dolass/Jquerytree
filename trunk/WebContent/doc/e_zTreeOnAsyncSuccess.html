@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>zTreeOnAsyncSuccess(event, treeId, msg)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2>zTreeOnAsyncSuccess(event, treeId, msg)</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>用户在使用 zTree 的页面上，编写 zTreeOnAsyncSuccess(event, treeId, msg) 函数，即可随意监听 zTree 节点的 异步获取节点成功 事件。</p>
+			<p>该事件在异步操作结束并成功时触发。</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>event</strong><span>js event 对象</span></h4>
+	<p>标准的 js event 对象</p>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<h4><strong>msg</strong><span>String</span></h4>
+	<p>异步获取的节点数据字符串，主要便于用户调试使用。</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>异步获取数据成功后，弹出得到的数据字符串</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+function zTreeOnAsyncSuccess(event, treeId, msg) {
+&nbsp;&nbsp;&nbsp;&nbsp;alert(msg);
+}
+......</code></pre>
+	<h3>相关事件</h3>
+	<h4><A href="e_zTreeOnAsyncError.html">zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown)</A></h4>
+	<h3>相关参数</h3>
+	<h4><A href="s_async.html">async</A></h4>
+
+</div>
+</div>
+
+</body></html>

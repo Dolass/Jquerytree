@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>editable</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Boolean</span>editable</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>确定 zTree 的节点是否可以被鼠标拖拽移动；目前没有提供直接修改节点名称的功能。</p>
+			<p>editable = true 时：</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、将不会对节点指定的 <A href="s_url.html">url</A> 地址进行响应</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、为避免数据混乱，需要异步获取子节点的功能将失效，因此对于使用此功能，请将 Tree 节点数据一次性全部生成</p>
+			<p>默认值：false</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>允许拖拽节点</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;editable : true,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h3>相关事件</h3>
+	<h4><A href="e_zTreeOnDrag.html">zTreeOnDrag</A> | <A href="e_zTreeOnDrop.html">zTreeOnDrop</A></h4>
+
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>getCurNode()</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: JSON Object</span>getCurNode()</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>获取 zTree 当前被选中的节点数据 JSON 对象。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+			<p>如果当前没有被选择的节点，则返回 null</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>获取 zTree 当前被选中的节点数据</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+var curNode = zTreeObj.getCurNode();
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_selectNode.html">selectNode(treeNode)</A></h4>
+	<h3>相关参数</h3>
+	<h4><A href="s_curTreeNode.html">curTreeNode</A></h4>
+
+</div>
+</div>
+
+</body></html>
