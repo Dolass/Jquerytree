@@ -26,9 +26,7 @@
 
   <SCRIPT LANGUAGE="JavaScript">
   <!--
-	var zTree1, zTree2, zTree3;
-
-	$(document).ready(function(){
+	var zTree1, zTree2, zTree3, zTree4;
 
 		var setting = {
 			showLine: true
@@ -57,6 +55,8 @@
 						
 		];
 
+		$(document).ready(function(){
+
 		var setting1 = clone(setting);
 		setting1.showLine = true;
 
@@ -66,21 +66,50 @@
 		var setting3 = clone(setting);
 		setting3.showLine = true;
 
+		var setting4 = clone(setting);
+		setting4.showLine = true;
+
 		var zNodes1 = clone(zNodes);
 		var zNodes2 = clone(zNodes);				
 		var zNodes3 = clone(zNodes);
+		var zNodes4 = clone(zNodes);
 
 		zNodes3[0].icon = "demoImg/phone.gif";
 		zNodes3[2].icon = "demoImg/home.gif";
 		zNodes3[1].nodes[0].icon = "demoImg/hardware.gif";
 		zNodes3[1].nodes[2].icon = "demoImg/people.gif";
 
-
+		changeIconSkin(zNodes4, "sim");
+		
 		zTree1 = $("#tree1").zTree(setting1, zNodes1);
 		zTree2 = $("#tree2").zTree(setting2, zNodes2);
 		zTree3 = $("#tree3").zTree(setting3, zNodes3);
+		zTree4 = $("#tree4").zTree(setting4, zNodes4);
 
 	});
+
+function changeIconSkin(zNodes, skinName) {
+	zNodes[0].iconSkin = skinName + "1";
+	zNodes[1].iconSkin = skinName + "2";
+	zNodes[2].iconSkin = skinName + "10";
+	zNodes[0].nodes[0].iconSkin = skinName + "3";
+	zNodes[0].nodes[1].iconSkin = skinName + "4";
+	zNodes[0].nodes[2].iconSkin = skinName + "5";
+	zNodes[0].nodes[3].iconSkin = skinName + "6";
+	zNodes[1].nodes[0].iconSkin = skinName + "7";
+	zNodes[1].nodes[1].iconSkin = skinName + "8";
+	zNodes[1].nodes[2].iconSkin = skinName + "9";
+	zNodes[2].nodes[0].iconSkin = skinName + "3";
+	zNodes[2].nodes[1].iconSkin = skinName + "4";
+	zNodes[2].nodes[2].iconSkin = skinName + "5";
+
+}
+
+function refreshTree(cssSkin) {
+	changeIconSkin(zTree4.getNodes(), cssSkin);
+	zTree4.refresh();
+}
+
 
 function clone(jsonObj) {
     var buf;
@@ -109,14 +138,22 @@ function clone(jsonObj) {
 <center style="margin:10px"><b>基本演示</b></center>
 <TABLE border=0 height=600px class="tb1">
 	<TR>
-		<TD width=200px align=center valign=middel><b>默认样式</b></td>
-		<TD width=200px align=center valign=middel><b>不显示节点连线</b></td>
-		<TD width=200px align=center valign=middel><b>自定义图标</b></td>
+		<TD width=150px align=center valign=middle><b>默认样式</b></td>
+		<TD width=150px align=center valign=middle><b>不显示节点连线</b></td>
+		<TD width=150px align=center valign=middle><b>icon属性自定义图标</b></td>
+		<TD width=150px align=center valign=middle><b>css自定义图标</b><br/>
+			<INPUT TYPE="radio" id="sim" NAME="cssSkin" checked onclick="refreshTree('sim');">sim 系列
+			<INPUT TYPE="radio" id="flag" NAME="cssSkin" onclick="refreshTree('flag');">flag 系列
+		
+		</td>
 	</TR>
 	<TR>
-		<TD width=200px align=left valign=top><ul id="tree1" class="tree" style="width:200px; overflow:auto;"></ul></td>
-		<TD width=200px align=left valign=top><ul id="tree2" class="tree" style="width:200px; overflow:auto;"></ul></td>
-		<TD width=200px align=left valign=top><ul id="tree3" class="tree" style="width:200px; overflow:auto;"></ul></td>
+		<TD width=150px align=left valign=top><ul id="tree1" class="tree" style="width:150px; overflow:auto;"></ul></td>
+		<TD width=150px align=left valign=top><ul id="tree2" class="tree" style="width:150px; overflow:auto;"></ul></td>
+		<TD width=150px align=left valign=top><ul id="tree3" class="tree" style="width:150px; overflow:auto;"></ul></td>
+		<TD width=150px align=left valign=top>
+			<ul id="tree4" class="tree" style="width:150px; overflow:auto;"></ul>
+		</td>
 	</TR>
 </TABLE>
 
