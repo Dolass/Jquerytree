@@ -84,6 +84,28 @@ website:	http://code.google.com/p/jquerytree/
 .tree li button.ico_close{ background:url(./img/folder_Close.gif);}
 .tree li button.ico_docu{ background:url(./img/page.gif);}
 
+.tree li button.sim1{ background:url(./img/sim/1.png);}
+.tree li button.sim2{ background:url(./img/sim/2.png);}
+.tree li button.sim3{ background:url(./img/sim/3.png);}
+.tree li button.sim4{ background:url(./img/sim/4.png);}
+.tree li button.sim5{ background:url(./img/sim/5.png);}
+.tree li button.sim6{ background:url(./img/sim/6.png);}
+.tree li button.sim7{ background:url(./img/sim/7.png);}
+.tree li button.sim8{ background:url(./img/sim/8.png);}
+.tree li button.sim9{ background:url(./img/sim/9.png);}
+.tree li button.sim10{ background:url(./img/sim/10.png);}
+
+.tree li button.flag1{ background:url(./img/flag/1.png);}
+.tree li button.flag2{ background:url(./img/flag/2.png);}
+.tree li button.flag3{ background:url(./img/flag/3.png);}
+.tree li button.flag4{ background:url(./img/flag/4.png);}
+.tree li button.flag5{ background:url(./img/flag/5.png);}
+.tree li button.flag6{ background:url(./img/flag/6.png);}
+.tree li button.flag7{ background:url(./img/flag/7.png);}
+.tree li button.flag8{ background:url(./img/flag/8.png);}
+.tree li button.flag9{ background:url(./img/flag/9.png);}
+.tree li button.flag10{ background:url(./img/flag/10.png);}
+
 .tree INPUT.checkbox {
 	padding:0; margin:0 2px 0 0; 
 	width:18px; height:18px; 

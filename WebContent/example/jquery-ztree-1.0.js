@@ -1,5 +1,5 @@
 /*
- * JQuery zTree 1.0
+ * JQuery zTree 1.0.2
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
@@ -103,7 +103,7 @@
 
 		return new zTreePlugin().init(this);
 
-	}
+	};
 
 	//绑定事件
 	function bindTreeNodes(treeObj) {
@@ -179,7 +179,7 @@
 			p = $("#" + treeNode.parentNode.tId + IDMark_Ul);
 		}
 
-		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" >" + "<button class=\"ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button>" + treeNode.name + "</a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
+		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" >" + "<button class=\"" + treeNode.iconSkin + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button>" + treeNode.name + "</a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
 		p.append(html);
 
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
