@@ -7,7 +7,7 @@ Contents file=zTreeAPI.hhc
 Index file=zTreeAPI.hhk
 Display compile progress=Yes
 Full-text search=Yes
-Language=0x804 中文(简体，中国)
+Language=0x804 中文(中国)
 
 [WINDOWS]
 Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","E:\study\JS\JQuery Tree\doc\index.htm","E:\study\JS\JQuery Tree\doc\index.htm",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
@@ -73,6 +73,7 @@ s_dragNodeShowBefore.html
 s_dragStatus.html
 s_editable.html
 s_icon.html
+s_iconSkin.html
 s_isFirstNode.html
 s_isLastNode.html
 s_isParent.html
