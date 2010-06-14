@@ -155,6 +155,11 @@ hr{
 	background: rgb(149,179,215);
 	color: #fff;
 }
+#content h3 span{
+	color:#f0f0f0;
+	float:right;
+	width: 300px;
+}
 #content h4{
 	margin: 5px auto;
 	margin-left: 5px;

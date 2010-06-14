@@ -1,7 +1,7 @@
 [OPTIONS]
 Compatibility=1.1 Or later
 Default Window=Main
-Default topic=E:\study\JS\JQuery Tree\doc\index.htm
+Default topic=index.htm
 Default font=宋体,9,1
 Contents file=zTreeAPI.hhc
 Index file=zTreeAPI.hhk
@@ -10,7 +10,7 @@ Full-text search=Yes
 Language=0x804 中文(中国)
 
 [WINDOWS]
-Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","E:\study\JS\JQuery Tree\doc\index.htm","E:\study\JS\JQuery Tree\doc\index.htm",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
+Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","index.htm","index.htm",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
 
 [FILES]
 about.html
