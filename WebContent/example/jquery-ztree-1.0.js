@@ -1,5 +1,5 @@
 /*
- * JQuery zTree 1.0.2
+ * JQuery zTree 1.02
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
