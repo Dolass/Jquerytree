@@ -288,4 +288,8 @@
 <PARAM NAME="Name" VALUE="removeNode(treeNode)">
 <PARAM NAME="Local" VALUE="m_removeNode.html">
 </OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="iconSkin">
+<PARAM NAME="Local" VALUE="s_iconSkin.html">
+</OBJECT>
 </UL></BODY></HTML>
