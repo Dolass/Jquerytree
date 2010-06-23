@@ -36,6 +36,12 @@
 	var Class_CurSelectedNode = "curSelectedNode";
 	var Class_TmpTargetTree = "tmpTargetTree";
 	var Class_TmpTargetNode = "tmpTargetNode";
+	
+	var CheckBox_Default = "chk";
+	var CheckBox_False = "false";
+	var CheckBox_True_Full = "true_full";
+	var CheckBox_True_Part = "true_part";
+	var CheckBox_Focus = "focus";
 
 	var settings = new Array();
 	var zTreeId = 0;
@@ -97,7 +103,6 @@
 		} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
 			asyncGetNode(setting);
 		}
-
 		
 		bindTreeNodes(this);
 
@@ -148,6 +153,9 @@
 			node.level = level;
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
 			node.parentNode = parentNode;
+			node.checkedNew = (node.checkedNew == undefined)? (node.checked == true) : node.checkedNew;
+			node.checkboxFocus = false;
+			node.checkboxFull = true;
 
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
 
@@ -164,6 +172,11 @@
 			} else {
 				node.isParent = (node.isParent) ? true: false;
 				showTree(setting, node);
+				
+				//只在末级节点的最后一个进行checkBox修正
+				if (setting.checkable && i == treeNodes.length - 1) {
+					repairParentChkClass(node);
+				}
 			}
 		}
 	}
@@ -242,15 +255,15 @@
 		});
 
 		if (setting.checkable) {
-			switchObj.after("<INPUT TYPE=checkbox class='checkbox' ID='" + treeNode.tId + "_check' />");
+			switchObj.after("<BUTTON type='BUTTON' ID='" + treeNode.tId + "_check' onfocus='this.blur();' ></BUTTON>");
 			
 			var checkObj = $("#" + treeNode.tId + "_check");
-
-			checkObj.attr("checked", (treeNode.checkedNew || treeNode.checked) ? true : false);
-
-			checkObj.bind('change',
+			
+			setChkClass(checkObj, treeNode);
+			
+			checkObj.bind('click',
 			function() {
-				treeNode.checkedNew = $("#" + treeNode.tId + "_check").attr("checked");
+				treeNode.checkedNew = !treeNode.checkedNew;
 				if (treeNode.checkedNew && setting.checkType.Y.indexOf("p") > -1) {
 					setParentNodeCheckBox(treeNode, true);
 				}
@@ -263,9 +276,28 @@
 				if (!treeNode.checkedNew && setting.checkType.N.indexOf("s") > -1) {
 					setSonNodeCheckBox(treeNode, false);
 				}
+				setChkClass(checkObj, treeNode);
+				if (treeNode.nodes && treeNode.nodes.length > 0) {
+					repairParentChkClass(treeNode.nodes[0]);
+				} else {
+					repairParentChkClass(treeNode);
+				}
+				
 				//触发 CheckBox 点击事件
 				$("#" + setting.treeObjId).trigger(ZTREE_CHECK, [setting.treeObjId, treeNode]);
 
+			});
+			
+			checkObj.bind('mouseover',
+			function() {
+				treeNode.checkboxFocus = true;
+				setChkClass(checkObj, treeNode);
+			});
+
+			checkObj.bind('mouseout',
+			function() {
+				treeNode.checkboxFocus = false;
+				setChkClass(checkObj, treeNode);
 			});
 		}
 
@@ -483,6 +515,30 @@
 
 		obj.attr("class", tmpList.join("_"));
 	}
+	//设置CheckBox的Class类型，主要用于显示子节点是否全部被选择的样式
+	function setChkClass(obj, treeNode) {
+		if (!obj) return;
+		var chkName = treeNode.checkedNew ? (treeNode.checkboxFull ? CheckBox_True_Full : CheckBox_True_Part) : CheckBox_False;
+		chkName = treeNode.checkboxFocus ? chkName + "_" + CheckBox_Focus : chkName;
+		obj.removeClass();
+		obj.addClass(CheckBox_Default);
+		obj.addClass(chkName);
+	}
+	//修正父节点选择的样式
+	function repairParentChkClass(treeNode) {
+		if (!treeNode || !treeNode.parentNode) return;
+		var pSign = true;
+		for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
+			if (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].checkboxFull) {
+				pSign = false;
+				break;
+			}
+		}			
+		treeNode.parentNode.checkboxFull = pSign;
+		var checkObj = $("#" + treeNode.parentNode.tId + "_check");
+		setChkClass(checkObj, treeNode.parentNode);
+		repairParentChkClass(treeNode.parentNode);
+	}
 
 	//点击展开、折叠节点
 	function onSwitchNode(event) {
@@ -584,13 +640,14 @@
 
 	//遍历父节点设置checkbox
 	function setParentNodeCheckBox(treeNode, value) {
-		$("#" + treeNode.tId + "_check").attr("checked", value);
+		var checkObj = $("#" + treeNode.tId + "_check");
 		treeNode.checkedNew = value;
+		setChkClass(checkObj, treeNode);
 		if (treeNode.parentNode) {
 			var pSign = true;
 			if (!value) {
 				for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
-					if ($("#" + treeNode.parentNode.nodes[son].tId + "_check").attr("checked")) {
+					if (treeNode.parentNode.nodes[son].checkedNew) {
 						pSign = false;
 						break;
 					}
@@ -605,8 +662,11 @@
 	//遍历子节点设置checkbox
 	function setSonNodeCheckBox(treeNode, value) {
 		if (!treeNode) return;
-		$("#" + treeNode.tId + "_check").attr("checked", value);
+		var checkObj = $("#" + treeNode.tId + "_check");
+		
 		treeNode.checkedNew = value;
+		setChkClass(checkObj, treeNode);
+		
 		if (!treeNode.nodes) return;
 		for (var son = 0; son < treeNode.nodes.length; son++) {
 			if (treeNode.nodes[son]) setSonNodeCheckBox(treeNode.nodes[son], value);
