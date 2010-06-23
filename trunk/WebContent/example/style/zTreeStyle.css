@@ -63,6 +63,15 @@ website:	http://code.google.com/p/jquerytree/
 	padding:0; margin:0 2px 0 0; 
 	}
 
+.tree li button.chk {
+	width:13px; height:13px; 
+	padding:0; margin:0; 
+	vertical-align:middle;
+	border:0 none; 
+	cursor: pointer;
+	}
+.tree li button.empty { background:url("./img/checkbox.png") repeat scroll 0 -24px transparent;}	
+
 .tree li button.switch_root_open{ background:url(./img/minus_root.gif);}
 .tree li button.switch_root_close{ background:url(./img/plus_root.gif);}
 .tree li button.switch_roots_open{ background:url(./img/minus_top.gif);}
@@ -134,3 +143,4 @@ website:	http://code.google.com/p/jquerytree/
 	 opacity:0.0; filter:alpha(opacity=0); 
 	 position:absolute;
 }
+
