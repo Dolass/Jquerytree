@@ -70,19 +70,23 @@ website:	http://code.google.com/p/jquerytree/
 	border:0 none;
 	cursor: auto;
 	}
-.tree li button.chk.false_full { background:url("./img/checkbox.png") no-repeat scroll 0 0 transparent;}	
-.tree li button.chk.false_full_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -12px transparent;}	
-.tree li button.chk.false_part { background:url("./img/checkbox.png") no-repeat scroll 0 -72 transparent;}	
-.tree li button.chk.false_part_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -84px transparent;}	
-.tree li button.chk.true_full { background:url("./img/checkbox.png") no-repeat scroll 0 -24px transparent;}	
-.tree li button.chk.true_full_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -36px transparent;}	
-.tree li button.chk.true_part { background:url("./img/checkbox.png") no-repeat scroll 0 -48px transparent;}	
-.tree li button.chk.true_part_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -60px transparent;}	
+.tree li button.chk.checkbox_false_full { background:url("./img/checkbox.png") no-repeat scroll 0 0 transparent;}	
+.tree li button.chk.checkbox_false_full_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -12px transparent;}	
+.tree li button.chk.checkbox_false_part { background:url("./img/checkbox.png") no-repeat scroll 0 -72px transparent;}	
+.tree li button.chk.checkbox_false_part_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -84px transparent;}	
+.tree li button.chk.checkbox_true_full { background:url("./img/checkbox.png") no-repeat scroll 0 -24px transparent;}	
+.tree li button.chk.checkbox_true_full_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -36px transparent;}	
+.tree li button.chk.checkbox_true_part { background:url("./img/checkbox.png") no-repeat scroll 0 -48px transparent;}	
+.tree li button.chk.checkbox_true_part_focus { background:url("./img/checkbox.png") no-repeat scroll 0 -60px transparent;}	
 
-.tree li button.chk.radio_false { background:url("./img/radio.png") no-repeat scroll 0 0 transparent;}	
-.tree li button.chk.radio_false_focus { background:url("./img/radio.png") no-repeat scroll 0 -12px transparent;}	
-.tree li button.chk.radio_true { background:url("./img/radio.png") no-repeat scroll 0 -24px transparent;}	
-.tree li button.chk.radio_true_focus { background:url("./img/radio.png") no-repeat scroll 0 -36px transparent;}	
+.tree li button.chk.radio_false_full { background:url("./img/radio.png") no-repeat scroll 0 0 transparent;}	
+.tree li button.chk.radio_false_full_focus { background:url("./img/radio.png") no-repeat scroll 0 -12px transparent;}	
+.tree li button.chk.radio_false_part { background:url("./img/radio.png") no-repeat scroll 0 -72px transparent;}	
+.tree li button.chk.radio_false_part_focus { background:url("./img/radio.png") no-repeat scroll 0 -84px transparent;}	
+.tree li button.chk.radio_true_full { background:url("./img/radio.png") no-repeat scroll 0 -24px transparent;}	
+.tree li button.chk.radio_true_full_focus { background:url("./img/radio.png") no-repeat scroll 0 -36px transparent;}	
+.tree li button.chk.radio_true_part { background:url("./img/radio.png") no-repeat scroll 0 -48px transparent;}	
+.tree li button.chk.radio_true_part_focus { background:url("./img/radio.png") no-repeat scroll 0 -60px transparent;}	
 
 .tree li button.switch_root_open{ background:url(./img/minus_root.gif);}
 .tree li button.switch_root_close{ background:url(./img/plus_root.gif);}

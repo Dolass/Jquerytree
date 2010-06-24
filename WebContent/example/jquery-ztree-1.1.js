@@ -41,13 +41,12 @@
 	var Check_Style_Radio = "radio";
 	var CheckBox_Default = "chk";
 	var CheckBox_False = "false";
-	var CheckBox_True_Full = "true_full";
-	var CheckBox_True_Part = "true_part";
+	var CheckBox_True = "true";
+	var CheckBox_Full = "full";
+	var CheckBox_Part = "part";
 	var CheckBox_Focus = "focus";
 	var Radio_Type_All = "all";
 	var Radio_Type_Level = "level";
-	var Radio_False = "radio_false";
-	var Radio_True = "radio_true";
 
 	var settings = new Array();
 	var zTreeId = 0;
@@ -76,10 +75,10 @@
 				"Y": "ps",
 				"N": "ps"
 			},
-			//radio 允许选择的最大个数（checkStyle=Check_Style_Box时无效）
-			checkMaxNum:1,
 			//radio 最大个数限制类型，每一级节点限制 或 整棵Tree的全部节点限制（checkStyle=Check_Style_Box时无效）
 			checkRadioType:Radio_Type_Level,
+			//radio 允许选择的最大个数（checkStyle=Check_Style_Box时无效）
+			checkRadioMaxNum:1,
 			//checkRadioType = Radio_Type_All 时，保存被选择节点的堆栈
 			checkRadioCheckedList:[],
 			//是否异步获取节点数据
@@ -104,6 +103,7 @@
 		setting.root.tId = -1;
 		setting.root.name = "ZTREE ROOT";
 		setting.root.isRoot = true;
+		setting.checkRadioCheckedList = [];
 		zTreeId = 0;
 
 		if (zTreeNodes) {
@@ -169,8 +169,9 @@
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
 			node.parentNode = parentNode;
 			node.checkedNew = (node.checkedNew == undefined)? (node.checked == true) : node.checkedNew;
-			node.checkboxFocus = false;
-			node.checkboxFull = true;
+			node.check_Focus = false;
+			node.check_True_Full = true;
+			node.check_False_Full = true;
 
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
 
@@ -264,7 +265,6 @@
 			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
 			//设置节点为选中状态
 			selectNode(setting, treeNode);
-
 			//触发click事件
 			$("#" + setting.treeObjId).trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
 		});
@@ -284,7 +284,7 @@
 					if (treeNode.checkedNew) {
 						var chkSign = true;
 						if (setting.checkRadioType == Radio_Type_All) {
-							chkSign = setting.checkRadioCheckedList.length < setting.checkMaxNum;
+							chkSign = setting.checkRadioCheckedList.length < setting.checkRadioMaxNum;
 							if (chkSign) {
 								setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
 							}
@@ -294,7 +294,7 @@
 							for (var son = 0; son < parentNode.nodes.length; son++) {
 								if (parentNode.nodes[son].checkedNew) {
 									tmpNum++;
-									if (tmpNum > setting.checkMaxNum) {
+									if (tmpNum > setting.checkRadioMaxNum) {
 										chkSign = false;
 										break;
 									}
@@ -313,8 +313,6 @@
 						}
 					}
 					
-					setChkClass(setting, checkObj, treeNode);
-					
 				} else {
 					if (treeNode.checkedNew && setting.checkType.Y.indexOf("p") > -1) {
 						setParentNodeCheckBox(setting, treeNode, true);
@@ -328,13 +326,12 @@
 					if (!treeNode.checkedNew && setting.checkType.N.indexOf("s") > -1) {
 						setSonNodeCheckBox(setting, treeNode, false);
 					}
-					setChkClass(setting, checkObj, treeNode);
-					if (treeNode.nodes && treeNode.nodes.length > 0) {
-						repairParentChkClass(setting, treeNode.nodes[0]);
-					} else {
-						repairParentChkClass(setting, treeNode);
-					}
-					
+				}
+				setChkClass(setting, checkObj, treeNode);
+				if (treeNode.nodes && treeNode.nodes.length > 0) {
+					repairParentChkClass(setting, treeNode.nodes[0]);
+				} else {
+					repairParentChkClass(setting, treeNode);
 				}
 				
 				//触发 CheckBox 点击事件
@@ -573,29 +570,29 @@
 	function setChkClass(setting, obj, treeNode) {
 		if (!obj) return;
 		obj.removeClass();
-		if (setting.checkStyle == Check_Style_Radio) {
-			var chkName = (treeNode.checkedNew ? Radio_True  : Radio_False);
-			chkName = treeNode.checkboxFocus ? chkName + "_" + CheckBox_Focus : chkName;
-			obj.addClass(CheckBox_Default);
-			obj.addClass(chkName);
-		} else {
-			var chkName = treeNode.checkedNew ? (treeNode.checkboxFull ? CheckBox_True_Full : CheckBox_True_Part) : CheckBox_False;
-			chkName = treeNode.checkboxFocus ? chkName + "_" + CheckBox_Focus : chkName;
-			obj.addClass(CheckBox_Default);
-			obj.addClass(chkName);
-		}
+		var chkName = setting.checkStyle + "_" + (treeNode.checkedNew ? CheckBox_True : CheckBox_False)
+			+ "_" + ((treeNode.checkedNew || setting.checkStyle == Check_Style_Radio) ? (treeNode.check_True_Full? CheckBox_Full:CheckBox_Part) : (treeNode.check_False_Full? CheckBox_Full:CheckBox_Part) );
+		chkName = treeNode.checkboxFocus ? chkName + "_" + CheckBox_Focus : chkName;
+		obj.addClass(CheckBox_Default);
+		obj.addClass(chkName);
 	}
 	//修正父节点选择的样式
 	function repairParentChkClass(setting, treeNode) {
 		if (!treeNode || !treeNode.parentNode) return;
-		var pSign = true;
+		var trueSign = true;
+		var falseSign = true;
 		for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
-			if (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].checkboxFull) {
-				pSign = false;
-				break;
+			if (setting.checkStyle == Check_Style_Radio && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
+				trueSign = false;
+			} else if (treeNode.parentNode.checkedNew && (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
+				trueSign = false;
+			} else if (!treeNode.parentNode.checkedNew && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_False_Full)) {
+				falseSign = false;
 			}
-		}			
-		treeNode.parentNode.checkboxFull = pSign;
+			if (!trueSign || !falseSign) break;
+		}
+		treeNode.parentNode.check_True_Full = trueSign;
+		treeNode.parentNode.check_False_Full = falseSign;
 		var checkObj = $("#" + treeNode.parentNode.tId + "_check");
 		setChkClass(setting, checkObj, treeNode.parentNode);
 		repairParentChkClass(setting, treeNode.parentNode);
