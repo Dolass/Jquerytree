@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="style/zTreeStyle.css" type="text/css">
+  <style>
+	body {
+	background-color: white;
+	margin:0; padding:0;
+	text-align: center;
+	}
+	div, p, table, th, td {
+		list-style:none; 
+		margin:0; padding:0; 
+		color:#333; font-size:12px; 
+		font-family:宋体;
+	}
+
+	.tb1, .tb1 td {
+		padding: 5px;
+		border:1px dashed #EAB221;   
+		border-collapse:collapse;  
+	}
+
+	.treeContent {
+		width:200px; 
+		height:400px; 
+		overflow:auto;
+		border:1px dashed #277327;  
+
+	}
+  </style>
+  <script type="text/javascript" src="jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-1.1.js"></script>
+
+  <SCRIPT LANGUAGE="JavaScript">
+  <!--
+	var zTree1;
+	var setting;
+
+		setting = {
+			checkable: true,
+			checkStyle: "radio",
+			checkMaxNum: 2,
+			checkRadioType: "level"
+		};
+
+		var zNodes =[
+			{ name:"手机", open:true,
+				nodes: [
+					{ name:"诺基亚"},
+					{ name:"三星"},
+					{ name:"索爱"},
+					{ name:"多普达"}
+				]},
+			{ name:"电脑", open:true,
+				nodes: [
+					{ name:"硬件"},
+					{ name:"整机"},
+					{ name:"网络"}
+				]},
+			{ name:"家电", open:true,
+				nodes: [
+					{ name:"电视"},
+					{ name:"冰箱"},
+					{ name:"空调"}
+				]}
+						
+		];
+
+	$(document).ready(function(){
+
+		setting.checkType = getCheckBoxType();
+		zTree1 = $("#tree1").zTree(setting, zNodes);
+
+	});
+
+	function zTreeOnClick(event, treeId, treeNode) {
+		$("#lastClickNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name);
+	}
+
+	function zTreeOnCheck(event, treeId, treeNode) {
+		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
+	}
+
+
+	function getCheckBoxType() {
+		var py = $("#py").attr("checked")? "p":"";
+		var sy = $("#sy").attr("checked")? "s":"";
+		var pn = $("#pn").attr("checked")? "p":"";
+		var sn = $("#sn").attr("checked")? "s":"";
+		
+		var type = { "Y":py + sy, "N":pn + sn};
+		return type;
+	}
+
+	function refreshTree() {
+		setting.checkType = getCheckBoxType();
+		zTree1 = $("#tree1").zTree(setting, zNodes);
+		$("#lastClickNode").html("");
+		$("#lastCheckNode").html("");
+
+	}
+
+  //-->
+  </SCRIPT>
+ </HEAD>
+
+<BODY>
+<center style="margin:10px"><b>Radio&nbsp;&nbsp;演示</b></center>
+<TABLE border=0 height=550px>
+	<TR>
+		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></td>
+		<TD height=120px align=center valign=top>
+			<TABLE border=0 align=center class="tb1">
+				<TR>
+					<TD colspan=2 align=center valign=middle>CheckBox被选中时&nbsp;</td>
+					<TD colspan=2 align=center valign=middle>CheckBox被取消选中时&nbsp;</td>
+				</TR>
+				<TR>
+					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();"></td>
+					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();"></td>
+					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();"></td>
+					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();"></td>
+				</TR>
+				<TR>
+					<TD colspan=4 align=center valign=middle style="color:red">修改上面配置后，请点击 Tree 的 CheckBox，看看有什么变化</td>
+				</TR>
+
+			</TABLE>
+		</TD>
+	</TR>
+	<TR>
+		<TD width=500px align=left valign=top><br/>
+		onClick 事件：<a id="lastClickNode"></a><br/><br/>
+		onCheck 事件：<a id="lastCheckNode"></a>
+		</td>
+	</TR>
+</TABLE>
+
+ </BODY>
+</HTML>
