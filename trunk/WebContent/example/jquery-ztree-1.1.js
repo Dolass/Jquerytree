@@ -584,9 +584,9 @@
 		for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
 			if (setting.checkStyle == Check_Style_Radio && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
 				trueSign = false;
-			} else if (treeNode.parentNode.checkedNew && (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && treeNode.parentNode.checkedNew && (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
 				trueSign = false;
-			} else if (!treeNode.parentNode.checkedNew && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_False_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.parentNode.checkedNew && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_False_Full)) {
 				falseSign = false;
 			}
 			if (!trueSign || !falseSign) break;
