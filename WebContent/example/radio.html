@@ -71,7 +71,7 @@
 
 	$(document).ready(function(){
 
-		setting.checkType = getCheckBoxType();
+		setting.checkType = getRadioType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 
 	});
@@ -84,19 +84,16 @@
 		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
 	}
 
-
-	function getCheckBoxType() {
-		var py = $("#py").attr("checked")? "p":"";
-		var sy = $("#sy").attr("checked")? "s":"";
-		var pn = $("#pn").attr("checked")? "p":"";
-		var sn = $("#sn").attr("checked")? "s":"";
+	function getRadioType() {
+		var level = $("#level").attr("checked")? "level":"";
+		var all = $("#all").attr("checked")? "all":"";
 		
-		var type = { "Y":py + sy, "N":pn + sn};
-		return type;
+		return level + all;
 	}
-
+	
 	function refreshTree() {
-		setting.checkType = getCheckBoxType();
+		setting.checkRadioType = getRadioType();
+		setting.checkRadioMaxNum = parseInt($('#maxNum').attr('value'));
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
 		$("#lastCheckNode").html("");
@@ -111,21 +108,35 @@
 <center style="margin:10px"><b>Radio&nbsp;&nbsp;演示</b></center>
 <TABLE border=0 height=550px>
 	<TR>
-		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></td>
+		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></TD>
 		<TD height=120px align=center valign=top>
 			<TABLE border=0 align=center class="tb1">
 				<TR>
-					<TD colspan=2 align=center valign=middle>CheckBox被选中时&nbsp;</td>
-					<TD colspan=2 align=center valign=middle>CheckBox被取消选中时&nbsp;</td>
+					<TD colspan=1 align=center valign=middle>选中节点限制类型&nbsp;</TD>
+					<TD colspan=1 align=center valign=middle>最大允许选中的节点个数&nbsp;</TD>
 				</TR>
 				<TR>
-					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();"></td>
+					<TD width=200px align=left valign=middle style="padding-left:10px;">
+					<INPUT TYPE="radio" id="level" NAME="radioType" checked onclick="refreshTree();">在每一级内进行数量限制
+					<br />
+					<INPUT TYPE="radio" id="all" NAME="radioType" onclick="refreshTree();">在整个Tree内进行数量限制
+					</TD>
+					<TD width=200px align=center valign=middle>
+					<select id="maxNum" onchange="refreshTree();">
+					<option selected value="1">1</option>
+					<option  value="2">2</option>
+					<option  value="3">3</option>
+					</select>
+					</TD>
 				</TR>
 				<TR>
-					<TD colspan=4 align=center valign=middle style="color:red">修改上面配置后，请点击 Tree 的 CheckBox，看看有什么变化</td>
+					<TD colspan=2 align=center valign=middle style="color:blue">修改上面配置后，请点击 Tree 的 Radio，看看有什么变化</TD>
+				</TR>
+				<TR>
+					<TD colspan=2 align=left valign=middle style="color:red">
+					* Radio 背景变灰色时，表明该节点有被选择的子节点 （便于在折叠的节点中，迅速找到被选择的节点）<br/><br/> 
+					* 为了避免强行修改用户的数据，因此对于初始化数据 checked=true 的节点超出限制的个数时，依然会显示选中状态，只是无法继续点击新的节点。
+					</TD>
 				</TR>
 
 			</TABLE>
@@ -135,7 +146,7 @@
 		<TD width=500px align=left valign=top><br/>
 		onClick 事件：<a id="lastClickNode"></a><br/><br/>
 		onCheck 事件：<a id="lastCheckNode"></a>
-		</td>
+		</TD>
 	</TR>
 </TABLE>
 
