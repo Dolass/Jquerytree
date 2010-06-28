@@ -108,21 +108,27 @@
 <center style="margin:10px"><b>CheckBox&nbsp;&nbsp;演示</b></center>
 <TABLE border=0 height=550px>
 	<TR>
-		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></td>
+		<TD rowspan=2 width=200px align=left valign=top><div class="treeContent"><ul id="tree1" class="tree"></ul></div></TD>
 		<TD height=120px align=center valign=top>
 			<TABLE border=0 align=center class="tb1">
 				<TR>
-					<TD colspan=2 align=center valign=middle>CheckBox被选中时&nbsp;</td>
-					<TD colspan=2 align=center valign=middle>CheckBox被取消选中时&nbsp;</td>
+					<TD colspan=2 align=center valign=middle>CheckBox被选中时&nbsp;</TD>
+					<TD colspan=2 align=center valign=middle>CheckBox被取消选中时&nbsp;</TD>
 				</TR>
 				<TR>
-					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();"></td>
-					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();"></td>
+					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();"></TD>
+					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();"></TD>
+					<TD width=100px align=center valign=middle>影响父：<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();"></TD>
+					<TD width=100px align=center valign=middle>影响子：<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();"></TD>
 				</TR>
 				<TR>
-					<TD colspan=4 align=center valign=middle style="color:red">修改上面配置后，请点击 Tree 的 CheckBox，看看有什么变化</td>
+					<TD colspan=4 align=center valign=middle style="color:blue">修改上面配置后，请点击 Tree 的 CheckBox，看看有什么变化</TD>
+				</TR>
+				<TR>
+					<TD colspan=4 align=center valign=middle style="color:red"><br/> 
+					* CheckBox没有被选择，且背景变灰色时，表明该节点有被选择的子节点 <br/><br/> 
+					* CheckBox被选择，且背景变灰色时，表明该节点有尚未被选择的子节点 <br/><br/> 
+					</TD>
 				</TR>
 
 			</TABLE>
@@ -132,7 +138,7 @@
 		<TD width=500px align=left valign=top><br/>
 		onClick 事件：<a id="lastClickNode"></a><br/><br/>
 		onCheck 事件：<a id="lastCheckNode"></a>
-		</td>
+		</TD>
 	</TR>
 </TABLE>
 

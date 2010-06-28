@@ -275,10 +275,15 @@
 			
 			var checkObj = $("#" + treeNode.tId + "_check");
 			
+			if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && treeNode.checkedNew ) {
+				setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
+			}
+			
 			setChkClass(setting, checkObj, treeNode);
 			
 			checkObj.bind('click',
 			function() {
+				
 				treeNode.checkedNew = !treeNode.checkedNew;
 				if (setting.checkStyle == Check_Style_Radio) {
 					if (treeNode.checkedNew) {
