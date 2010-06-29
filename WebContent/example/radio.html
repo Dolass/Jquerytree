@@ -84,6 +84,10 @@
 		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
 	}
 
+	function zTreeOnCheckMaxError(event, treeId, treeNode) {
+		$("#checkMaxError").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; <font color=yellow style='background-color:black;'>不能选中，因为已超出最大节点个数（提示信息可根据实际应用随意编写）</font>");
+	}
+
 	function getRadioType() {
 		var level = $("#level").attr("checked")? "level":"";
 		var all = $("#all").attr("checked")? "all":"";
@@ -97,6 +101,7 @@
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
 		$("#lastCheckNode").html("");
+		$("#checkMaxError").html("");
 
 	}
 
@@ -145,7 +150,8 @@
 	<TR>
 		<TD width=500px align=left valign=top><br/>
 		onClick 事件：<a id="lastClickNode"></a><br/><br/>
-		onCheck 事件：<a id="lastCheckNode"></a>
+		onCheck 事件：<a id="lastCheckNode"></a><br/><br/>
+		onCheckMaxError 事件：<a id="checkMaxError"></a>
 		</TD>
 	</TR>
 </TABLE>

@@ -1,10 +1,10 @@
 /*
- * JQuery zTree 1.02
+ * JQuery zTree 1.1
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-06-01
+ * Date: 2010-06-29
  *
  */
 
@@ -16,6 +16,7 @@
 	var ZTREE_DROP = "ZTREE_DROP";
 	var ZTREE_ASYNC_SUCCESS = "ZTREE_ASYNC_SUCCESS";
 	var ZTREE_ASYNC_ERROR = "ZTREE_ASYNC_ERROR";
+	var ZTREE_CHECK_MAX_ERROR = "ZTREE_CHECK_MAX_ERROR";
 
 	var IDMark_Switch = "_switch";
 	var IDMark_Icon = "_ico";
@@ -127,8 +128,7 @@
 
 	//绑定事件
 	function bindTreeNodes(treeObj) {
-		treeObj.unbind(ZTREE_CLICK);
-		
+		treeObj.unbind(ZTREE_CLICK);		
 		treeObj.bind(ZTREE_CLICK, function (event, treeId, treeNode) {
 		  if ((typeof zTreeOnClick) == "function") zTreeOnClick(event, treeId, treeNode);
 		});
@@ -156,6 +156,11 @@
 		treeObj.unbind(ZTREE_ASYNC_ERROR);
 		treeObj.bind(ZTREE_ASYNC_ERROR, function (event, treeId, XMLHttpRequest, textStatus, errorThrown) {
 		  if ((typeof zTreeOnAsyncError) == "function") zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown);
+		});
+		
+		treeObj.unbind(ZTREE_CHECK_MAX_ERROR);
+		treeObj.bind(ZTREE_CHECK_MAX_ERROR, function (event, treeId, treeNode) {
+			if ((typeof zTreeOnCheckMaxError) == "function") zTreeOnCheckMaxError(event, treeId, treeNode);
 		});
 	}
 
@@ -308,6 +313,8 @@
 						}
 						if (!chkSign) {
 							treeNode.checkedNew = !treeNode.checkedNew;
+							//触发CHECK_MAX_ERROR事件
+							$("#" + setting.treeObjId).trigger(ZTREE_CHECK_MAX_ERROR, [setting.treeObjId, treeNode]);
 						}
 					} else if (setting.checkRadioType == Radio_Type_All) {
 						for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
