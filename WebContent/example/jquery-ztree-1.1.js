@@ -289,13 +289,13 @@
 			checkObj.bind('click',
 			function() {
 				
+				var radioCheckable = true;
 				treeNode.checkedNew = !treeNode.checkedNew;
 				if (setting.checkStyle == Check_Style_Radio) {
 					if (treeNode.checkedNew) {
-						var chkSign = true;
 						if (setting.checkRadioType == Radio_Type_All) {
-							chkSign = setting.checkRadioCheckedList.length < setting.checkRadioMaxNum;
-							if (chkSign) {
+							radioCheckable = setting.checkRadioCheckedList.length < setting.checkRadioMaxNum;
+							if (radioCheckable) {
 								setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
 							}
 						} else {
@@ -305,16 +305,14 @@
 								if (parentNode.nodes[son].checkedNew) {
 									tmpNum++;
 									if (tmpNum > setting.checkRadioMaxNum) {
-										chkSign = false;
+										radioCheckable = false;
 										break;
 									}
 								}
 							}
 						}
-						if (!chkSign) {
+						if (!radioCheckable) {
 							treeNode.checkedNew = !treeNode.checkedNew;
-							//触发CHECK_MAX_ERROR事件
-							$("#" + setting.treeObjId).trigger(ZTREE_CHECK_MAX_ERROR, [setting.treeObjId, treeNode]);
 						}
 					} else if (setting.checkRadioType == Radio_Type_All) {
 						for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
@@ -345,9 +343,14 @@
 				} else {
 					repairParentChkClass(setting, treeNode);
 				}
-				
-				//触发 CheckBox 点击事件
-				$("#" + setting.treeObjId).trigger(ZTREE_CHECK, [setting.treeObjId, treeNode]);
+
+				if (radioCheckable) {
+					//触发 CheckBox 点击事件
+					$("#" + setting.treeObjId).trigger(ZTREE_CHECK, [setting.treeObjId, treeNode]);
+				} else {
+					//触发CHECK_MAX_ERROR事件
+					$("#" + setting.treeObjId).trigger(ZTREE_CHECK_MAX_ERROR, [setting.treeObjId, treeNode]);
+				}
 
 			});
 			
