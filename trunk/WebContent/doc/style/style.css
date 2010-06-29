@@ -203,3 +203,12 @@ em.optional{
 #content h2 em.optional{
 	color:#eee;
 }
+
+#content .chk{
+	width:13px; height:13px; 
+	padding:0; margin:0 10px 0 0; 
+	vertical-align:middle;
+	border:0 none;
+	cursor: auto;
+	}
+

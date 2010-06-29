@@ -23,7 +23,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTree 核心函数">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -33,11 +32,13 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="参数说明">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -73,6 +74,24 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checkType">
 <PARAM NAME="Local" VALUE="s_checkType.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkStyle">
+<PARAM NAME="Local" VALUE="s_checkStyle.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkMaxNum">
+<PARAM NAME="Local" VALUE="s_checkMaxNum.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkRadioType">
+<PARAM NAME="Local" VALUE="s_checkRadioType.html">
 </OBJECT>
 </UL>
 <UL>
@@ -117,11 +136,18 @@
 <PARAM NAME="Local" VALUE="s_treeObjId.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[checkRadioCheckedList]">
+<PARAM NAME="Local" VALUE="s_checkRadioCheckedList.html">
+</OBJECT>
+</UL>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTreeNodes 详解">
 <PARAM NAME="Local" VALUE="zTreeNodes.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -229,6 +255,7 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="skin 皮肤说明">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -236,9 +263,16 @@
 <PARAM NAME="Local" VALUE="css.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeIcons.css">
+<PARAM NAME="Local" VALUE="zTreeIcons.css.html">
+</OBJECT>
+</UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="方法">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -318,10 +352,12 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -359,13 +395,21 @@
 <PARAM NAME="Local" VALUE="e_zTreeOnAsyncError.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="zTreeOnCheckMaxError(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_zTreeOnCheckMaxError.html">
+</OBJECT>
+</UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="常量">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件相关">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -401,6 +445,12 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ZTREE_ASYNC_ERROR">
 <PARAM NAME="Local" VALUE="c_ZTREE_ASYNC_ERROR.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_CHECK_MAX_ERROR">
+<PARAM NAME="Local" VALUE="c_ZTREE_CHECK_MAX_ERROR.html">
 </OBJECT>
 </UL>
 </UL>
@@ -517,6 +567,71 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="Class_TmpTargetNode">
 <PARAM NAME="Local" VALUE="c_Class_TmpTargetNode.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox & Radio 相关">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Check_Style_Box">
+<PARAM NAME="Local" VALUE="c_Check_Style_Box.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Check_Style_Radio">
+<PARAM NAME="Local" VALUE="c_Check_Style_Radio.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_Default">
+<PARAM NAME="Local" VALUE="c_CheckBox_Default.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_False">
+<PARAM NAME="Local" VALUE="c_CheckBox_False.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_True">
+<PARAM NAME="Local" VALUE="c_CheckBox_True.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_Full">
+<PARAM NAME="Local" VALUE="c_CheckBox_Full.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_Part">
+<PARAM NAME="Local" VALUE="c_CheckBox_Part.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="CheckBox_Focus">
+<PARAM NAME="Local" VALUE="c_CheckBox_Focus.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Radio_Type_All">
+<PARAM NAME="Local" VALUE="c_Radio_Type_All.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Radio_Type_Level">
+<PARAM NAME="Local" VALUE="c_Radio_Type_Level.html">
 </OBJECT>
 </UL>
 </UL>
