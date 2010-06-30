@@ -1,10 +1,10 @@
 /*
- * JQuery zTree 1.1
+ * JQuery zTree 1.11
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-06-29
+ * Date: 2010-06-30
  *
  */
 
@@ -1018,7 +1018,7 @@
 			if (treeNodes[i].tId == treeId) {
 				return treeNodes[i];
 			}
-			tmp = getTreeNodeByTId(treeNodes[i].nodes, treeId);
+			var tmp = getTreeNodeByTId(treeNodes[i].nodes, treeId);
 			if (tmp) return tmp;
 		}
 		return null;
@@ -1029,6 +1029,20 @@
 		if (setting.curTreeNode) $("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 		$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
 		setting.curTreeNode = treeNode;
+	}
+	
+	//获取全部 Checked = true or false 的节点集合
+	function getTreeCheckedNodes(treeNodes, checked) {
+		if (!treeNodes) return [];
+		var results = [];
+		for (var i = 0; i < treeNodes.length; i++) {
+			if (treeNodes[i].checkedNew == checked) {
+				results = results.concat([treeNodes[i]]);
+			}
+			var tmp = getTreeCheckedNodes(treeNodes[i].nodes, checked);
+			if (tmp.length > 0) results = results.concat(tmp);
+		}
+		return results;
 	}
 
 	function zTreePlugin(){
@@ -1062,6 +1076,13 @@
 			getCurNode : function() {
 				var treeObjId = this.container.attr("id");
 				return settings[treeObjId].curTreeNode;
+			},
+
+			getCheckedNodes : function(checked) {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId) return;
+				checked = (checked != false);
+				return getTreeCheckedNodes(settings[treeObjId].root.nodes, checked);
 			},
 
 			getNodeByTId : function(treeId) {

@@ -32,7 +32,7 @@
 	}
   </style>
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-1.1.js"></script>
+  <script type="text/javascript" src="jquery-ztree-1.11.js"></script>
 
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -70,6 +70,7 @@
 
 		setting.checkType = getCheckBoxType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
+		getCheckedNodesLength();
 
 	});
 
@@ -79,6 +80,7 @@
 
 	function zTreeOnCheck(event, treeId, treeNode) {
 		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
+		getCheckedNodesLength();
 	}
 
 
@@ -97,9 +99,14 @@
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
 		$("#lastCheckNode").html("");
+		getCheckedNodesLength();
 
 	}
 
+	function getCheckedNodesLength() {
+		var tmp = zTree1.getCheckedNodes();
+		$("#checkedNum").html(tmp.length);
+	}
   //-->
   </SCRIPT>
  </HEAD>
@@ -136,6 +143,7 @@
 	</TR>
 	<TR>
 		<TD width=500px align=left valign=top><br/>
+		被选择的节点共 <a id="checkedNum">0</a> 个<br/><br/>
 		onClick 事件：<a id="lastClickNode"></a><br/><br/>
 		onCheck 事件：<a id="lastCheckNode"></a>
 		</TD>
