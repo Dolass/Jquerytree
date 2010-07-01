@@ -73,7 +73,7 @@
 
 		setting.checkType = getRadioType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 
 	});
 
@@ -83,7 +83,7 @@
 
 	function zTreeOnCheck(event, treeId, treeNode) {
 		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 		
 	}
 
@@ -105,12 +105,12 @@
 		$("#lastClickNode").html("");
 		$("#lastCheckNode").html("");
 		$("#checkMaxError").html("");
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 
 	}
 
-	function getCheckedNodesLength() {
-		var tmp = zTree1.getCheckedNodes(true);
+	function getSelectedNodesLength() {
+		var tmp = zTree1.getSelectedNodes(true);
 		$("#checkedNum").html(tmp.length);
 	}
 
