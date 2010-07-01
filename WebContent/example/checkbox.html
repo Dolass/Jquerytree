@@ -70,7 +70,7 @@
 
 		setting.checkType = getCheckBoxType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 
 	});
 
@@ -80,7 +80,7 @@
 
 	function zTreeOnCheck(event, treeId, treeNode) {
 		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 	}
 
 
@@ -99,12 +99,12 @@
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
 		$("#lastCheckNode").html("");
-		getCheckedNodesLength();
+		getSelectedNodesLength();
 
 	}
 
-	function getCheckedNodesLength() {
-		var tmp = zTree1.getCheckedNodes();
+	function getSelectedNodesLength() {
+		var tmp = zTree1.getSelectedNodes();
 		$("#checkedNum").html(tmp.length);
 	}
   //-->

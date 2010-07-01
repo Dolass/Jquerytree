@@ -141,16 +141,16 @@
 <PARAM NAME="Local" VALUE="m_getCurNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="getCheckedNodes(checked)">
-<PARAM NAME="Local" VALUE="m_getCheckedNodes.html">
-</OBJECT>
-<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getNodeByTId(tID)">
 <PARAM NAME="Local" VALUE="m_getNodeByTId.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getNodes()">
 <PARAM NAME="Local" VALUE="m_getNodes.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getSelectedNodes(selected)">
+<PARAM NAME="Local" VALUE="m_getSelectedNodes.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="icon">

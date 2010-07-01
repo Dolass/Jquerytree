@@ -23,6 +23,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTree 核心函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -295,8 +296,8 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="getCheckedNodes(checked)">
-<PARAM NAME="Local" VALUE="m_getCheckedNodes.html">
+<PARAM NAME="Name" VALUE="getSelectedNodes(selected)">
+<PARAM NAME="Local" VALUE="m_getSelectedNodes.html">
 </OBJECT>
 </UL>
 </UL>
@@ -355,6 +356,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -405,6 +407,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="常量">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
