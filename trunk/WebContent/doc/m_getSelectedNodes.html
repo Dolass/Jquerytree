@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>getCheckedNodes(checked)</title>
+<title>getSelectedNodes(selected)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: Array(JSON)</span>getCheckedNodes(checked)</h2>
+	<h2><span>返回值: Array(JSON)</span>getSelectedNodes(selected)</h2>
 	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
 	<div class="desc">
 		<p></p>
@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<h3>参数</h3>
-	<h4><strong>checked</strong><span>Boolean</span></h4>
+	<h4><strong>selected</strong><span>Boolean</span></h4>
 	<p>设置获取节点的类型 --- true: 获取被选择的节点(默认);  false: 获取未选择的节点</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
@@ -28,13 +28,13 @@
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var nodes = zTreeObj.getCheckedNodes(); //或  zTreeObj.getCheckedNodes(true);
+var nodes = zTreeObj.getSelectedNodes(); //或  zTreeObj.getSelectedNodes(true);
 ......</code></pre>
 	<p>获取全部未选择的节点数据</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var nodes = zTreeObj.getCheckedNodes(false);
+var nodes = zTreeObj.getSelectedNodes(false);
 ......</code></pre>
 
 </div>
