@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="style/18x18/zTreeStyle.css" type="text/css">
+  <link rel="stylesheet" href="style/18x18/zTreeIcons.css" type="text/css">
+  <style>
+	body {
+	background-color: white;
+	margin:0; padding:0;
+	text-align: center;
+	}
+	div, p, table, th, td {
+		list-style:none; 
+		margin:0; padding:0; 
+		color:#333; font-size:12px; 
+		font-family:dotum, Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+	}
+  </style>
+  <script type="text/javascript" src="jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-1.11-min.js"></script>
+
+  <SCRIPT LANGUAGE="JavaScript">
+  <!--
+	var zTree;
+
+	$(document).ready(function(){
+
+		var setting = {
+			showLine: true,
+			root:{ 
+				isRoot:true,
+				nodes:[]
+			}
+		};
+
+		zNodes =[
+			
+			{ name:"zTree 皮肤演示", iconSkin:"sim1", open:true,
+
+				nodes: [
+					{ name:"18 x 18", iconSkin:"sim2", open:true,
+						nodes: [
+							{name: "默认样式", url:"18_basic.html", target:"testIframe" }, 
+							{name: "flag 系列", url:"18_flag.html", target:"testIframe"},
+							{name: "iCandy 系列", url:"18_iCandy.html", target:"testIframe"},
+							{name: "smooth 系列", url:"18_smooth.html", target:"testIframe"}
+					                                           
+					]},
+					{ name:"24 x 24", iconSkin:"sim2", open:true,
+						nodes: [
+							{name: "默认样式"}, 
+							{name: "flag 系列"},
+							{name: "iCandy 系列"},
+							{name: "smooth 系列"}
+					                                           
+					]}
+				]
+			}
+			
+		];
+
+		zTree = $("#tree").zTree(setting, zNodes);
+
+		var nodes = zTree.getNodes();
+		zTree.selectNode(nodes[0].nodes[0].nodes[0]);
+
+	});
+
+  //-->
+  </SCRIPT>
+ </HEAD>
+
+<BODY>
+<TABLE border=0 height=600px>
+	<TR>
+		<TD width=200px align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
+			<ul id="tree" class="tree" style="width:200px; overflow:auto;"></ul>
+		</TD>
+		<TD width=800px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=NO width=100%  height=600px SRC="18_basic.html"></IFRAME></TD>
+	</TR>
+</TABLE>
+
+ </BODY>
+</HTML>
