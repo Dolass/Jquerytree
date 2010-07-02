@@ -37,6 +37,7 @@
 
 		zNodes =[
 			
+			{ name:"zTree 官网", iconSkin:"flag5", url:"http://code.google.com/p/jquerytree/", target:"_blank"},
 			{ name:"zTree 功能演示", iconSkin:"sim1", target:"testIframe", open:true,
 
 				nodes: [
@@ -61,7 +62,7 @@
 		zTree = $("#tree").zTree(setting, zNodes);
 
 		var nodes = zTree.getNodes();
-		zTree.selectNode(nodes[0].nodes[0]);
+		zTree.selectNode(nodes[1].nodes[0]);
 
 	});
 
