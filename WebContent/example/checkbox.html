@@ -30,9 +30,27 @@
 		border:1px dashed #277327;  
 
 	}
+	
+	.treeButton {
+	width:13px; height:13px; 
+	padding:0; margin:0 3px 0 0; 
+	vertical-align:middle;
+	border:0 none;
+	cursor: auto;
+	}
+	
+	.treeButton.checkbox_false_full { background:url("./style/img/checkbox.png") no-repeat scroll 0 0 transparent;}	
+	.treeButton.checkbox_false_full_focus { background:url("./style/img/checkbox.png") no-repeat scroll 0 -12px transparent;}	
+	.treeButton.checkbox_false_part { background:url("./style/img/checkbox.png") no-repeat scroll 0 -72px transparent;}	
+	.treeButton.checkbox_false_part_focus { background:url("./style/img/checkbox.png") no-repeat scroll 0 -84px transparent;}	
+	.treeButton.checkbox_true_full { background:url("./style/img/checkbox.png") no-repeat scroll 0 -24px transparent;}	
+	.treeButton.checkbox_true_full_focus { background:url("./style/img/checkbox.png") no-repeat scroll 0 -36px transparent;}	
+	.treeButton.checkbox_true_part { background:url("./style/img/checkbox.png") no-repeat scroll 0 -48px transparent;}	
+	.treeButton.checkbox_true_part_focus { background:url("./style/img/checkbox.png") no-repeat scroll 0 -60px transparent;}	
+	
   </style>
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-1.11.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.0.js"></script>
 
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -75,12 +93,12 @@
 	});
 
 	function zTreeOnClick(event, treeId, treeNode) {
-		$("#lastClickNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name);
+		$("#lastClickNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
-	function zTreeOnCheck(event, treeId, treeNode) {
-		$("#lastCheckNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
-		getSelectedNodesLength();
+	function zTreeOnChange(event, treeId, treeNode) {
+		$("#lastChangeNode").html("treeId=" + treeId + ";  tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
+		getCheckedNodesLength();
 	}
 
 
@@ -98,13 +116,13 @@
 		setting.checkType = getCheckBoxType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
-		$("#lastCheckNode").html("");
-		getSelectedNodesLength();
+		$("#lastChangeNode").html("");
+		getCheckedNodesLength();
 
 	}
 
-	function getSelectedNodesLength() {
-		var tmp = zTree1.getSelectedNodes();
+	function getCheckedNodesLength() {
+		var tmp = zTree1.getCheckedNodes();
 		$("#checkedNum").html(tmp.length);
 	}
   //-->
@@ -132,9 +150,20 @@
 					<TD colspan=4 align=center valign=middle style="color:blue">修改上面配置后，请点击 Tree 的 CheckBox，看看有什么变化</TD>
 				</TR>
 				<TR>
-					<TD colspan=4 align=center valign=middle style="color:red"><br/> 
-					* CheckBox没有被选择，且背景变灰色时，表明该节点有被选择的子节点 <br/><br/> 
-					* CheckBox被选择，且背景变灰色时，表明该节点有尚未被选择的子节点 <br/><br/> 
+					<TD colspan=4 align=left valign=middle style="padding-left:10px;">
+					<h3>状态说明</h3>
+					<p>
+					<button type="BUTTON" class="treeButton checkbox_false_full"></button>当前节点没有被选择；<font style="color:#338833">如果是父节点，则没有被选择的子节点</font>。<br/>
+					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_full_focus"></button></p><br/>
+					<p>
+					<button type="BUTTON" class="treeButton checkbox_false_part"></button>当前节点没有被选择；<font style="color:red">且有被选择的子节点（只有父节点存在此状态）</font>。<br/>
+					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_part_focus"></button></p><br/>
+					<p>
+					<button type="BUTTON" class="treeButton checkbox_true_full"></button>当前节点被选择；<font style="color:blue">如果是父节点，则全部子节点都被选择</font>。<br/>
+					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_full_focus"></button></p><br/>
+					<p>
+					<button type="BUTTON" class="treeButton checkbox_true_part"></button>当前节点被选择；<font style="color:#bb8844">且部分子节点被选择（只有父节点存在此状态）</font>。<br/>
+					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_part_focus"></button></p><br/>
 					</TD>
 				</TR>
 
@@ -145,7 +174,7 @@
 		<TD width=500px align=left valign=top><br/>
 		被选择的节点共 <a id="checkedNum">0</a> 个<br/><br/>
 		onClick 事件：<a id="lastClickNode"></a><br/><br/>
-		onCheck 事件：<a id="lastCheckNode"></a>
+		onChange 事件：<a id="lastChangeNode"></a>
 		</TD>
 	</TR>
 </TABLE>
