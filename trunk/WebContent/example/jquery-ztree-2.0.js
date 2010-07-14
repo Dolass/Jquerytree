@@ -1,22 +1,21 @@
 /*
- * JQuery zTree 1.11
+ * JQuery zTree 2.0
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-07-01
+ * Date: 2010-07-18
  *
  */
 
 (function($) {
 
 	var ZTREE_CLICK = "ZTREE_CLICK";
-	var ZTREE_CHECK = "ZTREE_CHECK";
+	var ZTREE_CHANGE = "ZTREE_CHANGE";
 	var ZTREE_DRAG = "ZTREE_DRAG";
 	var ZTREE_DROP = "ZTREE_DROP";
 	var ZTREE_ASYNC_SUCCESS = "ZTREE_ASYNC_SUCCESS";
 	var ZTREE_ASYNC_ERROR = "ZTREE_ASYNC_ERROR";
-	var ZTREE_CHECK_MAX_ERROR = "ZTREE_CHECK_MAX_ERROR";
 
 	var IDMark_Switch = "_switch";
 	var IDMark_Icon = "_ico";
@@ -78,8 +77,6 @@
 			},
 			//radio 最大个数限制类型，每一级节点限制 或 整棵Tree的全部节点限制（checkStyle=Check_Style_Box时无效）
 			checkRadioType:Radio_Type_Level,
-			//radio 允许选择的最大个数（checkStyle=Check_Style_Box时无效）
-			checkRadioMaxNum:1,
 			//checkRadioType = Radio_Type_All 时，保存被选择节点的堆栈
 			checkRadioCheckedList:[],
 			//是否异步获取节点数据
@@ -133,9 +130,9 @@
 		  if ((typeof zTreeOnClick) == "function") zTreeOnClick(event, treeId, treeNode);
 		});
 
-		treeObj.unbind(ZTREE_CHECK);
-		treeObj.bind(ZTREE_CHECK, function (event, treeId, treeNode) {
-		  if ((typeof zTreeOnCheck) == "function") zTreeOnCheck(event, treeId, treeNode);
+		treeObj.unbind(ZTREE_CHANGE);
+		treeObj.bind(ZTREE_CHANGE, function (event, treeId, treeNode) {
+		  if ((typeof zTreeOnChange) == "function") zTreeOnChange(event, treeId, treeNode);
 		});
 
 		treeObj.unbind(ZTREE_DRAG);
@@ -158,10 +155,6 @@
 		  if ((typeof zTreeOnAsyncError) == "function") zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown);
 		});
 		
-		treeObj.unbind(ZTREE_CHECK_MAX_ERROR);
-		treeObj.bind(ZTREE_CHECK_MAX_ERROR, function (event, treeId, treeNode) {
-			if ((typeof zTreeOnCheckMaxError) == "function") zTreeOnCheckMaxError(event, treeId, treeNode);
-		});
 	}
 
 	//初始化并显示节点Json对象
@@ -289,30 +282,32 @@
 			checkObj.bind('click',
 			function() {
 				
-				var radioCheckable = true;
+				//var radioCheckable = true;
 				treeNode.checkedNew = !treeNode.checkedNew;
 				if (setting.checkStyle == Check_Style_Radio) {
 					if (treeNode.checkedNew) {
 						if (setting.checkRadioType == Radio_Type_All) {
-							radioCheckable = setting.checkRadioCheckedList.length < setting.checkRadioMaxNum;
-							if (radioCheckable) {
-								setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
-							}
-						} else {
-							var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
-							var tmpNum = 0;
-							for (var son = 0; son < parentNode.nodes.length; son++) {
-								if (parentNode.nodes[son].checkedNew) {
-									tmpNum++;
-									if (tmpNum > setting.checkRadioMaxNum) {
-										radioCheckable = false;
-										break;
-									}
+							for (var i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
+								var pNode = setting.checkRadioCheckedList[i];
+								pNode.checkedNew = false;
+								setting.checkRadioCheckedList.splice(i, 1);
+								
+								setChkClass(setting, $("#" + pNode.tId + "_check"), pNode);
+								if (pNode.parentNode != treeNode.parentNode) {
+									repairParentChkClassWithSelf(setting, pNode);
 								}
 							}
-						}
-						if (!radioCheckable) {
-							treeNode.checkedNew = !treeNode.checkedNew;
+							setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
+							//}
+						} else {
+							var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
+							for (var son = 0; son < parentNode.nodes.length; son++) {
+								var pNode = parentNode.nodes[son];
+								if (pNode.checkedNew && pNode != treeNode) {
+									pNode.checkedNew = false;
+									setChkClass(setting, $("#" + pNode.tId + "_check"), pNode);
+								}
+							}
 						}
 					} else if (setting.checkRadioType == Radio_Type_All) {
 						for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
@@ -338,19 +333,10 @@
 					}
 				}
 				setChkClass(setting, checkObj, treeNode);
-				if (treeNode.nodes && treeNode.nodes.length > 0) {
-					repairParentChkClass(setting, treeNode.nodes[0]);
-				} else {
-					repairParentChkClass(setting, treeNode);
-				}
+				repairParentChkClassWithSelf(setting, treeNode);
 
-				if (radioCheckable) {
-					//触发 CheckBox 点击事件
-					$("#" + setting.treeObjId).trigger(ZTREE_CHECK, [setting.treeObjId, treeNode]);
-				} else {
-					//触发CHECK_MAX_ERROR事件
-					$("#" + setting.treeObjId).trigger(ZTREE_CHECK_MAX_ERROR, [setting.treeObjId, treeNode]);
-				}
+				//触发 CheckBox 点击事件
+				$("#" + setting.treeObjId).trigger(ZTREE_CHANGE, [setting.treeObjId, treeNode]);
 
 			});
 			
@@ -611,6 +597,14 @@
 		var checkObj = $("#" + treeNode.parentNode.tId + "_check");
 		setChkClass(setting, checkObj, treeNode.parentNode);
 		repairParentChkClass(setting, treeNode.parentNode);
+	}
+	
+	function repairParentChkClassWithSelf(setting, treeNode) {
+		if (treeNode.nodes && treeNode.nodes.length > 0) {
+			repairParentChkClass(setting, treeNode.nodes[0]);
+		} else {
+			repairParentChkClass(setting, treeNode);
+		}
 	}
 
 	//点击展开、折叠节点
@@ -1031,15 +1025,15 @@
 		setting.curTreeNode = treeNode;
 	}
 	
-	//获取全部 selected = true or false 的节点集合
-	function getTreeSelectedNodes(treeNodes, selected) {
+	//获取全部 checked = true or false 的节点集合
+	function getTreeCheckedNodes(treeNodes, checked) {
 		if (!treeNodes) return [];
 		var results = [];
 		for (var i = 0; i < treeNodes.length; i++) {
-			if (treeNodes[i].checkedNew == selected) {
+			if (treeNodes[i].checkedNew == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
-			var tmp = getTreeSelectedNodes(treeNodes[i].nodes, selected);
+			var tmp = getTreeCheckedNodes(treeNodes[i].nodes, checked);
 			if (tmp.length > 0) results = results.concat(tmp);
 		}
 		return results;
@@ -1073,22 +1067,32 @@
 				return settings[treeObjId].root.nodes;
 			},
 
-			getCurNode : function() {
+			getSelectedNode : function() {
 				var treeObjId = this.container.attr("id");
 				return settings[treeObjId].curTreeNode;
 			},
 
-			getSelectedNodes : function(selected) {
+			getCheckedNodes : function(selected) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId) return;
 				selected = (selected != false);
-				return getTreeSelectedNodes(settings[treeObjId].root.nodes, selected);
+				return getTreeCheckedNodes(settings[treeObjId].root.nodes, selected);
 			},
 
 			getNodeByTId : function(treeId) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !treeId) return;
 				return getTreeNodeByTId(settings[treeObjId].root.nodes, treeId);
+			},
+			
+			getNodeIndex : function(treeNode) {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId || !treeNode) return;
+				var parentNode = (treeNode.parentNode == null) ? settings[treeObjId].root : treeNode.parentNode;
+				for (var i=0; i<parentNode.nodes.length; i++) {
+					if (parentNode.nodes[i] == treeNode) return i;
+				}
+				return -1;
 			},
 
 			expandAll : function(expandSign) {

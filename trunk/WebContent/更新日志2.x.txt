@@ -1,0 +1,32 @@
+=ZTree 更新日志=
+
+<font color="red">由于发现之前部分方法的命名规则不太利于今后的拓展，并且容易引起歧义，故在全面修正方法命名规则后，将 zTree 版本升级为2.0。</font>
+<font color="red">具体修改内容可参考API文档。</font>
+
+
+<font color=#041594>
+*v2.0 - v2.x 计划*
+  *功能扩展：   
+   
+   # 对于节点 name 属性，需要支持<>等特殊字符的正常显示
+   # 在 editable=true 状态时，能够双击编辑内容，且能够快速删除节点
+   # 增加Ctrl + 鼠标左键  进行多节点选中的功能，增加zTree的 clickable 属性，设置是否允许 onclick 事件
+   # 增加 selectNodes([]) 和 getSelectedNodes() 方法，允许用户选中多个节点 并获取 选中的多个节点
+   
+   # 支持自定义鼠标右键菜单
+   
+  * 增加皮肤
+</font>
+
+*2010.07.14* v2.0
+  * 更名 getCurNode() 方法为 getSelectedNode() 方法
+  * 更名 getSelectedNodes() 方法为 getCheckedNodes() 方法
+  * 增加 getNodeIndex(treeNode) 方法，获取某节点在同一层级节点中的序号（从0开始）   
+  * checkbox、radio的 onCheck 事件更名为 onChange 事件，并提供beforeChange接口，允许用户自定义选择、取消的功能扩展
+  * radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能
+   # 更名 ZTREE_CHECK 为 ZTREE_CHANGE
+   # 删除 ZTREE_CHECK_MAX_ERROR 常量  
+   # 更名 zTreeOnCheck 事件 为 zTreeOnChange
+   # 删除 zTreeOnCheckMaxError 事件
+   # 删除 setting.checkRadioMaxNum 属性
+
