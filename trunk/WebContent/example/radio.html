@@ -92,7 +92,7 @@
 
 		setting.checkType = getRadioType();
 		zTree1 = $("#tree1").zTree(setting, zNodes);
-		getSelectedNodesLength();
+		getCheckedNodesLength();
 
 	});
 
@@ -162,7 +162,7 @@
 					<button type="BUTTON" class="treeButton radio_false_part"></button>当前节点没有被选择；<font style="color:red">且有被选择的子节点（只有父节点存在此状态）</font>。<br/>
 					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_false_part_focus"></button></p><br/>
 					<p>
-					<button type="BUTTON" class="treeButton radio_true_full"></button>当前节点被选择；<font style="color:#338833">如果是父节点，则没有被选择的子节点。<br/>
+					<button type="BUTTON" class="treeButton radio_true_full"></button>当前节点被选择；<font style="color:#338833">如果是父节点，则没有被选择的子节点</font>。<br/>
 					&nbsp;&nbsp;&nbsp;鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_true_full_focus"></button></p><br/>
 					<p>
 					<button type="BUTTON" class="treeButton radio_true_part"></button>当前节点被选择；<font style="color:red">且有被选择的子节点（只有父节点存在此状态）</font>。<br/>

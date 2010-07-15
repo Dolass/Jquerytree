@@ -6,10 +6,8 @@
 
 <font color=#041594>
 *v2.0 - v2.x 计划*
-  *功能扩展：   
-   
-   # 对于节点 name 属性，需要支持<>等特殊字符的正常显示
-   # 在 editable=true 状态时，能够双击编辑内容，且能够快速删除节点
+  *功能扩展：
+   # 针对Click、Check等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
    # 增加Ctrl + 鼠标左键  进行多节点选中的功能，增加zTree的 clickable 属性，设置是否允许 onclick 事件
    # 增加 selectNodes([]) 和 getSelectedNodes() 方法，允许用户选中多个节点 并获取 选中的多个节点
    
@@ -29,4 +27,8 @@
    # 更名 zTreeOnCheck 事件 为 zTreeOnChange
    # 删除 zTreeOnCheckMaxError 事件
    # 删除 setting.checkRadioMaxNum 属性
-
+  * 修正对于节点 name 属性的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入
+  * 在 editable=true 状态时，能够双击编辑内容，且能够快速删除节点
+   # 增加CSS ".tree li a input.rename"  &  ".tree li a.curSelectedNode_Edit" & ".tree li button.edit" & ".tree li button.del" 
+   # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit
+   # 增加treeNode.editNameStatus & setting.curEditTreeNode 属性
