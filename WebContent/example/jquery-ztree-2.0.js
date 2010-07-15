@@ -277,6 +277,10 @@
 			//触发click事件
 			$("#" + setting.treeObjId).trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
 		});
+		icoObj.bind('mousedown',
+		function() {
+			treeNode.editNameStatus = false;
+		});
 
 		//显示CheckBox Or Radio
 		if (setting.checkable) {
@@ -371,23 +375,8 @@
 					if (setting.dragStatus == 0) {
 						removeEditBtn(treeNode); 
 						removeDelBtn(treeNode);
-						var editStr = "<button class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();'></button>";
-						var delStr = "<button class='del' id='" + treeNode.tId + IDMark_Del + "' title='' onfocus='this.blur();'></button>";
-						if (treeNode.editNameStatus) {
-							editStr = "";
-						}
-						aObj.append(editStr + delStr);
-						
-						$("#" + treeNode.tId + IDMark_Edit).bind('click', 
-							function() {removeEditBtn(treeNode); editTreeNode(setting, treeNode);}
-						).bind('mousedown',
-							function(eventMouseDown) {return false;}
-						);
-						$("#" + treeNode.tId + IDMark_Del).bind('click', 
-							function() {removeTreeNode(setting, treeNode);}
-						).bind('mousedown',
-							function(eventMouseDown) {return false;}
-						);
+						addEditBtn(setting, treeNode);
+						addDelBtn(setting, treeNode);
 						
 					}
 				},
@@ -638,6 +627,34 @@
 	}
 	function removeDelBtn(treeNode) {		
 		$("#" + treeNode.tId + IDMark_Del).unbind().remove();
+	}
+	function addEditBtn(setting, treeNode) {		
+		if (treeNode.editNameStatus || $("#" + treeNode.tId + IDMark_Edit).length > 0) {
+			return;
+		}
+
+		var editStr = "<button class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();'></button>";
+		$("#" + treeNode.tId + IDMark_A).append(editStr);
+		
+		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
+			function() {removeEditBtn(treeNode); removeDelBtn(treeNode); editTreeNode(setting, treeNode); return false;}
+		).bind('mousedown',
+			function(eventMouseDown) {return false;}
+		);
+	}
+	function addDelBtn(setting, treeNode) {		
+		if ($("#" + treeNode.tId + IDMark_Del).length > 0) {
+			return;
+		}
+		
+		var delStr = "<button class='del' id='" + treeNode.tId + IDMark_Del + "' title='' onfocus='this.blur();'></button>";
+		$("#" + treeNode.tId + IDMark_A).append(delStr);
+		
+		$("#" + treeNode.tId + IDMark_Del).bind('click', 
+			function() {removeTreeNode(setting, treeNode); return false;}
+		).bind('mousedown',
+			function(eventMouseDown) {return false;}
+		);
 	}
 	
 	//设置CheckBox的Class类型，主要用于显示子节点是否全部被选择的样式
@@ -1027,31 +1044,8 @@
 	
 	//编辑子节点名称
 	function editTreeNode(setting, treeNode) {
-		
-		$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode_Edit);
-		$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
-		
-		var inputObj = $("#" + treeNode.tId + IDMark_Input);
-		inputObj.attr("value", treeNode.name);
-		inputObj.focus();
-		setCursorPosition(inputObj.get(0), treeNode.name.length);
 		treeNode.editNameStatus = true;
-		setting.curEditTreeNode = treeNode;
-		
-		//拦截A的mousedown监听
-		inputObj.bind('mousedown',
-				function(eventMouseDown) {
-			//setting.editNameStatus = true;
-		});
-		inputObj.bind('mouseup',
-				function(eventMouseDown) {
-			//setting.editNameStatus = false;
-		});
-		inputObj.bind('click',
-				function(eventMouseDown) {
-			return false;
-		});
-		
+		selectNode(setting, treeNode);
 	}
 
 	//删除子节点
@@ -1123,28 +1117,64 @@
 	//取消之前选中节点状态
 	function canclePreSelectedNode(setting) {
 		if (setting.curTreeNode) {
-			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
+			removeEditBtn(setting.curTreeNode); 
+			removeDelBtn(setting.curTreeNode);
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode.name);
 		}
 	}
 	//取消之前编辑节点状态
 	function canclePreEditNode(setting) {
+		//alert(setting.curEditTreeNode && setting.curEditTreeNode.name);
 		if (setting.curEditTreeNode) {
 			$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
-			$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
+			$("#" + setting.curEditTreeNode.tId + IDMark_Input).unbind();
 			$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode.name);
 			setting.curEditTreeNode.editNameStatus = false;
+			setting.curEditTreeNode = null;
 		}
 	}
 	
 	//设置节点为当前选中节点
 	function selectNode(setting, treeNode) {
 		
-		if (setting.curTreeNode == treeNode) return;
+		if (setting.curTreeNode == treeNode && treeNode.editNameStatus && setting.curEditTreeNode == treeNode) return;
+		if (setting.curTreeNode == treeNode && !treeNode.editNameStatus && setting.curEditTreeNode != treeNode) return;
+		
 		canclePreSelectedNode(setting);	
 		canclePreEditNode(setting);
-		$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
+		addEditBtn(setting, treeNode);
+		addDelBtn(setting, treeNode);
+		
+		if (treeNode.editNameStatus) {
+			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
+			
+			var inputObj = $("#" + treeNode.tId + IDMark_Input);
+			inputObj.attr("value", treeNode.name);
+			inputObj.focus();
+			setCursorPosition(inputObj.get(0), treeNode.name.length);
+			
+			//拦截A的mousedown监听
+			inputObj.bind('mousedown',
+					function(eventMouseDown) {
+				return false;
+			}).bind('mouseup',
+					function(eventMouseDown) {
+				//setting.editNameStatus = false;
+			}).bind('click',
+					function(eventMouseDown) {
+				return false;
+			}).bind('dblclick',
+					function(eventMouseDown) {
+				return false;
+			});
+			
+			
+			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode_Edit);
+			setting.curEditTreeNode = treeNode;
+		} else {
+			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
+		}
 		setting.curTreeNode = treeNode;
 	}
 	
