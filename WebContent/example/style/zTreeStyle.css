@@ -41,6 +41,14 @@ website:	http://code.google.com/p/jquerytree/
 	border:1px #FFB951 solid; 
 	opacity:0.8; filter:alpha(opacity=80);
 	}
+.tree li a.curSelectedNode_Edit {
+	line-height: 25px;
+	margin:0; padding:3px 3px 2px 0; 
+	background-color:#FFE6B0; 
+	color:black;
+	border:1px #FFB951 solid; 
+	opacity:0.8; filter:alpha(opacity=80);
+	}
 .tree li a.tmpTargetNode {
 	margin:0; padding:3px 3px 2px 0; 
 	background-color:#316AC5; 
@@ -48,6 +56,7 @@ website:	http://code.google.com/p/jquerytree/
 	border:1px #316AC5 solid; 
 	opacity:0.8; filter:alpha(opacity=80);
 	}
+.tree li a input.rename {height:13px; width:80px; padding:0; margin:0; font-size:12px;}	
 
 .tree li button {
 	width:18px; height:18px; 
@@ -62,6 +71,9 @@ website:	http://code.google.com/p/jquerytree/
 .tree li button.ico {
 	padding:0; margin:0 2px 0 0; 
 	}
+	
+.tree li button.edit {background:url("./img/edit.png") no-repeat scroll 0 0 transparent;}	
+.tree li button.del {background:url("./img/del.png") no-repeat scroll 0 0 transparent;}	
 
 .tree li button.chk {
 	width:13px; height:13px; 
