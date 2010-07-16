@@ -41,6 +41,14 @@
 	var setting;
 
 		setting = {
+			before:{
+				click: zTreeBeforeClick
+			},
+			callback:{
+				click: zTreeOnClick,
+				drag: zTreeOnDrag,
+				drop: zTreeOnDrop
+			}
 			
 		};
 
@@ -88,6 +96,16 @@
 		} else {
 				$("#dropNode").html("treeId=" + treeId + ";  拖拽放弃。");
 		}
+	}
+
+	function zTreeBeforeClick(treeId, treeNode) {
+		console.log(treeId + "\n -- " + treeNode.name);
+	}
+	function zTreeBeforeDrag(treeId, treeNode) {
+		console.log(treeId + "\n == " + treeNode.name);
+	}
+	function zTreeBeforeDrop(treeId, treeNode, targetNode) {
+		console.log(treeId + "\n ++ " + treeNode.name + "\n ++ " + targetNode.name);
 	}
 
 	function getEditable() {
