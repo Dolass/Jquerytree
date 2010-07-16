@@ -52,6 +52,8 @@
 	var CheckBox_Focus = "focus";
 	var Radio_Type_All = "all";
 	var Radio_Type_Level = "level";
+	
+	var MinMoveSize = "5";
 
 	var settings = new Array();
 	var zTreeId = 0;
@@ -396,11 +398,24 @@
 			var doc = document;
 			var curNode;
 			var tmpTarget;
+			var mouseDownX = eventMouseDown.clientX;
+			var mouseDownY = eventMouseDown.clientY;
 
 			$(doc).mousemove(function(event) {
+				
+				//为便于输入框正常操作，在输入框内移动鼠标不能拖拽节点
+				if (treeNode.editNameStatus) {
+					return true;
+				}
 
 				//除掉默认事件，防止文本被选择
 				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+				
+				//避免鼠标误操作，对于第一次移动小于MinMoveSize时，不开启拖拽功能
+				if (setting.dragStatus == 0 && Math.abs(mouseDownX - event.clientX) < MinMoveSize
+						 && Math.abs(mouseDownY - event.clientY) < MinMoveSize) {
+					return true;
+				}
 
 				$("body").css("cursor", "pointer");
 				var switchObj = $("#" + treeNode.tId + IDMark_Switch);
@@ -410,7 +425,7 @@
 					setting.dragNodeShowBefore = true;
 				}
 
-				if (setting.dragStatus == 0 && !treeNode.editNameStatus) {
+				if (setting.dragStatus == 0) {
 					setting.dragStatus = 1;
 
 					showIfameMask(true);
@@ -531,7 +546,7 @@
 				}
 			});
 			
-			return false;
+//			return false;
 		});
 
 	}
@@ -1138,14 +1153,17 @@
 	//设置节点为当前选中节点
 	function selectNode(setting, treeNode) {
 		
-		if (setting.curTreeNode == treeNode && treeNode.editNameStatus && setting.curEditTreeNode == treeNode) return;
-		if (setting.curTreeNode == treeNode && !treeNode.editNameStatus && setting.curEditTreeNode != treeNode) return;
+		if (setting.curTreeNode == treeNode && !setting.editable) return;
 		
 		canclePreSelectedNode(setting);	
 		canclePreEditNode(setting);
-		addEditBtn(setting, treeNode);
-		addDelBtn(setting, treeNode);
 		
+		if (setting.editable) {
+			addEditBtn(setting, treeNode);
+			addDelBtn(setting, treeNode);
+		}
+			
+//		alert(treeNode.editNameStatus);
 		if (treeNode.editNameStatus) {
 			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
 			
@@ -1154,18 +1172,18 @@
 			inputObj.focus();
 			setCursorPosition(inputObj.get(0), treeNode.name.length);
 			
-			//拦截A的mousedown监听
-			inputObj.bind('mousedown',
-					function(eventMouseDown) {
-				return false;
-			}).bind('mouseup',
-					function(eventMouseDown) {
-				//setting.editNameStatus = false;
+			//拦截A的click dblclick监听
+			inputObj.bind('change',
+					function(event) {
+				treeNode.name = this.value;
+			}).bind('blur',
+					function(event) {
+				treeNode.name = this.value;
 			}).bind('click',
-					function(eventMouseDown) {
+					function(event) {
 				return false;
 			}).bind('dblclick',
-					function(eventMouseDown) {
+					function(event) {
 				return false;
 			});
 			
