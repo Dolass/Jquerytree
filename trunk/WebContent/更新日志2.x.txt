@@ -30,5 +30,5 @@
   * 修正对于节点 name 属性的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入
   * 在 editable=true 状态时，能够双击编辑内容，且能够快速删除节点
    # 增加CSS ".tree li a input.rename"  &  ".tree li a.curSelectedNode_Edit" & ".tree li button.edit" & ".tree li button.del" 
-   # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit
+   # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit & MinMoveSize
    # 增加treeNode.editNameStatus & setting.curEditTreeNode 属性
