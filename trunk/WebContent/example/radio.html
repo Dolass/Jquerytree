@@ -61,7 +61,6 @@
 		setting = {
 			checkable: true,
 			checkStyle: "radio",
-			checkMaxNum: 2,
 			checkRadioType: "level"
 		};
 
@@ -115,7 +114,6 @@
 	
 	function refreshTree() {
 		setting.checkRadioType = getRadioType();
-		setting.checkRadioMaxNum = parseInt($('#maxNum').attr('value'));
 		zTree1 = $("#tree1").zTree(setting, zNodes);
 		$("#lastClickNode").html("");
 		$("#lastChangeNode").html("");

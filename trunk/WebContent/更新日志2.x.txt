@@ -27,9 +27,10 @@
    # 删除 zTreeOnCheckMaxError 事件
    # 删除 setting.checkRadioMaxNum 属性
   * 修正对于节点 name 属性的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入
-  * 在 editable=true 状态时，能够双击编辑内容，且能够快速删除节点
+  * 在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点
    # 增加CSS ".tree li a input.rename"  &  ".tree li a.curSelectedNode_Edit" & ".tree li button.edit" & ".tree li button.del" 
    # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit & MinMoveSize
    # 增加treeNode.editNameStatus & setting.curEditTreeNode & setting.edit_rename & setting.edit_deleteNode 属性
-  * 针对Click、Check等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
+  * 针对Click、Check、Drag、Drop、Rename、Del等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
+   # 增加事件 zTreeOnRename & zTreeOnDelete；增加常量 ZTREE_RENAME & ZTREE_DELETE
    # 将所有事件的 callback & before 方法都修改为用户自定义方式, 增加了 setting配置参数 before、callback

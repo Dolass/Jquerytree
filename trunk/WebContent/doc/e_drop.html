@@ -3,27 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>zTreeOnDrop(event, treeId, treeNode, targetNode)</title>
+<title>drop(event, treeId, treeNode, targetNode)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2>zTreeOnDrop(event, treeId, treeNode, targetNode)</h2>
-	<h3><span>目录: [事件] --> [callback 函数]</span>概述</h3>
+	<h2>drop(event, treeId, treeNode, targetNode)</h2>
+	<h3><span>目录: [事件] --> [callback 回调函数]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>用户在使用 zTree 的页面上，编写 zTreeOnDrop(event, treeId, treeNode, targetNode) 函数，即可随意监听 zTree 节点的 Drop 事件。</p>
-			<p>该事件在节点拖拽操作结束时触发。</p>
+			<p>用户在使用 zTree 的页面上，编写 onDrop(event, treeId, treeNode, targetNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可监听 zTree 的 drop 事件。</p>
+			<p>该事件在节点拖拽操作结束时触发</p>
+			<p style="color:red">如果用户配置了 <A href="e_beforeDrop.html">beforeDrop</A> 方法，并返回 false，将无法触发 drop 事件 。</p>
+			<p>在 zTree v1.x 版本中，用户无法配置，只能按照要求编写指定名称的对应函数，比较死板。</p>
 		</div>
 	</div>
 	<h3>参数</h3>
 	<h4><strong>event</strong><span>js event 对象</span></h4>
 	<p>标准的 js event 对象</p>
 	<h4><strong>treeId</strong><span>String</span></h4>
-	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
 	<h4><strong>treeNode</strong><span>JSON</span></h4>
 	<p>被拖拽的节点 JSON 数据对象。</p>
 	<p style="color:red">如果没有拖拽到合法节点内，则返回 null</p>
@@ -35,13 +37,22 @@
 	<p>拖拽结束，弹出被拖拽节点和成为父节点的 tId 以及 name 信息</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;callback : {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drop: zTreeOnDrop,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;......
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+......
 function zTreeOnDrop(event, treeId, treeNode, targetNode) {
 &nbsp;&nbsp;&nbsp;&nbsp;if (treeNode) alert("treeNode = " + treeNode.tId + ", " + treeNode.name);
 &nbsp;&nbsp;&nbsp;&nbsp;if (targetNode) alert("targetNode = " + targetNode.tId + ", " + targetNode.name);
 }
 ......</code></pre>
 	<h3>相关事件</h3>
-	<h4><A href="e_zTreeOnDrag.html">zTreeOnDrag(event, treeId, treeNode)</A></h4>
+	<h4><A href="e_beforeDrop.html">beforeDrop(treeId, treeNode, targetNode)</A>
+	<br/><A href="e_beforeDrag.html">beforeDrag(treeId, treeNode)</A> | <A href="e_drag.html">drag(event, treeId, treeNode)</A></h4>
 	<h3>相关参数</h3>
 	<h4><A href="s_editable.html">editable</A></h4>
 

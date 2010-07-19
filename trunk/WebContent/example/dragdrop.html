@@ -41,10 +41,8 @@
 	var setting;
 
 		setting = {
-			before:{
-				click: zTreeBeforeClick
-			},
 			callback:{
+				beforeClick: zTreeBeforeClick,
 				click: zTreeOnClick,
 				drag: zTreeOnDrag,
 				drop: zTreeOnDrop
@@ -117,7 +115,6 @@
 		$("#lastClickNode").html("");
 		$("#dragNode").html("");
 		$("#dropNode").html("");
-
 	}
 
   //-->

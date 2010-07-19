@@ -3,7 +3,7 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="速查表">
-<PARAM NAME="Local" VALUE="index.htm">
+<PARAM NAME="Local" VALUE="index.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="关于">
@@ -33,11 +33,13 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="参数说明">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -83,12 +85,6 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="checkMaxNum">
-<PARAM NAME="Local" VALUE="s_checkMaxNum.html">
-</OBJECT>
-</UL>
-<UL>
-<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checkRadioType">
 <PARAM NAME="Local" VALUE="s_checkRadioType.html">
 </OBJECT>
@@ -97,6 +93,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="editable">
 <PARAM NAME="Local" VALUE="s_editable.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="edit_deleteNode">
+<PARAM NAME="Local" VALUE="s_edit_deleteNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="edit_rename">
+<PARAM NAME="Local" VALUE="s_edit_rename.html">
 </OBJECT>
 </UL>
 <UL>
@@ -113,8 +121,20 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="callback">
+<PARAM NAME="Local" VALUE="s_callback.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="[curTreeNode]">
 <PARAM NAME="Local" VALUE="s_curTreeNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[curEditTreeNode]">
+<PARAM NAME="Local" VALUE="s_curEditTreeNode.html">
 </OBJECT>
 </UL>
 <UL>
@@ -146,6 +166,7 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTreeNodes 详解">
 <PARAM NAME="Local" VALUE="zTreeNodes.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -221,6 +242,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[editNameStatus]">
+<PARAM NAME="Local" VALUE="s_editNameStatus.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="[isFirstNode]">
 <PARAM NAME="Local" VALUE="s_isFirstNode.html">
 </OBJECT>
@@ -269,7 +296,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="方法">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -278,8 +304,8 @@
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="getCurNode()">
-<PARAM NAME="Local" VALUE="m_getCurNode.html">
+<PARAM NAME="Name" VALUE="getSelectedNode()">
+<PARAM NAME="Local" VALUE="m_getSelectedNode.html">
 </OBJECT>
 </UL>
 <UL>
@@ -290,20 +316,27 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodeIndex(treeNode)">
+<PARAM NAME="Local" VALUE="m_getNodeIndex.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getNodes()">
 <PARAM NAME="Local" VALUE="m_getNodes.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="getSelectedNodes(selected)">
-<PARAM NAME="Local" VALUE="m_getSelectedNodes.html">
+<PARAM NAME="Name" VALUE="getCheckedNodes(checked)">
+<PARAM NAME="Local" VALUE="m_getCheckedNodes.html">
 </OBJECT>
 </UL>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="操作">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -360,58 +393,101 @@
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="callback 函数">
+<PARAM NAME="Name" VALUE="callback 回调函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnClick(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_zTreeOnClick.html">
-</OBJECT>
-</UL>
-<UL>
-<LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnCheck(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_zTreeOnCheck.html">
+<PARAM NAME="Name" VALUE="beforeClick(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeClick.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnDrag(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_zTreeOnDrag.html">
+<PARAM NAME="Name" VALUE="beforeChange(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeChange.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnDrop(event, treeId, treeNode, targetNode)">
-<PARAM NAME="Local" VALUE="e_zTreeOnDrop.html">
+<PARAM NAME="Name" VALUE="beforeDrag(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeDrag.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnAsyncSuccess(event, treeId, msg)">
-<PARAM NAME="Local" VALUE="e_zTreeOnAsyncSuccess.html">
+<PARAM NAME="Name" VALUE="beforeDrop(treeId, treeNode, targetNode)">
+<PARAM NAME="Local" VALUE="e_beforeDrop.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown)">
-<PARAM NAME="Local" VALUE="e_zTreeOnAsyncError.html">
+<PARAM NAME="Name" VALUE="beforeRename(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeRename.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="zTreeOnCheckMaxError(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_zTreeOnCheckMaxError.html">
+<PARAM NAME="Name" VALUE="beforeDel(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeDel.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="click(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_click.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="change(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_change.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="drag(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_drag.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="drop(event, treeId, treeNode, targetNode)">
+<PARAM NAME="Local" VALUE="e_drop.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="rename(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_rename.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="del(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_del.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncSuccess(event, treeId, msg)">
+<PARAM NAME="Local" VALUE="e_asyncSuccess.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown)">
+<PARAM NAME="Local" VALUE="e_asyncError.html">
 </OBJECT>
 </UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="常量">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件相关">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -421,8 +497,8 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="ZTREE_CHECK">
-<PARAM NAME="Local" VALUE="c_ZTREE_CHECK.html">
+<PARAM NAME="Name" VALUE="ZTREE_CHANGE">
+<PARAM NAME="Local" VALUE="c_ZTREE_CHANGE.html">
 </OBJECT>
 </UL>
 <UL>
@@ -449,12 +525,6 @@
 <PARAM NAME="Local" VALUE="c_ZTREE_ASYNC_ERROR.html">
 </OBJECT>
 </UL>
-<UL>
-<LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="ZTREE_CHECK_MAX_ERROR">
-<PARAM NAME="Local" VALUE="c_ZTREE_CHECK_MAX_ERROR.html">
-</OBJECT>
-</UL>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -474,14 +544,38 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="IDMark_Ul">
-<PARAM NAME="Local" VALUE="c_IDMark_Ul.html">
+<PARAM NAME="Name" VALUE="IDMark_Edit">
+<PARAM NAME="Local" VALUE="c_IDMark_Edit.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Del">
+<PARAM NAME="Local" VALUE="c_IDMark_Del.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_A">
 <PARAM NAME="Local" VALUE="c_IDMark_A.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Span">
+<PARAM NAME="Local" VALUE="c_IDMark_Span.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Input">
+<PARAM NAME="Local" VALUE="c_IDMark_Input.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Ul">
+<PARAM NAME="Local" VALUE="c_IDMark_Ul.html">
 </OBJECT>
 </UL>
 </UL>
@@ -561,6 +655,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="Class_CurSelectedNode_Edit">
+<PARAM NAME="Local" VALUE="c_Class_CurSelectedNode_Edit.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="Class_TmpTargetTree">
 <PARAM NAME="Local" VALUE="c_Class_TmpTargetTree.html">
 </OBJECT>
@@ -634,6 +734,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="Radio_Type_Level">
 <PARAM NAME="Local" VALUE="c_Radio_Type_Level.html">
+</OBJECT>
+</UL>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="其他">
+<PARAM NAME="ImageNumber" value="2">
+</OBJECT>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="MinMoveSize">
+<PARAM NAME="Local" VALUE="c_MinMoveSize.html">
 </OBJECT>
 </UL>
 </UL>
