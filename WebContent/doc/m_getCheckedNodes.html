@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>getSelectedNodes(selected)</title>
+<title>getCheckedNodes(checked)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: Array(JSON)</span>getSelectedNodes(selected)</h2>
+	<h2><span>返回值: Array(JSON)</span>getCheckedNodes(checked)</h2>
 	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
 	<div class="desc">
 		<p></p>
@@ -28,13 +28,13 @@
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var nodes = zTreeObj.getSelectedNodes(); //或  zTreeObj.getSelectedNodes(true);
+var nodes = zTreeObj.getCheckedNodes(); //或  zTreeObj.getCheckedNodes(true);
 ......</code></pre>
 	<p>获取全部未选择的节点数据</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var nodes = zTreeObj.getSelectedNodes(false);
+var nodes = zTreeObj.getCheckedNodes(false);
 ......</code></pre>
 
 </div>

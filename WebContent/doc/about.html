@@ -25,13 +25,13 @@
 			</table></p>
 			<p></p>
 			<p>下面介绍一下zTree 的主要功能：</p>
-			<p>&nbsp;1、兼容 IE、FireFox 浏览器</p>
+			<p>&nbsp;1、兼容 IE、FireFox 浏览器（对于IE 6.0的兼容问题将不做特殊维护）</p>
 			<p>&nbsp;2、在一个页面内可同时生成多个 Tree 实例</p>
 			<p>&nbsp;3、支持 JSON 数据</p>
 			<p>&nbsp;4、支持一次性静态生成 和 Ajax 异步加载 两种方式</p>
 			<p>&nbsp;5、支持多种事件响应及反馈</p>
-			<p>&nbsp;6、支持 Tree 的节点移动</p>
-			<p>&nbsp;7、支持极其灵活的 Checkbox 选择功能</p>
+			<p>&nbsp;6、支持 Tree 的节点移动、编辑、删除</p>
+			<p>&nbsp;7、支持极其灵活的 Checkbox & Radio 选择功能</p>
 			<p>&nbsp;8、支持任意更换皮肤（依靠 css ）</p>
 			<p>&nbsp;9、个性化图标（依靠 css ）</p>
 			<p>&nbsp;10、简单的参数配置 实现 灵活多变的功能</p>
@@ -40,16 +40,22 @@
 
 		</div>
 	</div>
-	<h2>zTree v1.1x 新增功能</h2>
+	<h2>zTree v2.0 更新记录</h2>
 	<h3>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
+			<p>&nbsp;针对 v1.x 版本的重大修改请参考 <A href="index.html">速查表</A> 有 <span style="color:green">#</span> 标记的内容。</p>
 			<p>&nbsp;新功能对应各项属性、方法请参考 <A href="index.html">速查表</A> 有 <span style="color:red">*</span> 标记的内容。</p>
-			<p>&nbsp;1、对于 CheckBox 状态，增加 CheckBox 显示状态，便于用户快速查看节点选中状态。</p>
-			<p>&nbsp;2、增加 Radio 选择功能，并且可以根据需要设定最大选择个数。</p>
-			<p>&nbsp;3、对于 Radio 功能，增加 ZTREE_CHECK_MAX_ERROR 事件，在无法选中节点时触发，便于用户自定义各种提示工作。</p>
-			<p>&nbsp;4、提供 getSelectedNodes(selected) 方法获取当前被选择 或 未选择的节点集合。</p>
+			<p>&nbsp;1、更名 getCurNode() 方法为 getSelectedNode() 方法。</p>
+			<p>&nbsp;2、更名 getSelectedNodes() 方法为 getCheckedNodes() 方法。</p>
+			<p>&nbsp;3、增加 getNodeIndex(treeNode) 方法，获取某节点在同一层级节点中的序号（从0开始）。</p>
+			<p>&nbsp;4、checkbox、radio的 onCheck 事件更名为 onChange 事件。</p>
+			<p>&nbsp;5、radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能。</p>
+			<p>&nbsp;6、修正对于节点 name 属性的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入。</p>
+			<p>&nbsp;7、在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点。</p>
+			<p>&nbsp;8、针对Click、Check、Drag、Drop、Rename、Del等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件。</p>
+			<p>&nbsp;9、修改Callback 回调函数结构，允许用户通过配置自定义各种回调函数。</p>
 		</div>
 	</div>
 </div>

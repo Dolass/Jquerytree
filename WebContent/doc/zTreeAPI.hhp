@@ -1,7 +1,7 @@
 [OPTIONS]
 Compatibility=1.1 Or later
 Default Window=Main
-Default topic=index.htm
+Default topic=index.html
 Default font=宋体,9,1
 Contents file=zTreeAPI.hhc
 Index file=zTreeAPI.hhk
@@ -10,9 +10,11 @@ Full-text search=Yes
 Language=0x804 中文(中国)
 
 [WINDOWS]
-Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","index.htm","index.htm",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
+Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","index.html","index.html",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
 
 [FILES]
+
+
 about.html
 bug.html
 c_Check_Style_Box.html
@@ -24,13 +26,18 @@ c_CheckBox_Full.html
 c_CheckBox_Part.html
 c_CheckBox_True.html
 c_Class_CurSelectedNode.html
+c_Class_CurSelectedNode_Edit.html
 c_Class_TmpTargetNode.html
 c_Class_TmpTargetTree.html
 c_FolderMark_Close.html
 c_FolderMark_Docu.html
 c_FolderMark_Open.html
 c_IDMark_A.html
+c_IDMark_Del.html
+c_IDMark_Edit.html
 c_IDMark_Icon.html
+c_IDMark_Input.html
+c_IDMark_Span.html
 c_IDMark_Switch.html
 c_IDMark_Ul.html
 c_LineMark_Bottom.html
@@ -39,6 +46,7 @@ c_LineMark_Line.html
 c_LineMark_NoLine.html
 c_LineMark_Root.html
 c_LineMark_Roots.html
+c_MinMoveSize.html
 c_Radio_Type_All.html
 c_Radio_Type_Level.html
 c_ZTREE_ASYNC_ERROR.html
@@ -49,6 +57,14 @@ c_ZTREE_CLICK.html
 c_ZTREE_DRAG.html
 c_ZTREE_DROP.html
 css.html
+e_beforeChange.html
+e_beforeClick.html
+e_beforeDel.html
+e_beforeDrag.html
+e_beforeDrop.html
+e_beforeRename.html
+e_del.html
+e_rename.html
 e_zTreeOnAsyncError.html
 e_zTreeOnAsyncSuccess.html
 e_zTreeOnCheck.html
@@ -65,6 +81,7 @@ m_expandNode.html
 m_getCheckedNodes.html
 m_getCurNode.html
 m_getNodeByTId.html
+m_getNodeIndex.html
 m_getNodes.html
 m_moveNode.html
 m_refresh.html
@@ -75,6 +92,7 @@ s_async.html
 s_asyncParam.html
 s_asyncParamOther.html
 s_asyncUrl.html
+s_callback.html
 s_checkable.html
 s_checked.html
 s_checkedNew.html
@@ -84,11 +102,15 @@ s_checkRadioType.html
 s_checkStyle.html
 s_checkType.html
 s_click.html
+s_curEditTreeNode.html
 s_curTreeNode.html
 s_diy.html
 s_dragNodeShowBefore.html
 s_dragStatus.html
+s_edit_deleteNode.html
+s_edit_rename.html
 s_editable.html
+s_editNameStatus.html
 s_icon.html
 s_iconSkin.html
 s_isFirstNode.html

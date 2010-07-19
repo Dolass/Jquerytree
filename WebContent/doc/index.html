@@ -19,10 +19,10 @@
 
 <META name=GENERATOR content="MSHTML 8.00.6001.18904"></HEAD>
 <BODY>
-<H1>zTree&nbsp;v1.11 速查表 --&nbsp;作者：<A
+<H1>zTree&nbsp;v2.0 速查表 --&nbsp;作者：<A
 href="mailto:hunter.z@263.net">Hunter.z</A>&nbsp;&nbsp;&nbsp;特别感谢&nbsp;<A
 href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
-<span style="margin-left:270px;">【有 <span style="color:red">*</span> 标记为 v1.1 - v1.1x 版本新增】</span>
+<span style="margin-left:120px;">【 <span style="color:green">#</span> 标记为针对 v1.x 版本的修改; <span style="color:red">*</span> 标记为 v2.0 - v2.xx 版本新增】</span>
 </H1>
 <DIV class=col>
 <DIV id=about>
@@ -55,18 +55,21 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_asyncParamOther.html">asyncParamOther</A></LI>
     <LI><A href="s_checkable.html">checkable</A></LI>
     <LI><A href="s_checkType.html">checkType</A></LI>
-    <LI><span style="color:red">*</span><A href="s_checkStyle.html">checkStyle</A></LI>
-    <LI><span style="color:red">*</span><A href="s_checkMaxNum.html">checkMaxNum</A></LI>
-    <LI><span style="color:red">*</span><A href="s_checkRadioType.html">checkRadioType</A></LI>
+    <LI><A href="s_checkStyle.html">checkStyle</A></LI>
+    <LI><A href="s_checkRadioType.html">checkRadioType</A></LI>
     <LI><A href="s_editable.html">editable</A></LI>
+    <LI><span style="color:red">*</span><A href="s_edit_rename.html">edit_rename</A></LI>
+    <LI><span style="color:red">*</span><A href="s_edit_deleteNode.html">edit_deleteNode</A></LI>
     <LI><A href="s_root.html">root</A></LI>
     <LI><A href="s_showLine.html">showLine</A></LI>
+    <LI><span style="color:red">*</span><A href="s_callback.html">callback</A></LI>
     <LI></LI>
     <LI>[<A href="s_curTreeNode.html">curTreeNode</A>]</LI>
+    <LI><span style="color:red">*</span>[<A href="s_curEditTreeNode.html">curEditTreeNode</A>]</LI>
     <LI>[<A href="s_dragNodeShowBefore.html">dragNodeShowBefore</A>]</LI>
     <LI>[<A href="s_dragStatus.html">dragStatus</A>]</LI>
 	<LI>[<A href="s_treeObjId.html">treeObjId</A>]</LI>
-	<LI><span style="color:red">*</span>[<A href="s_checkRadioCheckedList.html">checkRadioCheckedList</A>]</LI>
+	<LI>[<A href="s_checkRadioCheckedList.html">checkRadioCheckedList</A>]</LI>
     <LI></LI>
    </UL></LI>
   <LI>
@@ -85,6 +88,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_diy.html">*自定义*</A></LI>
     <LI></LI>
     <LI>[<A href="s_checkedNew.html">checkedNew</A>]</LI>
+    <LI><span style="color:red">*</span>[<A href="s_editNameStatus.html">editNameStatus</A>]</LI>
     <LI>[<A href="s_isFirstNode.html">isFirstNode</A>]</LI>
     <LI>[<A href="s_isLastNode.html">isLastNode</A>]</LI>
     <LI>[<A href="s_level.html">level</A>]</LI>
@@ -95,8 +99,8 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>skin 皮肤说明</H3>
   <UL>
-    <LI><span style="color:red">*</span><A href="css.html">zTreeStyle.css</A></LI>
-    <LI><span style="color:red">*</span><A href="zTreeIcons.html">zTreeIcons.css</A></LI>
+    <LI><A href="css.html">zTreeStyle.css</A></LI>
+    <LI><A href="zTreeIcons.html">zTreeIcons.css</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>
@@ -108,10 +112,11 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>获取</H3>
   <UL>
-    <LI><A href="m_getCurNode.html">getCurNode()</A></LI>
+    <LI><span style="color:green">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(selected)</A></LI>
     <LI><A href="m_getNodeByTId.html">getNodeByTId(tID)</A></LI>
+    <LI><span style="color:red">*</span><A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A></LI>
     <LI><A href="m_getNodes.html">getNodes()</A></LI>
-    <LI><span style="color:red">*</span><A href="m_getSelectedNodes.html">getSelectedNodes(selected)</A></LI>
+    <LI><span style="color:green">#</span><A href="m_getSelectedNode.html">getSelectedNode()</A></LI>
     <LI></LI>
   </UL></LI>
   <LI>
@@ -132,15 +137,22 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
 <H2>事件</H2>
 <UL>
   <LI>
-  <H3>callback 函数</H3>
+  <H3>callback 回调函数</H3>
   <UL>
-    <LI><A href="e_zTreeOnClick.html">zTreeOnClick</A></LI>
-    <LI><A href="e_zTreeOnCheck.html">zTreeOnCheck</A></LI>
-    <LI><A href="e_zTreeOnDrag.html">zTreeOnDrag</A></LI>
-    <LI><A href="e_zTreeOnDrop.html">zTreeOnDrop</A></LI>
-    <LI><A href="e_zTreeOnAsyncSuccess.html">zTreeOnAsyncSuccess</A></LI>
-    <LI><A href="e_zTreeOnAsyncError.html">zTreeOnAsyncError</A></LI>
-    <LI><span style="color:red">*</span><A href="e_zTreeOnCheckMaxError.html">zTreeOnCheckMaxError</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeClick.html">beforeClick</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeChange.html">beforeChange</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeDrag.html">beforeDrag</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeDrop.html">beforeDrop</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeRename.html">beforeRename</A></LI>
+    <LI><span style="color:red">*</span><A href="e_beforeDel.html">beforeDel</A></LI>
+    <LI><span style="color:green">#</span><A href="e_click.html">click</A></LI>
+    <LI><span style="color:green">#</span><A href="e_change.html">change</A></LI>
+    <LI><span style="color:green">#</span><A href="e_drag.html">drag</A></LI>
+    <LI><span style="color:green">#</span><A href="e_drop.html">drop</A></LI>
+    <LI><span style="color:red">*</span><A href="e_rename.html">rename</A></LI>
+    <LI><span style="color:red">*</span><A href="e_del.html">del</A></LI>
+    <LI><span style="color:green">#</span><A href="e_asyncSuccess.html">asyncSuccess</A></LI>
+    <LI><span style="color:green">#</span><A href="e_asyncError.html">asyncError</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>
@@ -152,12 +164,11 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>事件相关</H3>
   <UL>
     <LI><A href="c_ZTREE_CLICK.html">ZTREE_CLICK</A></LI>
-    <LI><A href="c_ZTREE_CHECK.html">ZTREE_CHECK</A></LI>
+    <LI><span style="color:green">#</span><A href="c_ZTREE_CHANGE.html">ZTREE_CHANGE</A></LI>
     <LI><A href="c_ZTREE_DRAG.html">ZTREE_DRAG</A></LI>
     <LI><A href="c_ZTREE_DROP.html">ZTREE_DROP</A></LI>
     <LI><A href="c_ZTREE_ASYNC_SUCCESS.html">ZTREE_ASYNC_SUCCESS</A></LI>
     <LI><A href="c_ZTREE_ASYNC_ERROR.html">ZTREE_ASYNC_ERROR</A></LI>
-    <LI><span style="color:red">*</span><A href="c_ZTREE_CHECK_MAX_ERROR.html">ZTREE_CHECK_MAX_ERROR</A></LI>
     <LI></LI>
   </UL></LI>
   <LI>
@@ -165,8 +176,12 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <UL>
     <LI><A href="c_IDMark_Switch.html">IDMark_Switch</A></LI>
     <LI><A href="c_IDMark_Icon.html">IDMark_Icon</A></LI>
-    <LI><A href="c_IDMark_Ul.html">IDMark_Ul</A></LI>
+    <LI><span style="color:red">*</span><A href="c_IDMark_Edit.html">IDMark_Edit</A></LI>
+    <LI><span style="color:red">*</span><A href="c_IDMark_Del.html">IDMark_Del</A></LI>
     <LI><A href="c_IDMark_A.html">IDMark_A</A></LI>
+    <LI><span style="color:red">*</span><A href="c_IDMark_Span.html">IDMark_Span</A></LI>
+    <LI><span style="color:red">*</span><A href="c_IDMark_Input.html">IDMark_Input</A></LI>
+    <LI><A href="c_IDMark_Ul.html">IDMark_Ul</A></LI>
     <LI></LI>
   </UL></LI>
   <LI>
@@ -192,6 +207,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>className相关</H3>
   <UL>
     <LI><A href="c_Class_CurSelectedNode.html">Class_CurSelectedNode</A></LI>
+    <LI><span style="color:red">*</span><A href="c_Class_CurSelectedNode_Edit.html">Class_CurSelectedNode_Edit</A></LI>
     <LI><A href="c_Class_TmpTargetTree.html">Class_TmpTargetTree</A></LI>
     <LI><A href="c_Class_TmpTargetNode.html">Class_TmpTargetNode</A></LI>
     <LI></LI>
@@ -199,16 +215,22 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>CheckBox &amp; Radio 相关</H3>
   <UL>
-    <LI><span style="color:red">*</span><A href="c_Check_Style_Box.html">Check_Style_Box</A></LI>
-    <LI><span style="color:red">*</span><A href="c_Check_Style_Radio.html">Check_Style_Radio</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_Default.html">CheckBox_Default</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_False.html">CheckBox_False</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_True.html">CheckBox_True</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_Full.html">CheckBox_Full</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_Part.html">CheckBox_Part</A></LI>
-    <LI><span style="color:red">*</span><A href="c_CheckBox_Focus.html">CheckBox_Focus</A></LI>
-    <LI><span style="color:red">*</span><A href="c_Radio_Type_All.html">Radio_Type_All</A></LI>
-    <LI><span style="color:red">*</span><A href="c_Radio_Type_Level.html">Radio_Type_Level</A></LI>
+    <LI><A href="c_Check_Style_Box.html">Check_Style_Box</A></LI>
+    <LI><A href="c_Check_Style_Radio.html">Check_Style_Radio</A></LI>
+    <LI><A href="c_CheckBox_Default.html">CheckBox_Default</A></LI>
+    <LI><A href="c_CheckBox_False.html">CheckBox_False</A></LI>
+    <LI><A href="c_CheckBox_True.html">CheckBox_True</A></LI>
+    <LI><A href="c_CheckBox_Full.html">CheckBox_Full</A></LI>
+    <LI><A href="c_CheckBox_Part.html">CheckBox_Part</A></LI>
+    <LI><A href="c_CheckBox_Focus.html">CheckBox_Focus</A></LI>
+    <LI><A href="c_Radio_Type_All.html">Radio_Type_All</A></LI>
+    <LI><A href="c_Radio_Type_Level.html">Radio_Type_Level</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>其他</H3>
+  <UL>
+    <LI><span style="color:red">*</span><A href="c_MinMoveSize.html">MinMoveSize</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>

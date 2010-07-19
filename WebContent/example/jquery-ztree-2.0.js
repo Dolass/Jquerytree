@@ -12,6 +12,8 @@
 
 	var ZTREE_CLICK = "ZTREE_CLICK";
 	var ZTREE_CHANGE = "ZTREE_CHANGE";
+	var ZTREE_RENAME = "ZTREE_RENAME";
+	var ZTREE_DELETE = "ZTREE_DELETE";
 	var ZTREE_DRAG = "ZTREE_DRAG";
 	var ZTREE_DROP = "ZTREE_DROP";
 	var ZTREE_ASYNC_SUCCESS = "ZTREE_ASYNC_SUCCESS";
@@ -69,9 +71,9 @@
 			//是否在编辑状态
 			editable: false,
 			//编辑状态是否显示修改按钮
-			edit_rename:false,
+			edit_rename:true,
 			//编辑状态是否显示删除节点按钮
-			edit_deleteNode:false,
+			edit_deleteNode:true,
 			//是否显示树的线
 			showLine: true,
 			//当前被选择的TreeNode
@@ -105,17 +107,20 @@
 				nodes: []
 			},
 			//event Function
-			before: {
-				click:null,
-				change:null,
-				drag:null,
-				drop:null
-			},
 			callback: {
+				beforeClick:null,
+				beforeChange:null,
+				beforeDrag:null,
+				beforeDrop:null,
+				beforeRename:null,
+				beforeDel:null,
+				
 				click:null,
 				change:null,
 				drag:null,
 				drop:null,
+				rename:null,
+				del:null,
 				asyncSuccess:null,
 				asyncError:null
 			}			
@@ -161,6 +166,16 @@
 		treeObj.unbind(ZTREE_CHANGE);
 		treeObj.bind(ZTREE_CHANGE, function (event, treeId, treeNode) {
 		  if ((typeof setting.callback.change) == "function") setting.callback.change(event, treeId, treeNode);
+		});
+
+		treeObj.unbind(ZTREE_RENAME);
+		treeObj.bind(ZTREE_RENAME, function (event, treeId, treeNode) {
+			if ((typeof setting.callback.rename) == "function") setting.callback.rename(event, treeId, treeNode);
+		});
+		
+		treeObj.unbind(ZTREE_DELETE);
+		treeObj.bind(ZTREE_DELETE, function (event, treeId, treeNode) {
+			if ((typeof setting.callback.del) == "function") setting.callback.del(event, treeId, treeNode);
 		});
 
 		treeObj.unbind(ZTREE_DRAG);
@@ -292,7 +307,7 @@
 		aObj.bind('click',
 		function() {
 			var beforeClick = true;
-			if ((typeof setting.before.click) == "function") beforeClick = setting.before.click(setting.treeObjId, treeNode);
+			if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
 			if (beforeClick == false) return;
 			//除掉默认事件，防止文本被选择
 			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
@@ -321,7 +336,7 @@
 			checkObj.bind('click',
 			function() {
 				var beforeChange = true;
-				if ((typeof setting.before.change) == "function") beforeChange = setting.before.change(setting.treeObjId, treeNode);
+				if ((typeof setting.callback.beforeChange) == "function") beforeChange = setting.callback.beforeChange(setting.treeObjId, treeNode);
 				if (beforeChange == false) return;
 				
 				treeNode.checkedNew = !treeNode.checkedNew;
@@ -453,7 +468,7 @@
 
 				if (setting.dragStatus == 0) {
 					var beforeDrag = true;
-					if ((typeof setting.before.drag) == "function") beforeDrag = setting.before.drag(setting.treeObjId, treeNode);
+					if ((typeof setting.callback.beforeDrag) == "function") beforeDrag = setting.callback.beforeDrag(setting.treeObjId, treeNode);
 					if (beforeDrag == false) return;					
 					
 					setting.dragStatus = 1;
@@ -560,7 +575,7 @@
 					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting.root.nodes, tmpTargetNodeId);
 
 					var beforeDrop = true;
-					if ((typeof setting.before.drop) == "function") beforeDrop = setting.before.drop(setting.treeObjId, treeNode, dragTargetNode);
+					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode);
 					if (beforeDrop == false) return;
 
 					moveTreeNode(setting, dragTargetNode, treeNode);
@@ -680,7 +695,13 @@
 		$("#" + treeNode.tId + IDMark_A).append(editStr);
 		
 		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
-			function() {removeEditBtn(treeNode); removeDelBtn(treeNode); editTreeNode(setting, treeNode); return false;}
+			function() {
+				var beforeRename = true;
+				if ((typeof setting.callback.beforeRename) == "function") beforeRename = setting.callback.beforeRename(setting.treeObjId, treeNode);
+				if (beforeRename == false) return;
+				removeEditBtn(treeNode); removeDelBtn(treeNode); editTreeNode(setting, treeNode);
+				return false;
+			}
 		).bind('mousedown',
 			function(eventMouseDown) {return false;}
 		);
@@ -694,7 +715,15 @@
 		$("#" + treeNode.tId + IDMark_A).append(delStr);
 		
 		$("#" + treeNode.tId + IDMark_Del).bind('click', 
-			function() {removeTreeNode(setting, treeNode); return false;}
+			function() {
+				var beforeDel = true;
+				if ((typeof setting.callback.beforeDel) == "function") beforeDel = setting.callback.beforeDel(setting.treeObjId, treeNode);
+				if (beforeDel == false) return;
+				removeTreeNode(setting, treeNode);
+				//触发delete事件
+				$("#" + setting.treeObjId).trigger(ZTREE_DELETE, [setting.treeObjId, treeNode]);
+				return false;
+			}
 		).bind('mousedown',
 			function(eventMouseDown) {return false;}
 		);
@@ -1199,12 +1228,11 @@
 			setCursorPosition(inputObj.get(0), treeNode.name.length);
 			
 			//拦截A的click dblclick监听
-			inputObj.bind('change',
+			inputObj.bind('blur',
 					function(event) {
 				treeNode.name = this.value;
-			}).bind('blur',
-					function(event) {
-				treeNode.name = this.value;
+				//触发rename事件
+				$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
 			}).bind('click',
 					function(event) {
 				return false;
