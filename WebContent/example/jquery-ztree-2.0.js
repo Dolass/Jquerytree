@@ -467,9 +467,11 @@
 				}
 
 				if (setting.dragStatus == 0) {
+					//避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
+					setting.dragStatus = -1;
 					var beforeDrag = true;
 					if ((typeof setting.callback.beforeDrag) == "function") beforeDrag = setting.callback.beforeDrag(setting.treeObjId, treeNode);
-					if (beforeDrag == false) return;					
+					if (beforeDrag == false) return;
 					
 					setting.dragStatus = 1;
 					showIfameMask(true);
@@ -492,7 +494,6 @@
 
 					//触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
 					$("#" + setting.treeObjId).trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
-
 				}
 
 				if (setting.dragStatus == 1) {
