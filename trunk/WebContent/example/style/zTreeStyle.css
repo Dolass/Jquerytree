@@ -28,7 +28,7 @@ website:	http://code.google.com/p/jquerytree/
 .tree li ul.line{ background:url(./img/line_conn.gif) 0 0 repeat-y;}
 
 .tree li a {
-	padding:0; margin:0; 
+	padding:0; margin:0 10px 0 0; 
 	cursor:pointer; 
 	color:#333; 
 	text-decoration:none;
