@@ -102,6 +102,8 @@
 			asyncParam: [],
 			//其它参数
 			asyncParamOther: [],
+			//用户自定义名称列
+			nameCol:"name",
 			root: {
 				isRoot: true,
 				nodes: []
@@ -258,7 +260,7 @@
 		var nObj = $("#" + treeNode.tId + IDMark_Span);
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
 		
-		nObj.text(treeNode.name);
+		nObj.text(treeNode[setting.nameCol]);
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 
 		//设置Line、Ico等css属性
@@ -1193,7 +1195,7 @@
 			removeEditBtn(setting.curTreeNode); 
 			removeDelBtn(setting.curTreeNode);
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
-			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode.name);
+			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
 		}
 	}
 	//取消之前编辑节点状态
@@ -1201,7 +1203,7 @@
 		if (setting.curEditTreeNode) {
 			$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
 			$("#" + setting.curEditTreeNode.tId + IDMark_Input).unbind();
-			$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode.name);
+			$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode[setting.nameCol]);
 			setting.curEditTreeNode.editNameStatus = false;
 			setting.curEditTreeNode = null;
 		}
@@ -1224,14 +1226,14 @@
 			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
 			
 			var inputObj = $("#" + treeNode.tId + IDMark_Input);
-			inputObj.attr("value", treeNode.name);
+			inputObj.attr("value", treeNode[setting.nameCol]);
 			inputObj.focus();
-			setCursorPosition(inputObj.get(0), treeNode.name.length);
+			setCursorPosition(inputObj.get(0), treeNode[setting.nameCol].length);
 			
 			//拦截A的click dblclick监听
 			inputObj.bind('blur',
 					function(event) {
-				treeNode.name = this.value;
+				treeNode[setting.nameCol] = this.value;
 				//触发rename事件
 				$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
 			}).bind('click',
