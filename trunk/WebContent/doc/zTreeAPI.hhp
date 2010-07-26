@@ -7,7 +7,7 @@ Contents file=zTreeAPI.hhc
 Index file=zTreeAPI.hhk
 Display compile progress=Yes
 Full-text search=Yes
-Language=0x804 中文(简体，中国)
+Language=0x804 中文(中国)
 
 [WINDOWS]
 Main="zTree API 使用手册","zTreeAPI.hhc","zTreeAPI.hhk","index.html","index.html",,,,,0x420,250,0x104E,[80,60,720,540],0x0,0x0,,,,,0
@@ -116,6 +116,7 @@ s_isLastNode.html
 s_isParent.html
 s_level.html
 s_name.html
+s_nameCol.html
 s_nodes.html
 s_open.html
 s_parentNode.html

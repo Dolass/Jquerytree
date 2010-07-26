@@ -321,6 +321,10 @@
 <PARAM NAME="Local" VALUE="s_name.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nameCol">
+<PARAM NAME="Local" VALUE="s_nameCol.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="nodes">
 <PARAM NAME="Local" VALUE="s_nodes.html">
 </OBJECT>
