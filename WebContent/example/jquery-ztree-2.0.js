@@ -133,6 +133,7 @@
 		}
 
 		setting.treeObjId = this.attr("id");
+		setting.treeObj = this;
 		setting.root.tId = -1;
 		setting.root.name = "ZTREE ROOT";
 		setting.root.isRoot = true;
@@ -694,10 +695,19 @@
 			return;
 		}
 
-		var editStr = "<button class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();'></button>";
-		$("#" + treeNode.tId + IDMark_A).append(editStr);
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		var editStr = "<button class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();' style='display:none;'></button>";
+		aObj.append(editStr);
 		
-		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
+		var editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
+		var right = (setting.treeObj.attr("offsetLeft") + setting.treeObj.attr("offsetWidth") + setting.treeObj.attr("scrollLeft") - aObj.attr("offsetLeft") - aObj.attr("offsetWidth") - 2*editBtnObj.width() - 15);
+		if (right < 0) {
+			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
+			editBtnObj.remove();
+			aObj.prepend(editStr);
+			editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
+		}
+		editBtnObj.bind('click', 
 			function() {
 				var beforeRename = true;
 				if ((typeof setting.callback.beforeRename) == "function") beforeRename = setting.callback.beforeRename(setting.treeObjId, treeNode);
@@ -706,16 +716,26 @@
 				return false;
 			}
 		).bind('mousedown',
-			function(eventMouseDown) {return false;}
-		);
+			function(eventMouseDown) {return true;}
+		).show();
 	}
 	function addRemoveBtn(setting, treeNode) {		
 		if (!setting.edit_removeBtn || $("#" + treeNode.tId + IDMark_Remove).length > 0) {
 			return;
 		}
 		
-		var removeStr = "<button class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' onfocus='this.blur();'></button>";
-		$("#" + treeNode.tId + IDMark_A).append(removeStr);
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		var removeStr = "<button class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' onfocus='this.blur();' style='display:none;'></button>";
+		aObj.append(removeStr);
+		
+		var removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
+		var right = (setting.treeObj.attr("offsetLeft") + setting.treeObj.attr("offsetWidth") - aObj.attr("offsetLeft") - aObj.attr("offsetWidth") - 1*removeBtnObj.width() - 15);
+		if (right < 0) {
+			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
+			removeBtnObj.remove();
+			aObj.prepend(removeStr);
+			removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
+		}
 		
 		$("#" + treeNode.tId + IDMark_Remove).bind('click', 
 			function() {
@@ -728,8 +748,8 @@
 				return false;
 			}
 		).bind('mousedown',
-			function(eventMouseDown) {return false;}
-		);
+			function(eventMouseDown) {return true;}
+		).show();
 	}
 	
 	//设置CheckBox的Class类型，主要用于显示子节点是否全部被选择的样式
