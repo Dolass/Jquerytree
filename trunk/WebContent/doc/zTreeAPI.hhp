@@ -54,6 +54,8 @@ c_ZTREE_CHECK_MAX_ERROR.html
 c_ZTREE_CLICK.html
 c_ZTREE_DRAG.html
 c_ZTREE_DROP.html
+c_ZTREE_REMOVE.html
+c_ZTREE_RENAME.html
 css.html
 e_beforeChange.html
 e_beforeClick.html

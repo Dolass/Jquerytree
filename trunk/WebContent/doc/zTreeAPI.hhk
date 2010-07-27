@@ -37,16 +37,16 @@
 <PARAM NAME="Local" VALUE="e_beforeClick.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeDel(treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_beforeDel.html">
-</OBJECT>
-<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeDrag(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeDrag.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeDrop(treeId, treeNode, targetNode)">
 <PARAM NAME="Local" VALUE="e_beforeDrop.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeRemove(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeRemove.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeRename(treeId, treeNode)">
@@ -153,10 +153,6 @@
 <PARAM NAME="Local" VALUE="s_curTreeNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="del(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_del.html">
-</OBJECT>
-<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="drag(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_drag.html">
 </OBJECT>
@@ -173,12 +169,12 @@
 <PARAM NAME="Local" VALUE="e_drop.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="edit_deleteNode">
-<PARAM NAME="Local" VALUE="s_edit_deleteNode.html">
+<PARAM NAME="Name" VALUE="edit_removeBtn">
+<PARAM NAME="Local" VALUE="s_edit_removeBtn.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="edit_rename">
-<PARAM NAME="Local" VALUE="s_edit_rename.html">
+<PARAM NAME="Name" VALUE="edit_renameBtn">
+<PARAM NAME="Local" VALUE="s_edit_renameBtn.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="editable">
@@ -241,10 +237,6 @@
 <PARAM NAME="Local" VALUE="c_IDMark_A.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="IDMark_Del">
-<PARAM NAME="Local" VALUE="c_IDMark_Del.html">
-</OBJECT>
-<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_Edit">
 <PARAM NAME="Local" VALUE="c_IDMark_Edit.html">
 </OBJECT>
@@ -255,6 +247,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_Input">
 <PARAM NAME="Local" VALUE="c_IDMark_Input.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Remove">
+<PARAM NAME="Local" VALUE="c_IDMark_Remove.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_Span">
@@ -349,6 +345,10 @@
 <PARAM NAME="Local" VALUE="m_refresh.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="remove(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_remove.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="removeNode(treeNode)">
 <PARAM NAME="Local" VALUE="m_removeNode.html">
 </OBJECT>
@@ -419,6 +419,14 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ZTREE_DROP">
 <PARAM NAME="Local" VALUE="c_ZTREE_DROP.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_REMOVE">
+<PARAM NAME="Local" VALUE="c_ZTREE_REMOVE.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_RENAME">
+<PARAM NAME="Local" VALUE="c_ZTREE_RENAME.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTreeIcons.css">

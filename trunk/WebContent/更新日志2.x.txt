@@ -9,7 +9,7 @@
   *功能扩展：
    # 增加 双击的事件callback(暂时不考虑增加，没有什么意义)
    
-   # 增加功能 setting.nameCol，用户根据自己的需要制定显示名称的字段属性，默认"name"
+   # 增加更新某节点数据的功能，避免刷新整棵树
    # 对于展开 折叠 节点时，特效的参数应该可以配置，允许用户自定义
    # 全部展开、折叠时，对于有特效的情况需要进行优化
    # 当iconSkin属性没有定义时，不要增加 undefined 的className
@@ -38,7 +38,8 @@
   * 在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点
    # 增加CSS ".tree li a input.rename"  &  ".tree li a.curSelectedNode_Edit" & ".tree li button.edit" & ".tree li button.del" 
    # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit & MinMoveSize
-   # 增加treeNode.editNameStatus & setting.curEditTreeNode & setting.edit_rename & setting.edit_deleteNode 属性
-  * 针对Click、Check、Drag、Drop、Rename、Del等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
+   # 增加treeNode.editNameStatus & setting.curEditTreeNode & setting.edit_renameBtn & setting.edit_removeBtn 属性
+  * 针对Click、Check、Drag、Drop、Rename、Remove等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
    # 增加事件 zTreeOnRename & zTreeOnDelete；增加常量 ZTREE_RENAME & ZTREE_DELETE
    # 将所有事件的 callback & before 方法都修改为用户自定义方式, 增加了 setting配置参数 before、callback
+  * 增加功能 setting.nameCol，用户根据自己的需要制定显示名称的字段属性，默认"name"

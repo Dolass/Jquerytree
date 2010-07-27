@@ -7,7 +7,6 @@
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="关于">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -23,6 +22,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTree 核心函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -38,7 +38,6 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -96,14 +95,14 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="edit_deleteNode">
-<PARAM NAME="Local" VALUE="s_edit_deleteNode.html">
+<PARAM NAME="Name" VALUE="edit_removeBtn">
+<PARAM NAME="Local" VALUE="s_edit_removeBtn.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="edit_rename">
-<PARAM NAME="Local" VALUE="s_edit_rename.html">
+<PARAM NAME="Name" VALUE="edit_renameBtn">
+<PARAM NAME="Local" VALUE="s_edit_renameBtn.html">
 </OBJECT>
 </UL>
 <UL>
@@ -395,6 +394,7 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 回调函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -428,8 +428,8 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeDel(treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_beforeDel.html">
+<PARAM NAME="Name" VALUE="beforeRemove(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeRemove.html">
 </OBJECT>
 </UL>
 <UL>
@@ -464,8 +464,8 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="del(event, treeId, treeNode)">
-<PARAM NAME="Local" VALUE="e_del.html">
+<PARAM NAME="Name" VALUE="remove(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_remove.html">
 </OBJECT>
 </UL>
 <UL>
@@ -483,6 +483,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="常量">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -498,6 +499,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ZTREE_CHANGE">
 <PARAM NAME="Local" VALUE="c_ZTREE_CHANGE.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_RENAME">
+<PARAM NAME="Local" VALUE="c_ZTREE_RENAME.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_REMOVE">
+<PARAM NAME="Local" VALUE="c_ZTREE_REMOVE.html">
 </OBJECT>
 </UL>
 <UL>
@@ -549,8 +562,8 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="IDMark_Del">
-<PARAM NAME="Local" VALUE="c_IDMark_Del.html">
+<PARAM NAME="Name" VALUE="IDMark_Remove">
+<PARAM NAME="Local" VALUE="c_IDMark_Remove.html">
 </OBJECT>
 </UL>
 <UL>
