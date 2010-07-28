@@ -103,7 +103,9 @@
 			//其它参数
 			asyncParamOther: [],
 			//用户自定义名称列
-			nameCol:"name",
+			nameCol: "name",
+			//折叠、展开特效速度
+			expandSpeed: "fast",
 			root: {
 				isRoot: true,
 				nodes: []
@@ -253,7 +255,7 @@
 			p = $("#" + treeNode.parentNode.tId + IDMark_Ul);
 		}
 
-		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button class=\"" + treeNode.iconSkin + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
+		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button class=\"" + (treeNode.iconSkin ? treeNode.iconSkin : "") + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
 		p.append(html);
 		
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
@@ -465,7 +467,7 @@
 				var switchObj = $("#" + treeNode.tId + IDMark_Switch);
 
 				if (setting.dragStatus == 0 && treeNode.isParent && treeNode.open) {
-					expandAndCollapseNode(treeNode);
+					expandAndCollapseNode(setting, treeNode, !treeNode.open);
 					setting.dragNodeShowBefore = true;
 				}
 
@@ -555,7 +557,7 @@
 				setting.dragStatus = 0;
 
 				if (treeNode.isParent && setting.dragNodeShowBefore && !treeNode.open) {
-					expandAndCollapseNode(treeNode);
+					expandAndCollapseNode(setting, treeNode, !treeNode.open);
 					setting.dragNodeShowBefore = false;
 				}
 
@@ -800,7 +802,7 @@
 
 	function switchNode(setting, treeNode) {
 		if (treeNode && treeNode.nodes && treeNode.nodes.length > 0) {
-			expandAndCollapseNode(treeNode);
+			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
 		}
@@ -842,18 +844,33 @@
 	}
 
 	// 展开 或者 折叠 节点下级
-	function expandAndCollapseNode(treeNode) {
+	function expandAndCollapseNode(setting, treeNode, expandSign, animateSign, callback) {
+		if (!treeNode || treeNode.open == expandSign) {
+			if (typeof callback == "function") callback();
+			return;
+		}
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
 
 		if (treeNode.isParent && treeNode.nodes && treeNode.nodes.length > 0) {
-			ulObj.toggle("fast");
-			if (switchObj.attr("class").indexOf(FolderMark_Close) > 0) {
+			if (!treeNode.open) {
+				if (animateSign == false) {
+					ulObj.show();
+					if (typeof callback == "function") callback();
+				} else {
+					ulObj.show(setting.expandSpeed, callback);
+				}
 				replaceSwitchClass(switchObj, FolderMark_Open);
 				replaceIcoClass(icoObj, FolderMark_Open);
 				treeNode.open = true;
 			} else {
+				if (animateSign == false) {
+					ulObj.hide();
+					if (typeof callback == "function") callback();
+				} else {
+					ulObj.hide(setting.expandSpeed, callback);
+				}
 				replaceSwitchClass(switchObj, FolderMark_Close);
 				replaceIcoClass(icoObj, FolderMark_Close);
 				treeNode.open = false;
@@ -862,31 +879,35 @@
 	}
 
 	//遍历子节点展开 或 折叠
-	function expandCollapseSonNode(treeObjId, treeNode, expandSign) {
-		if (!treeObjId) return;
-
-		if (treeNode && treeNode.open != expandSign) {
-			expandAndCollapseNode(treeNode);
+	function expandCollapseSonNode(setting, treeNode, expandSign, animateSign, callback) {
+		var treeNodes = (treeNode) ? treeNode.nodes: setting.root.nodes;
+		
+		//针对动画进行优化,一般来说只有在第一层的时候，才进行动画效果
+		var selfAnimateSign = (treeNode) ? false : animateSign;
+		if (treeNodes) {
+			for (var son = 0; son < treeNodes.length; son++) {
+				if (treeNodes[son]) expandCollapseSonNode(setting, treeNodes[son], expandSign, selfAnimateSign);
+			}
 		}
+		//保证callback只执行一次
+		expandAndCollapseNode(setting, treeNode, expandSign, animateSign, callback );
 
-		var treeNodes = (treeNode) ? treeNode.nodes: settings[treeObjId].root.nodes;
-
-		if (!treeNodes) return;
-		for (var son = 0; son < treeNodes.length; son++) {
-			if (treeNodes[son]) expandCollapseSonNode(treeObjId, treeNodes[son], expandSign);
-		}
 	}
 
 	//遍历父节点展开 或 折叠
-	function expandCollapseParentNode(treeObjId, treeNode, expandSign) {
-		if (!treeObjId) return;
-
-		if (treeNode && treeNode.open != expandSign) {
-			expandAndCollapseNode(treeNode);
+	function expandCollapseParentNode(setting, treeNode, expandSign, animateSign, callback) {
+		//针对动画进行优化,一般来说只有在第一层的时候，才进行动画效果
+		if (!treeNode.parentNode) {
+			//保证callback只执行一次
+			expandAndCollapseNode(setting, treeNode, expandSign, animateSign, callback);
+			return ;
+		} else {
+			expandAndCollapseNode(setting, treeNode, expandSign, animateSign);
 		}
-
-		if (!treeNode.parentNode) return;
-		expandCollapseParentNode(treeObjId, treeNode.parentNode, expandSign);
+		
+		if (treeNode.parentNode) {
+			expandCollapseParentNode(setting, treeNode.parentNode, expandSign, animateSign, callback);
+		}
 	}
 
 	//遍历父节点设置checkbox
@@ -960,7 +981,7 @@
 				target_switchObj.unbind('click');
 				target_switchObj.bind('click',
 				function() {
-					expandAndCollapseNode(parentNode);
+					expandAndCollapseNode(setting, parentNode, !parentNode.open);
 				});
 				target_aObj.unbind('dblclick');
 				target_aObj.bind('dblclick', {
@@ -973,7 +994,7 @@
 			addTreeNodesData(parentNode, newNodes);
 			initTreeNodes(setting, parentNode.level + 1, newNodes, parentNode);
 			//如果选择某节点，则必须展开其全部父节点
-			expandCollapseParentNode(setting.treeObjId, parentNode, true);
+			expandCollapseParentNode(setting, parentNode, true);
 		} else {
 			addTreeNodesData(setting.root, newNodes);
 			initTreeNodes(setting, 0, newNodes, null);
@@ -998,7 +1019,7 @@
 	}
 
 	//移动子节点
-	function moveTreeNode(setting, targetNode, treeNode) {
+	function moveTreeNode(setting, targetNode, treeNode, animateSign) {
 		if (targetNode == treeNode) return;
 		var oldParentNode = treeNode.parentNode == null ? setting.root: treeNode.parentNode;
 
@@ -1040,7 +1061,7 @@
 			target_switchObj.unbind('click');
 			target_switchObj.bind('click',
 			function() {
-				expandAndCollapseNode(targetNode);
+				expandAndCollapseNode(setting, targetNode, !targetNode.open);
 			});
 			target_aObj.unbind('dblclick');
 			target_aObj.bind('dblclick', {
@@ -1134,7 +1155,7 @@
 		}
 
 		//移动后，则必须展开新位置的全部父节点
-		expandCollapseParentNode(setting.treeObjId, targetNode, true);
+		expandCollapseParentNode(setting, targetNode, true, animateSign);
 	}
 	
 	//编辑子节点名称
@@ -1345,22 +1366,27 @@
 
 			expandAll : function(expandSign) {
 				var treeObjId = this.container.attr("id");
-				expandCollapseSonNode(treeObjId, null, expandSign);
+				expandCollapseSonNode(settings[treeObjId], null, expandSign, true);
 			},
 
 			expandNode : function(treeNode, expandSign, sonSign) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !treeNode) return;
 
-				if (sonSign) {
-					expandCollapseSonNode(treeObjId, treeNode, expandSign);
-				} else if (treeNode.open != expandSign) {
-					switchNode(settings[treeObjId], treeNode);
-				}
-
 				if (expandSign) {
 					//如果展开某节点，则必须展开其全部父节点
-					expandCollapseParentNode(treeObjId, treeNode, expandSign);
+					expandCollapseParentNode(settings[treeObjId], treeNode, expandSign, false);
+				}
+
+				if (sonSign) {
+					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
+					//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
+					expandCollapseSonNode(settings[treeObjId], treeNode, expandSign, false, function() {
+						$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+					});
+				} else if (treeNode.open != expandSign) {
+					switchNode(settings[treeObjId], treeNode);
+					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 				}
 			},
 
@@ -1370,7 +1396,11 @@
 
 				selectNode(settings[treeObjId], treeNode);
 				//如果选择某节点，则必须展开其全部父节点
-				expandCollapseParentNode(treeObjId, treeNode, true);
+				//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
+				//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画				
+				expandCollapseParentNode(settings[treeObjId], treeNode, true, false, function() {
+					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+				});
 			},
 
 			addNodes : function(parentNode, newNodes) {
@@ -1379,6 +1409,13 @@
 				if (!parentNode) parentNode = null;
 				addTreeNodes(settings[treeObjId], parentNode, newNodes);
 
+			},
+			
+			updateNode : function(treeNode) {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId || !treeNode) return;
+				
+				$("#" + treeNode.tId + IDMark_Span).text(treeNode[settings[treeObjId].nameCol]);
 			},
 
 			moveNode : function(targetNode, treeNode) {
@@ -1390,7 +1427,7 @@
 				} else if (!targetNode) {
 					targetNode = null;
 				}
-				moveTreeNode(settings[treeObjId], targetNode, treeNode);
+				moveTreeNode(settings[treeObjId], targetNode, treeNode, false);
 			},
 
 			removeNode : function(treeNode) {
