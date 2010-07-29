@@ -33,12 +33,12 @@
    # 增加CSS ".tree li a input.rename"  &  ".tree li a.curSelectedNode_Edit" & ".tree li button.edit" & ".tree li button.del" 
    # 增加常量 IDMark_Span & IDMark_Input & IDMark_Edit & IDMark_Del & Class_CurSelectedNode_Edit & MinMoveSize
    # 增加treeNode.editNameStatus & setting.curEditTreeNode & setting.edit_renameBtn & setting.edit_removeBtn 属性
-  * 针对Click、Check、Drag、Drop、Rename、Remove等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件
-   # 增加事件 zTreeOnRename & zTreeOnDelete；增加常量 ZTREE_RENAME & ZTREE_DELETE
+  * 针对Click、Check、Drag、Drop、Rename、Remove等事件都提供  before 回调函数，让用户根据自己的需求确定是否中断该事件
+   # 增加事件 zTreeOnRename & zTreeOnRemove；增加常量 ZTREE_RENAME & ZTREE_REMOVE
    # 将所有事件的 callback & before 方法都修改为用户自定义方式, 增加了 setting配置参数 before、callback
   * 增加 setting.nameCol，用户根据自己的需要制定显示名称的字段属性，默认"name"
   * 增加 setting.expandSpeed，用户可自行设置动画速度，输入值与JQuery动画效果中speed参数设定即可，默认"fast" 
   * 全部展开、折叠时，对于有特效的情况进行了适当优化
   * 增加功能，用js 控制选中或展开节点的操作后，能自动将该节点进行focus定位，保证节点在当前可视区域出现。
-  * 增加 updateNode 方法，允许用户将指定节点的数据更新后，在 zTree 上进行更新
+  * 增加 updateNode 方法，允许用户将指定节点的数据更新后，在 zTree 上进行更新，避免由于修改一个节点儿刷新整棵树
   * 修正 当iconSkin属性没有定义时，class会增加 undefined 的Bug   

@@ -88,6 +88,7 @@ m_refresh.html
 m_removeNode.html
 m_selectNode.html
 m_setEditable.html
+m_updateNode.html
 s_async.html
 s_asyncParam.html
 s_asyncParamOther.html
@@ -111,6 +112,7 @@ s_edit_deleteNode.html
 s_edit_rename.html
 s_editable.html
 s_editNameStatus.html
+s_expandSpeed.html
 s_icon.html
 s_iconSkin.html
 s_isFirstNode.html

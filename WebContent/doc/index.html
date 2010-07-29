@@ -12,17 +12,21 @@
 		ul{margin:0 0 5px 10px;}
 		ul ul{margin:0 0 0 10px;}
 		div.col{float:left;width: 196px;height:920px;overflow:hidden;margin-right: 2px;}
-		a,a:link,a:visited{color:rgb(64,112,170);text-decoration: none;}
-		a:hover{color:white;background: rgb(79,129,189);}
+		a,a:link,a:visited{color:rgb(64,112,170);text-decoration: none; line-height:14px;}
+		a:hover{color:white;background: rgb(79,129,189); }
+		span {margin-right:4px;}
 		.col>div:hover{background:rgb(232,238,247);}
-	</STYLE>
+		.update {color:yellow; background-color:#4F81BD;}
+		.new {color:red;}
+		
+</STYLE>
 
 <META name=GENERATOR content="MSHTML 8.00.6001.18904"></HEAD>
 <BODY>
 <H1>zTree&nbsp;v2.0 速查表 --&nbsp;作者：<A
 href="mailto:hunter.z@263.net">Hunter.z</A>&nbsp;&nbsp;&nbsp;特别感谢&nbsp;<A
 href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
-<span style="margin-left:120px;">【 <span style="color:green">#</span> 标记为针对 v1.x 版本的修改; <span style="color:red">*</span> 标记为 v2.0 - v2.xx 版本新增】</span>
+<span style="margin-left:120px;">【 <span class="update">#</span> 标记为针对 v1.x 版本的修改; <span class="new">*</span> 标记为 v2.0 - v2.xx 版本新增】</span>
 </H1>
 <DIV class=col>
 <DIV id=about>
@@ -55,18 +59,19 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_asyncParamOther.html">asyncParamOther</A></LI>
     <LI><A href="s_checkable.html">checkable</A></LI>
     <LI><A href="s_checkType.html">checkType</A></LI>
-    <LI><A href="s_checkStyle.html">checkStyle</A></LI>
+    <LI><span class="update">#</span><A href="s_checkStyle.html">checkStyle</A></LI>
     <LI><A href="s_checkRadioType.html">checkRadioType</A></LI>
     <LI><A href="s_editable.html">editable</A></LI>
-    <LI><span style="color:red">*</span><A href="s_edit_renameBtn.html">edit_renameBtn</A></LI>
-    <LI><span style="color:red">*</span><A href="s_edit_removeBtn.html">edit_removeBtn</A></LI>
+    <LI><span class="new">*</span><A href="s_edit_renameBtn.html">edit_renameBtn</A></LI>
+    <LI><span class="new">*</span><A href="s_edit_removeBtn.html">edit_removeBtn</A></LI>
     <LI><A href="s_root.html">root</A></LI>
     <LI><A href="s_showLine.html">showLine</A></LI>
-    <LI><span style="color:red">*</span><A href="s_nameCol.html">nameCol</A></LI>
-    <LI><span style="color:red">*</span><A href="s_callback.html">callback</A></LI>
+    <LI><span class="new">*</span><A href="s_nameCol.html">nameCol</A></LI>
+    <LI><span class="new">*</span><A href="s_expandSpeed.html">expandSpeed</A></LI>
+    <LI><span class="new">*</span><A href="s_callback.html">callback</A></LI>
     <LI></LI>
     <LI>[<A href="s_curTreeNode.html">curTreeNode</A>]</LI>
-    <LI><span style="color:red">*</span>[<A href="s_curEditTreeNode.html">curEditTreeNode</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_curEditTreeNode.html">curEditTreeNode</A>]</LI>
     <LI>[<A href="s_dragNodeShowBefore.html">dragNodeShowBefore</A>]</LI>
     <LI>[<A href="s_dragStatus.html">dragStatus</A>]</LI>
 	<LI>[<A href="s_treeObjId.html">treeObjId</A>]</LI>
@@ -89,7 +94,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_diy.html">*自定义*</A></LI>
     <LI></LI>
     <LI>[<A href="s_checkedNew.html">checkedNew</A>]</LI>
-    <LI><span style="color:red">*</span>[<A href="s_editNameStatus.html">editNameStatus</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_editNameStatus.html">editNameStatus</A>]</LI>
     <LI>[<A href="s_isFirstNode.html">isFirstNode</A>]</LI>
     <LI>[<A href="s_isLastNode.html">isLastNode</A>]</LI>
     <LI>[<A href="s_level.html">level</A>]</LI>
@@ -113,11 +118,11 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>获取</H3>
   <UL>
-    <LI><span style="color:green">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(selected)</A></LI>
+    <LI><span class="update">#</span><A href="m_getSelectedNode.html">getSelectedNode()</A></LI>
     <LI><A href="m_getNodeByTId.html">getNodeByTId(tID)</A></LI>
-    <LI><span style="color:red">*</span><A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A></LI>
     <LI><A href="m_getNodes.html">getNodes()</A></LI>
-    <LI><span style="color:green">#</span><A href="m_getSelectedNode.html">getSelectedNode()</A></LI>
+    <LI><span class="update">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A></LI>
     <LI></LI>
   </UL></LI>
   <LI>
@@ -125,11 +130,12 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <UL>
     <LI><A href="m_addNodes.html">addNodes(parentNode, newNodes)</A></LI>
     <LI><A href="m_expandAll.html">expandAll(expandSign)</A></LI>
-    <LI><A href="m_expandNode.html">expandNode(treeNode, expandSign, sonSign)</A></LI>
+    <LI><span class="update">#</span><A href="m_expandNode.html">expandNode(treeNode, expandSign, sonSign)</A></LI>
     <LI><A href="m_moveNode.html">moveNode(targetNode, treeNode)</A></LI>
     <LI><A href="m_refresh.html">refresh()</A></LI>
     <LI><A href="m_removeNode.html">removeNode(treeNode)</A></LI>
-	<LI><A href="m_selectNode.html">selectNode(treeNode)</A></LI>
+	<LI><span class="update">#</span><A href="m_selectNode.html">selectNode(treeNode)</A></LI>
+    <LI><span class="new">*</span><A href="m_updateNode.html">updateNode(treeNode)</A></LI>
     <LI><A href="m_setEditable.html">setEditable(editable)</A></LI>
     <LI></LI>
   </UL></LI>
@@ -140,20 +146,20 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>callback 回调函数</H3>
   <UL>
-    <LI><span style="color:red">*</span><A href="e_beforeClick.html">beforeClick</A></LI>
-    <LI><span style="color:red">*</span><A href="e_beforeChange.html">beforeChange</A></LI>
-    <LI><span style="color:red">*</span><A href="e_beforeDrag.html">beforeDrag</A></LI>
-    <LI><span style="color:red">*</span><A href="e_beforeDrop.html">beforeDrop</A></LI>
-    <LI><span style="color:red">*</span><A href="e_beforeRename.html">beforeRename</A></LI>
-    <LI><span style="color:red">*</span><A href="e_beforeRemove.html">beforeRemove</A></LI>
-    <LI><span style="color:green">#</span><A href="e_click.html">click</A></LI>
-    <LI><span style="color:green">#</span><A href="e_change.html">change</A></LI>
-    <LI><span style="color:green">#</span><A href="e_drag.html">drag</A></LI>
-    <LI><span style="color:green">#</span><A href="e_drop.html">drop</A></LI>
-    <LI><span style="color:red">*</span><A href="e_rename.html">rename</A></LI>
-    <LI><span style="color:red">*</span><A href="e_remove.html">remove</A></LI>
-    <LI><span style="color:green">#</span><A href="e_asyncSuccess.html">asyncSuccess</A></LI>
-    <LI><span style="color:green">#</span><A href="e_asyncError.html">asyncError</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeClick.html">beforeClick</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeChange.html">beforeChange</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeDrag.html">beforeDrag</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeDrop.html">beforeDrop</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRename.html">beforeRename</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRemove.html">beforeRemove</A></LI>
+    <LI><span class="update">#</span><A href="e_click.html">click</A></LI>
+    <LI><span class="update">#</span><A href="e_change.html">change</A></LI>
+    <LI><span class="update">#</span><A href="e_drag.html">drag</A></LI>
+    <LI><span class="update">#</span><A href="e_drop.html">drop</A></LI>
+    <LI><span class="new">*</span><A href="e_rename.html">rename</A></LI>
+    <LI><span class="new">*</span><A href="e_remove.html">remove</A></LI>
+    <LI><span class="update">#</span><A href="e_asyncSuccess.html">asyncSuccess</A></LI>
+    <LI><span class="update">#</span><A href="e_asyncError.html">asyncError</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>
@@ -165,9 +171,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>事件相关</H3>
   <UL>
     <LI><A href="c_ZTREE_CLICK.html">ZTREE_CLICK</A></LI>
-    <LI><span style="color:green">#</span><A href="c_ZTREE_CHANGE.html">ZTREE_CHANGE</A></LI>
-    <LI><span style="color:red">*</span><A href="c_ZTREE_RENAME.html">ZTREE_RENAME</A></LI>
-    <LI><span style="color:red">*</span><A href="c_ZTREE_REMOVE.html">ZTREE_REMOVE</A></LI>
+    <LI><span class="update">#</span><A href="c_ZTREE_CHANGE.html">ZTREE_CHANGE</A></LI>
+    <LI><span class="new">*</span><A href="c_ZTREE_RENAME.html">ZTREE_RENAME</A></LI>
+    <LI><span class="new">*</span><A href="c_ZTREE_REMOVE.html">ZTREE_REMOVE</A></LI>
     <LI><A href="c_ZTREE_DRAG.html">ZTREE_DRAG</A></LI>
     <LI><A href="c_ZTREE_DROP.html">ZTREE_DROP</A></LI>
     <LI><A href="c_ZTREE_ASYNC_SUCCESS.html">ZTREE_ASYNC_SUCCESS</A></LI>
@@ -179,11 +185,11 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <UL>
     <LI><A href="c_IDMark_Switch.html">IDMark_Switch</A></LI>
     <LI><A href="c_IDMark_Icon.html">IDMark_Icon</A></LI>
-    <LI><span style="color:red">*</span><A href="c_IDMark_Edit.html">IDMark_Edit</A></LI>
-    <LI><span style="color:red">*</span><A href="c_IDMark_Remove.html">IDMark_Remove</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Edit.html">IDMark_Edit</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Remove.html">IDMark_Remove</A></LI>
     <LI><A href="c_IDMark_A.html">IDMark_A</A></LI>
-    <LI><span style="color:red">*</span><A href="c_IDMark_Span.html">IDMark_Span</A></LI>
-    <LI><span style="color:red">*</span><A href="c_IDMark_Input.html">IDMark_Input</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Span.html">IDMark_Span</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Input.html">IDMark_Input</A></LI>
     <LI><A href="c_IDMark_Ul.html">IDMark_Ul</A></LI>
     <LI></LI>
   </UL></LI>
@@ -210,7 +216,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>className相关</H3>
   <UL>
     <LI><A href="c_Class_CurSelectedNode.html">Class_CurSelectedNode</A></LI>
-    <LI><span style="color:red">*</span><A href="c_Class_CurSelectedNode_Edit.html">Class_CurSelectedNode_Edit</A></LI>
+    <LI><span class="new">*</span><A href="c_Class_CurSelectedNode_Edit.html">Class_CurSelectedNode_Edit</A></LI>
     <LI><A href="c_Class_TmpTargetTree.html">Class_TmpTargetTree</A></LI>
     <LI><A href="c_Class_TmpTargetNode.html">Class_TmpTargetNode</A></LI>
     <LI></LI>
@@ -233,7 +239,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <LI>
   <H3>其他</H3>
   <UL>
-    <LI><span style="color:red">*</span><A href="c_MinMoveSize.html">MinMoveSize</A></LI>
+    <LI><span class="new">*</span><A href="c_MinMoveSize.html">MinMoveSize</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>
