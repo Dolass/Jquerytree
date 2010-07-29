@@ -15,15 +15,15 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>用户在使用 zTree 的页面上，编写 beforeChange(treeId, treeNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可在触发 zTree 的 change 事件之前得到相应信息，并根据自己的需求确定是否该节点可以点击修改 CheckBox 或 Radio 的选择状态。</p>
-			<p style="color:red">该事件在节点的 CheckBox 或 Radio 被点击后最先触发，如果返回 false，则中断 change 事件，也不会触发 <A href="e_change.html">change</A> 回调函数。</p>
+			<p>用户在使用 zTree 的页面上，编写 beforeChange(treeId, treeNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可在触发 zTree 的 change 事件之前得到相应信息，并根据自己的需求确定是否该节点可以点击修改checkbox 或 radio 的选择状态。</p>
+			<p style="color:red">该事件在节点的 checkbox 或 radio 被点击后最先触发，如果返回 false，则中断 change 事件，也不会触发 <A href="e_change.html">change</A> 回调函数。</p>
 		</div>
 	</div>
 	<h3>参数</h3>
 	<h4><strong>treeId</strong><span>String</span></h4>
 	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
 	<h4><strong>treeNode</strong><span>JSON</span></h4>
-	<p>被点击 CheckBox 或 Radio 的节点 JSON 数据对象</p>
+	<p>被点击 checkbox 或 radio 的节点 JSON 数据对象</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
 	<p>禁止 zTree 的 change 操作</p>

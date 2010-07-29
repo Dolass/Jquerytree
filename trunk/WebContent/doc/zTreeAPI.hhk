@@ -193,6 +193,10 @@
 <PARAM NAME="Local" VALUE="m_expandNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expandSpeed">
+<PARAM NAME="Local" VALUE="s_expandSpeed.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="FolderMark_Close">
 <PARAM NAME="Local" VALUE="c_FolderMark_Close.html">
 </OBJECT>
@@ -387,6 +391,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="treeObjId">
 <PARAM NAME="Local" VALUE="s_treeObjId.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="updateNode(treeNode)">
+<PARAM NAME="Local" VALUE="m_updateNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="url">

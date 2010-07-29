@@ -24,19 +24,18 @@
 			<td><img src="style/img/logo.jpg" align=right /></td></tr>	
 			</table></p>
 			<p></p>
-			<p>下面介绍一下zTree 的主要功能：</p>
-			<p>&nbsp;1、兼容 IE、FireFox 浏览器（对于IE 6.0的兼容问题将不做特殊维护）</p>
+			<p>下面介绍一下zTree 的主要功能：( 演示Demo 请访问 <a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a>)</p>
+			<p>&nbsp;1、兼容 IE、FireFox、Chrome 等浏览器（对于IE 6.0的兼容问题将不做特殊维护）</p>
 			<p>&nbsp;2、在一个页面内可同时生成多个 Tree 实例</p>
 			<p>&nbsp;3、支持 JSON 数据</p>
 			<p>&nbsp;4、支持一次性静态生成 和 Ajax 异步加载 两种方式</p>
 			<p>&nbsp;5、支持多种事件响应及反馈</p>
 			<p>&nbsp;6、支持 Tree 的节点移动、编辑、删除</p>
-			<p>&nbsp;7、支持极其灵活的 Checkbox & Radio 选择功能</p>
-			<p>&nbsp;8、支持任意更换皮肤（依靠 css ）</p>
-			<p>&nbsp;9、个性化图标（依靠 css ）</p>
-			<p>&nbsp;10、简单的参数配置 实现 灵活多变的功能</p>
+			<p>&nbsp;7、支持极其灵活的 checkbox & radio 选择功能</p>
+			<p>&nbsp;8、支持任意更换皮肤 / 个性化图标（依靠css）</p>
+			<p>&nbsp;9、简单的参数配置 实现 灵活多变的功能</p>
 			<p>&nbsp;</p>
-			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a>&nbsp;获取</p>
+			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a> 或 <a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a> &nbsp;获取</p>
 
 		</div>
 	</div>
@@ -45,17 +44,24 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;针对 v1.x 版本的重大修改请参考 <A href="index.html">速查表</A> 有 <span style="color:green">#</span> 标记的内容。</p>
-			<p>&nbsp;新功能对应各项属性、方法请参考 <A href="index.html">速查表</A> 有 <span style="color:red">*</span> 标记的内容。</p>
-			<p>&nbsp;1、更名 getCurNode() 方法为 getSelectedNode() 方法。</p>
-			<p>&nbsp;2、更名 getSelectedNodes() 方法为 getCheckedNodes() 方法。</p>
-			<p>&nbsp;3、增加 getNodeIndex(treeNode) 方法，获取某节点在同一层级节点中的序号（从0开始）。</p>
-			<p>&nbsp;4、checkbox、radio的 onCheck 事件更名为 onChange 事件。</p>
-			<p>&nbsp;5、radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能。</p>
-			<p>&nbsp;6、修正对于节点 name 属性的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入。</p>
-			<p>&nbsp;7、在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点。</p>
-			<p>&nbsp;8、针对Click、Check、Drag、Drop、Rename、Del等事件都提供 before方法，让用户根据自己的需求确定是否允许该事件。</p>
-			<p>&nbsp;9、修改Callback 回调函数结构，允许用户通过配置自定义各种回调函数。</p>
+			<p>&nbsp;针对 v1.x 版本的重大修改请参考 <A href="index.html">速查表</A> 有 <span style="color:yellow; background-color:#4F81BD;">#</span> 标记的内容。</p>
+			<p>&nbsp;新功能对应各项属性、方法请参考 <A href="index.html">速查表</A> 有 <span style="color:red;">*</span> 标记的内容。</p>
+			<p>&nbsp;01、【<font style="color:red">删除</font>】<strike>ZTREE_CHECK_MAX_ERROR 常量</strike>; <strike>zTreeOnCheckMaxError 事件</strike>; <strike>setting.checkRadioMaxNum 属性</strike>;</p>
+			<p>&nbsp;02、【<font style="color:red">更名</font>】<strike>getCurNode()</strike> 方法为 <A href="m_getSelectedNode.html">getSelectedNode()</A> 方法。</p>
+			<p>&nbsp;03、【<font style="color:red">更名</font>】<strike>getSelectedNodes(selected)</strike> 方法为 <A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A> 方法。</p>
+			<p>&nbsp;04、【<font style="color:red">更名</font>】checkbox、radio的 onCheck 事件更名为 onChange 事件。</p>
+			<p>&nbsp;05、【增加】在 setting 内增加 <A href="s_nameCol.html">nameCol</A> 属性，用户可自定义节点名称的数据，不用固定使用 name 字段。</p>
+			<p>&nbsp;06、【增加】在 setting 内增加 <A href="s_expandSpeed.html">expandSpeed</A> 属性，用户可自行设置动画速度或取消动画，输入值同 JQuery 动画效果中 speed 参数，默认"fast"。</p>
+			<p>&nbsp;07、【增加】<A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A> 方法，获取某节点在同一层级节点中的序号（从0开始）。</p>
+			<p>&nbsp;08、【增加】<A href="m_updateNode.html">updateNode(treeNode)</A> 方法，允许用户将节点数据修改后，直接更新该节点，避免由于修改一个节点儿刷新整棵树。</p>
+			<p>&nbsp;09、【增加】在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点。</p>
+			<p>&nbsp;10、【增加】针对Click、Check、Drag、Drop、Rename、Remove等事件都提供 before方法，让用户根据自己的需求确定是否中断改事件。</p>
+			<p>&nbsp;11、【增加】用 js 控制选中或展开节点的操作后，能自动将该节点进行 focus 定位，保证节点在当前可视区域出现。</p>
+			<p>&nbsp;12、【修改】radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能。</p>
+			<p>&nbsp;13、【修改】对于节点名称的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入。</p>
+			<p>&nbsp;14、【修改】callback 回调函数结构，允许用户通过配置自定义各种回调函数。</p>
+			<p>&nbsp;15、【修改】zTree 全部展开、折叠时，对于有特效的情况进行了适当优化。</p>
+			<p>&nbsp;16、【修改】当 iconSkin 属性没有定义时，节点的 class 会出现 "undefined" 的Bug。</p>
 		</div>
 	</div>
 </div>
