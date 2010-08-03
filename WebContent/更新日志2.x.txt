@@ -13,7 +13,7 @@
   * 增加皮肤
 </font>
 
-*2010.07.14* v2.0
+*2010.08.03* v2.0
       这次2.0修改的内容很多，如果原先使用了 v1.x 版本的朋友，还望仔细查看一下 v2.0 的 API 文档进行核对。
       
   * 【删除】ZTREE_CHECK_MAX_ERROR 常量; zTreeOnCheckMaxError 事件; setting.checkRadioMaxNum 属性;
