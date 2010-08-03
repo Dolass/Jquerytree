@@ -1,0 +1,35 @@
+#labels 更新日志,Log,Jquery-tree插件,zTree
+=ZTree 更新日志=
+
+<font color="red">由于发现之前部分方法的命名规则不太利于今后的拓展，并且容易引起歧义，故在全面修正方法命名规则后，将 zTree 版本升级为2.0。</font>
+<font color="red">具体修改内容可参考API文档。</font>
+
+
+<font color=#041594>
+*v2.0 - v2.x 计划*
+  * 功能扩展：
+   # 增加Ctrl + 鼠标左键  进行多节点选中的功能
+   # 增加 selectNodes([]) 和 getSelectedNodes() 方法，允许用户选中多个节点 并获取 选中的多个节点   
+   # 支持自定义鼠标右键菜单   
+  * 增加皮肤
+</font>
+
+*2010.07.14* v2.0
+      这次2.0修改的内容很多，如果原先使用了 v1.x 版本的朋友，还望仔细查看一下 v2.0 的 API 文档进行核对。
+      
+  * 【删除】ZTREE_CHECK_MAX_ERROR 常量; zTreeOnCheckMaxError 事件; setting.checkRadioMaxNum 属性;
+  * 【更名】getCurNode() 方法为 getSelectedNode() 方法。
+  * 【更名】getSelectedNodes(selected) 方法为 getCheckedNodes(checked) 方法。
+  * 【更名】checkbox、radio的 onCheck 事件更名为 onChange 事件。
+  * 【增加】在 setting 内增加 nameCol 属性，用户可自定义节点名称的数据，不用固定使用 name 字段。
+  * 【增加】在 setting 内增加 expandSpeed 属性，用户可自行设置动画速度或取消动画，输入值同 JQuery 动画效果中 speed 参数，默认"fast"。
+  * 【增加】getNodeIndex(treeNode) 方法，获取某节点在同一层级节点中的序号（从0开始）。
+  * 【增加】updateNode(treeNode) 方法，允许用户将节点数据修改后，直接更新该节点，避免由于修改一个节点儿刷新整棵树。
+  * 【增加】在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点。
+  * 【增加】针对Click、Check、Drag、Drop、Rename、Remove等事件都提供 before方法，让用户根据自己的需求确定是否中断改事件。
+  * 【增加】用 js 控制选中或展开节点的操作后，能自动将该节点进行 focus 定位，保证节点在当前可视区域出现。
+  * 【修改】radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能。
+  * 【修改】对于节点名称的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入。
+  * 【修改】callback 回调函数结构，允许用户通过配置自定义各种回调函数。
+  * 【修改】zTree 全部展开、折叠时，对于有特效的情况进行了适当优化。
+  * 【修改】当 iconSkin 属性没有定义时，节点的 class 会出现 "undefined" 的Bug。
