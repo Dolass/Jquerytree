@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-08-03
+ * Date: 2010-08-06
  *
  */
 
@@ -1237,6 +1237,7 @@
 			removeRemoveBtn(setting.curTreeNode);
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
+			setting.curTreeNode = null;
 		}
 	}
 	//取消之前编辑节点状态
@@ -1401,6 +1402,13 @@
 				expandCollapseParentNode(settings[treeObjId], treeNode, true, false, function() {
 					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 				});
+			},
+			
+			cancleSelectedNode : function() {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId) return;
+				
+				canclePreSelectedNode(settings[treeObjId]);
 			},
 
 			addNodes : function(parentNode, newNodes) {
