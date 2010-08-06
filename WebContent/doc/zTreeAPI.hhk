@@ -57,6 +57,10 @@
 <PARAM NAME="Local" VALUE="s_callback.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="cancleSelectedNode()">
+<PARAM NAME="Local" VALUE="m_cancleSelectedNode.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="change(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_change.html">
 </OBJECT>
