@@ -806,6 +806,8 @@
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
 		}
+		window.event.returnValue = null;
+        return false;
 	}
 
 	function asyncGetNode(setting, treeNode) {
