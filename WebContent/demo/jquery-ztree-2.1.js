@@ -153,14 +153,14 @@
 		zTreeId = 0;
 
 		if (zTreeNodes) {
-			setting.root.nodes = zTreeNodes;
+			setting.root[setting.nodesCol] = zTreeNodes;
 		}
 		settings[setting.treeObjId] = setting;
 
 		$("#" + setting.treeObjId).empty();
 
-		if (setting.root.nodes && setting.root.nodes.length > 0) {
-			initTreeNodes(setting, 0, setting.root.nodes);
+		if (setting.root[setting.nodesCol] && setting.root[setting.nodesCol].length > 0) {
+			initTreeNodes(setting, 0, setting.root[setting.nodesCol]);
 		} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
 			asyncGetNode(setting);
 		}
@@ -243,14 +243,14 @@
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
 
 			//允许在非空节点上增加节点
-			node.isFirstNode = (tmpParentNode.nodes.length == treeNodes.length) && (i == 0);
+			node.isFirstNode = (tmpParentNode[setting.nodesCol].length == treeNodes.length) && (i == 0);
 			node.isLastNode = (i == (treeNodes.length - 1));
 
-			if (node.nodes && node.nodes.length > 0) {
+			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
 				node.open = (node.open) ? true: false;
 				node.isParent = true;
 				showTree(setting, node);
-				initTreeNodes(setting, level + 1, node.nodes, node);
+				initTreeNodes(setting, level + 1, node[setting.nodesCol], node);
 
 			} else {
 				node.isParent = (node.isParent) ? true: false;
@@ -381,8 +381,8 @@
 							setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
 						} else {
 							var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
-							for (var son = 0; son < parentNode.nodes.length; son++) {
-								var pNode = parentNode.nodes[son];
+							for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
+								var pNode = parentNode[setting.nodesCol][son];
 								if (pNode.checkedNew && pNode != treeNode) {
 									pNode.checkedNew = false;
 									setChkClass(setting, $("#" + pNode.tId + "_check"), pNode);
@@ -598,7 +598,7 @@
 						};
 						tmpTargetNodeId = tmpTarget.attr('id');
 					}
-					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting.root.nodes, tmpTargetNodeId);
+					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting.root[setting.nodesCol], tmpTargetNodeId);
 
 					var beforeDrop = true;
 					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode);
@@ -789,12 +789,12 @@
 		if (!treeNode || !treeNode.parentNode) return;
 		var trueSign = true;
 		var falseSign = true;
-		for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
-			if (setting.checkStyle == Check_Style_Radio && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
+		for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
+			if (setting.checkStyle == Check_Style_Radio && (treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_True_Full)) {
 				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && treeNode.parentNode.checkedNew && (!treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_True_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && treeNode.parentNode.checkedNew && (!treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_True_Full)) {
 				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.parentNode.checkedNew && (treeNode.parentNode.nodes[son].checkedNew || !treeNode.parentNode.nodes[son].check_False_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.parentNode.checkedNew && (treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_False_Full)) {
 				falseSign = false;
 			}
 			if (!trueSign || !falseSign) break;
@@ -806,8 +806,8 @@
 		repairParentChkClass(setting, treeNode.parentNode);
 	}	
 	function repairParentChkClassWithSelf(setting, treeNode) {
-		if (treeNode.nodes && treeNode.nodes.length > 0) {
-			repairParentChkClass(setting, treeNode.nodes[0]);
+		if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
+			repairParentChkClass(setting, treeNode[setting.nodesCol][0]);
 		} else {
 			repairParentChkClass(setting, treeNode);
 		}
@@ -833,7 +833,7 @@
 	}
 
 	function switchNode(setting, treeNode) {
-		if (treeNode && treeNode.nodes && treeNode.nodes.length > 0) {
+		if (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
@@ -901,7 +901,7 @@
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
 
-		if (treeNode.isParent && treeNode.nodes && treeNode.nodes.length > 0) {
+		if (treeNode.isParent && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
 			if (!treeNode.open) {
 				replaceSwitchClass(switchObj, FolderMark_Open);
 				replaceIcoClass(icoObj, FolderMark_Open);
@@ -928,7 +928,7 @@
 
 	//遍历子节点展开 或 折叠
 	function expandCollapseSonNode(setting, treeNode, expandSign, animateSign, callback) {
-		var treeNodes = (treeNode) ? treeNode.nodes: setting.root.nodes;
+		var treeNodes = (treeNode) ? treeNode[setting.nodesCol]: setting.root[setting.nodesCol];
 		
 		//针对动画进行优化,一般来说只有在第一层的时候，才进行动画效果
 		var selfAnimateSign = (treeNode) ? false : animateSign;
@@ -966,8 +966,8 @@
 		if (treeNode.parentNode) {
 			var pSign = true;
 			if (!value) {
-				for (var son = 0; son < treeNode.parentNode.nodes.length; son++) {
-					if (treeNode.parentNode.nodes[son].checkedNew) {
+				for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
+					if (treeNode.parentNode[setting.nodesCol][son].checkedNew) {
 						pSign = false;
 						break;
 					}
@@ -987,9 +987,9 @@
 		treeNode.checkedNew = value;
 		setChkClass(setting, checkObj, treeNode);
 		
-		if (!treeNode.nodes) return;
-		for (var son = 0; son < treeNode.nodes.length; son++) {
-			if (treeNode.nodes[son]) setSonNodeCheckBox(setting, treeNode.nodes[son], value);
+		if (!treeNode[setting.nodesCol]) return;
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son]) setSonNodeCheckBox(setting, treeNode[setting.nodesCol][son], value);
 		}
 	}
 
@@ -997,9 +997,9 @@
 	function setSonNodeLevel(parentNode, treeNode) {
 		if (!treeNode) return;
 		treeNode.level = (parentNode)? parentNode.level + 1 : 0;
-		if (!treeNode.nodes) return;
-		for (var son = 0; son < treeNode.nodes.length; son++) {
-			if (treeNode.nodes[son]) setSonNodeLevel(treeNode, treeNode.nodes[son]);
+		if (!treeNode[setting.nodesCol]) return;
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son]) setSonNodeLevel(treeNode, treeNode[setting.nodesCol][son]);
 		}
 	}
 
@@ -1051,11 +1051,11 @@
 
 	//增加节点数据
 	function addTreeNodesData(parentNode, treenodes) {
-		if (!parentNode.nodes) parentNode.nodes = [];
-		if (parentNode.nodes.length > 0) {
-			var tmpId = parentNode.nodes[parentNode.nodes.length - 1].tId;
-			parentNode.nodes[parentNode.nodes.length - 1].isLastNode = false;
-			if (parentNode.nodes[parentNode.nodes.length - 1].isFirstNode) {
+		if (!parentNode[setting.nodesCol]) parentNode[setting.nodesCol] = [];
+		if (parentNode[setting.nodesCol].length > 0) {
+			var tmpId = parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId;
+			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isLastNode = false;
+			if (parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isFirstNode) {
 				replaceSwitchClass($("#" + tmpId + IDMark_Switch), LineMark_Roots);
 			} else {
 				replaceSwitchClass($("#" + tmpId + IDMark_Switch), LineMark_Center);
@@ -1063,7 +1063,7 @@
 			$("#" + tmpId + IDMark_Ul).addClass(LineMark_Line);
 		}
 		parentNode.isParent = true;
-		parentNode.nodes = parentNode.nodes.concat(treenodes);
+		parentNode[setting.nodesCol] = parentNode[setting.nodesCol].concat(treenodes);
 	}
 
 	//移动子节点
@@ -1123,22 +1123,22 @@
 
 		//进行数据结构修正
 		var tmpSrcIndex = -1;
-		for (var i = 0; i < oldParentNode.nodes.length; i++) {
-			if (oldParentNode.nodes[i].tId == treeNode.tId) tmpSrcIndex = i;
+		for (var i = 0; i < oldParentNode[setting.nodesCol].length; i++) {
+			if (oldParentNode[setting.nodesCol][i].tId == treeNode.tId) tmpSrcIndex = i;
 		}
 		if (tmpSrcIndex >= 0) {
-			oldParentNode.nodes.splice(tmpSrcIndex, 1);
+			oldParentNode[setting.nodesCol].splice(tmpSrcIndex, 1);
 		}
 
-		if (!targetNode.nodes) {
-			targetNode.nodes = new Array();
-		} else if (setting.showLine && targetNode.nodes.length > 0) {
+		if (!targetNode[setting.nodesCol]) {
+			targetNode[setting.nodesCol] = new Array();
+		} else if (setting.showLine && targetNode[setting.nodesCol].length > 0) {
 			//处理目标节点中当前最后一个节点的图标、线
-			targetNode.nodes[targetNode.nodes.length - 1].isLastNode = false;
-			var tmp_ulObj = $("#" + targetNode.nodes[targetNode.nodes.length - 1].tId + IDMark_Ul);
-			var tmp_switchObj = $("#" + targetNode.nodes[targetNode.nodes.length - 1].tId + IDMark_Switch);
+			targetNode[setting.nodesCol][targetNode[setting.nodesCol].length - 1].isLastNode = false;
+			var tmp_ulObj = $("#" + targetNode[setting.nodesCol][targetNode[setting.nodesCol].length - 1].tId + IDMark_Ul);
+			var tmp_switchObj = $("#" + targetNode[setting.nodesCol][targetNode[setting.nodesCol].length - 1].tId + IDMark_Switch);
 			tmp_ulObj.addClass(LineMark_Line);
-			if (targetNodeIsRoot && targetNode.nodes[targetNode.nodes.length - 1].isFirstNode) {
+			if (targetNodeIsRoot && targetNode[setting.nodesCol][targetNode[setting.nodesCol].length - 1].isFirstNode) {
 				//节点 移到 根，并且原来只有一个根节点
 				replaceSwitchClass(tmp_switchObj, LineMark_Roots);
 
@@ -1157,10 +1157,10 @@
 			treeNode.parentNode = targetNode;
 		}
 		setSonNodeLevel(treeNode.parentNode, treeNode);
-		targetNode.nodes.splice(targetNode.nodes.length, 0, treeNode);
+		targetNode[setting.nodesCol].splice(targetNode[setting.nodesCol].length, 0, treeNode);
 
 		treeNode.isLastNode = true;
-		treeNode.isFirstNode = (targetNode.nodes.length == 1);
+		treeNode.isFirstNode = (targetNode[setting.nodesCol].length == 1);
 		//设置被移动节点为最后一个节点
 		if (setting.showLine) {
 			replaceSwitchClass(src_switchObj, LineMark_Bottom);
@@ -1168,7 +1168,7 @@
 		}
 
 		//处理原节点的父节点的图标、线
-		if (oldParentNode.nodes.length < 1) {
+		if (oldParentNode[setting.nodesCol].length < 1) {
 			//原所在父节点无子节点
 			oldParentNode.isParent = false;
 			var tmp_ulObj = $("#" + oldParentNode.tId + IDMark_Ul);
@@ -1180,17 +1180,17 @@
 
 		} else if (setting.showLine) {
 			//原所在父节点有子节点
-			oldParentNode.nodes[oldParentNode.nodes.length - 1].isLastNode = true;
-			oldParentNode.nodes[oldParentNode.nodes.length - 1].isFirstNode = (oldParentNode.nodes.length == 1);
-			var tmp_ulObj = $("#" + oldParentNode.nodes[oldParentNode.nodes.length - 1].tId + IDMark_Ul);
-			var tmp_switchObj = $("#" + oldParentNode.nodes[oldParentNode.nodes.length - 1].tId + IDMark_Switch);
-			var tmp_icoObj = $("#" + oldParentNode.nodes[oldParentNode.nodes.length - 1].tId + IDMark_Icon);
+			oldParentNode[setting.nodesCol][oldParentNode[setting.nodesCol].length - 1].isLastNode = true;
+			oldParentNode[setting.nodesCol][oldParentNode[setting.nodesCol].length - 1].isFirstNode = (oldParentNode[setting.nodesCol].length == 1);
+			var tmp_ulObj = $("#" + oldParentNode[setting.nodesCol][oldParentNode[setting.nodesCol].length - 1].tId + IDMark_Ul);
+			var tmp_switchObj = $("#" + oldParentNode[setting.nodesCol][oldParentNode[setting.nodesCol].length - 1].tId + IDMark_Switch);
+			var tmp_icoObj = $("#" + oldParentNode[setting.nodesCol][oldParentNode[setting.nodesCol].length - 1].tId + IDMark_Icon);
 			if (oldParentNode == setting.root) {
-				if (oldParentNode.nodes.length == 1) {
+				if (oldParentNode[setting.nodesCol].length == 1) {
 					//原为根节点 ，且移动后只有一个根节点
 					replaceSwitchClass(tmp_switchObj, LineMark_Root);
 				} else {
-					var tmp_first_switchObj = $("#" + oldParentNode.nodes[0].tId + IDMark_Switch);
+					var tmp_first_switchObj = $("#" + oldParentNode[setting.nodesCol][0].tId + IDMark_Switch);
 					replaceSwitchClass(tmp_first_switchObj, LineMark_Roots);
 					replaceSwitchClass(tmp_switchObj, LineMark_Bottom);
 				}
@@ -1222,15 +1222,15 @@
 
 		//进行数据结构修正
 		var tmpSrcIndex = -1;
-		for (var i = 0; i < parentNode.nodes.length; i++) {
-			if (parentNode.nodes[i].tId == treeNode.tId) tmpSrcIndex = i;
+		for (var i = 0; i < parentNode[setting.nodesCol].length; i++) {
+			if (parentNode[setting.nodesCol][i].tId == treeNode.tId) tmpSrcIndex = i;
 		}
 		if (tmpSrcIndex >= 0) {
-			parentNode.nodes.splice(tmpSrcIndex, 1);
+			parentNode[setting.nodesCol].splice(tmpSrcIndex, 1);
 		}
 
 		//处理原节点的父节点的图标、线
-		if (parentNode.nodes.length < 1) {
+		if (parentNode[setting.nodesCol].length < 1) {
 			//原所在父节点无子节点
 			parentNode.isParent = false;
 			var tmp_ulObj = $("#" + parentNode.tId + IDMark_Ul);
@@ -1242,17 +1242,17 @@
 
 		} else if (setting.showLine) {
 			//原所在父节点有子节点
-			parentNode.nodes[parentNode.nodes.length - 1].isLastNode = true;
-			parentNode.nodes[parentNode.nodes.length - 1].isFirstNode = (parentNode.nodes.length == 1);
-			var tmp_ulObj = $("#" + parentNode.nodes[parentNode.nodes.length - 1].tId + IDMark_Ul);
-			var tmp_switchObj = $("#" + parentNode.nodes[parentNode.nodes.length - 1].tId + IDMark_Switch);
-			var tmp_icoObj = $("#" + parentNode.nodes[parentNode.nodes.length - 1].tId + IDMark_Icon);
+			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isLastNode = true;
+			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isFirstNode = (parentNode[setting.nodesCol].length == 1);
+			var tmp_ulObj = $("#" + parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId + IDMark_Ul);
+			var tmp_switchObj = $("#" + parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId + IDMark_Switch);
+			var tmp_icoObj = $("#" + parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId + IDMark_Icon);
 			if (parentNode == setting.root) {
-				if (parentNode.nodes.length == 1) {
+				if (parentNode[setting.nodesCol].length == 1) {
 					//原为根节点 ，且移动后只有一个根节点
 					replaceSwitchClass(tmp_switchObj, LineMark_Root);
 				} else {
-					var tmp_first_switchObj = $("#" + parentNode.nodes[0].tId + IDMark_Switch);
+					var tmp_first_switchObj = $("#" + parentNode[setting.nodesCol][0].tId + IDMark_Switch);
 					replaceSwitchClass(tmp_first_switchObj, LineMark_Roots);
 					replaceSwitchClass(tmp_switchObj, LineMark_Bottom);
 				}
@@ -1272,7 +1272,7 @@
 			if (treeNodes[i].tId == treeId) {
 				return treeNodes[i];
 			}
-			var tmp = getTreeNodeByTId(treeNodes[i].nodes, treeId);
+			var tmp = getTreeNodeByTId(treeNodes[i][setting.nodesCol], treeId);
 			if (tmp) return tmp;
 		}
 		return null;
@@ -1351,7 +1351,7 @@
 			if (treeNodes[i].checkedNew == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
-			var tmp = getTreeCheckedNodes(treeNodes[i].nodes, checked);
+			var tmp = getTreeCheckedNodes(treeNodes[i][setting.nodesCol], checked);
 			if (tmp.length > 0) results = results.concat(tmp);
 		}
 		return results;
@@ -1371,7 +1371,7 @@
 				$("#" + treeObjId).empty();
 				settings[treeObjId].curTreeNode = null;
 				zTreeId = 0;
-				initTreeNodes(settings[treeObjId], 0, settings[treeObjId].root.nodes);
+				initTreeNodes(settings[treeObjId], 0, settings[treeObjId].root[settings[treeObjId].nodesCol]);
 			},
 
 			setEditable : function(editable) {
@@ -1382,7 +1382,7 @@
 
 			getNodes : function() {
 				var treeObjId = this.container.attr("id");
-				return settings[treeObjId].root.nodes;
+				return settings[treeObjId].root[settings[treeObjId].nodesCol];
 			},
 
 			getSelectedNode : function() {
@@ -1394,21 +1394,21 @@
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId) return;
 				selected = (selected != false);
-				return getTreeCheckedNodes(settings[treeObjId].root.nodes, selected);
+				return getTreeCheckedNodes(settings[treeObjId].root[settings[treeObjId].nodesCol], selected);
 			},
 
 			getNodeByTId : function(treeId) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !treeId) return;
-				return getTreeNodeByTId(settings[treeObjId].root.nodes, treeId);
+				return getTreeNodeByTId(settings[treeObjId].root[settings[treeObjId].nodesCol], treeId);
 			},
 			
 			getNodeIndex : function(treeNode) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !treeNode) return;
 				var parentNode = (treeNode.parentNode == null) ? settings[treeObjId].root : treeNode.parentNode;
-				for (var i=0; i<parentNode.nodes.length; i++) {
-					if (parentNode.nodes[i] == treeNode) return i;
+				for (var i=0; i<parentNode[settings[treeObjId].nodesCol].length; i++) {
+					if (parentNode[settings[treeObjId].nodesCol][i] == treeNode) return i;
 				}
 				return -1;
 			},
