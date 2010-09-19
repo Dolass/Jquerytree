@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.0.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.1.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -20,8 +20,13 @@
 			callback: {
 				beforeClick:	zTreeBeforeClick,
 				beforeChange:	zTreeBeforeChange,
+				beforeExpand: zTreeBeforeExpand,
+				beforeCollapse: zTreeBeforeCollapse,
+				
 				click:	zTreeOnClick,
-				change:	zTreeOnChange
+				change:	zTreeOnChange,
+				expand: zTreeOnExpand,
+				collapse: zTreeOnCollapse
 			}
 		};
 
@@ -56,9 +61,28 @@
 	function zTreeOnChange(event, treeId, treeNode) {
 		$("#onChangeNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
 		getCheckedNodesLength();
-		
 	}
 
+	function zTreeBeforeExpand(treeId, treeNode) {
+		var r = $("#beforeExpandTrue").attr("checked");
+		if (!r) alert("beforeExpand return false!!");
+		return r;
+	}
+
+	function zTreeOnExpand(event, treeId, treeNode) {	
+		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
+	}
+
+	function zTreeBeforeCollapse(treeId, treeNode) {
+		var r = $("#beforeCollapseTrue").attr("checked");
+		if (!r) alert("beforeCollapse return false!!");
+		return r;
+	}
+
+	function zTreeOnCollapse(event, treeId, treeNode) {	
+		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
+	}	
+	
 	function getRadioType() {
 		var level = $("#level").attr("checked")? "level":"";
 		var all = $("#all").attr("checked")? "all":"";
@@ -71,6 +95,8 @@
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 		$("#onClickNode").html("<br/>");
 		$("#onChangeNode").html("<br/>");
+		$("#onExpandNode").html("<br/>");
+		$("#onCollapseNode").html("<br/>");
 		getCheckedNodesLength();
 
 	}
@@ -132,21 +158,33 @@
 				<button class="ico safari" onfocus="this.blur();"></button>事件监控
 				<ul class="remark">——修改 before 事件返回值后，点击节点，看看有什么变化</ul>
 				<ul>
-				&nbsp;beforeClick&nbsp;事件 return: 
+				&nbsp;&nbsp;&nbsp;beforeClick&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false<br/>
-				beforeChange&nbsp;事件 return: 
+				&nbsp;&nbsp;beforeExpand&nbsp;事件 return: 
+					<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false<br/>
+				beforeCollapse&nbsp;事件 return: 
+					<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false<br/>
+				&nbsp;&nbsp;beforeChange&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeChangeTrue" name="beforeChangeRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeChangeFalse" name="beforeChangeRadio" onfocus="this.blur();">false<br/><br/>
+					<INPUT TYPE="radio" id="beforeChangeFalse" name="beforeChangeRadio" onfocus="this.blur();">false<br/>
 				</ul>
 				<ul class="event">
 				被选择的节点共 <a id="checkedNum">0</a> 个<br/>
 				</ul>
 				<ul class="event">
-				&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"></a><br/>
+				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"></a><br/>
 				</ul>
 				<ul class="event">
-				onChange 事件:&nbsp;&nbsp;<a id="onChangeNode"></a><br/>
+				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
+				</ul>
+				<ul class="event">
+				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
+				</ul>
+				<ul class="event">
+				&nbsp;&nbsp;onChange 事件:&nbsp;&nbsp;<a id="onChangeNode"></a><br/>
 				</ul>
 			</li>
 				

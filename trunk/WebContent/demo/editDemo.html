@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.0.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.1.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -20,11 +20,16 @@
 				beforeDrop: zTreeBeforeDrop,
 				beforeRename: zTreeBeforeRename,
 				beforeRemove: zTreeBeforeRemove,
+				beforeExpand: zTreeBeforeExpand,
+				beforeCollapse: zTreeBeforeCollapse,
+				
 				click: zTreeOnClick,
 				drag: zTreeOnDrag,
 				drop: zTreeOnDrop,
 				rename: zTreeOnRename,
-				remove: zTreeOnRemove
+				remove: zTreeOnRemove,
+				expand: zTreeOnExpand,
+				collapse: zTreeOnCollapse
 			}
 			
 		};
@@ -96,6 +101,26 @@
 		$("#onRemoveNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
 	}
 
+	function zTreeBeforeExpand(treeId, treeNode) {
+		var r = $("#beforeExpandTrue").attr("checked");
+		if (!r) alert("beforeExpand return false!!");
+		return r;
+	}
+
+	function zTreeOnExpand(event, treeId, treeNode) {	
+		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
+	}
+
+	function zTreeBeforeCollapse(treeId, treeNode) {
+		var r = $("#beforeCollapseTrue").attr("checked");
+		if (!r) alert("beforeCollapse return false!!");
+		return r;
+	}
+
+	function zTreeOnCollapse(event, treeId, treeNode) {	
+		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
+	}
+
 	function refreshTree() {
 		setting.editable = $("#editableTrue").attr("checked");
 		setting.edit_renameBtn = $("#editBtnCheck").attr("checked");
@@ -106,6 +131,8 @@
 		$("#onDropNode").html("<br/>");
 		$("#onRenameNode").html("<br/>");
 		$("#onRemoveNode").html("<br/>");
+		$("#onExpandNode").html("<br/>");
+		$("#onCollapseNode").html("<br/>");
 	}
 
   //-->
@@ -151,36 +178,48 @@
 				<button class="ico safari" onfocus="this.blur();"></button>事件监控
 				<ul class="remark">——修改 before 事件返回值后，编辑节点，看看有什么变化</ul>
 				<ul>
-				&nbsp;beforeClick&nbsp;事件 return: 
+				&nbsp;&nbsp;&nbsp;beforeClick&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeDrag&nbsp;事件 return: 
+				&nbsp;&nbsp;&nbsp;&nbsp;beforeDrag&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeDragTrue" name="beforeDragRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeDragFalse" name="beforeDragRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeDrop&nbsp;事件 return: 
+				&nbsp;&nbsp;&nbsp;&nbsp;beforeDrop&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeDropTrue" name="beforeDropRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeDropFalse" name="beforeDropRadio" onfocus="this.blur();">false<br/>
-				beforeRename&nbsp;事件 return: 
+				&nbsp;&nbsp;beforeRename&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeRenameTrue" name="beforeRenameRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeRenameFalse" name="beforeRenameRadio" onfocus="this.blur();">false<br/>
-				beforeRemove&nbsp;事件 return: 
+				&nbsp;&nbsp;beforeRemove&nbsp;事件 return: 
 					<INPUT TYPE="radio" id="beforeRemoveTrue" name="beforeRemoveRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeRemoveFalse" name="beforeRemoveRadio" onfocus="this.blur();">false<br/><br/>
+					<INPUT TYPE="radio" id="beforeRemoveFalse" name="beforeRemoveRadio" onfocus="this.blur();">false<br/>
+				&nbsp;&nbsp;beforeExpand&nbsp;事件 return: 
+					<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false<br/>
+				beforeCollapse&nbsp;事件 return: 
+					<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false<br/>					
 				</ul>
 				<ul class="event">
-				&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onDrag 事件:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;onDrag 事件:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onDrop 事件:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;onDrop 事件:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				onRename 事件:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
+				&nbsp;&nbsp;onRename 事件:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				onRemove 事件:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>
+				&nbsp;&nbsp;onRemove 事件:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>
+				</ul>
+				<ul class="event">
+				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
+				</ul>
+				<ul class="event">
+				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
 				</ul>
 			</li>
 				
