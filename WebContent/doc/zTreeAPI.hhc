@@ -7,6 +7,7 @@
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="关于">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -22,6 +23,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTree 核心函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -31,11 +33,13 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="参数说明">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -119,6 +123,12 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="nameCol">
 <PARAM NAME="Local" VALUE="s_nameCol.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nodesCol">
+<PARAM NAME="Local" VALUE="s_nodesCol.html">
 </OBJECT>
 </UL>
 <UL>
@@ -303,7 +313,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="方法">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -343,7 +352,6 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="操作">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -408,10 +416,12 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 回调函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -451,6 +461,18 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeExpand(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeExpand.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeCollapse(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeCollapse.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="click(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_click.html">
 </OBJECT>
@@ -483,6 +505,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="remove(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_remove.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expand(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_expand.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="collapse(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_collapse.html">
 </OBJECT>
 </UL>
 <UL>
