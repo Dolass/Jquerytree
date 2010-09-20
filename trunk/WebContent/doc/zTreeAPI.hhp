@@ -59,11 +59,15 @@ c_ZTREE_RENAME.html
 css.html
 e_beforeChange.html
 e_beforeClick.html
+e_beforeCollapse.html
 e_beforeDel.html
 e_beforeDrag.html
 e_beforeDrop.html
+e_beforeExpand.html
 e_beforeRename.html
+e_collapse.html
 e_del.html
+e_expand.html
 e_rename.html
 e_zTreeOnAsyncError.html
 e_zTreeOnAsyncSuccess.html
@@ -123,6 +127,7 @@ s_level.html
 s_name.html
 s_nameCol.html
 s_nodes.html
+s_nodesCol.html
 s_open.html
 s_parentNode.html
 s_root.html
