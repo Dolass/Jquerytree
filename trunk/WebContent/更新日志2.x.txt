@@ -15,6 +15,7 @@
 
 *2010.09.19* v2.1
   * 【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。
+  * 【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点
   * 【增加】展开（expand）、折叠（ collapse） 两个事件以及对应的before方法，让用户可以更灵活的去控制(setting.expandTriggerFlag)
   * 【增加】在 setting 内增加 nodesCol 属性，用户可自定义子节点名称的数据，不用再固定使用 nodes 字段。
 
