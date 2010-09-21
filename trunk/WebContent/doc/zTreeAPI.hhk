@@ -37,12 +37,20 @@
 <PARAM NAME="Local" VALUE="e_beforeClick.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeCollapse(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeCollapse.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeDrag(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeDrag.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeDrop(treeId, treeNode, targetNode)">
 <PARAM NAME="Local" VALUE="e_beforeDrop.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeExpand(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeExpand.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeRemove(treeId, treeNode)">
@@ -149,6 +157,10 @@
 <PARAM NAME="Local" VALUE="e_click.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="collapse(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_collapse.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="curEditTreeNode">
 <PARAM NAME="Local" VALUE="s_curEditTreeNode.html">
 </OBJECT>
@@ -187,6 +199,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="editNameStatus">
 <PARAM NAME="Local" VALUE="s_editNameStatus.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expand(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_expand.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="expandAll(expandSign)">
@@ -331,6 +347,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="nodes">
 <PARAM NAME="Local" VALUE="s_nodes.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nodesCol">
+<PARAM NAME="Local" VALUE="s_nodesCol.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="open">
