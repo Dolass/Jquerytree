@@ -872,7 +872,7 @@
 				} catch(err) {}
 
 				if (newNodes && newNodes != "") {
-					addTreeNodes(setting, treeNode, newNodes);
+					addTreeNodes(setting, treeNode, newNodes, true);
 				}
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
@@ -1011,7 +1011,7 @@
 	}
 
 	//增加子节点
-	function addTreeNodes(setting, parentNode, newNodes) {
+	function addTreeNodes(setting, parentNode, newNodes, silent) {
 		if (parentNode) {
 			//目标节点必须在当前树内
 			if ($("#" + setting.treeObjId).find("#" + parentNode.tId).length == 0) return;
@@ -1049,7 +1049,9 @@
 			addTreeNodesData(setting, parentNode, newNodes);
 			initTreeNodes(setting, parentNode.level + 1, newNodes, parentNode);
 			//如果选择某节点，则必须展开其全部父节点
-			expandCollapseParentNode(setting, parentNode, true);
+			if (!silent) {
+				expandCollapseParentNode(setting, parentNode, true);
+			}
 		} else {
 			addTreeNodesData(setting, setting.root, newNodes);
 			initTreeNodes(setting, 0, newNodes, null);
@@ -1466,11 +1468,11 @@
 				canclePreSelectedNode(settings[treeObjId]);
 			},
 
-			addNodes : function(parentNode, newNodes) {
+			addNodes : function(parentNode, newNodes, silent) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !newNodes) return;
 				if (!parentNode) parentNode = null;
-				addTreeNodes(settings[treeObjId], parentNode, newNodes);
+				addTreeNodes(settings[treeObjId], parentNode, newNodes, (silent==true));
 
 			},
 			
