@@ -87,16 +87,25 @@
 				} catch(err) {}
 
 				if (newNodes && newNodes != "") {
-					zTree1.addNodes(curParentNode, newNodes);
+					zTree1.addNodes(curParentNode, newNodes, true);
 
 					var ajaxInfo = "treeNode:" + curParentNode.name;
 					if (curParentNode.nodes.length < totalCount) {
-						ajaxInfo += ("<br/>进度：" + curParentNode.nodes.length*100/totalCount + "%");
+						var percent = curParentNode.nodes.length*100/totalCount + "%";
+						ajaxInfo += ("<br/>进度：" + percent);
+						if (!curParentNode.tmpName) curParentNode.tmpName = curParentNode.name;
+						curParentNode.name = curParentNode.tmpName + "(" + percent + ")";
+						zTree1.updateNode(curParentNode);
 						setTimeout("ajaxGetNodes('" + id+ "', "+(times+1)+", "+totalCount+")", perTime);
 					} else {
 						endTime = new Date();
 						var usedTime = (endTime.getTime() - startTime.getTime())/1000;		
 						ajaxInfo += ("<br/>加载完毕，共"+curParentNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
+						curParentNode.name = curParentNode.tmpName;
+						curParentNode.tmpName = null;
+						zTree1.updateNode(curParentNode);
+						//zTree1.expandNode(curParentNode, true, false);
+						zTree1.selectNode(curParentNode.nodes[0]);
 						isGetNodes = false;
 					}
 
