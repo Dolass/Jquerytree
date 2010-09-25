@@ -132,19 +132,38 @@
 	var srcNode, targetNode;
 	function selectNode(listId, liId, tId, goTreeFlag) {
 		if (listId == "srcList") {
-			var node = zTree1.getNodeByTId(tId);
-			if (node && goTreeFlag) {
-				zTree1.selectNode(node);
+			if (targetNode && targetNode.tId == tId) {
+				alert("目标节点 不能与 操作节点 相同！");
+				return;
 			}
+			
+			var node = zTree1.getNodeByTId(tId);
 			srcNode = node;
 			if (srcLiId) {
 				$("#" + srcLiId).removeClass();
 			}
 			srcLiId = liId;
-			$("#" + srcLiId).removeClass();
-			$("#" + srcLiId).addClass("selectLi");
-			$("#" + srcLiId + "_image").focus();
-			$("#renameTxt").attr("value", node.name);
+			var curLiObj = $("#" + srcLiId);
+			curLiObj.removeClass();
+
+			if (!node) {
+				zTree1.cancleSelectedNode();
+				$("#renameTxt").attr("value", "");
+				curLiObj.addClass("selectLi");
+				$("#" + srcLiId + "_image").focus();
+			} else if (node && ((goTreeFlag && node!=zTree1.getSelectedNode()) || (!goTreeFlag))) {
+				zTree1.selectNode(node);
+				$("#renameTxt").attr("value", node.name);
+				curLiObj.addClass("selectLi");
+				$("#" + srcLiId + "_image").focus();
+			} else {
+				zTree1.cancleSelectedNode();
+				$("#renameTxt").attr("value", "");
+				node = null;
+				srcLiId = null;
+				srcNode = null;				
+			}
+			
 			
 		} else {
 			if (srcNode && srcNode.tId == tId) {
@@ -152,13 +171,25 @@
 				return;
 			}
 			var node = zTree1.getNodeByTId(tId);
-			targetNode = node;
+			
 			if (targetLiId) {
 				$("#" + targetLiId).removeClass();
 			}
 			targetLiId = liId;
-			$("#" + targetLiId).removeClass();
-			$("#" + targetLiId).addClass("selectLi");
+			var curLiObj = $("#" + targetLiId);
+			curLiObj.removeClass();
+			
+			if (!node) {
+				curLiObj.addClass("selectLi");
+				targetNode = node;
+			} else if (node && goTreeFlag && node!=targetNode) {
+				curLiObj.addClass("selectLi");
+				targetNode = node;
+			} else {
+				node = null;
+				targetLiId = null;
+				targetNode = null;				
+			}
 		}
 	}
 

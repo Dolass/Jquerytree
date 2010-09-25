@@ -77,12 +77,12 @@
 		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 	
-	function zTreeOnAsyncSuccess(event, treeId, msg) {
-		$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;ZTREE_AJAX_SUCCESS");
+	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+		$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_SUCCESS");
 	}
 
-	function zTreeOnAsyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown) {
-		$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;ZTREE_AJAX_ERROR");
+	function zTreeOnAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_ERROR");
 	}
 
 	function refreshTree(asyncUrl) {
