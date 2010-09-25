@@ -217,6 +217,10 @@
 <PARAM NAME="Local" VALUE="s_expandSpeed.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="expandTriggerFlag">
+<PARAM NAME="Local" VALUE="s_expandTriggerFlag.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="FolderMark_Close">
 <PARAM NAME="Local" VALUE="c_FolderMark_Close.html">
 </OBJECT>

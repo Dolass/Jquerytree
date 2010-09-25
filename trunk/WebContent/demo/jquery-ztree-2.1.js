@@ -150,6 +150,12 @@
 		setting.root.name = "ZTREE ROOT";
 		setting.root.isRoot = true;
 		setting.checkRadioCheckedList = [];
+		setting.curTreeNode = null;
+		setting.curEditTreeNode = null;
+		setting.dragNodeShowBefore = false;
+		setting.dragStatus = 0;
+		setting.expandTriggerFlag = false;
+		if (!setting.root[setting.nodesCol]) setting.root[setting.nodesCol]= [];
 		zTreeId = 0;
 
 		if (zTreeNodes) {
@@ -214,13 +220,13 @@
 		});
 
 		treeObj.unbind(ZTREE_ASYNC_SUCCESS);
-		treeObj.bind(ZTREE_ASYNC_SUCCESS, function (event, treeId, msg) {
-		  if ((typeof setting.callback.asyncSuccess) == "function") setting.callback.asyncSuccess(event, treeId, msg);
+		treeObj.bind(ZTREE_ASYNC_SUCCESS, function (event, treeId, treeNode, msg) {
+		  if ((typeof setting.callback.asyncSuccess) == "function") setting.callback.asyncSuccess(event, treeId, treeNode, msg);
 		});
 
 		treeObj.unbind(ZTREE_ASYNC_ERROR);
-		treeObj.bind(ZTREE_ASYNC_ERROR, function (event, treeId, XMLHttpRequest, textStatus, errorThrown) {
-		  if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, XMLHttpRequest, textStatus, errorThrown);
+		treeObj.bind(ZTREE_ASYNC_ERROR, function (event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		  if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown);
 		});
 		
 	}
@@ -598,7 +604,7 @@
 						};
 						tmpTargetNodeId = tmpTarget.attr('id');
 					}
-					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting.root[setting.nodesCol], tmpTargetNodeId);
+					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting, setting.root[setting.nodesCol], tmpTargetNodeId);
 
 					var beforeDrop = true;
 					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode);
@@ -868,12 +874,12 @@
 				if (newNodes && newNodes != "") {
 					addTreeNodes(setting, treeNode, newNodes);
 				}
-				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, msg]);
+				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				setting.expandTriggerFlag = false;
-				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, XMLHttpRequest, textStatus, errorThrown]);
+				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 			}
 		});
 	}
@@ -895,6 +901,7 @@
 					$("#" + setting.treeObjId).trigger(ZTREE_COLLAPSE, [setting.treeObjId, treeNode]);
 				}
 			};
+//			setting.expandTriggerFlag = false;
 		}
 		
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
@@ -994,12 +1001,12 @@
 	}
 
 	//遍历子节点设置level,主要用于移动节点后的处理
-	function setSonNodeLevel(parentNode, treeNode) {
+	function setSonNodeLevel(setting, parentNode, treeNode) {
 		if (!treeNode) return;
 		treeNode.level = (parentNode)? parentNode.level + 1 : 0;
 		if (!treeNode[setting.nodesCol]) return;
 		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
-			if (treeNode[setting.nodesCol][son]) setSonNodeLevel(treeNode, treeNode[setting.nodesCol][son]);
+			if (treeNode[setting.nodesCol][son]) setSonNodeLevel(setting, treeNode, treeNode[setting.nodesCol][son]);
 		}
 	}
 
@@ -1039,18 +1046,18 @@
 				onSwitchNode);
 			}
 
-			addTreeNodesData(parentNode, newNodes);
+			addTreeNodesData(setting, parentNode, newNodes);
 			initTreeNodes(setting, parentNode.level + 1, newNodes, parentNode);
 			//如果选择某节点，则必须展开其全部父节点
 			expandCollapseParentNode(setting, parentNode, true);
 		} else {
-			addTreeNodesData(setting.root, newNodes);
+			addTreeNodesData(setting, setting.root, newNodes);
 			initTreeNodes(setting, 0, newNodes, null);
 		}
 	}
 
 	//增加节点数据
-	function addTreeNodesData(parentNode, treenodes) {
+	function addTreeNodesData(setting, parentNode, treenodes) {
 		if (!parentNode[setting.nodesCol]) parentNode[setting.nodesCol] = [];
 		if (parentNode[setting.nodesCol].length > 0) {
 			var tmpId = parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId;
@@ -1156,7 +1163,7 @@
 			targetNode.isParent = true;
 			treeNode.parentNode = targetNode;
 		}
-		setSonNodeLevel(treeNode.parentNode, treeNode);
+		setSonNodeLevel(setting, treeNode.parentNode, treeNode);
 		targetNode[setting.nodesCol].splice(targetNode[setting.nodesCol].length, 0, treeNode);
 
 		treeNode.isLastNode = true;
@@ -1266,13 +1273,13 @@
 	}
 
 	//根据 tId 获取 节点的数据对象
-	function getTreeNodeByTId(treeNodes, treeId) {
+	function getTreeNodeByTId(setting, treeNodes, treeId) {
 		if (!treeNodes || !treeId) return null;
 		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i].tId == treeId) {
 				return treeNodes[i];
 			}
-			var tmp = getTreeNodeByTId(treeNodes[i][setting.nodesCol], treeId);
+			var tmp = getTreeNodeByTId(setting, treeNodes[i][setting.nodesCol], treeId);
 			if (tmp) return tmp;
 		}
 		return null;
@@ -1344,14 +1351,14 @@
 	}
 	
 	//获取全部 checked = true or false 的节点集合
-	function getTreeCheckedNodes(treeNodes, checked) {
+	function getTreeCheckedNodes(setting, treeNodes, checked) {
 		if (!treeNodes) return [];
 		var results = [];
 		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i].checkedNew == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
-			var tmp = getTreeCheckedNodes(treeNodes[i][setting.nodesCol], checked);
+			var tmp = getTreeCheckedNodes(setting, treeNodes[i][setting.nodesCol], checked);
 			if (tmp.length > 0) results = results.concat(tmp);
 		}
 		return results;
@@ -1394,13 +1401,13 @@
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId) return;
 				selected = (selected != false);
-				return getTreeCheckedNodes(settings[treeObjId].root[settings[treeObjId].nodesCol], selected);
+				return getTreeCheckedNodes(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol], selected);
 			},
 
 			getNodeByTId : function(treeId) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !treeId) return;
-				return getTreeNodeByTId(settings[treeObjId].root[settings[treeObjId].nodesCol], treeId);
+				return getTreeNodeByTId(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol], treeId);
 			},
 			
 			getNodeIndex : function(treeNode) {

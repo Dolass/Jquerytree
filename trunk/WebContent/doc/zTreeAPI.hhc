@@ -7,7 +7,6 @@
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="关于">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -144,6 +143,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="[checkRadioCheckedList]">
+<PARAM NAME="Local" VALUE="s_checkRadioCheckedList.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="[curTreeNode]">
 <PARAM NAME="Local" VALUE="s_curTreeNode.html">
 </OBJECT>
@@ -168,14 +173,14 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="[treeObjId]">
-<PARAM NAME="Local" VALUE="s_treeObjId.html">
+<PARAM NAME="Name" VALUE="[expandTriggerFlag]">
+<PARAM NAME="Local" VALUE="s_expandTriggerFlag.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="[checkRadioCheckedList]">
-<PARAM NAME="Local" VALUE="s_checkRadioCheckedList.html">
+<PARAM NAME="Name" VALUE="[treeObjId]">
+<PARAM NAME="Local" VALUE="s_treeObjId.html">
 </OBJECT>
 </UL>
 </UL>
@@ -312,7 +317,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="方法">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">

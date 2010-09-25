@@ -35,34 +35,19 @@
 			<p>&nbsp;8、支持任意更换皮肤 / 个性化图标（依靠css）</p>
 			<p>&nbsp;9、简单的参数配置 实现 灵活多变的功能</p>
 			<p>&nbsp;</p>
-			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a> 或 <a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a> &nbsp;获取</p>
+			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a>&nbsp;或&nbsp;<a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a> &nbsp;获取</p>
 
 		</div>
 	</div>
-	<h2>zTree v2.0 更新记录</h2>
+	<h2>zTree v2.1 更新记录</h2>
 	<h3>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;针对 v1.x 版本的重大修改请参考 <A href="index.html">速查表</A> 有 <span style="color:yellow; background-color:#4F81BD;">#</span> 标记的内容。</p>
-			<p>&nbsp;新功能对应各项属性、方法请参考 <A href="index.html">速查表</A> 有 <span style="color:red;">*</span> 标记的内容。</p>
-			<p>&nbsp;01、【<font style="color:red">删除</font>】<strike>ZTREE_CHECK_MAX_ERROR 常量</strike>; <strike>zTreeOnCheckMaxError 事件</strike>; <strike>setting.checkRadioMaxNum 属性</strike>;</p>
-			<p>&nbsp;02、【<font style="color:red">更名</font>】<strike>getCurNode()</strike> 方法为 <A href="m_getSelectedNode.html">getSelectedNode()</A> 方法。</p>
-			<p>&nbsp;03、【<font style="color:red">更名</font>】<strike>getSelectedNodes(selected)</strike> 方法为 <A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A> 方法。</p>
-			<p>&nbsp;04、【<font style="color:red">更名</font>】checkbox、radio的 onCheck 事件更名为 onChange 事件。</p>
-			<p>&nbsp;05、【增加】在 setting 内增加 <A href="s_nameCol.html">nameCol</A> 属性，用户可自定义节点名称的数据，不用固定使用 name 字段。</p>
-			<p>&nbsp;06、【增加】在 setting 内增加 <A href="s_expandSpeed.html">expandSpeed</A> 属性，用户可自行设置动画速度或取消动画，输入值同 JQuery 动画效果中 speed 参数，默认"fast"。</p>
-			<p>&nbsp;07、【增加】<A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A> 方法，获取某节点在同一层级节点中的序号（从0开始）。</p>
-			<p>&nbsp;08、【增加】<A href="m_updateNode.html">updateNode(treeNode)</A> 方法，允许用户将节点数据修改后，直接更新该节点，避免由于修改一个节点儿刷新整棵树。</p>
-			<p>&nbsp;09、【增加】<A href="m_cancleSelectedNode.html">cancleSelectedNode()</A> 方法，允许用户将 zTree 内被选中节点设置为未被选中状态。</p>
-			<p>&nbsp;10、【增加】在 editable=true 状态时，能够点击编辑、删除按钮，实现名称编辑 和 快速删除节点。</p>
-			<p>&nbsp;11、【增加】针对Click、Check、Drag、Drop、Rename、Remove等事件都提供 before方法，让用户根据自己的需求确定是否中断改事件。</p>
-			<p>&nbsp;12、【增加】用 js 控制选中或展开节点的操作后，能自动将该节点进行 focus 定位，保证节点在当前可视区域出现。</p>
-			<p>&nbsp;13、【修改】radio只能选择单个节点，并且自动选中最新节点，完全满足radio标准，删除最大数量限制功能。</p>
-			<p>&nbsp;14、【修改】对于节点名称的显示方法，不用再担心<>等特殊字符影响效果，尤其是 js 注入。</p>
-			<p>&nbsp;15、【修改】callback 回调函数结构，允许用户通过配置自定义各种回调函数。</p>
-			<p>&nbsp;16、【修改】zTree 全部展开、折叠时，对于有特效的情况进行了适当优化。</p>
-			<p>&nbsp;17、【修改】当 iconSkin 属性没有定义时，节点的 class 会出现 "undefined" 的Bug。</p>
+			<p>&nbsp;01、【增加】展开（expand）、折叠（ collapse） 两个事件以及对应的 before 方法，让用户可以更灵活的去控制。</p>
+			<p>&nbsp;02、【增加】<A href="s_nodesCol.html">nodesCol</A> 属性，用户可自定义子节点名称的数据，不用再固定使用 nodes 字段。</p>
+			<p>&nbsp;03、【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。</p>
+			<p>&nbsp;04、【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点。</p>
 		</div>
 	</div>
 </div>
