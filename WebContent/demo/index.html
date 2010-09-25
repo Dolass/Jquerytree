@@ -36,7 +36,7 @@
 
 	zNodes =[
 		{ name:"Hunter's Home", iconSkin:"flag5", url:"http://baby666.cn", target:"_blank"},
-		{ name:"zTree 官网", iconSkin:"flag5", url:"http://code.google.com/p/jquerytree/", target:"_blank"},
+		{ name:"zTree in Google", iconSkin:"flag5", url:"http://code.google.com/p/jquerytree/", target:"_blank"},
 		{ name:"zTree 功能演示", iconSkin:"sim1", target:"testIframe", open:true,
 			nodes: [
 				//节点连线、自定义图标、一个Web同时显示多个Tree
@@ -52,7 +52,13 @@
 				//代码加载、移动、删除节点演示
 				{ name:"JS操作 & 大数据量演示", iconSkin:"sim10", "url":"jscontrolDemo.html", "target":"testIframe"},
 				//高级应用演示
-				{ name:"高级应用演示", iconSkin:"sim10", "url":"superDemo.html", "target":"testIframe"},
+				{ name:"高级应用演示", iconSkin:"sim10", open:true,
+					nodes:[
+						//两棵树之间数据交互
+						{name:"两棵树的数据交换", iconSkin:"sim4", "url":"superDemo_mutilTree.html", "target":"testIframe"},
+						//超大数据量异步加载
+						{name:"异步加载超大数据", iconSkin:"sim8", "url":"superDemo_hugeData.html", "target":"testIframe"}
+					]},
 				//皮肤演示
 				{ name:"皮肤演示", iconSkin:"sim7", url:"skinDemo.html", target:"testIframe"}
 			]
