@@ -93,8 +93,15 @@
 	}
 
 	function refreshTree() {
-		setting.checkType = getCheckBoxType();
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		
+		if (zTree1) {
+			var tmpSetting = zTree1.getSetting();
+			tmpSetting.checkType = getCheckBoxType();
+			zTree1.updateSetting(tmpSetting);
+		} else {
+			setting.checkType = getCheckBoxType();
+			zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		}
 		$("#onClickNode").html("<br/>");
 		$("#onChangeNode").html("<br/>");
 		$("#onExpandNode").html("<br/>");

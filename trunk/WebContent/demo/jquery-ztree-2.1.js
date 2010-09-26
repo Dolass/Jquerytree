@@ -141,7 +141,21 @@
 		};
 
 		if (zTreeSetting) {
+			var tmp_checkType = zTreeSetting.checkType;
+			zTreeSetting.checkType = undefined;
+			var tmp_callback = zTreeSetting.callback;
+			zTreeSetting.callback = undefined;
+			var tmp_root = zTreeSetting.root;
+			zTreeSetting.root = undefined;
+			
 			$.extend(setting, zTreeSetting);
+			
+			zTreeSetting.checkType = tmp_checkType;				
+			$.extend(true, setting.checkType, tmp_checkType);
+			zTreeSetting.callback = tmp_callback;				
+			$.extend(setting.callback, tmp_callback);
+			zTreeSetting.root = tmp_root;				
+			$.extend(setting.root, tmp_root);
 		}
 
 		setting.treeObjId = this.attr("id");
@@ -872,7 +886,7 @@
 				} catch(err) {}
 
 				if (newNodes && newNodes != "") {
-					addTreeNodes(setting, treeNode, newNodes, true);
+					addTreeNodes(setting, treeNode, newNodes, false);
 				}
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
@@ -1011,7 +1025,7 @@
 	}
 
 	//增加子节点
-	function addTreeNodes(setting, parentNode, newNodes, silent) {
+	function addTreeNodes(setting, parentNode, newNodes, isSilent) {
 		if (parentNode) {
 			//目标节点必须在当前树内
 			if ($("#" + setting.treeObjId).find("#" + parentNode.tId).length == 0) return;
@@ -1049,7 +1063,7 @@
 			addTreeNodesData(setting, parentNode, newNodes);
 			initTreeNodes(setting, parentNode.level + 1, newNodes, parentNode);
 			//如果选择某节点，则必须展开其全部父节点
-			if (!silent) {
+			if (!isSilent) {
 				expandCollapseParentNode(setting, parentNode, true);
 			}
 		} else {
@@ -1379,6 +1393,10 @@
 				var treeObjId = this.container.attr("id");
 				$("#" + treeObjId).empty();
 				settings[treeObjId].curTreeNode = null;
+				settings[treeObjId].curEditTreeNode = null;
+				settings[treeObjId].dragStatus = 0;
+				settings[treeObjId].dragNodeShowBefore = false;
+				settings[treeObjId].checkRadioCheckedList = [];
 				zTreeId = 0;
 				initTreeNodes(settings[treeObjId], 0, settings[treeObjId].root[settings[treeObjId].nodesCol]);
 			},
@@ -1420,6 +1438,57 @@
 					if (parentNode[settings[treeObjId].nodesCol][i] == treeNode) return i;
 				}
 				return -1;
+			},
+			
+			getSetting : function() {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId) return;
+				var zTreeSetting = settings[treeObjId];
+				var setting = {checkType:{}, callback:{}};
+				
+				var tmp_checkType = zTreeSetting.checkType;
+				zTreeSetting.checkType = undefined;
+				var tmp_callback = zTreeSetting.callback;
+				zTreeSetting.callback = undefined;
+				var tmp_root = zTreeSetting.root;
+				zTreeSetting.root = undefined;
+				
+				$.extend(setting, zTreeSetting);
+				
+				zTreeSetting.checkType = tmp_checkType;				
+				zTreeSetting.callback = tmp_callback;				
+				zTreeSetting.root = tmp_root;				
+
+				//不能获取root信息
+				$.extend(true, setting.checkType, tmp_checkType);
+				$.extend(setting.callback, tmp_callback);
+				
+				return setting;
+			},
+			
+			updateSetting : function(zTreeSetting) {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId || !zTreeSetting) return;
+				var setting = settings[treeObjId];
+				
+				var tmp_checkType = zTreeSetting.checkType;
+				zTreeSetting.checkType = undefined;
+				var tmp_callback = zTreeSetting.callback;
+				zTreeSetting.callback = undefined;
+				var tmp_root = zTreeSetting.root;
+				zTreeSetting.root = undefined;
+				
+				$.extend(setting, zTreeSetting);
+				
+				zTreeSetting.checkType = tmp_checkType;				
+				zTreeSetting.callback = tmp_callback;				
+				zTreeSetting.root = tmp_root;				
+				
+				//不提供root信息update
+				$.extend(true, setting.checkType, tmp_checkType);
+				$.extend(setting.callback, tmp_callback);
+				setting.treeObjId = treeObjId;
+				
 			},
 
 			expandAll : function(expandSign) {
@@ -1468,11 +1537,11 @@
 				canclePreSelectedNode(settings[treeObjId]);
 			},
 
-			addNodes : function(parentNode, newNodes, silent) {
+			addNodes : function(parentNode, newNodes, isSilent) {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId || !newNodes) return;
 				if (!parentNode) parentNode = null;
-				addTreeNodes(settings[treeObjId], parentNode, newNodes, (silent==true));
+				addTreeNodes(settings[treeObjId], parentNode, newNodes, (isSilent==true));
 
 			},
 			
