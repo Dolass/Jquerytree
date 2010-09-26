@@ -88,12 +88,14 @@ m_getCurNode.html
 m_getNodeByTId.html
 m_getNodeIndex.html
 m_getNodes.html
+m_getSetting.html
 m_moveNode.html
 m_refresh.html
 m_removeNode.html
 m_selectNode.html
 m_setEditable.html
 m_updateNode.html
+m_updateSetting.html
 s_async.html
 s_asyncParam.html
 s_asyncParamOther.html

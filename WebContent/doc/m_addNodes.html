@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>addNodes(parentNode, newNodes)</title>
+<title>addNodes(parentNode, newNodes, isSilent)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: Array(JSON)</span>addNodes(parentNode, newNodes)</h2>
+	<h2><span>返回值: Array(JSON)</span>addNodes(parentNode, newNodes, isSilent)</h2>
 	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
 	<div class="desc">
 		<p></p>
@@ -24,6 +24,8 @@
 	<p>指定的父节点，如果增加根节点，请设置 parentNode 为 null 即可。</p>
 	<h4><strong>newNodes</strong><span>Array(JSON)</span></h4>
 	<p>需要增加的节点数据 JSON 对象集合，支持将节点的n级子节点一次性增加，只需要符合zTree的节点数据结构即可。详情参考 <A href="zTreeNodes.html">zTreeNodes 详解</A></p>
+	<h4><strong>isSilent</strong><span>Boolean</span></h4>
+	<p>设定增加节点后是否展开其父节点。isSilent = true 时，不展开父节点，其他值或缺省状态都自动展开。</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
 	<p>增加根节点</p>

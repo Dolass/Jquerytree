@@ -37,7 +37,6 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -317,10 +316,12 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="方法">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="获取">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -352,14 +353,21 @@
 <PARAM NAME="Local" VALUE="m_getCheckedNodes.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getSetting()">
+<PARAM NAME="Local" VALUE="m_getSetting.html">
+</OBJECT>
+</UL>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="操作">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="addNodes(parentNode, newNodes)">
+<PARAM NAME="Name" VALUE="addNodes(parentNode, newNodes, isSilent)">
 <PARAM NAME="Local" VALUE="m_addNodes.html">
 </OBJECT>
 </UL>
@@ -401,6 +409,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="setEditable(editable)">
+<PARAM NAME="Local" VALUE="m_setEditable.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="cancleSelectedNode()">
 <PARAM NAME="Local" VALUE="m_cancleSelectedNode.html">
 </OBJECT>
@@ -413,19 +427,17 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="setEditable(editable)">
-<PARAM NAME="Local" VALUE="m_setEditable.html">
+<PARAM NAME="Name" VALUE="updateSetting(setting)">
+<PARAM NAME="Local" VALUE="m_updateSetting.html">
 </OBJECT>
 </UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 回调函数">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">

@@ -3,36 +3,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>removeNode(treeNode)</title>
+<title>getSetting()</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: 无</span>removeNode(treeNode)</h2>
-	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
+	<h2><span>返回值: JSON Object</span>getSetting()</h2>
+	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>删除某节点。</p>
+			<p>获取 zTree 当前配置信息的 JSON 对象。</p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+			<p style="color:red">为了更好的保证配置信息的正常使用，请注意以下几点：</p>
+			<p style="color:red">&nbsp;1、得到的 JSON 对象是 zTree setting 的复制</p>
+			<p style="color:red">&nbsp;2、不返回 <A href="s_root.html">root</A> 属性, 获取节点数据，请参考 <A href="m_getNodes.html">getNodes()</A> 方法</p>
+			<p style="color:red">&nbsp;3、如果希望修改后的 setting 生效，请参考 <A href="m_updateSetting.html">updateSetting(setting)</A> 方法</p>
 		</div>
 	</div>
-	<h3>参数</h3>
-	<h4><strong>treeNode</strong><span>JSON</span></h4>
-	<p>指定需要被删除的节点 JSON 数据</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>将节点1（treeNode1）删除</p>
+	<p>获取 zTree 当前配置信息</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-zTreeObj.removeNode(treeNode1);
+var xSetting = zTreeObj.getSetting();
 ......</code></pre>
 	<h3>相关方法</h3>
-	<h4><A href="m_getNodes.html">getNodes()</A> | <A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> | <A href="m_moveNode.html">moveNode(targetNode, treeNode)</A>
-	<br/><A href="m_updateNode.html">updateNode(treeNode)</A></h4>
+	<h4><A href="m_updateSetting.html">updateSetting(setting)</A></h4>
 
 </div>
 </div>
