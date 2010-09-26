@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>zTree 介绍</title>
+<meta name="keywords" content="zTree API 参考文档中文版,中文版" />
+<meta name="description" content="zTree API，提供最新版 zTree 开发帮助。" />
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="aboutXMLDoc">
+	<h2>zTree  介绍</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>
+			<table border=0 width=100% height="89px">
+			<tr><td valign="top" >&nbsp;&nbsp;&nbsp;&nbsp;最近对 JQuery 进行了入门，一时兴起写了一个Tree插件，供大家学习和使用，毕竟是本人第一个公开的组件，肯定有许多问题和不足之处，请大家把发现的问题，或好的想法及时与我沟通，在这里特别要感谢 <a href="mailto:czwlucky@163.com/">独上太行</a> 的大力支持，架构方面给了我很多关键性的建议。
+			<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;同时欢迎利用此版制作其他发行版以方便广大 zTree 爱好者，转载请保留版权信息，谢谢。</td>
+			<td><img src="style/img/logo.jpg" align=right /></td></tr>	
+			</table></p>
+			<p></p>
+			<p>下面介绍一下zTree 的主要功能：( 演示Demo 请访问 <a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a>)</p>
+			<p>&nbsp;1、兼容 IE、FireFox、Chrome 等浏览器（对于IE 6.0的兼容问题将不做特殊维护）</p>
+			<p>&nbsp;2、在一个页面内可同时生成多个 Tree 实例</p>
+			<p>&nbsp;3、支持 JSON 数据</p>
+			<p>&nbsp;4、支持一次性静态生成 和 Ajax 异步加载 两种方式</p>
+			<p>&nbsp;5、支持多种事件响应及反馈</p>
+			<p>&nbsp;6、支持 Tree 的节点移动、编辑、删除</p>
+			<p>&nbsp;7、支持极其灵活的 checkbox & radio 选择功能</p>
+			<p>&nbsp;8、支持任意更换皮肤 / 个性化图标（依靠css）</p>
+			<p>&nbsp;9、简单的参数配置 实现 灵活多变的功能</p>
+			<p>&nbsp;</p>
+			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a>&nbsp;或&nbsp;<a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a> &nbsp;获取</p>
+
+		</div>
+	</div>
+	<h2>zTree v2.1 更新记录</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>&nbsp;01、【增加】展开(expand)、折叠(collapse) 两个事件以及对应的 before 方法，让用户可以更灵活的去控制。</p>
+			<p>&nbsp;02、【增加】<A href="s_nodesCol.html">nodesCol</A> 属性，用户可自定义子节点数据的属性名称，不用再固定使用 nodes 字段。</p>
+			<p>&nbsp;03、【增加】<A href="m_getSetting.html">getSetting()</A>、<A href="m_updateSetting.html">updateSetting(setting)</A> 方法，用户可随时获取 zTree 的内部配置信息并且根据需求更新适当的配置信息。</p>
+			<p>&nbsp;04、【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。</p>
+			<p>&nbsp;05、【修改】<A href="e_asyncSuccess.html">asyncSuccess</A> 和 <A href="e_asyncError.html">asyncError</A> 两个 callback 事件，增加返回 treeNode 属性，用于帮助用户获取当前异步操作的目标节点。</p>
+			<p>&nbsp;06、【修改】<A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> 方法，增加 isSilent 参数，用户在增加节点时，可以根据需要决定是否展开相应的父节点。</p>
+			<p>&nbsp;07、【修改】checkBox 在特殊情况下状态显示错误的Bug。</p>
+		</div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>
