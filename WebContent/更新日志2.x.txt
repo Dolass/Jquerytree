@@ -12,7 +12,7 @@
   * 增加皮肤
 </font>
 
-*2010.09.19* v2.1
+*2010.09.26* v2.1
   * 【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。
   * 【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点。
   * 【修改】addNodes 方法，增加 isSilent 参数，用户在增加节点时，可以根据需要决定是否展开相应的父节点。
