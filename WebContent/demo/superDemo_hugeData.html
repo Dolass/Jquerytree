@@ -32,8 +32,8 @@
 		reloadTree();
 	});
 
-	var asyncUrl = "nodeForHugeData.jsp";
-//	var asyncUrl = "nodeForHugeData.php";
+//	var asyncUrl = "nodeForHugeData.jsp";
+	var asyncUrl = "nodeForHugeData.php";
 	var isGetNodes = false;
 	var curParentNode = null;
 	var startTime = 0;
@@ -186,6 +186,10 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
+				<font color="red" style="font-size:12px;">此演示需要发布到 php 服务器下方能正常执行。<br/>
+				使用 Tomcat 的朋友，请修改asyncUrl的值</font>
+			</li>
+			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>异步加载数据配置
 				<ul class="remark">——修改以下配置后，重新展开节点看看变化</ul>
 				<ul>
@@ -198,7 +202,7 @@
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>异步加载说明
+				<button class="ico books" onfocus="this.blur();"></button>异步加载说明（此Demo请放到发布目录下执行）
 				<ul class="remark">
 					此应用完全利用 zTree 提供的接口，针对特殊案例实现的功能。
 				</ul>
