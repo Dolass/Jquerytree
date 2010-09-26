@@ -44,10 +44,12 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;01、【增加】展开（expand）、折叠（ collapse） 两个事件以及对应的 before 方法，让用户可以更灵活的去控制。</p>
-			<p>&nbsp;02、【增加】<A href="s_nodesCol.html">nodesCol</A> 属性，用户可自定义子节点名称的数据，不用再固定使用 nodes 字段。</p>
-			<p>&nbsp;03、【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。</p>
-			<p>&nbsp;04、【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点。</p>
+			<p>&nbsp;01、【增加】展开(expand)、折叠(collapse) 两个事件以及对应的 before 方法，让用户可以更灵活的去控制。</p>
+			<p>&nbsp;02、【增加】<A href="s_nodesCol.html">nodesCol</A> 属性，用户可自定义子节点数据的属性名称，不用再固定使用 nodes 字段。</p>
+			<p>&nbsp;03、【增加】<A href="m_getSetting.html">getSetting()</A>、<A href="m_updateSetting.html">updateSetting(setting)</A> 方法，用户可随时获取 zTree 的内部配置信息并且根据需求更新适当的配置信息。</p>
+			<p>&nbsp;04、【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。</p>
+			<p>&nbsp;05、【修改】<A href="e_asyncSuccess.html">asyncSuccess</A> 和 <A href="e_asyncError.html">asyncError</A> 两个 callback 事件，增加返回 treeNode 属性，用于帮助用户获取当前异步操作的目标节点。</p>
+			<p>&nbsp;06、【修改】<A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> 方法，增加 isSilent 参数，用户在增加节点时，可以根据需要决定是否展开相应的父节点。</p>
 		</div>
 	</div>
 </div>
