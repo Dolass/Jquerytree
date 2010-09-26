@@ -17,6 +17,7 @@
   * 【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。
   * 【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点。
   * 【修改】addNodes 方法，增加 isSilent 参数，用户在增加节点时，可以根据需要决定是否展开相应的父节点。
+  * 【修改】checkBox 在特殊情况下状态显示错误的Bug。
   * 【增加】展开（expand）、折叠（ collapse） 两个事件以及对应的before方法，让用户可以更灵活的去控制。
   * 【增加】在 setting 内增加 nodesCol 属性，用户可自定义子节点数据的属性名称，不用再固定使用 nodes 字段。
   * 【增加】getSetting、updateSetting 方法，用户可随时获取 zTree 的内部配置信息并且根据需求更新适当的配置信息。

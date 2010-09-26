@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-09-29
+ * Date: 2010-09-26
  *
  */
 
@@ -419,17 +419,19 @@
 					}
 					
 				} else {
+					if (treeNode.checkedNew && setting.checkType.Y.indexOf("s") > -1) {
+						setSonNodeCheckBox(setting, treeNode, true);
+						repairSonChkClass(setting, treeNode);
+					}
 					if (treeNode.checkedNew && setting.checkType.Y.indexOf("p") > -1) {
 						setParentNodeCheckBox(setting, treeNode, true);
 					}
-					if (treeNode.checkedNew && setting.checkType.Y.indexOf("s") > -1) {
-						setSonNodeCheckBox(setting, treeNode, true);
+					if (!treeNode.checkedNew && setting.checkType.N.indexOf("s") > -1) {
+						setSonNodeCheckBox(setting, treeNode, false);
+						repairSonChkClass(setting, treeNode);
 					}
 					if (!treeNode.checkedNew && setting.checkType.N.indexOf("p") > -1) {
 						setParentNodeCheckBox(setting, treeNode, false);
-					}
-					if (!treeNode.checkedNew && setting.checkType.N.indexOf("s") > -1) {
-						setSonNodeCheckBox(setting, treeNode, false);
 					}
 				}
 				setChkClass(setting, checkObj, treeNode);
@@ -807,22 +809,7 @@
 	//修正父节点选择的样式
 	function repairParentChkClass(setting, treeNode) {
 		if (!treeNode || !treeNode.parentNode) return;
-		var trueSign = true;
-		var falseSign = true;
-		for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
-			if (setting.checkStyle == Check_Style_Radio && (treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_True_Full)) {
-				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && treeNode.parentNode.checkedNew && (!treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_True_Full)) {
-				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.parentNode.checkedNew && (treeNode.parentNode[setting.nodesCol][son].checkedNew || !treeNode.parentNode[setting.nodesCol][son].check_False_Full)) {
-				falseSign = false;
-			}
-			if (!trueSign || !falseSign) break;
-		}
-		treeNode.parentNode.check_True_Full = trueSign;
-		treeNode.parentNode.check_False_Full = falseSign;
-		var checkObj = $("#" + treeNode.parentNode.tId + "_check");
-		setChkClass(setting, checkObj, treeNode.parentNode);
+		repairChkClass(setting, treeNode.parentNode);
 		repairParentChkClass(setting, treeNode.parentNode);
 	}	
 	function repairParentChkClassWithSelf(setting, treeNode) {
@@ -831,6 +818,35 @@
 		} else {
 			repairParentChkClass(setting, treeNode);
 		}
+	}
+	//修正子节点选择的样式
+	function repairSonChkClass(setting, treeNode) {
+		if (!treeNode || !treeNode[setting.nodesCol]) return;
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son][setting.nodesCol]) {
+				repairSonChkClass(setting, treeNode[setting.nodesCol][son]);
+			}
+		}
+		repairChkClass(setting, treeNode);
+	}	
+	function repairChkClass(setting, treeNode) {
+		if (!treeNode || !treeNode[setting.nodesCol]) return;
+		var trueSign = true;
+		var falseSign = true;
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_True_Full)) {
+				trueSign = false;
+			} else if (setting.checkStyle != Check_Style_Radio && treeNode.checkedNew && (!treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_True_Full)) {
+				trueSign = false;
+			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.checkedNew && (treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_False_Full)) {
+				falseSign = false;
+			}
+			if (!trueSign || !falseSign) break;
+		}
+		treeNode.check_True_Full = trueSign;
+		treeNode.check_False_Full = falseSign;
+		var checkObj = $("#" + treeNode.tId + "_check");
+		setChkClass(setting, checkObj, treeNode);
 	}
 
 	//点击展开、折叠节点
@@ -915,7 +931,7 @@
 					$("#" + setting.treeObjId).trigger(ZTREE_COLLAPSE, [setting.treeObjId, treeNode]);
 				}
 			};
-//			setting.expandTriggerFlag = false;
+			setting.expandTriggerFlag = false;
 		}
 		
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
