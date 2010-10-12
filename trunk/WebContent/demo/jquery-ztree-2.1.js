@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-09-26
+ * Date: 2010-10-12
  *
  */
 
@@ -179,13 +179,14 @@
 
 		$("#" + setting.treeObjId).empty();
 
+		bindTreeNodes(setting, this);
+
 		if (setting.root[setting.nodesCol] && setting.root[setting.nodesCol].length > 0) {
 			initTreeNodes(setting, 0, setting.root[setting.nodesCol]);
 		} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
 			asyncGetNode(setting);
 		}
 		
-		bindTreeNodes(setting, this);
 
 		return new zTreePlugin().init(this);
 
@@ -295,7 +296,7 @@
 			p = $("#" + treeNode.parentNode.tId + IDMark_Ul);
 		}
 
-		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button class=\"" + (treeNode.iconSkin ? treeNode.iconSkin : "") + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
+		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button type=\"button\" class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button type=\"button\" class=\"" + (treeNode.iconSkin ? treeNode.iconSkin : "") + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
 		p.append(html);
 		
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
@@ -740,7 +741,7 @@
 		}
 
 		var aObj = $("#" + treeNode.tId + IDMark_A);
-		var editStr = "<button class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();' style='display:none;'></button>";
+		var editStr = "<button type='button' class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();' style='display:none;'></button>";
 		aObj.append(editStr);
 		
 		var editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
@@ -769,7 +770,7 @@
 		}
 		
 		var aObj = $("#" + treeNode.tId + IDMark_A);
-		var removeStr = "<button class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' onfocus='this.blur();' style='display:none;'></button>";
+		var removeStr = "<button type='button' class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' onfocus='this.blur();' style='display:none;'></button>";
 		aObj.append(removeStr);
 		
 		var removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
@@ -874,8 +875,9 @@
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
 		}
-		if(window.event) window.event.returnValue = null;
-        return false;
+		//.net下刷新页面的bug可能还是button造成的，因此将一下代码暂时屏蔽
+//		if(window.event) window.event.returnValue = null;
+//        return false;
 	}
 
 	function asyncGetNode(setting, treeNode) {

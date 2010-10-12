@@ -12,6 +12,10 @@
   * 增加皮肤
 </font>
 
+*2010.10.12* v2.1
+  * 【修改】展开节点和图标的html，避免zTree放到Form下点击图标或展开按钮时导致Form提交的bug（特别感谢：神马9527）
+  * 【修改】zTree绑定事件代码，避免初始化异步加载时IE与FireFox的不同
+  
 *2010.09.26* v2.1
   * 【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。
   * 【修改】asyncSuccess 和 asyncError 两个 callback 事件，增加 treeNode，用于帮助用户获取当前异步操作的目标节点。
