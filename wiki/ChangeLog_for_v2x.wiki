@@ -8,6 +8,14 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 功能扩展：
+   # 【修改】url 的动态获取（把 url 扩展为 function 的引用）
+   # 【修改】编辑状态 输入框内 回车键可以触发onRename事件
+   # 【增加】建立扩展函数库，方便大家转换数据等使用
+   # 【修改】cancle 修正为 cancel
+   # 【修改】updateNode时，checkbox不改变的Bug。
+   # 【修改】支持JQuery 1.3.2 的问题
+
+   # 增加鼠标右键 事件
    # 增加Ctrl + 鼠标左键  进行多节点选中的功能
    # 增加 selectNodes([]) 和 getSelectedNodes() 方法，允许用户选中多个节点 并获取 选中的多个节点   
    # 支持自定义鼠标右键菜单   
