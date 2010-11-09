@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>isParent</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Boolean</span>isParent</h2>
+	<h3><span>目录: [参数说明] --> [zTreeNodes 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>设置某节点是否为父节点。</p>
+			<p>当 setting.<A href="s_async.html">async</A> = true 且 isParent = true 、该节点的 <A href="s_nodes.html">nodes</A> 不存在 或 length = 0，当点击该节点时会触发异步获取子节点的事件。</p>
+			<p>默认值：如果用户未设置该属性，则根据节点是否有子节点进行自动设置</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>需要对某节点被点击时触发异步获取子节点的事件</p>
+	<h5 xmlns="">zTreeNodes 举例:</h5>
+	<pre xmlns=""><code>var zTreeNodes = [{
+&nbsp;&nbsp;&nbsp;&nbsp;isParent : true,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+}];</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_nodes.html">nodes</A> | <A href="s_parentNode.html">parentNode</A></h4>
+
+</div>
+</div>
+
+</body></html>

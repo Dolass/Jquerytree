@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>edit_removeBtn</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Boolean</span>edit_removeBtn</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>设定当 zTree 处于编辑状态时，是否显示节点删除按钮。</p>
+			<p>当点击某节点的删除按钮时：</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、首先触发 <A href="e_beforeRemove.html">beforeRemove</A> 回调函数，用户可利用此回调函数进行删除确认等自定义操作。</p>
+			<p>默认值：true</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>不显示删除按钮</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;editable : true,
+&nbsp;&nbsp;&nbsp;&nbsp;edit_removeBtn : false,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_editable.html">editable</A> | <A href="s_edit_renameBtn.html">edit_renameBtn</A></h4>
+
+</div>
+</div>
+
+</body></html>
