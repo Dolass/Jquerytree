@@ -6,8 +6,9 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-   # 【修改】expandNode方法，展开节点时无动画的Bug
    # 【修改】给一个没有字节点的节点添加新节点，连续添加两个以上子节点时连线显示的Bug
+
+   # 【修改】expandNode方法，展开节点时无动画的Bug
    # 【修改】url 的动态获取（把 url 扩展为 function 的引用）
    # 【修改】编辑状态 输入框内 回车键可以触发onRename事件
    # 【修改】cancle 修正为 cancel
