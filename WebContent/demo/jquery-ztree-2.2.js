@@ -1520,9 +1520,10 @@
 
 				if (expandSign) {
 					//如果展开某节点，则必须展开其全部父节点
-					expandCollapseParentNode(settings[treeObjId], treeNode, expandSign, false);
+					//为了保证效率,展开父节点时不使用动画
+					if (treeNode.parentNode) expandCollapseParentNode(settings[treeObjId], treeNode.parentNode, expandSign, false);
+					expandAndCollapseNode(settings[treeObjId], treeNode, expandSign, true);
 				}
-
 				if (sonSign) {
 					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
 					//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
