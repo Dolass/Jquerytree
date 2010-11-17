@@ -881,6 +881,10 @@
 	}
 
 	function asyncGetNode(setting, treeNode) {
+		if (treeNode && treeNode.isAjaxing) {
+			return;
+		}
+		if (treeNode) treeNode.isAjaxing = true;
 
 		var tmpParam = "";
 		for (var i = 0; treeNode && i < setting.asyncParam.length; i++) {
@@ -906,11 +910,13 @@
 				if (newNodes && newNodes != "") {
 					addTreeNodes(setting, treeNode, newNodes, false);
 				}
+				if (treeNode) treeNode.isAjaxing = undefined;
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				setting.expandTriggerFlag = false;
+				if (treeNode) treeNode.isAjaxing = undefined;
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 			}
 		});
@@ -1320,7 +1326,7 @@
 	}
 
 	//取消之前选中节点状态
-	function canclePreSelectedNode(setting) {
+	function cancelPreSelectedNode(setting) {
 		if (setting.curTreeNode) {
 			removeEditBtn(setting.curTreeNode); 
 			removeRemoveBtn(setting.curTreeNode);
@@ -1330,7 +1336,7 @@
 		}
 	}
 	//取消之前编辑节点状态
-	function canclePreEditNode(setting) {
+	function cancelPreEditNode(setting) {
 		if (setting.curEditTreeNode) {
 			$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
 			$("#" + setting.curEditTreeNode.tId + IDMark_Input).unbind();
@@ -1345,8 +1351,8 @@
 		
 		if (setting.curTreeNode == treeNode && !setting.editable) return;
 		
-		canclePreSelectedNode(setting);	
-		canclePreEditNode(setting);
+		cancelPreSelectedNode(setting);	
+		cancelPreEditNode(setting);
 		
 		if (setting.editable) {
 			addEditBtn(setting, treeNode);
@@ -1550,10 +1556,13 @@
 			},
 			
 			cancleSelectedNode : function() {
+				this.cancelSelectedNode();
+			},
+			cancelSelectedNode : function() {
 				var treeObjId = this.container.attr("id");
 				if (!treeObjId) return;
 				
-				canclePreSelectedNode(settings[treeObjId]);
+				cancelPreSelectedNode(settings[treeObjId]);
 			},
 
 			addNodes : function(parentNode, newNodes, isSilent) {
