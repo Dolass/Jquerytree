@@ -893,10 +893,15 @@
 		for (var i = 0; i < setting.asyncParamOther.length; i += 2) {
 			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParamOther[i] + "=" + setting.asyncParamOther[i + 1];
 		}
+		
+		var url = setting.asyncUrl;
+		if (typeof setting.asyncUrl == "function") {
+			url =  setting.asyncUrl(treeNode);
+		}
 
 		$.ajax({
 			type: "POST",
-			url: setting.asyncUrl,
+			url: url,
 			data: tmpParam,
 			success: function(msg) {
 				if (!msg || msg.length == 0) {

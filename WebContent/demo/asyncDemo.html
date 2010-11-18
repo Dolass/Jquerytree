@@ -17,7 +17,7 @@
 		setting = {
 			checkable: true,
 			async: true,
-			asyncUrl: "node.txt",  //获取节点数据的URL地址
+			asyncUrl: "asyncData/node.txt",  //获取节点数据的URL地址
 			asyncParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
 			asyncParamOther: ["test","true"], //其它参数 ( key, value 键值对格式)
 			callback:{
@@ -45,6 +45,17 @@
 		var minute=now.getMinutes();
 		var second=now.getSeconds();
 		return (hour+":"+minute+":"+second);	
+	}
+
+	var tmpUrl = "";
+	function setAsyncUrl(treeNode) {
+		tmpUrl = (tmpUrl == "fun1.txt" ? "fun2.txt" : "fun1.txt");
+		if (treeNode) {
+			$("#getUrl").html( "[" + getTime() + "]  Name=" + treeNode.name + ", url=" + tmpUrl);
+		} else {
+			$("#getUrl").html( "[" + getTime() + "]  treeNode is Root!" + " url=" + tmpUrl);
+		}
+		return "asyncData/" + tmpUrl;
 	}
 
 	function zTreeBeforeClick(treeId, treeNode) {
@@ -86,15 +97,20 @@
 	}
 
 	function zTreeOnAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-		$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_ERROR");
+		if (treeNode) {
+			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_ERROR");
+		} else {
+			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeNode is Root! &nbsp;ZTREE_AJAX_ERROR");
+		}
 	}
 
 	function refreshTree(asyncUrl) {
 		setting.asyncUrl = asyncUrl;
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		$("#getUrl").html("");
 		$("#onClickNode").html("<br/>");
-		$("#onExpandNode").html("2222<br/>");
-		$("#onCollapseNode").html("1111<br/>");
+		$("#onExpandNode").html("<br/>");
+		$("#onCollapseNode").html("<br/>");
 		$("#onAsyncSuccessNode").html("<br/>");
 		$("#onAsyncErrorNode").html("<br/>");
 	}
@@ -123,8 +139,13 @@
 				<button class="ico star" onfocus="this.blur();"></button>异步加载数据源配置
 				<ul class="remark">——使用 Tomcat 的朋友，可以自己编写 node.jsp</ul>
 				<ul>
-					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('node.txt');">node.txt（静态数据）
-					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('node.php');">node.php（动态数据）
+					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('asyncData/node.txt');">node.txt（静态数据）
+					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('asyncData/node.php');">node.php（动态数据）
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree(setAsyncUrl);">function（根据节点修改URL地址）
+				</ul>
+				<ul class="event">
+				&nbsp;function:&nbsp;&nbsp;<a id="getUrl"></a><br/>
 				</ul>
 			</li>
 			<li class="title focus">
