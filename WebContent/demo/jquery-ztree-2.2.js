@@ -1073,7 +1073,7 @@
 					"display": "none"
 				});
 			}
-
+			
 			//如果目标节点不是父节点，增加树节点展开、关闭事件
 			if (!parentNode.isParent) {
 				target_switchObj.unbind('click');
@@ -1285,6 +1285,7 @@
 		if (parentNode[setting.nodesCol].length < 1) {
 			//原所在父节点无子节点
 			parentNode.isParent = false;
+			parentNode.open = false;
 			var tmp_ulObj = $("#" + parentNode.tId + IDMark_Ul);
 			var tmp_switchObj = $("#" + parentNode.tId + IDMark_Switch);
 			var tmp_icoObj = $("#" + parentNode.tId + IDMark_Icon);
