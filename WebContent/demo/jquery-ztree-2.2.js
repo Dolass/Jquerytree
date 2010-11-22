@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-11-10
+ * Date: 2010-12-01
  *
  */
 
@@ -25,6 +25,7 @@
 	var IDMark_Icon = "_ico";
 	var IDMark_Span = "_span";
 	var IDMark_Input = "_input";
+	var IDMark_Check = "_check";
 	var IDMark_Edit = "_edit";
 	var IDMark_Remove = "_remove";
 	var IDMark_Ul = "_ul";
@@ -255,7 +256,7 @@
 			node.level = level;
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
 			node.parentNode = parentNode;
-			node.checkedNew = (node.checkedNew == undefined)? (node.checked == true) : node.checkedNew;
+			node.checkedOld = (node.checked == true);
 			node.check_Focus = false;
 			node.check_True_Full = true;
 			node.check_False_Full = true;
@@ -369,11 +370,11 @@
 
 		//显示CheckBox Or Radio
 		if (setting.checkable) {
-			switchObj.after("<BUTTON type='BUTTON' ID='" + treeNode.tId + "_check' onfocus='this.blur();' ></BUTTON>");
+			switchObj.after("<BUTTON type='BUTTON' ID='" + treeNode.tId + IDMark_Check + "' onfocus='this.blur();' ></BUTTON>");
 			
-			var checkObj = $("#" + treeNode.tId + "_check");
+			var checkObj = $("#" + treeNode.tId + IDMark_Check);
 			
-			if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && treeNode.checkedNew ) {
+			if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && treeNode.checked ) {
 				setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
 			}
 			
@@ -385,16 +386,16 @@
 				if ((typeof setting.callback.beforeChange) == "function") beforeChange = setting.callback.beforeChange(setting.treeObjId, treeNode);
 				if (beforeChange == false) return;
 				
-				treeNode.checkedNew = !treeNode.checkedNew;
+				treeNode.checked = !treeNode.checked;
 				if (setting.checkStyle == Check_Style_Radio) {
-					if (treeNode.checkedNew) {
+					if (treeNode.checked) {
 						if (setting.checkRadioType == Radio_Type_All) {
 							for (var i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
 								var pNode = setting.checkRadioCheckedList[i];
-								pNode.checkedNew = false;
+								pNode.checked = false;
 								setting.checkRadioCheckedList.splice(i, 1);
 								
-								setChkClass(setting, $("#" + pNode.tId + "_check"), pNode);
+								setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
 								if (pNode.parentNode != treeNode.parentNode) {
 									repairParentChkClassWithSelf(setting, pNode);
 								}
@@ -404,9 +405,9 @@
 							var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
 							for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
 								var pNode = parentNode[setting.nodesCol][son];
-								if (pNode.checkedNew && pNode != treeNode) {
-									pNode.checkedNew = false;
-									setChkClass(setting, $("#" + pNode.tId + "_check"), pNode);
+								if (pNode.checked && pNode != treeNode) {
+									pNode.checked = false;
+									setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
 								}
 							}
 						}
@@ -420,18 +421,18 @@
 					}
 					
 				} else {
-					if (treeNode.checkedNew && setting.checkType.Y.indexOf("s") > -1) {
+					if (treeNode.checked && setting.checkType.Y.indexOf("s") > -1) {
 						setSonNodeCheckBox(setting, treeNode, true);
 						repairSonChkClass(setting, treeNode);
 					}
-					if (treeNode.checkedNew && setting.checkType.Y.indexOf("p") > -1) {
+					if (treeNode.checked && setting.checkType.Y.indexOf("p") > -1) {
 						setParentNodeCheckBox(setting, treeNode, true);
 					}
-					if (!treeNode.checkedNew && setting.checkType.N.indexOf("s") > -1) {
+					if (!treeNode.checked && setting.checkType.N.indexOf("s") > -1) {
 						setSonNodeCheckBox(setting, treeNode, false);
 						repairSonChkClass(setting, treeNode);
 					}
-					if (!treeNode.checkedNew && setting.checkType.N.indexOf("p") > -1) {
+					if (!treeNode.checked && setting.checkType.N.indexOf("p") > -1) {
 						setParentNodeCheckBox(setting, treeNode, false);
 					}
 				}
@@ -801,8 +802,8 @@
 	function setChkClass(setting, obj, treeNode) {
 		if (!obj) return;
 		obj.removeClass();
-		var chkName = setting.checkStyle + "_" + (treeNode.checkedNew ? CheckBox_True : CheckBox_False)
-			+ "_" + ((treeNode.checkedNew || setting.checkStyle == Check_Style_Radio) ? (treeNode.check_True_Full? CheckBox_Full:CheckBox_Part) : (treeNode.check_False_Full? CheckBox_Full:CheckBox_Part) );
+		var chkName = setting.checkStyle + "_" + (treeNode.checked ? CheckBox_True : CheckBox_False)
+			+ "_" + ((treeNode.checked || setting.checkStyle == Check_Style_Radio) ? (treeNode.check_True_Full? CheckBox_Full:CheckBox_Part) : (treeNode.check_False_Full? CheckBox_Full:CheckBox_Part) );
 		chkName = treeNode.checkboxFocus ? chkName + "_" + CheckBox_Focus : chkName;
 		obj.addClass(CheckBox_Default);
 		obj.addClass(chkName);
@@ -835,18 +836,18 @@
 		var trueSign = true;
 		var falseSign = true;
 		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
-			if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_True_Full)) {
+			if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son].checked || !treeNode[setting.nodesCol][son].check_True_Full)) {
 				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && treeNode.checkedNew && (!treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_True_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && treeNode.checked && (!treeNode[setting.nodesCol][son].checked || !treeNode[setting.nodesCol][son].check_True_Full)) {
 				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.checkedNew && (treeNode[setting.nodesCol][son].checkedNew || !treeNode[setting.nodesCol][son].check_False_Full)) {
+			} else if (setting.checkStyle != Check_Style_Radio && !treeNode.checked && (treeNode[setting.nodesCol][son].checked || !treeNode[setting.nodesCol][son].check_False_Full)) {
 				falseSign = false;
 			}
 			if (!trueSign || !falseSign) break;
 		}
 		treeNode.check_True_Full = trueSign;
 		treeNode.check_False_Full = falseSign;
-		var checkObj = $("#" + treeNode.tId + "_check");
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
 		setChkClass(setting, checkObj, treeNode);
 	}
 
@@ -1010,14 +1011,14 @@
 
 	//遍历父节点设置checkbox
 	function setParentNodeCheckBox(setting, treeNode, value) {
-		var checkObj = $("#" + treeNode.tId + "_check");
-		treeNode.checkedNew = value;
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
+		treeNode.checked = value;
 		setChkClass(setting, checkObj, treeNode);
 		if (treeNode.parentNode) {
 			var pSign = true;
 			if (!value) {
 				for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
-					if (treeNode.parentNode[setting.nodesCol][son].checkedNew) {
+					if (treeNode.parentNode[setting.nodesCol][son].checked) {
 						pSign = false;
 						break;
 					}
@@ -1032,9 +1033,9 @@
 	//遍历子节点设置checkbox
 	function setSonNodeCheckBox(setting, treeNode, value) {
 		if (!treeNode) return;
-		var checkObj = $("#" + treeNode.tId + "_check");
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
 		
-		treeNode.checkedNew = value;
+		treeNode.checked = value;
 		setChkClass(setting, checkObj, treeNode);
 		
 		if (!treeNode[setting.nodesCol]) return;
@@ -1401,7 +1402,7 @@
 		if (!treeNodes) return [];
 		var results = [];
 		for (var i = 0; i < treeNodes.length; i++) {
-			if (treeNodes[i].checkedNew == checked) {
+			if (treeNodes[i].checked == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
 			var tmp = getTreeCheckedNodes(setting, treeNodes[i][setting.nodesCol], checked);
@@ -1584,6 +1585,12 @@
 				if (!treeObjId || !treeNode) return;
 				
 				$("#" + treeNode.tId + IDMark_Span).text(treeNode[settings[treeObjId].nameCol]);
+				
+				var checkObj = $("#" + treeNode.tId + IDMark_Check);
+				if (settings[treeObjId].checkable) {
+					setChkClass(settings[treeObjId], checkObj, treeNode);
+					repairParentChkClassWithSelf(settings[treeObjId], treeNode);
+				}
 			},
 
 			moveNode : function(targetNode, treeNode) {
