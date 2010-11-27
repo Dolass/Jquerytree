@@ -15,8 +15,9 @@
    # 【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的Bug
    # 【修改】updateNode时，checkbox不改变的Bug。
 		为了便于用户修改checked的状态，将原先的checkedNew修改为checkedOld，并且保留初始化时的checked状态，当前check状态以checked为准，如果有涉及这部分开发的朋友需要注意一下了。
-
+		增加了IDMark_Check内部常量
    # 【修改】编辑状态 输入框内 回车键可以触发onRename事件
+
    # 【增加】建立扩展函数库，方便大家转换数据等使用
    # 【增加】change事件中 关于自动转换打钩状态的节点是否触发change事件的开关
    # 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
