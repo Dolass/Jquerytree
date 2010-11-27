@@ -14,6 +14,7 @@
 	var setting;
 
 		setting = {
+			checkable : true,
 			callback: {
 				click:	zTreeOnClick,
 			}
@@ -199,6 +200,7 @@
 			return;
 		}
 		srcNode.name = txtObj.value;
+		srcNode.checked = true;
 		zTree1.updateNode(srcNode);
 		zTree1.selectNode(srcNode);
 		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
