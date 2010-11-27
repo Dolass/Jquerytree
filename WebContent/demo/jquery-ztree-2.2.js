@@ -256,7 +256,8 @@
 			node.level = level;
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
 			node.parentNode = parentNode;
-			node.checkedOld = (node.checked == true);
+			node.checked = (node.checked == true);
+			node.checkedOld = node.checked;
 			node.check_Focus = false;
 			node.check_True_Full = true;
 			node.check_False_Full = true;
@@ -1409,6 +1410,20 @@
 		}
 		return results;
 	}
+	
+	//获取全部 被修改Check状态 的节点集合
+	function getTreeChangeCheckedNodes(setting, treeNodes) {
+		if (!treeNodes) return [];
+		var results = [];
+		for (var i = 0; i < treeNodes.length; i++) {
+			if (treeNodes[i].checked != treeNodes[i].checkedOld) {
+				results = results.concat([treeNodes[i]]);
+			}
+			var tmp = getTreeChangeCheckedNodes(setting, treeNodes[i][setting.nodesCol]);
+			if (tmp.length > 0) results = results.concat(tmp);
+		}
+		return results;
+	}
 
 	function zTreePlugin(){
 		return {
@@ -1452,6 +1467,12 @@
 				if (!treeObjId) return;
 				selected = (selected != false);
 				return getTreeCheckedNodes(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol], selected);
+			},
+			
+			getChangeCheckedNodes : function() {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId) return;
+				return getTreeChangeCheckedNodes(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol]);
 			},
 
 			getNodeByTId : function(treeId) {
