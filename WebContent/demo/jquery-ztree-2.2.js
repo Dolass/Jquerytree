@@ -469,7 +469,6 @@
 						removeRemoveBtn(treeNode);
 						addEditBtn(setting, treeNode);
 						addRemoveBtn(setting, treeNode);
-						
 					}
 				},
 				function() {
@@ -1335,8 +1334,6 @@
 	//取消之前选中节点状态
 	function cancelPreSelectedNode(setting) {
 		if (setting.curTreeNode) {
-			removeEditBtn(setting.curTreeNode); 
-			removeRemoveBtn(setting.curTreeNode);
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
 			setting.curTreeNode = null;
@@ -1360,11 +1357,6 @@
 		
 		cancelPreSelectedNode(setting);	
 		cancelPreEditNode(setting);
-		
-		if (setting.editable) {
-			addEditBtn(setting, treeNode);
-			addRemoveBtn(setting, treeNode);
-		}
 			
 		if (treeNode.editNameStatus) {
 			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
@@ -1375,19 +1367,17 @@
 			setCursorPosition(inputObj.get(0), treeNode[setting.nameCol].length);
 			
 			//拦截A的click dblclick监听
-			inputObj.bind('blur',
-					function(event) {
-				treeNode[setting.nameCol] = this.value;
-				//触发rename事件
-				$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
-			}).bind('click',
-					function(event) {
+			inputObj.bind('blur', function(event) {
+				editNameOver(this.value, setting, treeNode);
+			}).bind('keydown', function(event) {
+				if (event.keyCode=="13") {
+					editNameOver(this.value, setting, treeNode);
+				}
+			}).bind('click', function(event) {
 				return false;
-			}).bind('dblclick',
-					function(event) {
+			}).bind('dblclick', function(event) {
 				return false;
 			});
-			
 			
 			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode_Edit);
 			setting.curEditTreeNode = treeNode;
@@ -1395,6 +1385,15 @@
 			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
 		}
 		setting.curTreeNode = treeNode;
+	}
+	
+	//编辑名称结束
+	function editNameOver(newName, setting, treeNode) {
+		treeNode[setting.nameCol] = newName;
+		//触发rename事件
+		$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
+		cancelPreEditNode(setting);
+		selectNode(setting, treeNode);
 	}
 	
 	//获取全部 checked = true or false 的节点集合
