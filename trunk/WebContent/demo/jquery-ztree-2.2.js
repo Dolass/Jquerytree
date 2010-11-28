@@ -11,6 +11,7 @@
 (function($) {
 
 	var ZTREE_CLICK = "ZTREE_CLICK";
+	var ZTREE_RIGHTCLICK = "ZTREE_RIGHTCLICK";
 	var ZTREE_CHANGE = "ZTREE_CHANGE";
 	var ZTREE_RENAME = "ZTREE_RENAME";
 	var ZTREE_REMOVE = "ZTREE_REMOVE";
@@ -120,6 +121,7 @@
 			//event Function
 			callback: {
 				beforeClick:null,
+				beforeRightClick:null,
 				beforeChange:null,
 				beforeDrag:null,
 				beforeDrop:null,
@@ -129,6 +131,7 @@
 				beforeCollapse:null,
 				
 				click:null,
+				rightClick:null,
 				change:null,
 				drag:null,
 				drop:null,
@@ -188,7 +191,6 @@
 			asyncGetNode(setting);
 		}
 		
-
 		return new zTreePlugin().init(this);
 
 	};
@@ -199,7 +201,7 @@
 		treeObj.bind(ZTREE_CLICK, function (event, treeId, treeNode) {
 		  if ((typeof setting.callback.click) == "function") setting.callback.click(event, treeId, treeNode);
 		});
-
+		
 		treeObj.unbind(ZTREE_CHANGE);
 		treeObj.bind(ZTREE_CHANGE, function (event, treeId, treeNode) {
 		  if ((typeof setting.callback.change) == "function") setting.callback.change(event, treeId, treeNode);
@@ -245,6 +247,30 @@
 		  if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown);
 		});
 		
+		$("#" + setting.treeObjId).bind('contextmenu',
+			function(event) {
+				var treeNode;
+				var targetObj = $(event.target);
+				if (targetObj.attr("id") == setting.treeObjId) {
+					treeNode = null;
+				} else {
+					while (!targetObj.is("li") && targetObj.attr("id") != setting.treeObjId) {
+						targetObj = targetObj.parent();
+					};
+					var tId = targetObj.attr("id");
+					treeNode = getTreeNodeByTId(setting, setting.root[setting.nodesCol], tId);
+				}
+				var doRight = true;
+				if ((typeof setting.callback.beforeRightClick) == "function") {
+					doRight = setting.callback.beforeRightClick(event, setting.treeObjId, treeNode);
+				}
+				//触发rightClick事件
+				if (doRight && (typeof setting.callback.rightClick) == "function") {
+					setting.callback.rightClick(event, setting.treeObjId, treeNode);
+					return false;
+				}
+				return (typeof setting.callback.rightClick) != "function";
+			});
 	}
 
 	//初始化并显示节点Json对象
