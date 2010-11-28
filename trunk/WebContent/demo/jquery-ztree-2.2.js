@@ -902,9 +902,6 @@
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
 		}
-		//.net下刷新页面的bug可能还是button造成的，因此将一下代码暂时屏蔽
-//		if(window.event) window.event.returnValue = null;
-//        return false;
 	}
 
 	function asyncGetNode(setting, treeNode) {
@@ -1616,6 +1613,26 @@
 				if (!treeObjId) return;
 				
 				cancelPreSelectedNode(settings[treeObjId]);
+			},
+			
+			reAsyncChildNodes : function(parentNode, reloadType) {
+				var treeObjId = this.container.attr("id");
+				if (!treeObjId) return;
+				
+				var isRoot = !parentNode;
+				if (isRoot) {
+					parentNode = settings[treeObjId].root;
+				}
+				if (reloadType=="refresh") {
+					parentNode[settings[treeObjId].nodesCol] = [];
+					if (isRoot) {
+						settings[treeObjId].treeObj.empty();
+					} else {
+						var ulObj = $("#" + parentNode.tId + IDMark_Ul);
+						ulObj.empty();
+					}
+				}
+				asyncGetNode(settings[treeObjId], isRoot? null:parentNode);
 			},
 
 			addNodes : function(parentNode, newNodes, isSilent) {
