@@ -414,55 +414,8 @@
 				if (beforeChange == false) return;
 				
 				treeNode.checked = !treeNode.checked;
-				if (setting.checkStyle == Check_Style_Radio) {
-					if (treeNode.checked) {
-						if (setting.checkRadioType == Radio_Type_All) {
-							for (var i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
-								var pNode = setting.checkRadioCheckedList[i];
-								pNode.checked = false;
-								setting.checkRadioCheckedList.splice(i, 1);
-								
-								setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
-								if (pNode.parentNode != treeNode.parentNode) {
-									repairParentChkClassWithSelf(setting, pNode);
-								}
-							}
-							setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
-						} else {
-							var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
-							for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
-								var pNode = parentNode[setting.nodesCol][son];
-								if (pNode.checked && pNode != treeNode) {
-									pNode.checked = false;
-									setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
-								}
-							}
-						}
-					} else if (setting.checkRadioType == Radio_Type_All) {
-						for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
-							if (treeNode == setting.checkRadioCheckedList[i]) {
-								setting.checkRadioCheckedList.splice(i, 1);
-								break;
-							}
-						}
-					}
-					
-				} else {
-					if (treeNode.checked && setting.checkType.Y.indexOf("s") > -1) {
-						setSonNodeCheckBox(setting, treeNode, true);
-						repairSonChkClass(setting, treeNode);
-					}
-					if (treeNode.checked && setting.checkType.Y.indexOf("p") > -1) {
-						setParentNodeCheckBox(setting, treeNode, true);
-					}
-					if (!treeNode.checked && setting.checkType.N.indexOf("s") > -1) {
-						setSonNodeCheckBox(setting, treeNode, false);
-						repairSonChkClass(setting, treeNode);
-					}
-					if (!treeNode.checked && setting.checkType.N.indexOf("p") > -1) {
-						setParentNodeCheckBox(setting, treeNode, false);
-					}
-				}
+				checkNodeRelation(setting, treeNode);
+				
 				setChkClass(setting, checkObj, treeNode);
 				repairParentChkClassWithSelf(setting, treeNode);
 
@@ -824,6 +777,59 @@
 		).show();
 	}
 	
+	//设置check后，父子节点联动关系
+	function checkNodeRelation(setting, treeNode) {
+		if (setting.checkStyle == Check_Style_Radio) {
+			if (treeNode.checked) {
+				if (setting.checkRadioType == Radio_Type_All) {
+					for (var i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
+						var pNode = setting.checkRadioCheckedList[i];
+						pNode.checked = false;
+						setting.checkRadioCheckedList.splice(i, 1);
+						
+						setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
+						if (pNode.parentNode != treeNode.parentNode) {
+							repairParentChkClassWithSelf(setting, pNode);
+						}
+					}
+					setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
+				} else {
+					var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
+					for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
+						var pNode = parentNode[setting.nodesCol][son];
+						if (pNode.checked && pNode != treeNode) {
+							pNode.checked = false;
+							setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
+						}
+					}
+				}
+			} else if (setting.checkRadioType == Radio_Type_All) {
+				for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
+					if (treeNode == setting.checkRadioCheckedList[i]) {
+						setting.checkRadioCheckedList.splice(i, 1);
+						break;
+					}
+				}
+			}
+			
+		} else {
+			if (treeNode.checked && setting.checkType.Y.indexOf("s") > -1) {
+				setSonNodeCheckBox(setting, treeNode, true);
+				repairSonChkClass(setting, treeNode);
+			}
+			if (treeNode.checked && setting.checkType.Y.indexOf("p") > -1) {
+				setParentNodeCheckBox(setting, treeNode, true);
+			}
+			if (!treeNode.checked && setting.checkType.N.indexOf("s") > -1) {
+				setSonNodeCheckBox(setting, treeNode, false);
+				repairSonChkClass(setting, treeNode);
+			}
+			if (!treeNode.checked && setting.checkType.N.indexOf("p") > -1) {
+				setParentNodeCheckBox(setting, treeNode, false);
+			}
+		}
+	}
+	
 	//设置CheckBox的Class类型，主要用于显示子节点是否全部被选择的样式
 	function setChkClass(setting, obj, treeNode) {
 		if (!obj) return;
@@ -1058,8 +1064,10 @@
 		if (!treeNode) return;
 		var checkObj = $("#" + treeNode.tId + IDMark_Check);
 		
-		treeNode.checked = value;
-		setChkClass(setting, checkObj, treeNode);
+		if (treeNode != setting.root) {
+			treeNode.checked = value;
+			setChkClass(setting, checkObj, treeNode);
+		}
 		
 		if (!treeNode[setting.nodesCol]) return;
 		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
@@ -1451,73 +1459,63 @@
 	function zTreePlugin(){
 		return {
 			container:null,
+			setting:null,
 
 			init: function(obj) {
 				this.container = obj;
+				this.setting = settings[obj.attr("id")];
 				return this;
 			},
 
 			refresh : function() {
-				var treeObjId = this.container.attr("id");
-				$("#" + treeObjId).empty();
-				settings[treeObjId].curTreeNode = null;
-				settings[treeObjId].curEditTreeNode = null;
-				settings[treeObjId].dragStatus = 0;
-				settings[treeObjId].dragNodeShowBefore = false;
-				settings[treeObjId].checkRadioCheckedList = [];
+				$("#" + setting.treeObjId).empty();
+				this.setting.curTreeNode = null;
+				this.setting.curEditTreeNode = null;
+				this.setting.dragStatus = 0;
+				this.setting.dragNodeShowBefore = false;
+				this.setting.checkRadioCheckedList = [];
 				zTreeId = 0;
-				initTreeNodes(settings[treeObjId], 0, settings[treeObjId].root[settings[treeObjId].nodesCol]);
+				initTreeNodes(this.setting, 0, this.setting.root[this.setting.nodesCol]);
 			},
 
 			setEditable : function(editable) {
-				var treeObjId = this.container.attr("id");
-				settings[treeObjId].editable = editable;
+				this.setting.editable = editable;
 				return this.refresh();
 			},
 
 			getNodes : function() {
-				var treeObjId = this.container.attr("id");
-				return settings[treeObjId].root[settings[treeObjId].nodesCol];
+				return this.setting.root[this.setting.nodesCol];
 			},
 
 			getSelectedNode : function() {
-				var treeObjId = this.container.attr("id");
-				return settings[treeObjId].curTreeNode;
+				return this.setting.curTreeNode;
 			},
 
 			getCheckedNodes : function(selected) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId) return;
 				selected = (selected != false);
-				return getTreeCheckedNodes(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol], selected);
+				return getTreeCheckedNodes(this.setting, this.setting.root[this.setting.nodesCol], selected);
 			},
 			
 			getChangeCheckedNodes : function() {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId) return;
-				return getTreeChangeCheckedNodes(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol]);
+				return getTreeChangeCheckedNodes(this.setting, this.setting.root[this.setting.nodesCol]);
 			},
 
 			getNodeByTId : function(treeId) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeId) return;
-				return getTreeNodeByTId(settings[treeObjId], settings[treeObjId].root[settings[treeObjId].nodesCol], treeId);
+				if (!treeId) return;
+				return getTreeNodeByTId(this.setting, this.setting.root[this.setting.nodesCol], treeId);
 			},
 			
 			getNodeIndex : function(treeNode) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
-				var parentNode = (treeNode.parentNode == null) ? settings[treeObjId].root : treeNode.parentNode;
-				for (var i=0; i<parentNode[settings[treeObjId].nodesCol].length; i++) {
-					if (parentNode[settings[treeObjId].nodesCol][i] == treeNode) return i;
+				if (!treeNode) return;
+				var parentNode = (treeNode.parentNode == null) ? this.setting.root : treeNode.parentNode;
+				for (var i=0; i<parentNode[this.setting.nodesCol].length; i++) {
+					if (parentNode[this.setting.nodesCol][i] == treeNode) return i;
 				}
 				return -1;
 			},
 			
 			getSetting : function() {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId) return;
-				var zTreeSetting = settings[treeObjId];
+				var zTreeSetting = this.setting;
 				var setting = {checkType:{}, callback:{}};
 				
 				var tmp_checkType = zTreeSetting.checkType;
@@ -1541,9 +1539,9 @@
 			},
 			
 			updateSetting : function(zTreeSetting) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !zTreeSetting) return;
-				var setting = settings[treeObjId];
+				if (!zTreeSetting) return;
+				var setting = this.setting;
+				var treeObjId = setting.treeObjId;
 				
 				var tmp_checkType = zTreeSetting.checkType;
 				zTreeSetting.checkType = undefined;
@@ -1562,45 +1560,43 @@
 				$.extend(true, setting.checkType, tmp_checkType);
 				$.extend(setting.callback, tmp_callback);
 				setting.treeObjId = treeObjId;
+				setting.treeObj = this.container;
 				
 			},
 
 			expandAll : function(expandSign) {
-				var treeObjId = this.container.attr("id");
-				expandCollapseSonNode(settings[treeObjId], null, expandSign, true);
+				expandCollapseSonNode(this.setting, null, expandSign, true);
 			},
 
 			expandNode : function(treeNode, expandSign, sonSign) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
+				if (!treeNode) return;
 
 				if (expandSign) {
 					//如果展开某节点，则必须展开其全部父节点
 					//为了保证效率,展开父节点时不使用动画
-					if (treeNode.parentNode) expandCollapseParentNode(settings[treeObjId], treeNode.parentNode, expandSign, false);
-					expandAndCollapseNode(settings[treeObjId], treeNode, expandSign, true);
+					if (treeNode.parentNode) expandCollapseParentNode(this.setting, treeNode.parentNode, expandSign, false);
+					expandAndCollapseNode(this.setting, treeNode, expandSign, true);
 				}
 				if (sonSign) {
 					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
 					//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
-					expandCollapseSonNode(settings[treeObjId], treeNode, expandSign, false, function() {
+					expandCollapseSonNode(this.setting, treeNode, expandSign, false, function() {
 						$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 					});
 				} else if (treeNode.open != expandSign) {
-					switchNode(settings[treeObjId], treeNode);
+					switchNode(this.setting, treeNode);
 					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 				}
 			},
 
 			selectNode : function(treeNode) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
+				if (!treeNode) return;
 
-				selectNode(settings[treeObjId], treeNode);
+				selectNode(this.setting, treeNode);
 				//如果选择某节点，则必须展开其全部父节点
 				//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
 				//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画				
-				expandCollapseParentNode(settings[treeObjId], treeNode, true, false, function() {
+				expandCollapseParentNode(this.setting, treeNode, true, false, function() {
 					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 				});
 			},
@@ -1609,69 +1605,64 @@
 				this.cancelSelectedNode();
 			},
 			cancelSelectedNode : function() {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId) return;
-				
-				cancelPreSelectedNode(settings[treeObjId]);
+				cancelPreSelectedNode(this.setting);
+			},
+			
+			checkAllNodes : function(checked) {
+				if (this.setting.checkable) {
+					setSonNodeCheckBox(this.setting, this.setting.root, (checked==true));
+				}
 			},
 			
 			reAsyncChildNodes : function(parentNode, reloadType) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId) return;
-				
+				if (!this.setting.async) return;
 				var isRoot = !parentNode;
 				if (isRoot) {
-					parentNode = settings[treeObjId].root;
+					parentNode = this.setting.root;
 				}
 				if (reloadType=="refresh") {
-					parentNode[settings[treeObjId].nodesCol] = [];
+					parentNode[this.setting.nodesCol] = [];
 					if (isRoot) {
-						settings[treeObjId].treeObj.empty();
+						this.setting.treeObj.empty();
 					} else {
 						var ulObj = $("#" + parentNode.tId + IDMark_Ul);
 						ulObj.empty();
 					}
 				}
-				asyncGetNode(settings[treeObjId], isRoot? null:parentNode);
+				asyncGetNode(this.setting, isRoot? null:parentNode);
 			},
 
 			addNodes : function(parentNode, newNodes, isSilent) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !newNodes) return;
+				if (!newNodes) return;
 				if (!parentNode) parentNode = null;
-				addTreeNodes(settings[treeObjId], parentNode, newNodes, (isSilent==true));
-
+				addTreeNodes(this.setting, parentNode, newNodes, (isSilent==true));
 			},
 			
-			updateNode : function(treeNode) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
-				
-				$("#" + treeNode.tId + IDMark_Span).text(treeNode[settings[treeObjId].nameCol]);
-				
+			updateNode : function(treeNode, checkTypeFlag) {
+				if (!treeNode) return;
+				$("#" + treeNode.tId + IDMark_Span).text(treeNode[this.setting.nameCol]);
 				var checkObj = $("#" + treeNode.tId + IDMark_Check);
-				if (settings[treeObjId].checkable) {
-					setChkClass(settings[treeObjId], checkObj, treeNode);
-					repairParentChkClassWithSelf(settings[treeObjId], treeNode);
+				if (this.setting.checkable) {
+					setChkClass(this.setting, checkObj, treeNode);
+					repairParentChkClassWithSelf(this.setting, treeNode);
+					if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
 				}
 			},
 
 			moveNode : function(targetNode, treeNode) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
+				if (!treeNode) return;
 				
 				if (targetNode && (treeNode.parentNode == targetNode || $("#" + treeNode.tId).find("#" + targetNode.tId).length > 0)) {
 					return;
 				} else if (!targetNode) {
 					targetNode = null;
 				}
-				moveTreeNode(settings[treeObjId], targetNode, treeNode, false);
+				moveTreeNode(this.setting, targetNode, treeNode, false);
 			},
 
 			removeNode : function(treeNode) {
-				var treeObjId = this.container.attr("id");
-				if (!treeObjId || !treeNode) return;
-				removeTreeNode(settings[treeObjId], treeNode);
+				if (!treeNode) return;
+				removeTreeNode(this.setting, treeNode);
 			}
 
 		};
