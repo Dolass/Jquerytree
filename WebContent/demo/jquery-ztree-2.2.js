@@ -324,44 +324,18 @@
 			p = $("#" + treeNode.parentNode.tId + IDMark_Ul);
 		}
 
-		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button type=\"button\" class=\"switch\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button type=\"button\" class=\"" + (treeNode.iconSkin ? treeNode.iconSkin : "") + " ico\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
+		var html = "<li id='" + treeNode.tId + "' class='tree-node'>" + "<button type=\"button\" id='" + treeNode.tId + IDMark_Switch + "' title='' onfocus='this.blur();'></button>" + "<a id='" + treeNode.tId + IDMark_A + "' onclick=\"" + (treeNode.click || '') + "\" ><button type=\"button\" id='" + treeNode.tId + IDMark_Icon + "' title='' onfocus='this.blur();'></button><span id='" + treeNode.tId + IDMark_Span + "'></span></a>" + "<ul id='" + treeNode.tId + IDMark_Ul + "'></ul>" + "</li>";
 		p.append(html);
 		
 		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var nObj = $("#" + treeNode.tId + IDMark_Span);
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
-		
-		nObj.text(treeNode[setting.nameCol]);
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
-
-		//设置Line、Ico等css属性
-		if (setting.showLine) {
-			if (treeNode.level == 0 && treeNode.isFirstNode && treeNode.isLastNode) {
-				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Root);
-			} else if (treeNode.level == 0 && treeNode.isFirstNode) {
-				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Roots);
-			} else if (treeNode.isLastNode) {
-				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Bottom);
-			} else {
-				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Center);
-			}
-			if (!treeNode.isLastNode) {
-				ulObj.addClass(LineMark_Line);
-			}
-		} else {
-			switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_NoLine);
-		}
-		if (treeNode.isParent) {
-			var tmpOpen = (treeNode.open ? ("_" + FolderMark_Open) : ("_" + FolderMark_Close));
-			switchObj.attr("class", switchObj.attr("class") + tmpOpen);
-			icoObj.attr("class", icoObj.attr("class") + tmpOpen);
-		} else {
-			switchObj.attr("class", switchObj.attr("class") + "_" + FolderMark_Docu);
-			icoObj.attr("class", icoObj.attr("class") + "_" + FolderMark_Docu);
-		}
-		if (treeNode.icon) icoObj.attr("style", "background:url(" + treeNode.icon + ") 0 0 no-repeat;");
-
+		
+		setNodeName(setting, treeNode);
+		setNodeLineIcos(setting, treeNode);
+		
 		//增加树节点展开、关闭事件
 		ulObj.css({
 			"display": (treeNode.open ? "block": "none")
@@ -436,9 +410,9 @@
 				setChkClass(setting, checkObj, treeNode);
 			});
 		}
-
-		aObj.attr("target", (treeNode.target || "_blank"));
-		if (treeNode.url && !setting.editable) aObj.attr("href", treeNode.url);
+		
+		setNodeTarget(treeNode);
+		setNodeUrl(setting, treeNode);
 		
 		//编辑、删除按钮
 		if (setting.editable) {
@@ -665,6 +639,61 @@
 				dragMaskList.push(dragMask);
 			}
 		}
+	}
+	
+	//设置Name
+	function setNodeName(setting, treeNode) {
+		var nObj = $("#" + treeNode.tId + IDMark_Span);
+		nObj.text(treeNode[setting.nameCol]);
+	}
+	//设置Target
+	function setNodeTarget(treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		aObj.attr("target", (treeNode.target || "_blank"));
+	}
+	//设置URL
+	function setNodeUrl(setting, treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if (treeNode.url && !setting.editable) aObj.attr("href", treeNode.url);
+		else aObj.removeAttr("href");
+	}
+	//设置Line、Ico等css属性
+	function setNodeLineIcos(setting, treeNode) {
+		if (!treeNode) return;
+		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
+		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
+		
+		switchObj.attr("class", "switch");
+		if (setting.showLine) {
+			if (treeNode.level == 0 && treeNode.isFirstNode && treeNode.isLastNode) {
+				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Root);
+			} else if (treeNode.level == 0 && treeNode.isFirstNode) {
+				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Roots);
+			} else if (treeNode.isLastNode) {
+				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Bottom);
+			} else {
+				switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_Center);
+			}
+			if (!treeNode.isLastNode) {
+				ulObj.addClass(LineMark_Line);
+			}
+		} else {
+			switchObj.attr("class", switchObj.attr("class") + "_" + LineMark_NoLine);
+		}
+		
+		icoObj.attr("class", (treeNode.iconSkin ? treeNode.iconSkin : ""));
+		if (treeNode.isParent) {
+			var tmpOpen = (treeNode.open ? ("_" + FolderMark_Open) : ("_" + FolderMark_Close));
+			switchObj.attr("class", switchObj.attr("class") + tmpOpen);
+			icoObj.addClass("ico" + tmpOpen);
+		} else {
+			switchObj.attr("class", switchObj.attr("class") + "_" + FolderMark_Docu);
+			icoObj.addClass("ico_" + FolderMark_Docu);
+		}
+		if (treeNode.icon) icoObj.attr("style", "background:url(" + treeNode.icon + ") 0 0 no-repeat;");
+		else icoObj.attr("style", "");
 	}
 
 	//对于button替换class 拼接字符串
@@ -914,7 +943,11 @@
 		if (treeNode && treeNode.isAjaxing) {
 			return;
 		}
-		if (treeNode) treeNode.isAjaxing = true;
+		if (treeNode) {
+			treeNode.isAjaxing = true;
+			var icoObj = $("#" + treeNode.tId + IDMark_Icon);
+			icoObj.attr("class", "ico_loading");
+		}
 
 		var tmpParam = "";
 		for (var i = 0; treeNode && i < setting.asyncParam.length; i++) {
@@ -941,7 +974,8 @@
 				try {
 					newNodes = eval("(" + msg + ")");
 				} catch(err) {}
-
+				
+				setNodeLineIcos(setting, treeNode);
 				if (newNodes && newNodes != "") {
 					addTreeNodes(setting, treeNode, newNodes, false);
 				}
@@ -951,6 +985,7 @@
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				setting.expandTriggerFlag = false;
+				setNodeLineIcos(setting, treeNode);
 				if (treeNode) treeNode.isAjaxing = undefined;
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 			}
@@ -1184,9 +1219,7 @@
 		replaceSwitchClass(target_switchObj, FolderMark_Open);
 		replaceIcoClass(target_icoObj, FolderMark_Open);
 		targetNode.open = true;
-		target_ulObj.css({
-			"display": "block"
-		});
+		target_ulObj.css({"display":"block"});
 
 		//如果目标节点不是父节点，且不是根，增加树节点展开、关闭事件
 		if (!targetNode.isParent && !targetNodeIsRoot) {
@@ -1640,13 +1673,16 @@
 			
 			updateNode : function(treeNode, checkTypeFlag) {
 				if (!treeNode) return;
-				$("#" + treeNode.tId + IDMark_Span).text(treeNode[this.setting.nameCol]);
 				var checkObj = $("#" + treeNode.tId + IDMark_Check);
 				if (this.setting.checkable) {
 					setChkClass(this.setting, checkObj, treeNode);
 					repairParentChkClassWithSelf(this.setting, treeNode);
 					if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
 				}
+				setNodeName(this.setting, treeNode);
+				setNodeTarget(treeNode);
+				setNodeUrl(this.setting, treeNode);
+				setNodeLineIcos(this.setting, treeNode);
 			},
 
 			moveNode : function(targetNode, treeNode) {
