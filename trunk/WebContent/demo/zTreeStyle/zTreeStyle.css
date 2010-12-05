@@ -35,7 +35,6 @@ website:	http://code.google.com/p/jquerytree/
 	}
 .tree li a:hover {text-decoration:underline;}
 .tree li a.curSelectedNode {
-	margin:0; padding:3px 3px 2px 0; 
 	background-color:#FFE6B0; 
 	color:black;
 	border:1px #FFB951 solid; 
@@ -43,14 +42,12 @@ website:	http://code.google.com/p/jquerytree/
 	}
 .tree li a.curSelectedNode_Edit {
 	line-height: 25px;
-	margin:0; padding:3px 3px 2px 0; 
 	background-color:#FFE6B0; 
 	color:black;
 	border:1px #FFB951 solid; 
 	opacity:0.8; filter:alpha(opacity=80);
 	}
 .tree li a.tmpTargetNode {
-	margin:0; padding:3px 3px 2px 0; 
 	background-color:#316AC5; 
 	color:white;
 	border:1px #316AC5 solid; 
@@ -134,6 +131,14 @@ website:	http://code.google.com/p/jquerytree/
 	opacity:0.8; filter:alpha(opacity=80);
 	}
 
+button.tmpzTreeMove_arrow {
+	width:16px; height:16px; 
+	padding:0; margin:2px 0 0 1px; 
+	border:0 none; 
+	position:absolute; 
+	background:url(./img/moveArrow.png) no-repeat scroll 0 0 transparent;
+	}
+	
 .zTreeDragUL {
 	margin:0; padding:0; 
 	position:absolute; 
