@@ -33,6 +33,7 @@
    # 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
    # 【增加】节点同级内上下排序的接口和功能
 		增加内部常量MoveType_Inner、MoveType_Before、MoveType_After
+		moveNode方法增加 moveType 参数
 		
    # 【增加】建立扩展函数库，方便大家转换数据等使用
    # 【修改】css中样式导致虚线相差一个像素的问题
