@@ -60,8 +60,8 @@
 	var Radio_Type_Level = "level";
 	
 	var MoveType_Inner = "inner";
-	var MoveType_Before = "Before";
-	var MoveType_After = "After";
+	var MoveType_Before = "before";
+	var MoveType_After = "after";
 	var MinMoveSize = "5";
 
 	var settings = new Array();
@@ -261,7 +261,7 @@
 						targetObj = targetObj.parent();
 					};
 					var tId = targetObj.attr("id");
-					treeNode = getTreeNodeByTId(setting, setting.root[setting.nodesCol], tId);
+					treeNode = getTreeNodeByTId(setting, tId);
 				}
 				var doRight = true;
 				if ((typeof setting.callback.beforeRightClick) == "function") {
@@ -609,7 +609,7 @@
 					tmpTarget = null;
 				}
 				if (tmpTarget) {
-					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting, setting.root[setting.nodesCol], tmpTargetNodeId);
+					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting, tmpTargetNodeId);
 					var beforeDrop = true;
 					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode);
 					if (beforeDrop == false) return;
@@ -1212,14 +1212,8 @@
 	function addTreeNodesData(setting, parentNode, treenodes) {
 		if (!parentNode[setting.nodesCol]) parentNode[setting.nodesCol] = [];
 		if (parentNode[setting.nodesCol].length > 0) {
-			var tmpId = parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].tId;
 			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isLastNode = false;
-			if (parentNode == setting.root && parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isFirstNode) {
-				replaceSwitchClass($("#" + tmpId + IDMark_Switch), LineMark_Roots);
-			} else {
-				replaceSwitchClass($("#" + tmpId + IDMark_Switch), LineMark_Center);
-			}
-			$("#" + tmpId + IDMark_Ul).addClass(LineMark_Line);
+			setNodeLineIcos(setting, parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1]);
 		}
 		parentNode.isParent = true;
 		parentNode[setting.nodesCol] = parentNode[setting.nodesCol].concat(treenodes);
@@ -1275,7 +1269,7 @@
 				targetNode.isParent = true;
 				treeNode.parentNode = targetNode;
 			}
-			setSonNodeLevel(setting, treeNode.parentNode, treeNode);
+			
 			if (!targetNode[setting.nodesCol]) targetNode[setting.nodesCol] = new Array();
 			if (targetNode[setting.nodesCol].length > 0) {
 				newNeighbor = targetNode[setting.nodesCol][targetNode[setting.nodesCol].length - 1];
@@ -1310,6 +1304,7 @@
 			treeNode.isFirstNode = false;
 			treeNode.isLastNode = false;
 		}
+		setSonNodeLevel(setting, treeNode.parentNode, treeNode);
 		
 		//进行HTML结构修正
 		var src_switchObj = $("#" + treeNode.tId + IDMark_Switch);
@@ -1451,16 +1446,32 @@
 	}
 
 	//根据 tId 获取 节点的数据对象
-	function getTreeNodeByTId(setting, treeNodes, treeId) {
-		if (!treeNodes || !treeId) return null;
+	function getTreeNodeByTId(setting, treeId) {
+		return getTreeNodeByParam(setting, setting.root[setting.nodesCol], "tId", treeId);
+	}
+	//根据唯一属性 获取 节点的数据对象
+	function getTreeNodeByParam(setting, treeNodes, key, value) {
+		if (!treeNodes || !key) return null;
 		for (var i = 0; i < treeNodes.length; i++) {
-			if (treeNodes[i].tId == treeId) {
+			if (treeNodes[i][key] == value) {
 				return treeNodes[i];
 			}
-			var tmp = getTreeNodeByTId(setting, treeNodes[i][setting.nodesCol], treeId);
+			var tmp = getTreeNodeByParam(setting, treeNodes[i][setting.nodesCol], key, value);
 			if (tmp) return tmp;
 		}
 		return null;
+	}
+	//根据属性 获取 节点的数据对象集合
+	function getTreeNodesByParam(setting, treeNodes, key, value) {
+		if (!treeNodes || !key) return [];
+		var result = [];
+		for (var i = 0; i < treeNodes.length; i++) {
+			if (treeNodes[i][key] == value) {
+				result.push(treeNodes[i]);
+			}
+			result = result.concat(getTreeNodesByParam(setting, treeNodes[i][setting.nodesCol], key, value));
+		}
+		return result;
 	}
 
 	//取消之前选中节点状态
@@ -1602,7 +1613,15 @@
 
 			getNodeByTId : function(treeId) {
 				if (!treeId) return;
-				return getTreeNodeByTId(this.setting, this.setting.root[this.setting.nodesCol], treeId);
+				return getTreeNodeByTId(this.setting, treeId);
+			},
+			getNodeByParam : function(key, value) {
+				if (!key) return;
+				return getTreeNodeByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
+			},
+			getNodeByParam : function(key, value) {
+				if (!key) return;
+				return getTreeNodesByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
 			},
 			
 			getNodeIndex : function(treeNode) {
