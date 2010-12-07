@@ -109,6 +109,10 @@
 			asyncParam: [],
 			//其它参数
 			asyncParamOther: [],
+			//简单Array数组转换为Json嵌套数据参数
+			isSimpleData: false,
+			treeNodeKey: "",
+			treeNodeParentKey: "",
 			//用户自定义名称列
 			nameCol: "name",
 			//用户自定义子节点列
@@ -1566,6 +1570,31 @@
 		}
 		return results;
 	}
+	
+	//简要数据转换为标准JSON数组
+	function transformTozTreeFormat(setting, simpleTreeNodes) {
+		var key = setting.treeNodeKey;
+		var parentKey = setting.treeNodeParentKey;
+		if (!key || key=="" || !simpleTreeNodes) return [];
+		
+		if (Object.prototype.toString.apply(simpleTreeNodes) === "[object Array]") {
+			var r = [];
+			var tmpMap = [];
+			for (var i=0; i<simpleTreeNodes.length; i++) {
+				if (simpleTreeNodes[i][parentKey] && tmpMap[simpleTreeNodes[i][parentKey]]) {
+					if (!tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol])
+						tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol] = [];
+					tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol].push(simpleTreeNodes[i]);
+				} else {
+					r.push(simpleTreeNodes[i]);
+				}
+				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
+			}
+			return r;
+		} else {
+			return [simpleTreeNodes];
+		}
+	}
 
 	function zTreePlugin(){
 		return {
@@ -1592,6 +1621,14 @@
 			setEditable : function(editable) {
 				this.setting.editable = editable;
 				return this.refresh();
+			},
+			
+			transformTozTreeNodes : function(simpleTreeNodes) {
+				return transformTozTreeFormat(this.setting, simpleTreeNodes);
+			},
+			
+			transformToSimpleArray : function(treeNodes) {
+				
 			},
 
 			getNodes : function() {

@@ -36,6 +36,8 @@
 		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个复核要求的结果，另一个返回符合要求的节点Array集合。
 		
    # 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
+		增加 isSimpleData、treeNodeKey、treeNodeParentKey 属性设置
+		增加 transformTozTreeNodes 和 transformToSimpleArray 接口便于用户进行数据转换
 		
    # 【增加】建立扩展函数库，方便大家转换数据等使用
    # 【修改】css中样式导致虚线相差一个像素的问题
