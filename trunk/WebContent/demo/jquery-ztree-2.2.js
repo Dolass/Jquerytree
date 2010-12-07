@@ -109,7 +109,7 @@
 			asyncParam: [],
 			//其它参数
 			asyncParamOther: [],
-			//简单Array数组转换为Json嵌套数据参数
+			//简单Array数组转换为JSON嵌套数据参数
 			isSimpleData: false,
 			treeNodeKey: "",
 			treeNodeParentKey: "",
@@ -1166,6 +1166,9 @@
 
 	//增加子节点
 	function addTreeNodes(setting, parentNode, newNodes, isSilent) {
+		if (setting.isSimpleData) {
+			newNodes = transformTozTreeFormat(setting, newNodes);
+		}
 		if (parentNode) {
 			//目标节点必须在当前树内
 			if ($("#" + setting.treeObjId).find("#" + parentNode.tId).length == 0) return;
@@ -1595,6 +1598,24 @@
 			return [simpleTreeNodes];
 		}
 	}
+	
+	//标准JSON zTreeNode 数组转换为普通Array简要数据
+	function transformToArrayFormat(setting, treeNodes) {
+		if (!treeNodes) return [];
+		var r = [];
+		if (Object.prototype.toString.apply(treeNodes) === "[object Array]") {
+			for (var i=0; i<treeNodes.length; i++) {
+				r.push(treeNodes[i]);
+				if (treeNodes[i][setting.nodesCol])
+					r = r.concat(transformToArrayFormat(setting, treeNodes[i][setting.nodesCol]));
+			}
+		} else {
+			r.push(treeNodes);
+			if (treeNodes[setting.nodesCol])
+				r = r.concat(transformToArrayFormat(setting, treeNodes[setting.nodesCol]));
+		}
+		return r;
+	}
 
 	function zTreePlugin(){
 		return {
@@ -1627,8 +1648,8 @@
 				return transformTozTreeFormat(this.setting, simpleTreeNodes);
 			},
 			
-			transformToSimpleArray : function(treeNodes) {
-				
+			transformToArray : function(treeNodes) {
+				return transformToArrayFormat(this.setting, treeNodes);
 			},
 
 			getNodes : function() {
