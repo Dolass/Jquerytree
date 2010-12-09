@@ -53,12 +53,24 @@
 <PARAM NAME="Local" VALUE="e_beforeExpand.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeMouseDown(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeMouseDown.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeMouseUp(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeMouseUp.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeRemove(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeRemove.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeRename(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeRename.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeRightClick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeRightClick.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback">
@@ -83,6 +95,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checkable">
 <PARAM NAME="Local" VALUE="s_checkable.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkAllNodes(checked)">
+<PARAM NAME="Local" VALUE="m_checkAllNodes.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="CheckBox_Default">
@@ -111,6 +127,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checked">
 <PARAM NAME="Local" VALUE="s_checked.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkedCol">
+<PARAM NAME="Local" VALUE="s_checkedCol.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checkedOld">
@@ -233,6 +253,10 @@
 <PARAM NAME="Local" VALUE="c_FolderMark_Open.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getChangeCheckedNodes()">
+<PARAM NAME="Local" VALUE="m_getChangeCheckedNodes.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getCheckedNodes(checked)">
 <PARAM NAME="Local" VALUE="m_getCheckedNodes.html">
 </OBJECT>
@@ -349,6 +373,14 @@
 <PARAM NAME="Local" VALUE="c_MinMoveSize.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="mouseDown(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_mouseDown.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="mouseUp(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_mouseUp.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="moveNode(targetNode, treeNode)">
 <PARAM NAME="Local" VALUE="m_moveNode.html">
 </OBJECT>
@@ -385,6 +417,10 @@
 <PARAM NAME="Local" VALUE="c_Radio_Type_Level.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="reAsyncChildNodes(parentNode, reloadType)">
+<PARAM NAME="Local" VALUE="m_reAsyncChildNodes.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="refresh()">
 <PARAM NAME="Local" VALUE="m_refresh.html">
 </OBJECT>
@@ -399,6 +435,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="rename(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_rename.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="rightClick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_rightClick.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="root">
@@ -433,7 +473,7 @@
 <PARAM NAME="Local" VALUE="s_treeObjId.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="updateNode(treeNode)">
+<PARAM NAME="Name" VALUE="updateNode(treeNode, checkTypeFlag)">
 <PARAM NAME="Local" VALUE="m_updateNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">

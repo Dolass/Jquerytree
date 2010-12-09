@@ -31,12 +31,12 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="参数说明">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -130,6 +130,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkedCol">
+<PARAM NAME="Local" VALUE="s_checkedCol.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="expandSpeed">
 <PARAM NAME="Local" VALUE="s_expandSpeed.html">
 </OBJECT>
@@ -187,7 +193,6 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTreeNodes 详解">
 <PARAM NAME="Local" VALUE="zTreeNodes.html">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -361,6 +366,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getChangeCheckedNodes()">
+<PARAM NAME="Local" VALUE="m_getChangeCheckedNodes.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getSetting()">
 <PARAM NAME="Local" VALUE="m_getSetting.html">
 </OBJECT>
@@ -427,7 +438,7 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="updateNode(treeNode)">
+<PARAM NAME="Name" VALUE="updateNode(treeNode, checkTypeFlag)">
 <PARAM NAME="Local" VALUE="m_updateNode.html">
 </OBJECT>
 </UL>
@@ -437,6 +448,18 @@
 <PARAM NAME="Local" VALUE="m_updateSetting.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="reAsyncChildNodes(parentNode, reloadType)">
+<PARAM NAME="Local" VALUE="m_reAsyncChildNodes.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkAllNodes(checked)">
+<PARAM NAME="Local" VALUE="m_checkAllNodes.html">
+</OBJECT>
+</UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
@@ -444,11 +467,30 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 回调函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeClick(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeClick.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeRightClick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeRightClick.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeMouseDown(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeMouseDown.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeMouseUp(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeMouseUp.html">
 </OBJECT>
 </UL>
 <UL>
@@ -497,6 +539,24 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="click(event, treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_click.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="rightClick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_rightClick.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="mouseDown(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_mouseDown.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="mouseUp(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_mouseUp.html">
 </OBJECT>
 </UL>
 <UL>
@@ -556,7 +616,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="常量">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -614,7 +673,6 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ID命名相关">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">

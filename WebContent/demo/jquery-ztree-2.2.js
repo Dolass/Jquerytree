@@ -131,6 +131,8 @@
 			callback: {
 				beforeClick:null,
 				beforeRightClick:null,
+				beforeMouseDown:null,
+				beforeMouseUp:null,
 				beforeChange:null,
 				beforeDrag:null,
 				beforeDrop:null,
@@ -138,11 +140,11 @@
 				beforeRemove:null,
 				beforeExpand:null,
 				beforeCollapse:null,
-				beforeMouseUp:null,
-				beforeMouseDown:null,
 				
 				click:null,
 				rightClick:null,
+				mouseDown:null,
+				mouseUp:null,
 				change:null,
 				drag:null,
 				drop:null,
@@ -151,9 +153,7 @@
 				expand:null,
 				collapse:null,
 				asyncSuccess:null,
-				asyncError:null,
-				mouseUp:null,
-				mouseDown:null
+				asyncError:null
 			}			
 		};
 

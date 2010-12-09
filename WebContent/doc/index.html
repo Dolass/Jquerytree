@@ -70,6 +70,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_showLine.html">showLine</A></LI>
     <LI><span class="new">*</span><A href="s_nameCol.html">nameCol</A></LI>
     <LI><span class="new">*</span><A href="s_nodesCol.html">nodesCol</A></LI>
+    <LI><span class="new">*</span><A href="s_checkedCol.html">checkedCol</A></LI>
     <LI><span class="new">*</span><A href="s_expandSpeed.html">expandSpeed</A></LI>
     <LI><span class="new">*</span><A href="s_callback.html">callback</A></LI>
     <LI></LI>
@@ -137,6 +138,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><span class="new">*</span><A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A></LI>
     <LI><A href="m_getNodes.html">getNodes()</A></LI>
     <LI><span class="update">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A></LI>
+    <LI><span class="new">*</span><A href="m_getChangeCheckedNodes.html">getChangeCheckedNodes()</A></LI>
     <LI><span class="new">*</span><A href="m_getSetting.html">getSetting()</A></LI>
     <LI></LI>
   </UL></LI>
@@ -150,10 +152,12 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="m_refresh.html">refresh()</A></LI>
     <LI><A href="m_removeNode.html">removeNode(treeNode)</A></LI>
 	<LI><span class="update">#</span><A href="m_selectNode.html">selectNode(treeNode)</A></LI>
+    <LI><span class="new">*</span><A href="m_checkAllNodes.html">checkAllNodes(checked)</A></LI>
     <LI><A href="m_setEditable.html">setEditable(editable)</A></LI>
 	<LI><span class="new">*</span><A href="m_cancelSelectedNode.html">cancelSelectedNode()</A></LI>
-    <LI><span class="new">*</span><A href="m_updateNode.html">updateNode(treeNode)</A></LI>
+    <LI><span class="new">*</span><A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A></LI>
     <LI><span class="new">*</span><A href="m_updateSetting.html">updateSetting(setting)</A></LI>
+    <LI><span class="new">*</span><A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV>
@@ -164,6 +168,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>callback 回调函数</H3>
   <UL>
     <LI><span class="new">*</span><A href="e_beforeClick.html">beforeClick</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRightClick.html">beforeRightClick</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeMouseDown.html">beforeMouseDown</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeMouseUp.html">beforeMouseUp</A></LI>
     <LI><span class="new">*</span><A href="e_beforeChange.html">beforeChange</A></LI>
     <LI><span class="new">*</span><A href="e_beforeDrag.html">beforeDrag</A></LI>
     <LI><span class="new">*</span><A href="e_beforeDrop.html">beforeDrop</A></LI>
@@ -172,6 +179,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><span class="new">*</span><A href="e_beforeExpand.html">beforeExpand</A></LI>
     <LI><span class="new">*</span><A href="e_beforeCollapse.html">beforeCollapse</A></LI>
     <LI><span class="update">#</span><A href="e_click.html">click</A></LI>
+    <LI><span class="new">*</span><A href="e_rightClick.html">rightClick</A></LI>
+    <LI><span class="new">*</span><A href="e_mouseDown.html">mouseDown</A></LI>
+    <LI><span class="new">*</span><A href="e_mouseUp.html">mouseUp</A></LI>
     <LI><span class="update">#</span><A href="e_change.html">change</A></LI>
     <LI><span class="update">#</span><A href="e_drag.html">drag</A></LI>
     <LI><span class="update">#</span><A href="e_drop.html">drop</A></LI>
