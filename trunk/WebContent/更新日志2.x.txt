@@ -27,7 +27,7 @@
 		觉得需要获取被自动转换的需求无非就是想知道哪些节点的check状态被修改过而已，所以增加了getChangeCheckedNodes()方法用来获取当前zTree中被修改check状态的节点集合，返回值是Array类型的。
 		（补充一下，这个就是利用了上面说的checkedOld属性来查找的，如果想在不刷新 zTree的情况下，获取zTree每次点击后被转换的节点集合的话，可以在每次change事件后，使用 getChangeCheckedNodes()方法，然后将所有节点的checked属性值赋给checkedOld属性即可。）
    # 【增加】鼠标右键 事件 以及 MouseUp 和 MouseDown 事件
-		增加了rightClick 和 beforeRightClick 两个callback事件回调函数，与其他的 before 回调函数不同，beforeRightClick 会增加返回event 参数，因为大家使用右键主要都是为了弹出菜单等特殊目的，因此返回event 参数主要是为了便于大家获取鼠标的坐标信息。另外，只要将function赋给rightClick属性，则右键点击zTree时，将屏蔽浏览器的右键菜单。
+		增加了rightClick 和 beforeRightClick 两个callback事件回调函数。注意：只要将 function 的引用赋给 rightClick 属性，则右键点击zTree时，将屏蔽浏览器的右键菜单。
 		增加 MouseUp 和 MouseDown 事件主要是为了用户能够更灵活的制作自定义的功能。
    # 【增加】js触发指定节点异步加载子节点 或 重新异步加载 的接口
 		增加了 reAsyncChildNodes(parentNode, reloadType) 接口，可以通过js随意指定任意节点异步加载子节点数据，并且reloadType 参数可以指定是完全刷新还是追加子节点；parentNode=null时，相当于从Root端进行重新异步加载。
@@ -38,10 +38,13 @@
 		增加内部常量MoveType_Inner、MoveType_Before、MoveType_After
 		moveNode方法增加 moveType 参数
    # 【增加】根据任意属性获取treeNode节点数据的接口
-		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个复核要求的结果，另一个返回符合要求的节点Array集合。
+		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个符合要求的结果，另一个返回符合要求的节点Array集合。
    # 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
 		增加 isSimpleData、treeNodeKey、treeNodeParentKey 属性设置
-		增加 transformTozTreeNodes 和 transformToSimpleArray 接口便于用户进行数据转换
+		增加 transformTozTreeNodes 和 transformToArray 接口便于用户进行数据转换
+********************************************************************************************
+拖拽节点时，滚动条应该能自动滚动；停留一段时间后，应该展开节点；
+********************************************************************************************
 		
    # 【增加】建立扩展函数库，方便大家转换数据等使用
 		目前的情况看来是暂且不需要扩展函数库了，大家需要的功能基本都增加到了核心代码中。以后再看情况而定了

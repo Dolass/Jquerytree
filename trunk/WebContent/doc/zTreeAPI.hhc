@@ -31,6 +31,7 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="参数说明">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -60,6 +61,24 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="asyncParamOther">
 <PARAM NAME="Local" VALUE="s_asyncParamOther.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="isSimpleData">
+<PARAM NAME="Local" VALUE="s_isSimpleData.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="treeNodeKey">
+<PARAM NAME="Local" VALUE="s_treeNodeKey.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="treeNodeParentKey">
+<PARAM NAME="Local" VALUE="s_treeNodeParentKey.html">
 </OBJECT>
 </UL>
 <UL>
@@ -333,6 +352,7 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="获取">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -344,6 +364,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getNodeByTId(tID)">
 <PARAM NAME="Local" VALUE="m_getNodeByTId.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodeByParam(key, value)">
+<PARAM NAME="Local" VALUE="m_getNodeByParam.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodesByParam(key, value)">
+<PARAM NAME="Local" VALUE="m_getNodesByParam.html">
 </OBJECT>
 </UL>
 <UL>
@@ -376,11 +408,22 @@
 <PARAM NAME="Local" VALUE="m_getSetting.html">
 </OBJECT>
 </UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="transformTozTreeNodes(simpleTreeNodes)">
+<PARAM NAME="Local" VALUE="m_transformTozTreeNodes.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="transformToArray(treeNodes)">
+<PARAM NAME="Local" VALUE="m_transformToArray.html">
+</OBJECT>
+</UL>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="操作">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -402,7 +445,7 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="moveNode(targetNode, treeNode)">
+<PARAM NAME="Name" VALUE="moveNode(targetNode, treeNode, moveType)">
 <PARAM NAME="Local" VALUE="m_moveNode.html">
 </OBJECT>
 </UL>
@@ -422,6 +465,12 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="selectNode(treeNode)">
 <PARAM NAME="Local" VALUE="m_selectNode.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="checkAllNodes(checked)">
+<PARAM NAME="Local" VALUE="m_checkAllNodes.html">
 </OBJECT>
 </UL>
 <UL>
@@ -454,12 +503,6 @@
 <PARAM NAME="Local" VALUE="m_reAsyncChildNodes.html">
 </OBJECT>
 </UL>
-<UL>
-<LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="checkAllNodes(checked)">
-<PARAM NAME="Local" VALUE="m_checkAllNodes.html">
-</OBJECT>
-</UL>
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
@@ -477,19 +520,19 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeRightClick(event, treeId, treeNode)">
+<PARAM NAME="Name" VALUE="beforeRightClick(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeRightClick.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeMouseDown(event, treeId, treeNode)">
+<PARAM NAME="Name" VALUE="beforeMouseDown(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeMouseDown.html">
 </OBJECT>
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeMouseUp(event, treeId, treeNode)">
+<PARAM NAME="Name" VALUE="beforeMouseUp(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeMouseUp.html">
 </OBJECT>
 </UL>
@@ -673,6 +716,7 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ID命名相关">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -890,11 +934,30 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="其他">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="MinMoveSize">
 <PARAM NAME="Local" VALUE="c_MinMoveSize.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="MoveType_Inner">
+<PARAM NAME="Local" VALUE="c_MoveType_Inner.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="MoveType_Before">
+<PARAM NAME="Local" VALUE="c_MoveType_Before.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="MoveType_After">
+<PARAM NAME="Local" VALUE="c_MoveType_After.html">
 </OBJECT>
 </UL>
 </UL>
