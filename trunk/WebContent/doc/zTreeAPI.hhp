@@ -31,6 +31,7 @@ c_FolderMark_Close.html
 c_FolderMark_Docu.html
 c_FolderMark_Open.html
 c_IDMark_A.html
+c_IDMark_Check.html
 c_IDMark_Del.html
 c_IDMark_Edit.html
 c_IDMark_Icon.html
@@ -123,6 +124,7 @@ s_expandSpeed.html
 s_expandTriggerFlag.html
 s_icon.html
 s_iconSkin.html
+s_isAjaxing.html
 s_isFirstNode.html
 s_isLastNode.html
 s_isParent.html

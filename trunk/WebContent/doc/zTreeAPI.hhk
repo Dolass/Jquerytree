@@ -65,8 +65,8 @@
 <PARAM NAME="Local" VALUE="s_callback.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="cancleSelectedNode()">
-<PARAM NAME="Local" VALUE="m_cancleSelectedNode.html">
+<PARAM NAME="Name" VALUE="cancelSelectedNode()">
+<PARAM NAME="Local" VALUE="m_cancelSelectedNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="change(event, treeId, treeNode)">
@@ -113,8 +113,8 @@
 <PARAM NAME="Local" VALUE="s_checked.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="checkedNew">
-<PARAM NAME="Local" VALUE="s_checkedNew.html">
+<PARAM NAME="Name" VALUE="checkedOld">
+<PARAM NAME="Local" VALUE="s_checkedOld.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="checkRadioCheckedList">
@@ -269,6 +269,10 @@
 <PARAM NAME="Local" VALUE="c_IDMark_A.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="IDMark_Check">
+<PARAM NAME="Local" VALUE="c_IDMark_Check.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_Edit">
 <PARAM NAME="Local" VALUE="c_IDMark_Edit.html">
 </OBJECT>
@@ -295,6 +299,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="IDMark_Ul">
 <PARAM NAME="Local" VALUE="c_IDMark_Ul.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="isAjaxing">
+<PARAM NAME="Local" VALUE="s_isAjaxing.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="isFirstNode">

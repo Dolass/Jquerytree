@@ -6,12 +6,12 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-   # 【修改】给一个没有字节点的节点添加新节点，连续添加两个以上子节点时连线显示的Bug
+   # 【修改】给一个没有子节点的节点添加新节点，连续添加两个以上子节点时连线显示的Bug
    # 【修改】expandNode方法，展开节点时无动画的Bug
    # 【修改】异步加载时用户反复点击导致重复加载的bug。
 		增加isAjaxing内部参数
    # 【修改】cancleSelectedNode 修正为 cancelSelectedNode ，但同时保留原有的cancleSelectedNode方法
-   # 【修改】把 url 扩展为 function 的引用，可以根据节点任意修改异步加载的url了。当然依然支持以前的String方式
+   # 【修改】把asyncUrl 扩展为 function 的引用，可以根据节点任意修改异步加载的url了。当然依然支持以前的String方式
    # 【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的Bug
    # 【修改】updateNode时，checkbox不改变的Bug。
 		为了便于用户修改checked的状态，将原先的checkedNew修改为checkedOld，并且保留初始化时的checked状态，当前check状态以checked为准，如果有涉及这部分开发的朋友需要注意一下了。
