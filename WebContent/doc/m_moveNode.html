@@ -3,14 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>moveNode(targetNode, treeNode)</title>
+<title>moveNode(targetNode, treeNode, moveType)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: 无</span>moveNode(targetNode, treeNode)</h2>
+	<h2><span>返回值: 无</span>moveNode(targetNode, treeNode, moveType)</h2>
 	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
 	<div class="desc">
 		<p></p>
@@ -24,6 +24,9 @@
 	<p>指定移动到的目标节点 JSON 数据，如果移入根节点，请设置 targetNode 为 null 即可</p>
 	<h4><strong>treeNode</strong><span>JSON</span></h4>
 	<p>指定被移动的节点 JSON 数据</p>
+	<h4><strong>moveType</strong><span>String</span></h4>
+	<p>指定移动到目标节点的相对位置</p>
+	<p style="color:red">"inner"：成为子节点（默认值），"before"：成为同级前一个节点，"after"：成为同级后一个节点</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
 	<p>将节点1（treeNode1）移动到节点2（treeNode2）下</p>

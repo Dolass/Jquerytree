@@ -3,37 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>getNodeByTId(tID)</title>
+<title>getNodesByParam(key, value)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: JSON Object</span>getNodeByTId(tID)</h2>
+	<h2><span>返回值: Array(JSON)</span>getNodesByParam(key, value)</h2>
 	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>根据某个节点数据的 <A href="s_tId.html">tId</A> 属性获取该获取该节点的 JSON 数据对象。</p>
+			<p>根据节点数据的属性获取满足条件的的 JSON 数据对象集合。<font style="color:red">（简单遍历 Array 就能得到全部节点）</font></p>
+			<p style="color:red">如果只需要一个满足条件的节点，请参考 <A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> </p>
+			<p style="color:red">（简单遍历 Array 就能得到全部节点）</p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
-			<p>如果当前没有对应 tID 的节点，则返回 null</p>
+			<p>如果当前没有满足条件的节点，则返回长度为 0 的 Array 数组</p>
 		</div>
 	</div>
 	<h3>参数</h3>
-	<h4><strong>tID</strong><span>String</span></h4>
-	<p>该属性值是 zTree 在初始化时，自动赋予，详情参考 <A href="s_tId.html">tId</A></p>
+	<h4><strong>key</strong><span>String</span></h4>
+	<p>进行搜索的节点数据的属性名称</p>
+	<h4><strong>value</strong><span></span></h4>
+	<p>进行搜索的节点数据的属性值，一定要保证数据类型匹配</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>获取某个 tID 的节点数据</p>
+	<p>获取 level = 1 的节点数据</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var tID = "abc_1"
-var node = zTreeObj.getNodeByTId(tID);
+var nodes = zTreeObj.getNodesByParam("level", 1);
 ......</code></pre>
 	<h3>相关方法</h3>
-	<h4><A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> | <A href="m_getNodesByParam.html">getNodesByParam(key, value)</A></h4>
+	<h4><A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> | <A href="m_getNodeByTId.html">getNodeByTId(tID)</A></h4>
 </div>
 </div>
 

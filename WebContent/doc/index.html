@@ -47,6 +47,13 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="zTree.html">zTree(setting, [zTreeNodes])</A></LI>
     <LI></LI></UL>
   </LI>
+  <LI>
+  <H3>skin 皮肤说明</H3>
+  <UL>
+    <LI><A href="css.html">zTreeStyle.css</A></LI>
+    <LI><A href="zTreeIcons.html">zTreeIcons.css</A></LI>
+    <LI></LI>
+  </UL></LI>
 </UL>
 </DIV>
 <DIV id=setting>
@@ -59,6 +66,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="s_asyncUrl.html">asyncUrl</A></LI>
     <LI><A href="s_asyncParam.html">asyncParam</A></LI>
     <LI><A href="s_asyncParamOther.html">asyncParamOther</A></LI>
+    <LI><span class="new">*</span><A href="s_isSimpleData.html">isSimpleData</A></LI>
+    <LI><span class="new">*</span><A href="s_treeNodeKey.html">treeNodeKey</A></LI>
+    <LI><span class="new">*</span><A href="s_treeNodeParentKey.html">treeNodeParentKey</A></LI>
     <LI><A href="s_checkable.html">checkable</A></LI>
     <LI><A href="s_checkType.html">checkType</A></LI>
     <LI><span class="update">#</span><A href="s_checkStyle.html">checkStyle</A></LI>
@@ -87,7 +97,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
 </UL>
 </DIV>
 </DIV>
-<DIV class=col>
+<DIV class=col style="width:300px">
 <DIV id=setting_zTreeNodes>
 <H2>参数说明</H2>
 <UL>
@@ -117,16 +127,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI></LI>
   </UL>
   </LI>
-  <LI>
-  <H3>skin 皮肤说明</H3>
-  <UL>
-    <LI><A href="css.html">zTreeStyle.css</A></LI>
-    <LI><A href="zTreeIcons.html">zTreeIcons.css</A></LI>
-    <LI></LI>
-  </UL></LI>
-</UL></DIV></DIV>
-
-<DIV class=col style="width:300px">
+</UL></DIV>
 <DIV id=methods>
 <H2>方法</H2>
 <UL>
@@ -140,6 +141,10 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><span class="update">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A></LI>
     <LI><span class="new">*</span><A href="m_getChangeCheckedNodes.html">getChangeCheckedNodes()</A></LI>
     <LI><span class="new">*</span><A href="m_getSetting.html">getSetting()</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodeByParam.html">getNodeByParam(key, value)</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodesByParam.html">getNodesByParam(key, value)</A></LI>
+    <LI><span class="new">*</span><A href="m_transformTozTreeNodes.html">transformTozTreeNodes(simpleTreeNodes)</A></LI>
+    <LI><span class="new">*</span><A href="m_transformToArray.html">transformToArray(treeNodes)</A></LI>
     <LI></LI>
   </UL></LI>
   <LI>
@@ -148,7 +153,7 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A></LI>
     <LI><A href="m_expandAll.html">expandAll(expandSign)</A></LI>
     <LI><span class="update">#</span><A href="m_expandNode.html">expandNode(treeNode, expandSign, sonSign)</A></LI>
-    <LI><A href="m_moveNode.html">moveNode(targetNode, treeNode)</A></LI>
+    <LI><A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A></LI>
     <LI><A href="m_refresh.html">refresh()</A></LI>
     <LI><A href="m_removeNode.html">removeNode(treeNode)</A></LI>
 	<LI><span class="update">#</span><A href="m_selectNode.html">selectNode(treeNode)</A></LI>
@@ -160,7 +165,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><span class="new">*</span><A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></LI>
     <LI></LI>
   </UL></LI>
-</UL></DIV>
+</UL></DIV></DIV>
+
+<DIV class=col>
 <DIV id=events>
 <H2>事件</H2>
 <UL>
@@ -193,9 +200,8 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><span class="update">#</span><A href="e_asyncError.html">asyncError</A></LI>
     <LI></LI>
   </UL></LI>
-</UL></DIV></DIV>
-<DIV class=col>
-<DIV id=constant>
+</UL></DIV>
+<DIV id=constant1>
 <H2>常量</H2>
 <UL>
   <LI>
@@ -225,6 +231,11 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
     <LI><A href="c_IDMark_Ul.html">IDMark_Ul</A></LI>
     <LI></LI>
   </UL></LI>
+</UL></DIV></DIV>
+<DIV class=col>
+<DIV id=constant>
+<H2>常量</H2>
+<UL>
   <LI>
   <H3>背景线条相关</H3>
   <UL>
@@ -272,6 +283,9 @@ href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
   <H3>其他</H3>
   <UL>
     <LI><span class="new">*</span><A href="c_MinMoveSize.html">MinMoveSize</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_Inner.html">MoveType_Inner</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_Before.html">MoveType_Before</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_After.html">MoveType_After</A></LI>
     <LI></LI>
   </UL></LI>
 </UL></DIV></DIV>

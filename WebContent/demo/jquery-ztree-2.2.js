@@ -192,6 +192,9 @@
 		if (zTreeNodes) {
 			setting.root[setting.nodesCol] = zTreeNodes;
 		}
+		if (setting.isSimpleData) {
+			setting.root[setting.nodesCol] = transformTozTreeFormat(setting, setting.root[setting.nodesCol]);
+		}
 		settings[setting.treeObjId] = setting;
 
 		$("#" + setting.treeObjId).empty();
@@ -266,13 +269,13 @@
 				var treeNode = getTreeNodeByDom(setting, targetObj);
 				var doRight = true;
 				if ((typeof setting.callback.beforeRightClick) == "function") {
-					doRight = setting.callback.beforeRightClick(event, setting.treeObjId, treeNode);
+					doRight = setting.callback.beforeRightClick(setting.treeObjId, treeNode);
 				}
 				//触发rightClick事件
 				if (doRight && (typeof setting.callback.rightClick) == "function") {
 					setting.callback.rightClick(event, setting.treeObjId, treeNode);
 					return false;
-				}
+				} 
 				return (typeof setting.callback.rightClick) != "function";
 			});
 		
@@ -282,7 +285,7 @@
 				var treeNode = getTreeNodeByDom(setting, targetObj);
 				var doMouseUp = true;
 				if ((typeof setting.callback.beforeMouseUp) == "function") {
-					doMouseUp = setting.callback.beforeMouseUp(event, setting.treeObjId, treeNode);
+					doMouseUp = setting.callback.beforeMouseUp(setting.treeObjId, treeNode);
 				}
 				//触发mouseUp事件
 				if (doMouseUp && (typeof setting.callback.beforeMouseUp) == "function") {
@@ -296,7 +299,7 @@
 				var treeNode = getTreeNodeByDom(setting, targetObj);
 				var doMouseDown = true;
 				if ((typeof setting.callback.beforeMouseDown) == "function") {
-					doMouseDown = setting.callback.beforeMouseDown(event, setting.treeObjId, treeNode);
+					doMouseDown = setting.callback.beforeMouseDown(setting.treeObjId, treeNode);
 				}
 				//触发mouseDown事件
 				if (doMouseDown && (typeof setting.callback.beforeMouseDown) == "function") {
@@ -1021,7 +1024,7 @@
 	}
 
 	function asyncGetNode(setting, treeNode) {
-		if (treeNode && treeNode.isAjaxing) {
+		if (treeNode && (treeNode.isAjaxing || !treeNode.isParent)) {
 			return;
 		}
 		if (treeNode) {
@@ -1719,7 +1722,7 @@
 				if (!key) return;
 				return getTreeNodeByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
 			},
-			getNodeByParam : function(key, value) {
+			getNodesByParam : function(key, value) {
 				if (!key) return;
 				return getTreeNodesByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
 			},
