@@ -288,7 +288,7 @@
 					doMouseUp = setting.callback.beforeMouseUp(setting.treeObjId, treeNode);
 				}
 				//触发mouseUp事件
-				if (doMouseUp && (typeof setting.callback.beforeMouseUp) == "function") {
+				if (doMouseUp && (typeof setting.callback.mouseUp) == "function") {
 					setting.callback.mouseUp(event, setting.treeObjId, treeNode);
 				}
 				return true;
@@ -302,7 +302,7 @@
 					doMouseDown = setting.callback.beforeMouseDown(setting.treeObjId, treeNode);
 				}
 				//触发mouseDown事件
-				if (doMouseDown && (typeof setting.callback.beforeMouseDown) == "function") {
+				if (doMouseDown && (typeof setting.callback.mouseDown) == "function") {
 					setting.callback.mouseDown(event, setting.treeObjId, treeNode);
 				}
 				return true;
@@ -556,14 +556,16 @@
 					//触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
 					$("#" + setting.treeObjId).trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
 				}
-
-				if (setting.dragStatus == 1) {
+				
+				if (setting.dragStatus == 1 && tmpArrow.attr("id") != event.target.id) {
 					if (tmpTarget) {
 						tmpTarget.removeClass(Class_TmpTargetTree);
 						if (tmpTargetNodeId) $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).removeClass(Class_TmpTargetNode);
 					}
 					tmpTarget = null;
 					tmpTargetNodeId = null;
+					
+					//滚动条自动滚动
 
 					if (event.target.id == setting.treeObjId && treeNode.parentNode != null) {
 						//非根节点 移到 根
@@ -674,9 +676,12 @@
 				}
 			});
 			
-//			return false;
+			//阻止默认事件专门用于处理 FireFox 的Bug，
+			//该 Bug 导致如果 zTree Div CSS 中存在 overflow 设置，则拖拽节点移出 zTree 时，无法得到正确的event.target
+			if(eventMouseDown.preventDefault) {
+				eventMouseDown.preventDefault();
+		    }
 		});
-
 	}
 
 	//获取对象的绝对坐标

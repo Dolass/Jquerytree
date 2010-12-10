@@ -29,7 +29,9 @@
 				rename: zTreeOnRename,
 				remove: zTreeOnRemove,
 				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse
+				collapse: zTreeOnCollapse,
+				mouseDown: down,
+				mouseUp: up
 			}
 			
 		};
@@ -38,6 +40,14 @@
 		refreshTree();
 		
 	});
+
+	function down() {
+		//console.log('down');
+	}
+
+	function up(){
+		//console.log('up');
+	}
 
 	function getTime() {
 		var now= new Date();
