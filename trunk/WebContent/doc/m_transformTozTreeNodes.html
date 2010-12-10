@@ -1,11 +1,53 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<HTML>
-<HEAD>
-<META http-equiv="Content-Type" content="text/html; charset=gb2312">
-<META name="GENERATOR" content="QuickCHM">
-<TITLE>transformTozTreeNodes(simpleTreeNodes)</TITLE>
-</HEAD>
-<BODY>
-<P>transformTozTreeNodes(simpleTreeNodes)</P>
-</BODY>
-</HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>transformTozTreeNodes(simpleTreeNodes)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: Array(JSON)</span>transformTozTreeNodes(simpleTreeNodes)</h2>
+	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>将简单 Array 格式转换为 zTree 使用的标准格式。<font style="color:red">（是 zTree 中使用的标准数据，子节点都存在于父节点的数据中）</font></p>
+			<p style="color:red;">使用此方法，请务必设置节点唯一标识属性名称 <A href="s_treeNodeKey.html">treeNodeKey</A> 和 父节点唯一标识属性名称 <A href="s_treeNodeParentKey.html">treeNodeParentKey</A>，并且让数据满足父子关系，注意：简单 Array 数据中必须要让父节点在子节点之前。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>simpleTreeNodes</strong><span>Array(JSON) / JSON</span></h4>
+	<p>需要被转换的简单 Array 格式数据，如果是一个 JSON 对象，则被简单封装为长度为1的 Array 数组</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>将简单 Array 格式转换为zTree使用的标准格式，并加到zTree根节点</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;isSimpleData : true,
+&nbsp;&nbsp;&nbsp;&nbsp;treeNodeKey : "id",
+&nbsp;&nbsp;&nbsp;&nbsp;treeNodeParentKey : "pId",
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+var zTreeObj = zTree(setting, zTreeNodes);
+var simpleTreeNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "pId":0, "name":"test1"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "pId":1, "name":"test11"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "pId":1, "name":"test12"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "pId":11, "name":"test111"}
+];
+var treeNodes = zTreeObj.transformTozTreeNodes(simpleTreeNodes);
+zTreeObj.addNodes(null, treeNodes);
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_transformToArray.html">transformToArray(treeNodes)</A></h4>
+	<h3>相关参数</h3>
+	<h4><A href="s_treeNodeKey.html">treeNodeKey</A> | <A href="s_treeNodeParentKey.html">treeNodeParentKey</A></h4>
+</div>
+</div>
+</body></html>

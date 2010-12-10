@@ -13,7 +13,7 @@
    # 【修改】cancleSelectedNode 修正为 cancelSelectedNode ，但同时保留原有的cancleSelectedNode方法
    # 【修改】把asyncUrl 扩展为 function 的引用，可以根据节点任意修改异步加载的url了。当然依然支持以前的String方式
    # 【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的Bug
-   # 【修改】updateNode时，checkbox不改变的Bug。
+   # 【修改】updateNode方法不改变 checkbox / radio 状态的Bug。
 		为了便于用户修改checked的状态，将原先的checkedNew修改为checkedOld，并且保留初始化时的checked状态，当前check状态以checked为准，如果有涉及这部分开发的朋友需要注意一下了。
 		重新整理了updateNode方法，可针对name、target、 url、icon、iconSkin这几个用于显示效果的参数进行更新，其他用于zTree的node参数请不要随意更新，对于展开节点，还请调用 expandNode方法，因此请勿随意修改open属性。
 		增加一个输入参数 checkTypeFlag ，由用户决定是否按照setting.checkType属性进行父子节点的选中状态联动

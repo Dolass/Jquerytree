@@ -44,13 +44,24 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;01、【增加】展开(expand)、折叠(collapse) 两个事件以及对应的 before 方法，让用户可以更灵活的去控制。</p>
-			<p>&nbsp;02、【增加】<A href="s_nodesCol.html">nodesCol</A> 属性，用户可自定义子节点数据的属性名称，不用再固定使用 nodes 字段。</p>
-			<p>&nbsp;03、【增加】<A href="m_getSetting.html">getSetting()</A>、<A href="m_updateSetting.html">updateSetting(setting)</A> 方法，用户可随时获取 zTree 的内部配置信息并且根据需求更新适当的配置信息。</p>
-			<p>&nbsp;04、【修改】内部函数 switchNode() 方法，解决 window.event 造成的 firefox 兼容问题。</p>
-			<p>&nbsp;05、【修改】<A href="e_asyncSuccess.html">asyncSuccess</A> 和 <A href="e_asyncError.html">asyncError</A> 两个 callback 事件，增加返回 treeNode 属性，用于帮助用户获取当前异步操作的目标节点。</p>
-			<p>&nbsp;06、【修改】<A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> 方法，增加 isSilent 参数，用户在增加节点时，可以根据需要决定是否展开相应的父节点。</p>
-			<p>&nbsp;07、【修改】checkBox 在特殊情况下状态显示错误的Bug。</p>
+			<p>&nbsp;01、【修改】给一个没有子节点的节点添加新节点，连续添加两个以上子节点时连线显示的 Bug</p>
+			<p>&nbsp;02、【修改】expandNode方法，展开节点时无动画的 Bug</p>
+			<p>&nbsp;03、【修改】异步加载时用户反复点击导致重复加载的 Bug</p>
+			<p>&nbsp;04、【修改】.net 环境下ajax 直接返回 JSON 对象时无法正常加载的 Bug</p>
+			<p>&nbsp;05、【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的 Bug</p>
+			<p>&nbsp;06、【修改】<A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A> 方法不改变 checkbox / radio 状态的 Bug</p>
+			<p>&nbsp;07、【修改】cancleSelectedNode 修正为 <A href="m_cancelSelectedNode.html">cancelSelectedNode()</A>，同时保留原 cancleSelectedNode 方法</p>
+			<p>&nbsp;08、【修改】把 <A href="s_asyncUrl.html">asyncUrl</A> 扩展为 function 的引用，可以根据节点任意修改异步加载的url，同时支持 String 方式</p>
+			<p>&nbsp;09、【修改】checked 属性允许用户自定义， 增加 <A href="s_checkedCol.html">checkedCol</A> 属性，默认值为 "checked"</p>
+			<p>&nbsp;10、【修改】编辑状态 输入框内 回车键可以触发 <A href="e_rename.html">rename</A> 事件</p>
+			<p>&nbsp;11、【增加】<A href="m_getChangeCheckedNodes.html">getChangeCheckedNodes()</A> 方法用来获取当前 zTree 中被修改 check 状态的节点集合</p>
+			<p>&nbsp;12、【增加】鼠标右键 事件(<A href="e_beforeRightClick.html">beforeRightClick</A>、<A href="e_rightClick.html">rightClick</A>) 以及 MouseUp(<A href="e_beforeMouseUp.html">beforeMouseUp</A>、<A href="e_mouseUp.html">mouseUp</A>) 和 MouseDown(<A href="e_beforeMouseDown.html">beforeMouseDown</A>、<A href="e_mouseDown.html">mouseDown</A>) 事件</p>
+			<p>&nbsp;13、【增加】js 触发指定节点异步加载子节点 或 重新异步加载 的接口 <A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></p>
+			<p>&nbsp;14、【增加】针对 checkBox 的全部取消或选择的接口 <A href="m_checkAllNodes.html">checkAllNodes(checked)</A>，便于用户使用</p>
+			<p>&nbsp;15、【增加】异步加载时loading 状态显示</p>
+			<p>&nbsp;16、【增加】节点同级内上下排序的接口和功能，修改了<A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A> 方法，移动节点时可以更加灵活</p>
+			<p>&nbsp;17、【增加】根据任意属性搜索 treeNode 节点数据的接口：<A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> 和 <A href="m_getNodesByParam.html">getNodesByParam(key, value)</A> </p>
+			<p>&nbsp;18、【增加】简单 Array 数据支持，不需要用户再把数据库中取出的 List 强行转换为复杂的 JSON 嵌套格式，参考 <A href="s_isSimpleData.html">isSimpleData</A> | <A href="s_treeNodeKey.html">treeNodeKey</A> | <A href="s_treeNodeParentKey.html">treeNodeParentKey</A></p>
 		</div>
 	</div>
 </div>

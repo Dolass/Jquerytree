@@ -16,6 +16,7 @@
 		<p></p>
 		<div class="longdesc">
 			<p>将某节点移动到其他节点下。</p>
+			<p style="color:red">在2.2中，增加了 moveType 参数，允许指定移动的相对位置。</p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
 		</div>
 	</div>
@@ -34,6 +35,12 @@
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
 zTreeObj.moveNode(treeNode2, treeNode1);
+......</code></pre>
+	<p>将节点1（treeNode1）移动到节点2（treeNode2）同级前一个节点</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+zTreeObj.moveNode(treeNode2, treeNode1, "before");
 ......</code></pre>
 	<h3>相关方法</h3>
 	<h4><A href="m_getNodes.html">getNodes()</A> | <A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> | <A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A>
