@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-12-01
+ * Date: 2010-12-10
  *
  */
 
@@ -494,10 +494,12 @@
 			var curNode;
 			var tmpArrow;
 			var tmpTarget;
+			var preTmpTargetNodeId = null;
 			var tmpTargetNodeId = null;
 			var moveType = MoveType_Inner;
 			var mouseDownX = eventMouseDown.clientX;
 			var mouseDownY = eventMouseDown.clientY;
+			var startTime = (new Date()).getTime();
 
 			$(doc).mousemove(function(event) {
 				
@@ -566,6 +568,16 @@
 					tmpTargetNodeId = null;
 					
 					//滚动条自动滚动
+					var scrollHeight = setting.treeObj.get(0).scrollHeight;
+					var scrollWidth = setting.treeObj.get(0).scrollWidth;
+					var docScrollTop = $(doc).scrollTop();
+					var docScrollLeft = $(doc).scrollLeft();
+					var treeOffset = setting.treeObj.offset();
+					if (event.clientY + docScrollTop - treeOffset.top < 10 && setting.treeObj.scrollTop() > 0) {
+						setting.treeObj.scrollTop(setting.treeObj.scrollTop()-10);
+					} else if (setting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop < 10 && setting.treeObj.scrollTop() < scrollHeight) {
+						setting.treeObj.scrollTop(setting.treeObj.scrollTop()+10);
+					}
 
 					if (event.target.id == setting.treeObjId && treeNode.parentNode != null) {
 						//非根节点 移到 根
@@ -593,18 +605,18 @@
 							$("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
 						}
 					}
-					var dX = (doc.body.scrollLeft == 0) ? doc.documentElement.scrollLeft: doc.body.scrollLeft;
-					var dY = (doc.body.scrollTop == 0) ? doc.documentElement.scrollTop: doc.body.scrollTop;
 					curNode.css({
-						"top": (event.clientY + dY + 3) + "px",
-						"left": (event.clientX + dX + 3) + "px"
+						"top": (event.clientY + docScrollTop + 3) + "px",
+						"left": (event.clientX + docScrollLeft + 3) + "px"
 					});
 					
+					var dX = 0;
+					var dY = 0;
 					if (tmpTarget && tmpTarget.attr("id")!=setting.treeObjId) {
 						var isPrev = ($("#" + treeNode.tId).prev().attr("id") == tmpTarget.attr("id")) ;
 						var isNext = ($("#" + treeNode.tId).next().attr("id") == tmpTarget.attr("id")) ;
 						var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
-						var dY_percent = (event.clientY - tmpTargetA.offset().top)/tmpTargetA.height();
+						var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
 						if (dY_percent<0.25 && dY_percent>=-.2 && !isNext) {
 							dX = 1 - tmpArrow.width();
 							dY = 0 - tmpArrow.height()/2;
@@ -623,18 +635,30 @@
 							"top": (tmpTargetA.offset().top + dY) + "px",
 							"left": (tmpTargetA.offset().left + dX) + "px"
 						});
+						
+						if (preTmpTargetNodeId != tmpTargetNodeId) {
+							startTime = (new Date()).getTime();
+						}
+						this.moveTimer = setTimeout(function() {
+							var targetNode = getTreeNodeByTId(setting, tmpTargetNodeId);
+							if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500) {
+								switchNode(setting, targetNode);
+							}
+						}, 600);
 					} else {
 						moveType = MoveType_Inner;
 						tmpArrow.css({
 							"display":"none"
 						});
+						if (this.moveTimer) {clearTimeout(this.moveTimer);}
 					}
+					preTmpTargetNodeId = tmpTargetNodeId;
 				}
 				return false;
-
 			});
 
 			$(doc).mouseup(function(event) {
+				if (this.moveTimer) {clearTimeout(this.moveTimer);}
 				$(doc).unbind("mousemove");
 				$(doc).unbind("mouseup");
 				$("body").css("cursor", "auto");
