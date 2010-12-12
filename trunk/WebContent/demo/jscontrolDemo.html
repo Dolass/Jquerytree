@@ -61,9 +61,49 @@
 		getNodes();
 	}
 
-	function moveTreeNode() {
-		if (srcLiId && targetLiId) {
-			zTree1.moveNode(targetNode, srcNode);
+	function getPreTreeNode(treeNode) {
+		if (treeNode.isFirstNode) return null;
+		var nodes = treeNode.parentNode ? treeNode.parentNode.nodes : zTree1.getNodes();
+		var preNode;
+		for (var i=0; i<nodes.length; i++) {
+			if (nodes[i] == treeNode) {
+				return preNode;
+			}
+			preNode = nodes[i];
+		}
+	}
+	function getNextTreeNode(treeNode) {
+		if (treeNode.isLastNode) return null;
+		var nodes = treeNode.parentNode ? treeNode.parentNode.nodes : zTree1.getNodes();
+		for (var i=0; i<nodes.length; i++) {
+			if (nodes[i] == treeNode) {
+				return nodes[i+1];
+			}
+		}
+	}
+	
+	function moveTreeNode(move) {
+		if (!srcNode) {
+			alert("请先选中一个节点");
+			return;
+		}
+		var moveType = "inner";
+		var targetNode = "";
+		if (move == "up") {
+			moveType = "before";
+			targetNode = getPreTreeNode(srcNode);
+		} else if (move == "down") {
+			moveType = "after";
+			targetNode = getNextTreeNode(srcNode);
+		} else if (move == "left") {
+			moveType = "after";
+			targetNode = srcNode.parentNode;
+		} else if (move == "right") {
+			moveType = "inner";
+			targetNode = getPreTreeNode(srcNode);
+		}
+		if (srcNode && targetNode) {
+			zTree1.moveNode(targetNode, srcNode, moveType);
 		}	
 		getNodes();
 		zTree1.selectNode(srcNode);
@@ -73,23 +113,14 @@
 		if (zTree1) {
 			var nodes = zTree1.getNodes();
 			$("#srcList").html("");
-			$("#targetList").html("");
 			$("#srcList").append("<li id='demo_Root_srcList' style='line-height:20px;' onclick='selectNode(\"srcList\", this.id, null, true)'>根 Root</li>");
-			$("#targetList").append("<li id='demo_Root_targetList' style='line-height:20px;' onclick='selectNode(\"targetList\", this.id, null, true)'>根 Root</li>");
 			getNodesList("srcList", nodes);
-			getNodesList("targetList", nodes);
 
 			if (srcLiId && $("#" + srcLiId).length>0) {
 				$("#" + srcLiId).addClass("selectLi");
 			} else {
 				srcLiId = null;
 				srcNode = null;
-			}
-			if (targetLiId) {
-				$("#" + targetLiId).addClass("selectLi");
-			} else {
-				targetLiId = null;
-				targetNode = null;			
 			}
 		}
 	}
@@ -129,83 +160,58 @@
 		}
 	}
 
-	var srcLiId, targetLiId;
-	var srcNode, targetNode;
+	var srcLiId;
+	var srcNode;
 	function selectNode(listId, liId, tId, goTreeFlag) {
-		if (listId == "srcList") {
-			if (targetNode && targetNode.tId == tId) {
-				alert("目标节点 不能与 操作节点 相同！");
-				return;
-			}
-			
-			var node = zTree1.getNodeByTId(tId);
-			srcNode = node;
-			if (srcLiId) {
-				$("#" + srcLiId).removeClass();
-			}
-			srcLiId = liId;
-			var curLiObj = $("#" + srcLiId);
-			curLiObj.removeClass();
+		var node = zTree1.getNodeByTId(tId);
+		srcNode = node;
+		if (srcLiId) {
+			$("#" + srcLiId).removeClass();
+		}
+		srcLiId = liId;
+		var curLiObj = $("#" + srcLiId);
+		curLiObj.removeClass();
 
-			if (!node) {
-				zTree1.cancleSelectedNode();
-				$("#renameTxt").attr("value", "");
-				curLiObj.addClass("selectLi");
-				$("#" + srcLiId + "_image").focus();
-			} else if (node && ((goTreeFlag && node!=zTree1.getSelectedNode()) || (!goTreeFlag))) {
-				zTree1.selectNode(node);
-				$("#renameTxt").attr("value", node.name);
-				curLiObj.addClass("selectLi");
-				$("#" + srcLiId + "_image").focus();
-			} else {
-				zTree1.cancleSelectedNode();
-				$("#renameTxt").attr("value", "");
-				node = null;
-				srcLiId = null;
-				srcNode = null;				
-			}
-			
-			
+		if (!node) {
+			zTree1.cancelSelectedNode();
+			$("#renameTxt").attr("value", "");
+			curLiObj.addClass("selectLi");
+			$("#" + srcLiId + "_image").focus();
+		} else if (node && ((goTreeFlag && node!=zTree1.getSelectedNode()) || (!goTreeFlag))) {
+			zTree1.selectNode(node);
+			$("#renameTxt").attr("value", node.name);
+			curLiObj.addClass("selectLi");
+			$("#" + srcLiId + "_image").focus();
 		} else {
-			if (srcNode && srcNode.tId == tId) {
-				alert("目标节点 不能与 操作节点 相同！");
-				return;
-			}
-			var node = zTree1.getNodeByTId(tId);
-			
-			if (targetLiId) {
-				$("#" + targetLiId).removeClass();
-			}
-			targetLiId = liId;
-			var curLiObj = $("#" + targetLiId);
-			curLiObj.removeClass();
-			
-			if (!node) {
-				curLiObj.addClass("selectLi");
-				targetNode = node;
-			} else if (node && goTreeFlag && node!=targetNode) {
-				curLiObj.addClass("selectLi");
-				targetNode = node;
-			} else {
-				node = null;
-				targetLiId = null;
-				targetNode = null;				
-			}
+			zTree1.cancelSelectedNode();
+			$("#renameTxt").attr("value", "");
+			node = null;
+			srcLiId = null;
+			srcNode = null;				
 		}
 	}
 
 	function renameTreeNode(txtObj) {
 		if (!srcNode) {
-			alert("请先在节点列表中 选择一个 ‘当前选中的节点’");
+			alert("请先选中一个节点");
 			return;
 		}
 		srcNode.name = txtObj.value;
-		srcNode.checked = true;
 		zTree1.updateNode(srcNode);
 		zTree1.selectNode(srcNode);
 		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
-		$("#demo_targetList_" + srcNode.tId).text(makeListName(srcNode));
-
+		$("#demo_srcList_" + srcNode.tId).prepend("<button id='demo_srcList_" + srcNode.tId+ "_image' class='emptyButton' />");
+		
+	}
+	function checkTreeNode(checked) {
+		if (!srcNode) {
+			alert("请先选中一个节点");
+			return;
+		}
+		var connFlag = $("#connTrue").attr("checked");
+		srcNode.checked = checked;
+		zTree1.updateNode(srcNode, connFlag);
+		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
 		$("#demo_srcList_" + srcNode.tId).prepend("<button id='demo_srcList_" + srcNode.tId+ "_image' class='emptyButton' />");
 		
 	}
@@ -219,9 +225,7 @@
 		getNodes();
 		$("#renameTxt").attr("value", "");
 		srcLiId = null;
-		targetLiId = null;
 		srcNode = null;
-		targetNode = null;
 		
 	}	
 
@@ -251,15 +255,11 @@
 				<ul>
 				<TABLE border=0 align=center class="tb1">
 					<TR>
-						<TD width=170px align=center valign=middle><b>当前选中的节点</b></TD>
-						<TD width=170px align=center valign=middle><b>移动时的目标节点</b></TD>
+						<TD width=340px align=center valign=middle><b>zTree数据同步演示</b></TD>
 					</TR>
 					<TR>
 						<TD align=left valign=top>
-						<div  id="srcList" style="width:160px; height:200px; overflow:auto; cursor:pointer; "></div>
-						</TD>
-						<TD align=left valign=top>
-						<div  id="targetList" style="width:160px; height:200px; overflow:auto; cursor:pointer; "></div>
+						<div  id="srcList" style="width:300px; height:200px; overflow:auto; cursor:pointer; "></div>
 						</TD>
 					</TR>
 				</TABLE>
@@ -268,16 +268,24 @@
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>操作指示
 				<ul class="operate">
-					修改当前选中节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
+					修改选中节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
 				</ul>
 				<ul class="operate">
-					给当前选中节点增加子节点: <button class="ico addNode" onfocus="this.blur();" title="增加节点" onclick="addNode();"></button>
+					给选中节点增加子节点: <button class="ico addNode" onfocus="this.blur();" title="增加节点" onclick="addNode();"></button>
+					删除选中节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
 				</ul>
 				<ul class="operate">
-					删除当前选中节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
+					修改选中节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check节点" onclick="checkTreeNode(true);"></button>
+					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck节点" onclick="checkTreeNode(false);"></button>
+					<br/>父子关联：<INPUT TYPE="radio" id="connTrue" name="connRadio" onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="connFalse" name="connRadio" checked onfocus="this.blur();">false
 				</ul>
 				<ul class="operate">
-					将 选中节点 移动到 目标节点下: <button class="ico moveNode" onfocus="this.blur();" title="移动节点" onclick="moveTreeNode();"></button>
+					移动选中节点: 
+					<button class="ico up" onfocus="this.blur();" title="同级向上移动" onclick="moveTreeNode('up');"></button>
+					<button class="ico down" onfocus="this.blur();" title="同级向下移动" onclick="moveTreeNode('down');"></button>
+					<button class="ico left" onfocus="this.blur();" title="成为前一个节点的子节点" onclick="moveTreeNode('left');"></button>
+					<button class="ico right" onfocus="this.blur();" title="成为父节点同级节点" onclick="moveTreeNode('right');"></button>
 				</ul>
 				<ul class="operate">
 					选中节点:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="展开选中节点" onclick="expandNode(true);"></button>

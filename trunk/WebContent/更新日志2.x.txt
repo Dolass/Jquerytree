@@ -21,6 +21,7 @@
   * 增加皮肤
 </font>
 
+
 *2010.10.12* v2.2
    * 【修改】给一个没有子节点的节点添加新节点，连续添加两个以上子节点时连线显示的Bug
    * 【修改】expandNode方法，展开节点时无动画的Bug
@@ -39,6 +40,8 @@
 		增加 setting.checkedCol 属性，默认值为 checked   
    * 【修改】编辑状态 输入框内 回车键可以触发onRename事件
    * 【修改】.net环境下ajax直接返回JSON对象时无法正常加载的Bug
+   
+   ---------------- 【CheckBox演示】 制作 getChangeCheckedNodes 案例--------------
    * 【增加】change事件中 关于自动转换打钩状态的节点是否触发change事件的开关
 		经过考虑，还是取消了这个开关，主要是自动转换状态的节点会因数据结构的复杂而变得很多，如果再触发change事件就太恐怖了，
 		觉得需要获取被自动转换的需求无非就是想知道哪些节点的check状态被修改过而已，所以增加了getChangeCheckedNodes()方法用来获取当前zTree中被修改check状态的节点集合，返回值是Array类型的。
@@ -46,16 +49,24 @@
    * 【增加】鼠标右键 事件 以及 MouseUp 和 MouseDown 事件
 		增加了rightClick 和 beforeRightClick 两个callback事件回调函数。注意：只要将 function 的引用赋给 rightClick 属性，则右键点击zTree时，将屏蔽浏览器的右键菜单。
 		增加 MouseUp 和 MouseDown 事件主要是为了用户能够更灵活的制作自定义的功能。
+  
+   ---------------- 【异步加载演示】 制作 reAsyncChildNodes(parentNode, reloadType) 案例--------------
    * 【增加】js触发指定节点异步加载子节点 或 重新异步加载 的接口
 		增加了 reAsyncChildNodes(parentNode, reloadType) 接口，可以通过js随意指定任意节点异步加载子节点数据，并且reloadType 参数可以指定是完全刷新还是追加子节点；parentNode=null时，相当于从Root端进行重新异步加载。
+   
+   ---------------- 【js操作】制作 checkAllNodes(checked) 案例--------------
    * 【增加】针对checkBox的全部取消或选择的接口，便于用户使用
 		增加 checkAllNodes(checked) 方法，实现此功能。
    * 【增加】异步加载时loading状态，拖拽节点时，滚动条能自动滚动；停留一段时间后，能展开节点；
    * 【增加】节点同级内上下排序的接口和功能(修改了moveNode方法/beforeDrop、drop事件，move节点时可以更加灵活)
 		增加内部常量MoveType_Inner、MoveType_Before、MoveType_After
 		moveNode方法/beforeDrop、drop事件callback函数增加  moveType 参数
+
+   ---------------- 【js操作】制作 getNodeByParam和 getNodesByParam  案例--------------
    * 【增加】根据任意属性获取treeNode节点数据的接口
 		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个符合要求的结果，另一个返回符合要求的节点Array集合。
+   
+   ---------------- 【基本演示】制作 transformTozTreeNodes  transformToArray  案例--------------
    * 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
 		增加 isSimpleData、treeNodeKey、treeNodeParentKey 属性设置
 		增加 transformTozTreeNodes 和 transformToArray 接口便于用户进行数据转换
