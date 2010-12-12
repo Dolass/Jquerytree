@@ -18,15 +18,7 @@
 			checkStyle: "radio",
 			checkRadioType: "level",
 			callback: {
-				beforeClick:	zTreeBeforeClick,
-				beforeChange:	zTreeBeforeChange,
-				beforeExpand: zTreeBeforeExpand,
-				beforeCollapse: zTreeBeforeCollapse,
-				
-				click:	zTreeOnClick,
-				change:	zTreeOnChange,
-				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse
+				change:	zTreeOnChange
 			}
 		};
 
@@ -34,54 +26,10 @@
 		refreshTree();
 	});
 
-	function getTime() {
-		var now= new Date();
-		var hour=now.getHours();
-		var minute=now.getMinutes();
-		var second=now.getSeconds();
-		return (hour+":"+minute+":"+second);	
-	}
-
-	function zTreeBeforeClick(treeId, treeNode) {
-		var r = $("#beforeClickTrue").attr("checked");
-		if (!r) alert("beforeClick return false!!");
-		return r;
-	}
-
-	function zTreeBeforeChange(treeId, treeNode) {
-		var r = $("#beforeChangeTrue").attr("checked");
-		if (!r) alert("beforeChange return false!!");
-		return r;
-	}	
-
-	function zTreeOnClick(event, treeId, treeNode) {
-		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}
 
 	function zTreeOnChange(event, treeId, treeNode) {
-		$("#onChangeNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "; Checked=" + treeNode.checkedNew);
 		getCheckedNodesLength();
 	}
-
-	function zTreeBeforeExpand(treeId, treeNode) {
-		var r = $("#beforeExpandTrue").attr("checked");
-		if (!r) alert("beforeExpand return false!!");
-		return r;
-	}
-
-	function zTreeOnExpand(event, treeId, treeNode) {	
-		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}
-
-	function zTreeBeforeCollapse(treeId, treeNode) {
-		var r = $("#beforeCollapseTrue").attr("checked");
-		if (!r) alert("beforeCollapse return false!!");
-		return r;
-	}
-
-	function zTreeOnCollapse(event, treeId, treeNode) {	
-		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}	
 	
 	function getRadioType() {
 		var level = $("#level").attr("checked")? "level":"";
@@ -93,12 +41,8 @@
 	function refreshTree() {
 		setting.checkRadioType = getRadioType();
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
-		$("#onClickNode").html("<br/>");
-		$("#onChangeNode").html("<br/>");
-		$("#onExpandNode").html("<br/>");
-		$("#onCollapseNode").html("<br/>");
+		$("#checkRadioTypeCode").html(setting.checkRadioType);
 		getCheckedNodesLength();
-
 	}
 
 	function getCheckedNodesLength() {
@@ -123,12 +67,19 @@
 		<div class="demoContent">
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>Radio 分组类型配置
-				<ul class="remark">——修改以下配置后，请点击 Tree 的 Radio，看看有什么变化</ul>
+				<ul class="remark">——修改以下配置，点击 Tree 的 Radio，看看变化</ul>
 				<ul>
 					<INPUT TYPE="radio" id="level" NAME="radioType" checked onclick="refreshTree();">在每一级内进行进行分组控制
 				</ul>
 				<ul>
 					<INPUT TYPE="radio" id="all" NAME="radioType" onclick="refreshTree();">在整个 Tree 内进行分组控制
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.checkable = <a id="checkableCode">true</a>;</li>
+					<li>&nbsp;setting.checkStyle = "<a id="checkableCode">radio</a>";</li>
+					<li>&nbsp;setting.checkRadioType = "<a id="checkRadioTypeCode">level</a>";</li>
+					<li>&nbsp;</li>
+					<li>&nbsp;被选择的节点共 <a id="checkedNum">0</a> 个</li>
 				</ul>
 			</li>
 			<li class="title focus">
@@ -154,40 +105,6 @@
 					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">且有被选择的子节点（只有父节点存在此状态）。</font>
 				</ul>
 			</li>
-			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>事件监控
-				<ul class="remark">——修改 before 事件返回值后，点击节点，看看有什么变化</ul>
-				<ul>
-				&nbsp;&nbsp;&nbsp;beforeClick&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeExpand&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false<br/>
-				beforeCollapse&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeChange&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeChangeTrue" name="beforeChangeRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeChangeFalse" name="beforeChangeRadio" onfocus="this.blur();">false<br/>
-				</ul>
-				<ul class="event">
-				被选择的节点共 <a id="checkedNum">0</a> 个<br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
-				</ul>
-				<ul class="event">
-				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onChange 事件:&nbsp;&nbsp;<a id="onChangeNode"></a><br/>
-				</ul>
-			</li>
-				
 		</div>	
 		</TD>
 	</TR>

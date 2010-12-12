@@ -6,10 +6,6 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-********************************************************************************************
-拖拽节点时，滚动条应该能自动滚动；停留一段时间后，应该展开节点；
-********************************************************************************************
-		
    # 【增加】建立扩展函数库，方便大家转换数据等使用
 		目前的情况看来是暂且不需要扩展函数库了，大家需要的功能基本都增加到了核心代码中。以后再看情况而定了
    # 【修改】css中样式导致虚线相差一个像素的问题
@@ -32,6 +28,7 @@
 		增加isAjaxing内部参数
    * 【修改】cancleSelectedNode 修正为 cancelSelectedNode ，但同时保留原有的cancleSelectedNode方法
    * 【修改】把asyncUrl 扩展为 function 的引用，可以根据节点任意修改异步加载的url了。当然依然支持以前的String方式
+   * 【修改】把edit_renameBtn、edit_removeBtn 扩展为 function 的引用，可以根据节点控制是否显示相应按钮
    * 【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的Bug
    * 【修改】updateNode方法不改变 checkbox / radio 状态的Bug。
 		为了便于用户修改checked的状态，将原先的checkedNew修改为checkedOld，并且保留初始化时的checked状态，当前check状态以checked为准，如果有涉及这部分开发的朋友需要注意一下了。
@@ -53,10 +50,10 @@
 		增加了 reAsyncChildNodes(parentNode, reloadType) 接口，可以通过js随意指定任意节点异步加载子节点数据，并且reloadType 参数可以指定是完全刷新还是追加子节点；parentNode=null时，相当于从Root端进行重新异步加载。
    * 【增加】针对checkBox的全部取消或选择的接口，便于用户使用
 		增加 checkAllNodes(checked) 方法，实现此功能。
-   * 【增加】异步加载时loading状态
-   * 【增加】节点同级内上下排序的接口和功能(修改了moveNode方法，move节点时可以更加灵活)
+   * 【增加】异步加载时loading状态，拖拽节点时，滚动条能自动滚动；停留一段时间后，能展开节点；
+   * 【增加】节点同级内上下排序的接口和功能(修改了moveNode方法/beforeDrop、drop事件，move节点时可以更加灵活)
 		增加内部常量MoveType_Inner、MoveType_Before、MoveType_After
-		moveNode方法增加 moveType 参数
+		moveNode方法/beforeDrop、drop事件callback函数增加  moveType 参数
    * 【增加】根据任意属性获取treeNode节点数据的接口
 		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个符合要求的结果，另一个返回符合要求的节点Array集合。
    * 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式

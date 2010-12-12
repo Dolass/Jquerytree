@@ -21,13 +21,6 @@
 			asyncParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
 			asyncParamOther: ["test","true"], //其它参数 ( key, value 键值对格式)
 			callback:{
-				beforeClick: zTreeBeforeClick,
-				beforeExpand: zTreeBeforeExpand,
-				beforeCollapse: zTreeBeforeCollapse,
-				
-				click: zTreeOnClick,
-				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse,
 				asyncSuccess: zTreeOnAsyncSuccess,
 				asyncError: zTreeOnAsyncError
 			}
@@ -36,7 +29,7 @@
 		var zNodes =[];
 
 	$(document).ready(function(){
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		refreshTree('asyncData/node.txt');
 	});
 
 	function getTime() {
@@ -49,70 +42,39 @@
 
 	var tmpUrl = "";
 	function setAsyncUrl(treeNode) {
-		tmpUrl = (tmpUrl == "fun1.txt" ? "fun2.txt" : "fun1.txt");
-		if (treeNode) {
-			$("#getUrl").html( "[" + getTime() + "]  Name=" + treeNode.name + ", url=" + tmpUrl);
-		} else {
-			$("#getUrl").html( "[" + getTime() + "]  treeNode is Root!" + " url=" + tmpUrl);
-		}
-		return "asyncData/" + tmpUrl;
+		tmpUrl = "asyncData/" + (tmpUrl.indexOf("fun1.txt")>-1 ? "fun2.txt" : "fun1.txt");
+		$("#getUrl").html(tmpUrl);
+		return tmpUrl;
 	}
 
-	function zTreeBeforeClick(treeId, treeNode) {
-		var r = $("#beforeClickTrue").attr("checked");
-		if (!r) alert("beforeClick return false!!");
-		return r;
-	}
-	
-	function zTreeOnClick(event, treeId, treeNode) {
-		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
-	}
-
-	function zTreeBeforeExpand(treeId, treeNode) {
-		var r = $("#beforeExpandTrue").attr("checked");
-		if (!r) alert("beforeExpand return false!!");
-		return r;
-	}
-
-	function zTreeOnExpand(event, treeId, treeNode) {	
-		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}
-
-	function zTreeBeforeCollapse(treeId, treeNode) {
-		var r = $("#beforeCollapseTrue").attr("checked");
-		if (!r) alert("beforeCollapse return false!!");
-		return r;
-	}
-
-	function zTreeOnCollapse(event, treeId, treeNode) {	
-		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 		if (treeNode) {
-			$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_SUCCESS");
+			$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name );
 		} else {
-			$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeNode is Root! &nbsp;ZTREE_AJAX_SUCCESS");
+			$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeNode is Root!");
 		}
 	}
 
 	function zTreeOnAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
 		if (treeNode) {
-			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + "&nbsp;ZTREE_AJAX_ERROR");
+			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name );
 		} else {
-			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeNode is Root! &nbsp;ZTREE_AJAX_ERROR");
+			$("#onAsyncErrorNode").html( "[" + getTime() + "]  treeNode is Root!");
 		}
 	}
 
 	function refreshTree(asyncUrl) {
-		setting.asyncUrl = asyncUrl;
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 		$("#getUrl").html("");
-		$("#onClickNode").html("<br/>");
-		$("#onExpandNode").html("<br/>");
-		$("#onCollapseNode").html("<br/>");
 		$("#onAsyncSuccessNode").html("<br/>");
 		$("#onAsyncErrorNode").html("<br/>");
+		setting.asyncUrl = asyncUrl;
+		if ((typeof asyncUrl) == "function") {
+			$("#asyncUrlCode").html("setAsyncUrl");
+		} else {
+			$("#asyncUrlCode").html("\"" + asyncUrl + "\"" );
+		}
+		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 	}
 
 	function getNow() {
@@ -140,12 +102,16 @@
 				<ul class="remark">——使用 Tomcat 的朋友，可以自己编写 node.jsp</ul>
 				<ul>
 					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('asyncData/node.txt');">node.txt（静态数据）
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('asyncData/node.php');">node.php（动态数据）
 					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree(setAsyncUrl);">function（根据节点修改URL地址）
 				</ul>
 				<ul class="event">
-				&nbsp;function:&nbsp;&nbsp;<a id="getUrl"></a><br/>
+					<li>&nbsp;setting.async = true;</li>
+					<li>&nbsp;setting.asyncUrl = <a id="asyncUrlCode"></a>;</li>
+					<li>&nbsp;</li>
+					<li>&nbsp;function return value :&nbsp;&nbsp;<a id="getUrl"></a></li>
 				</ul>
 			</li>
 			<li class="title focus">
@@ -159,33 +125,12 @@
 			</li>
 			<li class="title focus">
 				<button class="ico safari" onfocus="this.blur();"></button>事件监控
-				<ul class="remark">——修改 before 事件返回值后，点击节点，看看有什么变化</ul>
-				<ul>
-				&nbsp;&nbsp;&nbsp;beforeClick&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeExpand&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false<br/>
-				beforeCollapse&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false<br/>
-				</ul>
-				<ul class="remark">——尝试修改node.php，产生服务器错误可触发onAsyncError事件</ul>
+				<ul class="remark">——修改 node.php 产生服务器错误可触发onAsyncError事件</ul>
 				<ul class="event">
-				&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
+				<li>onAsyncSuccess 事件:&nbsp;&nbsp;<a id="onAsyncSuccessNode"><br/></a></li>
 				</ul>
 				<ul class="event">
-				onAsyncSuccess 事件:&nbsp;&nbsp;<a id="onAsyncSuccessNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				onAsyncError 事件:&nbsp;&nbsp;<a id="onAsyncErrorNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"><br/></a><br/>
+				<li>onAsyncError 事件:&nbsp;&nbsp;<a id="onAsyncErrorNode"><br/></a></li>
 				</ul>
 			</li>
 				

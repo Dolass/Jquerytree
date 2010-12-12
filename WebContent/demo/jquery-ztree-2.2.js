@@ -239,8 +239,8 @@
 		});
 
 		treeObj.unbind(ZTREE_DROP);
-		treeObj.bind(ZTREE_DROP, function (event, treeId, treeNode, targetNode) {
-		  if ((typeof setting.callback.drop) == "function") setting.callback.drop(event, treeId, treeNode, targetNode);
+		treeObj.bind(ZTREE_DROP, function (event, treeId, treeNode, targetNode, moveType) {
+		  if ((typeof setting.callback.drop) == "function") setting.callback.drop(event, treeId, treeNode, targetNode, moveType);
 		});
 
 		treeObj.unbind(ZTREE_EXPAND);
@@ -686,17 +686,17 @@
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(setting, tmpTargetNodeId);
 					var beforeDrop = true;
-					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode);
+					if ((typeof setting.callback.beforeDrop) == "function") beforeDrop = setting.callback.beforeDrop(setting.treeObjId, treeNode, dragTargetNode, moveType);
 					if (beforeDrop == false) return;
 
 					moveTreeNode(setting, dragTargetNode, treeNode, moveType);
 
 					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
-					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [setting.treeObjId, treeNode, dragTargetNode]);
+					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [setting.treeObjId, treeNode, dragTargetNode, moveType]);
 
 				} else {
 					//触发 DROP 拖拽事件，返回null
-					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [setting.treeObjId, null, null]);
+					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [setting.treeObjId, null, null, null]);
 				}
 			});
 			
@@ -857,8 +857,15 @@
 	function removeRemoveBtn(treeNode) {		
 		$("#" + treeNode.tId + IDMark_Remove).unbind().remove();
 	}
-	function addEditBtn(setting, treeNode) {		
-		if (!setting.edit_renameBtn || treeNode.editNameStatus || $("#" + treeNode.tId + IDMark_Edit).length > 0) {
+	function addEditBtn(setting, treeNode) {
+		if (treeNode.editNameStatus || $("#" + treeNode.tId + IDMark_Edit).length > 0) {
+			return;
+		}
+		var showEdit_RenameBtn = setting.edit_renameBtn;
+		if (typeof setting.edit_renameBtn == "function") {
+			showEdit_RenameBtn = setting.edit_renameBtn(treeNode);
+		}
+		if (!showEdit_RenameBtn) {
 			return;
 		}
 
@@ -888,6 +895,13 @@
 	}
 	function addRemoveBtn(setting, treeNode) {		
 		if (!setting.edit_removeBtn || $("#" + treeNode.tId + IDMark_Remove).length > 0) {
+			return;
+		}
+		var showEdit_RemoveBtn = setting.edit_removeBtn;
+		if (typeof setting.edit_removeBtn == "function") {
+			showEdit_RemoveBtn = setting.edit_removeBtn(treeNode);
+		}
+		if (!showEdit_RemoveBtn) {
 			return;
 		}
 		
