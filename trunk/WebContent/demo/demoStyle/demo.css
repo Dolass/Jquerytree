@@ -53,22 +53,25 @@ ul#treeDemo2 {
 }
 
 /* ------------- 内容  -----------------  */
+div.demoContent li{
+	padding:0; margin:0; 
+	list-style:none;
+	line-height:16px; 
+	font-size: 12px;
+	text-align:left; 
+}
+
 div.demoContent li.menu{
 	padding:0; margin:10px 0 0 0; 
-	list-style:none;
 	line-height:18px; 
 	font-size: 18px;
-	text-align:left; 
-	
 	cursor: pointer;
 }
 
 div.demoContent li.title{
 	padding:0; margin:10px 0 0 0; 
-	list-style:none;
 	line-height:30px; 
 	font-size: 18px;
-	text-align:left; 
 	white-space:nowrap;
 }
 

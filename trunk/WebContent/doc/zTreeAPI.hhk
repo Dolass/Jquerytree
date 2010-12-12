@@ -45,7 +45,7 @@
 <PARAM NAME="Local" VALUE="e_beforeDrag.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="beforeDrop(treeId, treeNode, targetNode)">
+<PARAM NAME="Name" VALUE="beforeDrop(treeId, treeNode, targetNode, moveType)">
 <PARAM NAME="Local" VALUE="e_beforeDrop.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
@@ -201,7 +201,7 @@
 <PARAM NAME="Local" VALUE="s_dragStatus.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="drop(event, treeId, treeNode, targetNode)">
+<PARAM NAME="Name" VALUE="drop(event, treeId, treeNode, targetNode, moveType)">
 <PARAM NAME="Local" VALUE="e_drop.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">

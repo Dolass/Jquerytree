@@ -14,125 +14,38 @@
 	var setting;
 
 		setting = {
-			callback:{
-				beforeClick: zTreeBeforeClick,
-				beforeDrag: zTreeBeforeDrag,
-				beforeDrop: zTreeBeforeDrop,
-				beforeRename: zTreeBeforeRename,
-				beforeRemove: zTreeBeforeRemove,
-				beforeExpand: zTreeBeforeExpand,
-				beforeCollapse: zTreeBeforeCollapse,
-				
-				click: zTreeOnClick,
-				drag: zTreeOnDrag,
-				drop: zTreeOnDrop,
-				rename: zTreeOnRename,
-				remove: zTreeOnRemove,
-				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse
-			}
-			
+			editable: true
 		};
 
 	$(document).ready(function(){
 		refreshTree();
-		
 	});
 
-	function getTime() {
-		var now= new Date();
-		var hour=now.getHours();
-		var minute=now.getMinutes();
-		var second=now.getSeconds();
-		return (hour+":"+minute+":"+second);	
+	function setRenameBtn(treeNode) {
+		return !(treeNode.level == 1 && treeNode.isParent);
 	}
-
-	function zTreeBeforeClick(treeId, treeNode) {
-		var r = $("#beforeClickTrue").attr("checked");
-		if (!r) alert("beforeClick return false!!");
-		return r;
-	}
-
-	function zTreeBeforeDrag(treeId, treeNode) {
-		var r = $("#beforeDragTrue").attr("checked");
-		if (!r) alert("beforeDrag return false!!");
-		return r;
-	}
-
-	function zTreeBeforeDrop(treeId, treeNode, targetNode) {
-		var r = $("#beforeDropTrue").attr("checked");
-		if (!r) alert("beforeDrop return false!!");
-		return r;
-	}
-
-	function zTreeBeforeRename(treeId, treeNode) {
-		var r = $("#beforeRenameTrue").attr("checked");
-		if (!r) alert("beforeRename return false!!");
-		return r;
-	}
-
-	function zTreeBeforeRemove(treeId, treeNode) {
-		var r = $("#beforeRemoveTrue").attr("checked");
-		if (!r) alert("beforeRemove return false!!");
-		return r;
-	}
-
-	function zTreeOnClick(event, treeId, treeNode) {
-		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
-	}
-
-	function zTreeOnDrag(event, treeId, treeNode) {
-		$("#onDragNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
-	}
-
-	function zTreeOnDrop(event, treeId, treeNode, targetNode) {
-		if (treeNode) {
-				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;Src Name = " + treeNode.name + "; Target Name = " + ((targetNode != null) ? targetNode.name : "root"));
-		} else {
-				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;拖拽放弃。");
-		}
-	}
-
-	function zTreeOnRename(event, treeId, treeNode) {
-		$("#onRenameNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
-	}
-
-	function zTreeOnRemove(event, treeId, treeNode) {
-		$("#onRemoveNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
-	}
-
-	function zTreeBeforeExpand(treeId, treeNode) {
-		var r = $("#beforeExpandTrue").attr("checked");
-		if (!r) alert("beforeExpand return false!!");
-		return r;
-	}
-
-	function zTreeOnExpand(event, treeId, treeNode) {	
-		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
-	}
-
-	function zTreeBeforeCollapse(treeId, treeNode) {
-		var r = $("#beforeCollapseTrue").attr("checked");
-		if (!r) alert("beforeCollapse return false!!");
-		return r;
-	}
-
-	function zTreeOnCollapse(event, treeId, treeNode) {	
-		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
+	function setRemoveBtn(treeNode) {
+		return (!treeNode.isParent);
 	}
 
 	function refreshTree() {
-		setting.editable = $("#editableTrue").attr("checked");
-		setting.edit_renameBtn = $("#editBtnCheck").attr("checked");
-		setting.edit_removeBtn = $("#removeBtnCheck").attr("checked");
+		$("#editableCode").html("true");
+		if ($("#ebfun").attr("checked")) {
+			setting.edit_renameBtn = setRenameBtn;
+			$("#renameBtnCode").html("setRenameBtn");
+		} else {
+			setting.edit_renameBtn = $("#ebTrue").attr("checked");
+			$("#renameBtnCode").html("" + setting.edit_renameBtn);
+		}
+		if ($("#dbfun").attr("checked")) {
+			setting.edit_removeBtn = setRemoveBtn;
+			$("#removeBtnCode").html("setRemoveBtn");
+		} else {
+			setting.edit_removeBtn = $("#dbTrue").attr("checked");
+			$("#removeBtnCode").html("" + setting.edit_removeBtn);
+		}
+		
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
-		$("#onClickNode").html("<br/>");
-		$("#onDragNode").html("<br/>");
-		$("#onDropNode").html("<br/>");
-		$("#onRenameNode").html("<br/>");
-		$("#onRemoveNode").html("<br/>");
-		$("#onExpandNode").html("<br/>");
-		$("#onCollapseNode").html("<br/>");
 	}
 
   //-->
@@ -152,77 +65,38 @@
 		<div class="demoContent">
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>编辑 &amp; 浏览 状态切换
-				<ul class="remark">——修改以下配置后，看看还能否进行编辑</ul>
+				<ul class="remark">——修改以下配置后，看看变化</ul>
 				<ul>
-					<INPUT TYPE="radio" id="editableTrue" NAME="editableRadio" checked onclick="refreshTree();">编辑状态;&nbsp;&nbsp;<INPUT TYPE="radio" id="editableFalse" NAME="editableRadio" onclick="refreshTree();">浏览状态
+					是否显示编辑按钮: <INPUT TYPE="radio" id="ebTrue" NAME="editBtn" checked onclick="refreshTree();">true
+					<INPUT TYPE="radio" id="ebFalse" NAME="editBtn" onclick="refreshTree();">false
+					<INPUT TYPE="radio" id="ebfun" NAME="editBtn" onclick="refreshTree();">function
 				</ul>
 				<ul>
-					<INPUT TYPE="checkbox" id="editBtnCheck" checked onchange="refreshTree();" onfocus="this.blur();">是否显示编辑按钮&nbsp;&nbsp;
-					<INPUT TYPE="checkbox" id="removeBtnCheck" checked onchange="refreshTree();" onfocus="this.blur();">是否显示删除按钮
-					
+					是否显示删除按钮: <INPUT TYPE="radio" id="dbTrue" NAME="removeBtn" checked onclick="refreshTree();">true
+					<INPUT TYPE="radio" id="dbFalse" NAME="removeBtn" onclick="refreshTree();">false
+					<INPUT TYPE="radio" id="dbfun" NAME="removeBtn" onclick="refreshTree();">function
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.editable = <a id="editableCode">true</a>;</li>
+					<li>&nbsp;setting.edit_renameBtn = <a id="renameBtnCode">true</a>;</li>
+					<li>&nbsp;setting.edit_removeBtn = <a id="removeBtnCode">true</a>;</li>
 				</ul>
 			</li>
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>编辑状态说明
 				<ul class="remark">
-					编辑状态时，可以对节点进行拖拽操作。<br/> &nbsp;&nbsp;(可以尝试水平方向拖拽节点试试看)
+					<li>编辑状态时，可以对节点进行拖拽操作。<br/> &nbsp;&nbsp;(可以尝试水平方向拖拽节点试试看)</li>
 				</ul>
 				<ul class="remark">
-					拖拽节点时，如果 Tree的背景变色，释放后该节点将成为根节点。
+					<li>拖拽节点时，如果 Tree的背景变色，释放后该节点将成为根节点。</li>
 				</ul>
 				<ul class="remark">
-					编辑状态时，可以修改节点的名称，以及删除节点。
+					<li>编辑状态时，可以修改节点的名称，以及删除节点。</li>
+				</ul>
+				<ul class="remark">
+					<li>v2.2版本可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
 				</ul>
 			</li>
-			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>事件监控
-				<ul class="remark">——修改 before 事件返回值后，编辑节点，看看有什么变化</ul>
-				<ul>
-				&nbsp;&nbsp;&nbsp;beforeClick&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;&nbsp;&nbsp;beforeDrag&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeDragTrue" name="beforeDragRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeDragFalse" name="beforeDragRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;&nbsp;&nbsp;beforeDrop&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeDropTrue" name="beforeDropRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeDropFalse" name="beforeDropRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeRename&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeRenameTrue" name="beforeRenameRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeRenameFalse" name="beforeRenameRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeRemove&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeRemoveTrue" name="beforeRemoveRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeRemoveFalse" name="beforeRemoveRadio" onfocus="this.blur();">false<br/>
-				&nbsp;&nbsp;beforeExpand&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false<br/>
-				beforeCollapse&nbsp;事件 return: 
-					<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false<br/>					
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;&nbsp;&nbsp;onDrag 事件:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;&nbsp;&nbsp;onDrop 事件:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onRename 事件:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onRemove 事件:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>
-				</ul>
-				<ul class="event">
-				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
-				</ul>
-				<ul class="event">
-				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
-				</ul>
-			</li>
-				
 		</div>	
 		</TD>
 	</TR>

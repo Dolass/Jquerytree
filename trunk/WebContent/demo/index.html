@@ -41,14 +41,19 @@
 			nodes: [
 				//节点连线、自定义图标、一个Web同时显示多个Tree
 				{ name:"基本功能演示", iconSkin:"sim2", "url":"standardDemo.html", "target":"testIframe"},
-				//checkbox 演示、onCheck、onClick事件
-				{ name:"CheckBox演示", iconSkin:"sim5", "url":"checkboxDemo.html", "target":"testIframe"},
-				//radio 演示、onCheck、onClick事件
-				{ name:"Radio演示", iconSkin:"sim6", "url":"radioDemo.html", "target":"testIframe"},
-				//编辑演示
-				{ name:"编辑演示", iconSkin:"sim4", "url":"editDemo.html", "target":"testIframe"},
+				{ name:"check 演示", iconSkin:"sim10", open:true,
+					nodes:[
+							//checkbox 演示、onCheck、onClick事件
+							{ name:"CheckBox演示", iconSkin:"sim6", "url":"checkboxDemo.html", "target":"testIframe"},
+							//radio 演示、onCheck、onClick事件
+							{ name:"Radio演示", iconSkin:"sim6", "url":"radioDemo.html", "target":"testIframe"}
+						]},
 				//异步加载节点演示、异步事件
 				{ name:"异步加载演示", iconSkin:"sim8", "url":"asyncDemo.html", "target":"testIframe"},
+				//事件演示
+				{ name:"事件演示", iconSkin:"sim5", "url":"eventDemo.html", "target":"testIframe"},
+				//编辑演示
+				{ name:"编辑演示", iconSkin:"sim4", "url":"editDemo.html", "target":"testIframe"},
 				//代码加载、移动、删除节点演示
 				{ name:"JS操作 & 大数据量演示", iconSkin:"sim10", "url":"jscontrolDemo.html", "target":"testIframe"},
 				//高级应用演示
@@ -91,7 +96,7 @@
 		<TD width=200px align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
 			<ul id="tree" class="tree" style="width:200px; overflow:auto;"></ul>
 		</TD>
-		<TD width=800px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=NO width=100%  height=600px SRC="standardDemo.html" onload="loadReady();"></IFRAME></TD>
+		<TD width=800px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="standardDemo.html" onload="loadReady();"></IFRAME></TD>
 	</TR>
 </TABLE>
 
