@@ -29,14 +29,14 @@
 	function zTreeOnClick(event, treeId, treeNode) {
 		if (treeId=="treeDemo") {
 			if (preSelectedNode1 == treeNode) {
-				zTree1.cancleSelectedNode();
+				zTree1.cancelSelectedNode();
 				preSelectedNode1 = null;
 			} else {
 				preSelectedNode1 = treeNode;
 			}
 		} else {			
 			if (preSelectedNode2 == treeNode) {
-				zTree2.cancleSelectedNode();
+				zTree2.cancelSelectedNode();
 				preSelectedNode2 = null;
 			} else {
 				preSelectedNode2 = treeNode;
@@ -113,7 +113,7 @@
 					3、转移节点代码请务先执行 srcTree.removeNode(srcNode) 方法，后执行 targetTree.addNodes(targetNode, [srcNode]) 方法。
 				</ul>
 				<ul class="operate" style="color:red">
-					4、需要使用 cancleSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
+					4、需要使用 cancelSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
 				</ul>
 				<ul></ul>
 			</li>

@@ -1920,7 +1920,7 @@
 			moveNode : function(targetNode, treeNode, moveType) {
 				if (!treeNode) return;
 				
-				if (targetNode && (treeNode.parentNode == targetNode || $("#" + treeNode.tId).find("#" + targetNode.tId).length > 0)) {
+				if (targetNode && ((treeNode.parentNode == targetNode && moveType == MoveType_Inner) || $("#" + treeNode.tId).find("#" + targetNode.tId).length > 0)) {
 					return;
 				} else if (!targetNode) {
 					targetNode = null;

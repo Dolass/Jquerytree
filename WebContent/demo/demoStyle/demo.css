@@ -142,7 +142,13 @@ button.ico.addNode { background:url("./img/addNode.png") no-repeat scroll 0 0 tr
 button.ico.expandNode { background:url("./img/expandNode.png") no-repeat scroll 0 0 transparent;}
 button.ico.collapseNode { background:url("./img/collapseNode.png") no-repeat scroll 0 0 transparent;}
 button.ico.removeNode { background:url("./img/removeNode.png") no-repeat scroll 0 0 transparent;}
+button.ico.checkNode { background:url("./img/checkNode.png") no-repeat scroll 0 0 transparent;}
+button.ico.unCheckNode { background:url("./img/unCheckNode.png") no-repeat scroll 0 0 transparent;}
 button.ico.skin { background:url("./img/skin.png") no-repeat scroll 0 0 transparent;}
+button.ico.left { background:url("./img/left.png") no-repeat scroll 0 0 transparent;}
+button.ico.right { background:url("./img/right.png") no-repeat scroll 0 0 transparent;}
+button.ico.down { background:url("./img/down.png") no-repeat scroll 0 0 transparent;}
+button.ico.up { background:url("./img/up.png") no-repeat scroll 0 0 transparent;}
 
 .emptyButton {
 	width:0px; height:0px; 
