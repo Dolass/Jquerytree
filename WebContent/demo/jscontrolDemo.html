@@ -213,12 +213,42 @@
 		zTree1.updateNode(srcNode, connFlag);
 		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
 		$("#demo_srcList_" + srcNode.tId).prepend("<button id='demo_srcList_" + srcNode.tId+ "_image' class='emptyButton' />");
-		
+	}
+	function checkAllTreeNode(checked) {
+		zTree1.checkAllNodes(checked);
+	}
+
+	function getNodeByParam() {
+		var key = $("#searchKey").get(0).value;
+		if (key.length > 0) {
+			treeNode = zTree1.getNodeByParam("name", key);
+			if (treeNode) {
+				alert("找到节点信息: \ntId=" + treeNode.tId + ", name=" + treeNode.name + ", level=" + treeNode.level);
+			} else {
+				alert("没有找到匹配的节点，请更换搜索条件");
+			}
+		}
+	}
+	
+	function getNodesByParam() {
+		var key = $("#searchKey2").get(0).value;
+		if (key.length > 0) {
+			treeNodes = zTree1.getNodesByParam("name", key);
+			if (treeNodes && treeNodes.length>0) {
+				var msg = "找到节点信息: ";
+				for (var i=0; i<treeNodes.length; i++) {
+					msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
+				}
+				alert(msg);
+			} else {
+				alert("没有找到匹配的节点，请更换搜索条件");
+			}
+		}
 	}
 
 	function reloadTree() {
 		if ($("#num_1").attr("checked")) {
-			zTree1 = $("#treeDemo").zTree(setting, zNodes);
+			zTree1 = $("#treeDemo").zTree(setting, zNodes.concat(clone(zNodes)));
 		} else {
 			zTree1 = $("#treeDemo").zTree(setting, zNodesBig);
 		}
@@ -228,6 +258,28 @@
 		srcNode = null;
 		
 	}	
+
+	function clone(jsonObj) {
+	    var buf;
+	    if (jsonObj instanceof Array) {
+	        buf = [];
+	        var i = jsonObj.length;
+	        while (i--) {
+	            buf[i] = clone(jsonObj[i]);
+	        }
+	        return buf;
+	    }else if (typeof jsonObj == "function"){
+	        return jsonObj;
+	    }else if (jsonObj instanceof Object){
+	        buf = {};
+	        for (var k in jsonObj) {
+	            buf[k] = clone(jsonObj[k]);
+	        }
+	        return buf;
+	    }else{
+	        return jsonObj;
+	    }
+	} 
 
   //-->
   </SCRIPT>
@@ -252,18 +304,6 @@
 					<INPUT TYPE="radio" id="num_1" NAME="numRadio" checked onclick="reloadTree();">简单数据&nbsp;
 					<INPUT TYPE="radio" id="num_2" NAME="numRadio" onclick="reloadTree();">大数据量(400个节点)
 				</ul>
-				<ul>
-				<TABLE border=0 align=center class="tb1">
-					<TR>
-						<TD width=340px align=center valign=middle><b>zTree数据同步演示</b></TD>
-					</TR>
-					<TR>
-						<TD align=left valign=top>
-						<div  id="srcList" style="width:300px; height:200px; overflow:auto; cursor:pointer; "></div>
-						</TD>
-					</TR>
-				</TABLE>
-				</ul>
 			</li>
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>操作指示
@@ -281,11 +321,15 @@
 					<INPUT TYPE="radio" id="connFalse" name="connRadio" checked onfocus="this.blur();">false
 				</ul>
 				<ul class="operate">
+					修改全部节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check全部节点" onclick="checkAllTreeNode(true);"></button>
+					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck全部节点" onclick="checkAllTreeNode(false);"></button>
+				</ul>
+				<ul class="operate">
 					移动选中节点: 
 					<button class="ico up" onfocus="this.blur();" title="同级向上移动" onclick="moveTreeNode('up');"></button>
 					<button class="ico down" onfocus="this.blur();" title="同级向下移动" onclick="moveTreeNode('down');"></button>
-					<button class="ico left" onfocus="this.blur();" title="成为前一个节点的子节点" onclick="moveTreeNode('left');"></button>
-					<button class="ico right" onfocus="this.blur();" title="成为父节点同级节点" onclick="moveTreeNode('right');"></button>
+					<button class="ico left" onfocus="this.blur();" title="成为父节点同级节点" onclick="moveTreeNode('left');"></button>
+					<button class="ico right" onfocus="this.blur();" title="成为前一个节点的子节点" onclick="moveTreeNode('right');"></button>
 				</ul>
 				<ul class="operate">
 					选中节点:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="展开选中节点" onclick="expandNode(true);"></button>
@@ -293,8 +337,30 @@
 					&nbsp;<input type="checkbox" id="sonChk" /> 是否包含子节点
 				</ul>
 				<ul class="operate">
-					整 颗 树:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="全部展开" onclick="expandAll(true);"></button>
+					全部节点:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="全部展开" onclick="expandAll(true);"></button>
 					折叠<button class="ico collapseNode" onfocus="this.blur();" title="全部折叠" onclick="expandAll(false);"></button> 
+				</ul>
+				<ul class="operate">
+					关键字搜索单个节点: <input type="text" value="手机" id="searchKey"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodeByParam();"></button>
+					<br />getNodeByParam 方法演示（需要完全匹配）
+				</ul>
+				<ul class="operate">
+					关键字搜索节点集合: <input type="text" value="手机" id="searchKey2"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParam();"></button>
+					<br />getNodesByParam 方法演示（需要完全匹配）
+				</ul>
+			</li>
+			<li class="title focus">
+				<button class="ico star" onfocus="this.blur();"></button>zTree数据同步演示
+				<ul>
+				<TABLE border=0 align=center class="tb1">
+					<TR>
+						<TD align=left valign=top>
+						<div  id="srcList" style="width:300px; height:200px; overflow:auto; cursor:pointer; "></div>
+						</TD>
+					</TR>
+				</TABLE>
 				</ul>
 			</li>
 		</div>	

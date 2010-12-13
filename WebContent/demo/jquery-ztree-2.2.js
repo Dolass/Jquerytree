@@ -1169,6 +1169,8 @@
 					ulObj.hide(setting.expandSpeed, callback);
 				}
 			}
+		} else {
+			if (typeof callback == "function") callback();
 		}
 	}
 
@@ -1907,9 +1909,9 @@
 				if (!treeNode) return;
 				var checkObj = $("#" + treeNode.tId + IDMark_Check);
 				if (this.setting.checkable) {
+					if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
 					setChkClass(this.setting, checkObj, treeNode);
 					repairParentChkClassWithSelf(this.setting, treeNode);
-					if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
 				}
 				setNodeName(this.setting, treeNode);
 				setNodeTarget(treeNode);
