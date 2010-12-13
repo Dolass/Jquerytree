@@ -43,23 +43,46 @@
 
 		var checkType = getCheckBoxType();
 		
-		if (zTree1) {
-			var tmpSetting = zTree1.getSetting();
-			tmpSetting.checkType = checkType;
-			zTree1.updateSetting(tmpSetting);
-		} else {
-			setting.checkType = checkType;
-			zTree1 = $("#treeDemo").zTree(setting, zNodes);
-		}
+		setting.checkType = checkType;
+		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
 		getCheckedNodesLength();
-
 	}
 
 	function getCheckedNodesLength() {
 		var tmp = zTree1.getCheckedNodes();
 		$("#checkedNum").html(tmp.length);
+		tmp = zTree1.getChangeCheckedNodes();
+		$("#checkedChangeNum").html(tmp.length);
+		if ($("#changeYes").attr("checked")) {
+			for (var i=0; i<tmp.length; i++) {
+				tmp[i].checkedOld = tmp[i].checked;
+			}
+		}
+		
 	}
+
+	function clone(jsonObj) {
+	    var buf;
+	    if (jsonObj instanceof Array) {
+	        buf = [];
+	        var i = jsonObj.length;
+	        while (i--) {
+	            buf[i] = clone(jsonObj[i]);
+	        }
+	        return buf;
+	    }else if (typeof jsonObj == "function"){
+	        return jsonObj;
+	    }else if (jsonObj instanceof Object){
+	        buf = {};
+	        for (var k in jsonObj) {
+	            buf[k] = clone(jsonObj[k]);
+	        }
+	        return buf;
+	    }else{
+	        return jsonObj;
+	    }
+	} 	
   //-->
   </SCRIPT>
  </HEAD>
@@ -93,6 +116,10 @@
 					<li>&nbsp;setting.checkType = <a id="checkTypeCode"></a>;</li>
 					<li>&nbsp;</li>
 					<li>&nbsp;被选择的节点共 <a id="checkedNum">0</a> 个</li>
+					<li>&nbsp;当前被修改选择状态的节点共 <a id="checkedChangeNum">0</a> 个</li>
+					<li>&nbsp;只计算每次check后修改状态的节点：
+						<INPUT TYPE="radio" id="changeYes" name="changeRadio" checked onfocus="this.blur();" onclick="refreshTree();">Yes;&nbsp;
+						<INPUT TYPE="radio" id="changeNo" name="changeRadio" onfocus="this.blur();" onclick="refreshTree();">No</li>
 				</ul>
 			</li>
 			<li class="title focus">

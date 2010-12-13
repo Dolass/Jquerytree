@@ -77,6 +77,15 @@
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 	}
 
+	function reloadAsync() {
+		var treeNode = zTree1.getSelectedNode();
+		if (!treeNode) {
+			alert("请先选中一个节点");
+			return;
+		}
+		zTree1.reAsyncChildNodes(treeNode, $("#refreshType").attr("checked") ? "refresh" : "add")
+	}
+	
 	function getNow() {
 		var d = new Date();
 		return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + "." + d.getMilliseconds()
@@ -112,6 +121,14 @@
 					<li>&nbsp;setting.asyncUrl = <a id="asyncUrlCode"></a>;</li>
 					<li>&nbsp;</li>
 					<li>&nbsp;function return value :&nbsp;&nbsp;<a id="getUrl"></a></li>
+				</ul>
+			</li>
+			<li class="title focus">
+				<button class="ico star" onfocus="this.blur();"></button>操作指示
+				<ul class="operate">
+					异步加载选中节点的子节点: <button onclick="reloadAsync();" title="异步加载" onfocus="this.blur();" class="ico refresh"></button>
+					加载模式：<INPUT TYPE="radio" id="refreshType" name="reloadTypeRadio" checked onfocus="this.blur();">刷新
+					<INPUT TYPE="radio" id="addType" name="reloadTypeRadio" onfocus="this.blur();">追加
 				</ul>
 			</li>
 			<li class="title focus">
