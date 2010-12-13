@@ -21,7 +21,6 @@
   * 增加皮肤
 </font>
 
-
 *2010.10.12* v2.2
    * 【修改】给一个没有子节点的节点添加新节点，连续添加两个以上子节点时连线显示的Bug
    * 【修改】expandNode方法，展开节点时无动画的Bug
@@ -57,8 +56,6 @@
 		moveNode方法/beforeDrop、drop事件callback函数增加  moveType 参数
    * 【增加】根据任意属性获取treeNode节点数据的接口
 		增加 getNodeByParam和 getNodesByParam 两个方法，一个只返回第一个符合要求的结果，另一个返回符合要求的节点Array集合。
-   
-   ---------------- 【基本演示】制作 transformTozTreeNodes  transformToArray  案例--------------
    * 【增加】简单Array数据支持，不需要用户再把数据库中取出的List强行转换为复杂的JSON嵌套格式
 		增加 isSimpleData、treeNodeKey、treeNodeParentKey 属性设置
 		增加 transformTozTreeNodes 和 transformToArray 接口便于用户进行数据转换

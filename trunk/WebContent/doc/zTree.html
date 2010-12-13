@@ -41,17 +41,17 @@
 &nbsp;&nbsp;&nbsp;&nbsp;{ "name":"google", "url":"http://g.cn", "target":"_blank"},
 &nbsp;&nbsp;&nbsp;&nbsp;{ "name":"baidu", "url":"http://baidu.com", "target":"_blank"},
 &nbsp;&nbsp;&nbsp;&nbsp;{ "name":"sina", "url":"http://www.sina.com.cn", "target":"_blank"}
-]；</code></pre>
+];</code></pre>
 	<h5 xmlns="">带有父子关系的标准 zTreeNodes 举例:</h5>
 	<pre xmlns=""><code>var zTreeNodes = [
 &nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "name":"test1", "nodes":[
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "name":"test11", "nodes":[
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "pId":11, "name":"test111"}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "name":"test111"}
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]},
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "name":"test12"}
 &nbsp;&nbsp;&nbsp;&nbsp;]},
 &nbsp;&nbsp;&nbsp;&nbsp;......
-]；</code></pre>
+];</code></pre>
 	<h5 xmlns="">带有父子关系的简单 Array 格式的 zTreeNodes 举例（使用简单 Array 格式的数据请参考 <A href="s_isSimpleData.html">isSimpleData</A> ）:</h5>
 	<pre xmlns=""><code>var treeNodes = [
 &nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "pId":0, "name":"test1"},
