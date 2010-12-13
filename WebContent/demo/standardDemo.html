@@ -22,19 +22,35 @@
 	});
 
 	function changeIconSkin(zNodes, skinName) {
-		zNodes[0].iconSkin = skinName + "1";
-		zNodes[1].iconSkin = skinName + "1";
-		zNodes[2].iconSkin = skinName + "1";
-		zNodes[0].nodes[0].iconSkin = skinName + "2";
-		zNodes[0].nodes[1].iconSkin = skinName + "3";
-		zNodes[0].nodes[2].iconSkin = skinName + "4";
-		zNodes[0].nodes[3].iconSkin = skinName + "5";
-		zNodes[1].nodes[0].iconSkin = skinName + "6";
-		zNodes[1].nodes[1].iconSkin = skinName + "7";
-		zNodes[1].nodes[2].iconSkin = skinName + "8";
-		zNodes[2].nodes[0].iconSkin = skinName + "9";
-		zNodes[2].nodes[1].iconSkin = skinName + "10";
-		zNodes[2].nodes[2].iconSkin = skinName + "2";
+		if ($("#standardData").attr("checked")) {
+			zNodes[0].iconSkin = skinName + "1";
+			zNodes[1].iconSkin = skinName + "1";
+			zNodes[2].iconSkin = skinName + "1";
+			zNodes[0].nodes[0].iconSkin = skinName + "2";
+			zNodes[0].nodes[1].iconSkin = skinName + "3";
+			zNodes[0].nodes[2].iconSkin = skinName + "4";
+			zNodes[0].nodes[3].iconSkin = skinName + "5";
+			zNodes[1].nodes[0].iconSkin = skinName + "6";
+			zNodes[1].nodes[1].iconSkin = skinName + "7";
+			zNodes[1].nodes[2].iconSkin = skinName + "8";
+			zNodes[2].nodes[0].iconSkin = skinName + "9";
+			zNodes[2].nodes[1].iconSkin = skinName + "10";
+			zNodes[2].nodes[2].iconSkin = skinName + "2";
+		} else {
+			zNodes[0].iconSkin = skinName + "1";
+			zNodes[17].iconSkin = skinName + "1";
+			zNodes[37].iconSkin = skinName + "1";
+			zNodes[1].iconSkin = skinName + "2";
+			zNodes[6].iconSkin = skinName + "3";
+			zNodes[11].iconSkin = skinName + "4";
+			zNodes[16].iconSkin = skinName + "5";
+			zNodes[18].iconSkin = skinName + "6";
+			zNodes[27].iconSkin = skinName + "7";
+			zNodes[33].iconSkin = skinName + "8";
+			zNodes[38].iconSkin = skinName + "9";
+			zNodes[39].iconSkin = skinName + "10";
+			zNodes[43].iconSkin = skinName + "2";
+		}
 	}
 	
 	function refreshTree(cssSkin) {
@@ -45,15 +61,26 @@
 	var curType = '0';
 	var curLi;
 	function reloadTree(type) {
-	
-		if (curType == type) return;
-	
+	console.log(type);
 		if (curLi) curLi.removeClass("focus");
 		$("#sim").attr("disabled", true);
 		$("#flag").attr("disabled", true);
 	
 		var setting1 = clone(setting);
-		var zNodes1 = clone(zNodes);
+		setting1.treeNodeKey = "id";
+		setting1.treeNodeParentKey = "pId";
+		var zNodes1 = $("#standardData").attr("checked") ? clone(zNodes) : clone(simpleNodes);
+		if ($("#standardData").attr("checked")) {
+			$("#standardDataDemo").css({"display":"block"});
+			$("#simpleDataDemo").css({"display":"none"});
+			setting1.isSimpleData = false;
+			zNodes1 = clone(zNodes);
+		} else {
+			$("#standardDataDemo").css({"display":"none"});
+			$("#simpleDataDemo").css({"display":"block"});
+			setting1.isSimpleData = true;
+			zNodes1 = clone(simpleNodes);
+		}
 
 		if (!type) type = (curType=='0') ? '1' : curType;
 		setting1.nameCol = $("#nameCol_1").attr("checked") ? "name" : "ename";
@@ -69,10 +96,19 @@
 			
 		} else if (type=="3") {
 			setting1.showLine = true;
-			zNodes1[0].icon = "demoStyle/img/phone.gif";
-			zNodes1[2].icon = "demoStyle/img/home.gif";
-			zNodes1[1].nodes[0].icon = "demoStyle/img/hardware.gif";
-			zNodes1[1].nodes[2].icon = "demoStyle/img/people.gif";
+
+			if ($("#standardData").attr("checked")) {
+				zNodes1[0].icon = "demoStyle/img/phone.gif";
+				zNodes1[2].icon = "demoStyle/img/home.gif";
+				zNodes1[1].nodes[0].icon = "demoStyle/img/hardware.gif";
+				zNodes1[1].nodes[2].icon = "demoStyle/img/people.gif";
+			} else {
+				zNodes1[0].icon = "demoStyle/img/phone.gif";
+				zNodes1[37].icon = "demoStyle/img/home.gif";
+				zNodes1[18].icon = "demoStyle/img/hardware.gif";
+				zNodes1[33].icon = "demoStyle/img/people.gif";
+			}
+			
 			curLi = $("#diyIconStyle");
 			
 		} else if (type=="4") {
@@ -93,6 +129,7 @@
 		zTree1 = $("#treeDemo").zTree(setting1, zNodes1);
 		$("#nameCode").html(setting1.nameCol);
 		$("#expandSpeedCode").html(setting1.expandSpeed);
+		$("#isSimpleDataCode").html(setting1.isSimpleData + "");
 		
 	}
 	function clone(jsonObj) {
@@ -133,7 +170,7 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>显示名称配置
+				<button class="ico books" onfocus="this.blur();"></button>基本配置
 				<ul class="remark">——修改以下配置后，看看有什么变化</ul>
 				<ul>
 					节点显示名称对应属性:&nbsp;
@@ -151,6 +188,38 @@
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.expandSpeed = "<a id="expandSpeedCode">fast</a>";</li>
+				</ul>
+				<ul>
+					zTreeNode 数据格式:&nbsp;
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="standardData" NAME="dataRadio" checked onclick="reloadTree(curType);">标准深层嵌套 JSON 格式 (Default)
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="simpleData" NAME="dataRadio" onclick="reloadTree(curType);">简单 Array 数组格式
+					
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting1.isSimpleData = <a id="isSimpleDataCode">false</a>;</li>
+					<li>&nbsp;setting1.treeNodeKey = "<a id="treeNodeKeyCode">id</a>";</li>
+					<li>&nbsp;setting1.treeNodeParentKey = "<a id="treeNodeParentKeyCode">pId</a>";</li>
+					<li id="standardDataDemo">
+<pre xmlns=""><code>var zTreeNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "name":"test1", "nodes":[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "name":"test11", "nodes":[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "name":"test111"}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]},
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "name":"test12"}
+&nbsp;&nbsp;&nbsp;&nbsp;]},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+];</code></pre>
+					</li>
+					<li id="simpleDataDemo" style="display:none;">
+<pre xmlns=""><code>var simpleNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "pId":0, "name":"test1"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "pId":1, "name":"test11"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "pId":1, "name":"test12"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "pId":11, "name":"test111"},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+];</code></pre>
+					</li>
+					
 				</ul>
 			</li>
 			<li class="title">
