@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-12-12
+ * Date: 2010-12-15
  *
  */
 
@@ -1020,18 +1020,20 @@
 		repairChkClass(setting, treeNode);
 	}	
 	function repairChkClass(setting, treeNode) {
-		if (!treeNode || !treeNode[setting.nodesCol]) return;
+		if (!treeNode) return;
 		var trueSign = true;
 		var falseSign = true;
-		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
-			if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
-				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && treeNode[setting.checkedCol] && (!treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
-				trueSign = false;
-			} else if (setting.checkStyle != Check_Style_Radio && !treeNode[setting.checkedCol] && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_False_Full)) {
-				falseSign = false;
+		if (treeNode[setting.nodesCol]) {
+			for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+				if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
+					trueSign = false;
+				} else if (setting.checkStyle != Check_Style_Radio && treeNode[setting.checkedCol] && (!treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
+					trueSign = false;
+				} else if (setting.checkStyle != Check_Style_Radio && !treeNode[setting.checkedCol] && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_False_Full)) {
+					falseSign = false;
+				}
+				if (!trueSign || !falseSign) break;
 			}
-			if (!trueSign || !falseSign) break;
 		}
 		treeNode.check_True_Full = trueSign;
 		treeNode.check_False_Full = falseSign;
@@ -1476,6 +1478,14 @@
 		//处理目标节点的相邻节点
 		if (newNeighbor) {
 			setNodeLineIcos(setting, newNeighbor);
+		}
+		
+		//修正父节点Check状态
+		if (setting.checkable) {
+			repairChkClass(setting, oldParentNode);
+			repairParentChkClassWithSelf(setting, oldParentNode);
+			if (oldParentNode != treeNode.parent) 
+				repairParentChkClassWithSelf(setting, treeNode);
 		}
 		
 		//移动后，则必须展开新位置的全部父节点

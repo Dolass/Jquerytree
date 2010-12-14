@@ -40,9 +40,7 @@
 	}
 
 	function refreshTree() {
-
 		var checkType = getCheckBoxType();
-		
 		setting.checkType = checkType;
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
@@ -59,7 +57,6 @@
 				tmp[i].checkedOld = tmp[i].checked;
 			}
 		}
-		
 	}
 
 	function clone(jsonObj) {
@@ -103,13 +100,13 @@
 				<ul class="remark">——修改以下配置，点击 Tree 的 CheckBox，看看变化</ul>
 				<ul>
 					&nbsp;&nbsp;&nbsp;&nbsp;CheckBox被选中时:&nbsp;
-					<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
-					<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();" onfocus="this.blur();">影响子
+					<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
+					<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
 				<ul>
 					CheckBox被取消选中时:&nbsp;
-					<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
-					<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();" onfocus="this.blur();">影响子
+					<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
+					<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.checkable = <a id="checkableCode">true</a>;</li>
