@@ -53,15 +53,9 @@
 		}
 	}
 	
-	function refreshTree(cssSkin) {
-		changeIconSkin(zTree1.getNodes(), cssSkin);
-		zTree1.refresh();
-	}
-	
 	var curType = '0';
 	var curLi;
 	function reloadTree(type) {
-	console.log(type);
 		if (curLi) curLi.removeClass("focus");
 		$("#sim").attr("disabled", true);
 		$("#flag").attr("disabled", true);
@@ -236,8 +230,8 @@
 						<button class="ico star" onfocus="this.blur();"></button>css自定义图标
 					</li>
 					<ul>
-						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" checked onclick="refreshTree('sim');">sim 系列
-						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="refreshTree('flag');">flag 系列
+						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" checked onclick="reloadTree('4');">sim 系列
+						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="reloadTree('4');">flag 系列
 					</ul>
 				</ul>
 			</li>	
