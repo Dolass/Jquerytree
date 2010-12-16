@@ -54,7 +54,7 @@
 				]},
 			{ name:"家电", ename:"Home Appliances", open:true,
 				nodes: [
-					{ name:"冰箱", ename:"Refrigerator"},
+					{ name:"冰箱", ename:"Refrigerator", isParent:true},
 					{ name:"电视", ename:"TV",
 						nodes: [
 								{ name:"液晶", ename:"Liquid crystal"},
@@ -104,7 +104,7 @@
 		 	{ id:232, pId:23, name:"交换机", ename:"Switch"},
 		 	{ id:233, pId:23, name:"路由器", ename:"Router"},
 		 	{ id:3, pId:0, name:"家电", ename:"Home Appliances", open:true},
-		 	{ id:31, pId:3, name:"冰箱", ename:"Refrigerator"},
+		 	{ id:31, pId:3, name:"冰箱", ename:"Refrigerator", isParent:true},
 		 	{ id:32, pId:3, name:"电视", ename:"TV"},
 		 	{ id:321, pId:32, name:"液晶", ename:"Liquid crystal"},
 		 	{ id:322, pId:32, name:"等离子", ename:"Plasma"},
