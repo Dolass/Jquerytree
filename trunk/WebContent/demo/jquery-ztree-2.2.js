@@ -1061,10 +1061,12 @@
 	}
 
 	function switchNode(setting, treeNode) {
-		if (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
+		if (treeNode.open || (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		} else if (setting.async && !setting.editable) {
 			asyncGetNode(setting, treeNode);
+		} else if (!setting.editable && treeNode) {
+			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		}
 	}
 
@@ -1111,6 +1113,8 @@
 				setNodeLineIcos(setting, treeNode);
 				if (newNodes && newNodes != "") {
 					addTreeNodes(setting, treeNode, newNodes, false);
+				} else {
+					addTreeNodes(setting, treeNode, [], false);
 				}
 				if (treeNode) treeNode.isAjaxing = undefined;
 				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
@@ -1149,7 +1153,7 @@
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
 
-		if (treeNode.isParent && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
+		if (treeNode.isParent) {
 			if (!treeNode.open) {
 				replaceSwitchClass(switchObj, FolderMark_Open);
 				replaceIcoClass(icoObj, FolderMark_Open);
@@ -1158,7 +1162,9 @@
 					ulObj.show();
 					if (typeof callback == "function") callback();
 				} else {
-					ulObj.show(setting.expandSpeed, callback);
+					if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)
+						ulObj.show(setting.expandSpeed, callback);
+					else if (typeof callback == "function") callback();
 				}
 			} else {
 				replaceSwitchClass(switchObj, FolderMark_Close);
