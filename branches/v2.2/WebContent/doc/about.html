@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>zTree 介绍</title>
+<meta name="keywords" content="zTree API 参考文档中文版,中文版" />
+<meta name="description" content="zTree API，提供最新版 zTree 开发帮助。" />
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="aboutXMLDoc">
+	<h2>zTree  介绍</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>
+			<table border=0 width=100% height="89px">
+			<tr><td valign="top" >&nbsp;&nbsp;&nbsp;&nbsp;最近对 JQuery 进行了入门，一时兴起写了一个Tree插件，供大家学习和使用，毕竟是本人第一个公开的组件，肯定有许多问题和不足之处，请大家把发现的问题，或好的想法及时与我沟通，在这里特别要感谢 <a href="mailto:czwlucky@163.com/">独上太行</a> 的大力支持，架构方面给了我很多关键性的建议。
+			<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;同时欢迎利用此版制作其他发行版以方便广大 zTree 爱好者，转载请保留版权信息，谢谢。</td>
+			<td><img src="style/img/logo.jpg" align=right /></td></tr>	
+			</table></p>
+			<p></p>
+			<p>下面介绍一下zTree 的主要功能：( 演示Demo 请访问 <a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a>)</p>
+			<p>&nbsp;1、兼容 IE、FireFox、Chrome 等浏览器（对于IE 6.0的兼容问题将不做特殊维护）</p>
+			<p>&nbsp;2、在一个页面内可同时生成多个 Tree 实例</p>
+			<p>&nbsp;3、支持 JSON 数据</p>
+			<p>&nbsp;4、支持一次性静态生成 和 Ajax 异步加载 两种方式</p>
+			<p>&nbsp;5、支持多种事件响应及反馈</p>
+			<p>&nbsp;6、支持 Tree 的节点移动、编辑、删除</p>
+			<p>&nbsp;7、支持极其灵活的 checkbox & radio 选择功能</p>
+			<p>&nbsp;8、支持任意更换皮肤 / 个性化图标（依靠css）</p>
+			<p>&nbsp;9、简单的参数配置 实现 灵活多变的功能</p>
+			<p>&nbsp;</p>
+			<p class="indent" style="text-align:center;">本手册由&nbsp;<a href="mailto:hunter.z@263.net">Hunter.z</a>&nbsp;整理编辑,并保持长期更新,最新版本请从&nbsp;<a href="http://code.google.com/p/jquerytree/" title="zTree官网" target="_blank" class="topnav">zTree官网</a>&nbsp;或&nbsp;<a href="http://baby666.cn" title="个人站点" target="_blank" class="topnav">个人站点</a> &nbsp;获取</p>
+
+		</div>
+	</div>
+	<h2>zTree v2.2 更新记录</h2>
+	<h3>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>&nbsp;01、【修改】给一个没有子节点的节点添加新节点，连续添加两个以上子节点时连线显示的 Bug</p>
+			<p>&nbsp;02、【修改】expandNode方法，展开节点时无动画的 Bug</p>
+			<p>&nbsp;03、【修改】异步加载时用户反复点击导致重复加载的 Bug</p>
+			<p>&nbsp;04、【修改】.net 环境下ajax 直接返回 JSON 对象时无法正常加载的 Bug</p>
+			<p>&nbsp;05、【修改】给叶子节点增加子节点后，再删除其子节点，然后再增加子节点时zTree不显示的 Bug</p>
+			<p>&nbsp;06、【修改】<A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A> 方法不改变 checkbox / radio 状态的 Bug</p>
+			<p>&nbsp;07、【修改】cancleSelectedNode 修正为 <A href="m_cancelSelectedNode.html">cancelSelectedNode()</A>，同时保留原 cancleSelectedNode 方法</p>
+			<p>&nbsp;08、【修改】把 <A href="s_asyncUrl.html">asyncUrl</A> 扩展为 function 的引用，可以根据节点任意修改异步加载的url，同时支持 String 数据</p>
+			<p>&nbsp;09、【修改】把 <A href="s_edit_renameBtn.html">edit_renameBtn</A>、<A href="s_edit_removeBtn.html">edit_removeBtn</A> 扩展为 function 的引用，可以根据节点控制是否显示相应按钮，同时支持 Boolean 数据</p>
+			<p>&nbsp;10、【修改】checked 属性允许用户自定义， 增加 <A href="s_checkedCol.html">checkedCol</A> 属性，默认值为 "checked"</p>
+			<p>&nbsp;11、【修改】编辑状态 输入框内 回车键可以触发 <A href="e_rename.html">rename</A> 事件</p>
+			<p>&nbsp;12、【增加】<A href="m_getChangeCheckedNodes.html">getChangeCheckedNodes()</A> 方法用来获取当前 zTree 中被修改 check 状态的节点集合</p>
+			<p>&nbsp;13、【增加】鼠标右键 事件(<A href="e_beforeRightClick.html">beforeRightClick</A>、<A href="e_rightClick.html">rightClick</A>) 以及 MouseUp(<A href="e_beforeMouseUp.html">beforeMouseUp</A>、<A href="e_mouseUp.html">mouseUp</A>) 和 MouseDown(<A href="e_beforeMouseDown.html">beforeMouseDown</A>、<A href="e_mouseDown.html">mouseDown</A>) 事件</p>
+			<p>&nbsp;14、【增加】js 触发指定节点异步加载子节点 或 重新异步加载 的接口 <A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></p>
+			<p>&nbsp;15、【增加】针对 checkBox 的全部取消或选择的接口 <A href="m_checkAllNodes.html">checkAllNodes(checked)</A>，便于用户使用</p>
+			<p>&nbsp;16、【增加】异步加载时loading 状态显示，拖拽节点时，滚动条能自动滚动；停留一段时间后，能展开节点</p>
+			<p>&nbsp;17、【增加】节点同级内上下排序的接口和功能，修改了<A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A> 方法 / <A href="e_beforeDrop.html">beforeDrop</A>、<A href="e_drop.html">drop</A> 事件 callback 函数（增加  moveType 参数），移动节点时可以更加灵活</p>
+			<p>&nbsp;18、【增加】根据任意属性搜索 treeNode 节点数据的接口：<A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> 和 <A href="m_getNodesByParam.html">getNodesByParam(key, value)</A> </p>
+			<p>&nbsp;19、【增加】简单 Array 数据支持，不需要用户再把数据库中取出的 List 强行转换为复杂的 JSON 嵌套格式，参考 <A href="s_isSimpleData.html">isSimpleData</A> | <A href="s_treeNodeKey.html">treeNodeKey</A> | <A href="s_treeNodeParentKey.html">treeNodeParentKey</A></p>
+		</div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>

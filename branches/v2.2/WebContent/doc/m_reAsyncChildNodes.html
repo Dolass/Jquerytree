@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>reAsyncChildNodes(parentNode, reloadType)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: 无</span>reAsyncChildNodes(parentNode, reloadType)</h2>
+	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>指定父节点进行异步加载子节点（已经加载过的父节点可反复使用此方法重新加载）。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>parentNode</strong><span>JSON</span></h4>
+	<p>指定需要异步加载的节点 JSON 数据</p>
+	<p style="color:red">parentNode = null 时，相当于从根节点 Root 进行异步加载</p>
+	<p style="color:red">parentNode.isParent = false 时，不进行异步加载</p>
+	<h4><strong>reloadType</strong><span>String</span></h4>
+	<p>指定是清空后重新加载还是追加子节点</p>
+	<p style="color:red">reloadType = "refresh" 时，表明清空后重新加载，否则进行追加子节点处理。</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>指定父节点1（treeNode1）重新异步加载</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+zTreeObj.reAsyncChildNodes(treeNode1, "refresh");
+......</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_asyncUrl.html">asyncUrl</A></h4>
+
+</div>
+</div>
+
+</body></html>

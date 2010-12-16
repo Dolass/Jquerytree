@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>beforeCollapse(treeId, treeNode)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: Boolean</span>beforeCollapse(treeId, treeNode)</h2>
+	<h3><span>目录: [事件] --> [callback 回调函数]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>用户在使用 zTree 的页面上，编写 beforeCollapse(treeId, treeNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可在触发 zTree 的 collapse 事件之前得到相应信息，并根据自己的需求确定是否该节点可以折叠。</p>
+			<p style="color:red">该事件在点击处于展开状态父节点的(+)图标或双击该节点后触发，如果返回 false，则中断 collapse 事件，也不会触发 <A href="e_collapse.html">collapse</A> 回调函数。</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>将要被折叠的节点 JSON 数据对象</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>禁止 zTree 的 collapse 操作</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;callback : {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeCollapse: zTreeBeforeCollapse,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;......
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+......
+function zTreeBeforeCollapse(treeId, treeNode) {
+	return false;
+}
+......</code></pre>
+	<h3>相关事件</h3>
+	<h4><A href="e_collapse.html">collapse(event, treeId, treeNode)</A><br/>
+	<A href="e_beforeExpand.html">beforeExpand(treeId, treeNode)</A> | <A href="e_expand.html">expand(event, treeId, treeNode)</A></h4>
+
+</div>
+</div>
+
+</body></html>

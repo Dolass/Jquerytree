@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>mouseDown(event, treeId, treeNode)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2>mouseDown(event, treeId, treeNode)</h2>
+	<h3><span>目录: [事件] --> [callback 回调函数]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>用户在使用 zTree 的页面上，编写 onMouseDown(event, treeId, treeNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可监听 zTree 的 mouseDown 事件。</p>
+			<p>该事件在节点被鼠标按键按下后触发。</p>
+			<p style="color:red">如果用户配置了 <A href="e_beforeMouseDown.html">beforeMouseDown</A> 方法，并返回 false，将无法触发 mouseDown 事件 。</p>
+			<p style="color:red">注意：鼠标按键按下对于 zTree 本身不进行任何其他操作，仅仅为了便于用户进行扩展应用而制作的。</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>event</strong><span>js event 对象</span></h4>
+	<p>onMouseDown 事件返回的标准 event 对象</p>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>被鼠标按键按下的节点 JSON 数据对象，<font style="color:red">如果 treeNode = null, 则表明鼠标按键按下时焦点在 zTree 的根节点 Root 上。</font></p>
+	<p style="color:red">zTree 根据页面元素获取 treeNode 的规则与编辑模式下拖拽时定位目标节点的规则相同。</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>每次鼠标按键按下后，弹出对应节点的 tId 以及 name 信息</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;callback : {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mouseDown: zTreeOnMouseDown,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;......
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+......
+function zTreeOnMouseDown(event, treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (treeNode)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(treeNode.tId + ", " + treeNode.name);
+&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert("is root");
+}
+......</code></pre>
+	<h3>相关事件</h3>
+	<h4><A href="e_beforeMouseDown.html">beforeMouseDown(treeId, treeNode)</A></h4>
+
+</div>
+</div>
+
+</body></html>
