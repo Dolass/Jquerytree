@@ -4,7 +4,6 @@
   <TITLE> ZTREE DEMO </TITLE>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
-  <link rel="stylesheet" href="zTreeStyle/zTreeIcons.css" type="text/css">
   <style>
 	body {
 	background-color: white;
@@ -35,46 +34,51 @@
 	};
 
 	zNodes =[
-		{ name:"Hunter's Home", iconSkin:"flag5", url:"http://baby666.cn", target:"_blank"},
-		{ name:"zTree in Google", iconSkin:"flag5", url:"http://code.google.com/p/jquerytree/", target:"_blank"},
-		{ name:"zTree 功能演示", iconSkin:"sim1", target:"testIframe", open:true,
+		{ name:"Hunter's Home", url:"http://baby666.cn", target:"_blank"},
+		{ name:"zTree in Google", url:"http://code.google.com/p/jquerytree/", target:"_blank"},
+		{ name:"zTree 功能演示", target:"testIframe", open:true,
 			nodes: [
 				//节点连线、自定义图标、一个Web同时显示多个Tree
-				{ name:"基本功能演示", iconSkin:"sim2", "url":"standardDemo.html", "target":"testIframe"},
-				{ name:"check 演示", iconSkin:"sim10", open:true,
+				{ name:"基本功能演示", open:true,
+					nodes:[
+					       { name:"不兼容 IE6", "url":"standardDemo.html", "target":"testIframe"},
+					       { name:"兼容 IE6", "url":"standardDemoForIe6.html", "target":"testIframe"}
+						 ]},
+				{ name:"check 演示", open:true,
 					nodes:[
 							//checkbox 演示、onCheck、onClick事件
-							{ name:"CheckBox演示", iconSkin:"sim6", "url":"checkboxDemo.html", "target":"testIframe"},
+							{ name:"CheckBox演示", "url":"checkboxDemo.html", "target":"testIframe"},
 							//radio 演示、onCheck、onClick事件
-							{ name:"Radio演示", iconSkin:"sim6", "url":"radioDemo.html", "target":"testIframe"}
+							{ name:"Radio演示", "url":"radioDemo.html", "target":"testIframe"}
 						]},
 				//异步加载节点演示、异步事件
-				{ name:"异步加载演示", iconSkin:"sim8", "url":"asyncDemo.html", "target":"testIframe"},
+				{ name:"异步加载演示", "url":"asyncDemo.html", "target":"testIframe"},
 				//事件演示
-				{ name:"事件演示", iconSkin:"sim5", "url":"eventDemo.html", "target":"testIframe"},
+				{ name:"事件演示", "url":"eventDemo.html", "target":"testIframe"},
 				//编辑演示
-				{ name:"编辑演示", iconSkin:"sim4", "url":"editDemo.html", "target":"testIframe"},
+				{ name:"编辑演示", "url":"editDemo.html", "target":"testIframe"},
 				//代码加载、移动、删除节点演示
-				{ name:"JS操作 & 大数据量演示", iconSkin:"sim10", "url":"jscontrolDemo.html", "target":"testIframe"},
+				{ name:"JS操作 & 大数据量演示", "url":"jscontrolDemo.html", "target":"testIframe"},
 				//高级应用演示
-				{ name:"高级应用演示", iconSkin:"sim10", open:true,
+				{ name:"高级应用演示", open:true,
 					nodes:[
 						//两棵树之间数据交互
-						{name:"两棵树的数据交换", iconSkin:"sim4", "url":"superDemo_mutilTree.html", "target":"testIframe"},
+						{name:"两棵树的数据交换", "url":"superDemo_mutilTree.html", "target":"testIframe"},
 						//超大数据量异步加载
-						{name:"异步加载超大数据", iconSkin:"sim8", "url":"superDemo_hugeData.html", "target":"testIframe"}
+						{name:"异步加载超大数据", "url":"superDemo_hugeData.html", "target":"testIframe"}
 					]},
 				//皮肤演示
-				//{ name:"皮肤演示", iconSkin:"sim7", url:"skinDemo.html", target:"testIframe"}
-				{ name:"皮肤演示", iconSkin:"sim7", url:"http://baby666.cn/hunter/ztree/skinDemo.html", target:"testIframe"}
+				//{ name:"皮肤演示", url:"skinDemo.html", target:"testIframe"}
+				{ name:"皮肤演示", url:"http://baby666.cn/hunter/ztree/skinDemo.html", target:"testIframe"}
 			]
 		}
 	];
 
 	$(document).ready(function(){
+		setting.expandSpeed = ($.browser.msie && parseInt($.browser.version)<=6)?"":"fast";
 		zTree = $("#tree").zTree(setting, zNodes);
 		var nodes = zTree.getNodes();
-		zTree.selectNode(nodes[2].nodes[0]);
+		zTree.selectNode(nodes[2].nodes[0].nodes[0]);
 
 		demoIframe = $("#testIframe");
 	
