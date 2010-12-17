@@ -59,6 +59,7 @@ div.demoContent li{
 	line-height:16px; 
 	font-size: 12px;
 	text-align:left; 
+	white-space:normal;
 }
 
 div.demoContent li.menu{

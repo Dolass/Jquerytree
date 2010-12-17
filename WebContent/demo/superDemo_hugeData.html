@@ -81,6 +81,7 @@
 			data: tmpParam,
 			success: function(msg) {
 				if (!msg || msg.length == 0) {
+					isGetNodes = false;
 					return;
 				}
 				var newNodes = "";
