@@ -1625,7 +1625,7 @@
 			//拦截A的click dblclick监听
 			inputObj.bind('blur', function(event) {
 				editNameOver(this.value, setting, treeNode);
-			}).bind('keydown', function(event) {
+			}).bind('keypress', function(event) {
 				if (event.keyCode=="13") {
 					editNameOver(this.value, setting, treeNode);
 				}
