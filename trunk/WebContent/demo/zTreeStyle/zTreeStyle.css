@@ -41,7 +41,7 @@ website:	http://code.google.com/p/jquerytree/
 	opacity:0.8; filter:alpha(opacity=80);
 	}
 .tree li a.curSelectedNode_Edit {
-	line-height: 25px;
+	line-height: 18px;
 	background-color:#FFE6B0; 
 	color:black;
 	border:1px #FFB951 solid; 
