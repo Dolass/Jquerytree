@@ -45,6 +45,7 @@ ul#treeDemo {
 	width:210px;
 	height:330px;
 	overflow-y:scroll;
+	overflow-x:auto;
 }
 ul#treeDemo2 {
 	width:210px;

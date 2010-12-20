@@ -123,6 +123,13 @@
 			expandSpeed: "fast",
 			//折叠、展开Trigger开关
 			expandTriggerFlag:false,
+			//hover 增加按钮接口
+			addHoverBtn:null,
+			//hover 删除按钮接口
+			removeHoverBtn:null,
+			//永久自定义显示控件方法
+			addDiyDom:null,
+			
 			root: {
 				isRoot: true,
 				nodes: []
@@ -470,16 +477,11 @@
 		if (setting.editable) {
 			aObj.hover(
 				function() {
-					if (setting.dragStatus == 0) {
-						removeEditBtn(treeNode); 
-						removeRemoveBtn(treeNode);
-						addEditBtn(setting, treeNode);
-						addRemoveBtn(setting, treeNode);
-					}
+					addTreeBtn(setting, treeNode);
 				},
 				function() {
-					removeEditBtn(treeNode); 
-					removeRemoveBtn(treeNode); 
+					if (setting.curTreeNode != treeNode)
+						removeTreeBtn(setting, treeNode);
 				}
 			);
 		}
@@ -537,8 +539,7 @@
 
 					//设置节点为选中状态
 					selectNode(setting, treeNode);
-					removeEditBtn(treeNode);
-					removeRemoveBtn(treeNode);
+					removeTreeBtn(setting, treeNode);
 
 					var tmpNode = $("#" + treeNode.tId).clone();
 					tmpNode.attr("id", treeNode.tId + "_tmp");
@@ -706,6 +707,10 @@
 				eventMouseDown.preventDefault();
 		    }
 		});
+		
+		if ((typeof setting.addDiyDom) == "function") {
+			setting.addDiyDom(setting.treeObjId, treeNode);
+		}
 	}
 
 	//获取对象的绝对坐标
@@ -850,6 +855,28 @@
 		obj.attr("class", tmpList.join("_"));
 	}
 	
+	//添加zTree的按钮控件
+	function addTreeBtn(setting, treeNode) {
+		if (setting.dragStatus == 0) {
+			treeNode.ishover = true;
+			if (setting.editable) {
+				addEditBtn(setting, treeNode);
+				addRemoveBtn(setting, treeNode);
+			}
+			if ((typeof setting.addHoverBtn) == "function") {
+				setting.addHoverBtn(setting.treeObjId, treeNode);
+			}
+		}
+	}
+	//删除zTree的按钮控件
+	function removeTreeBtn(setting, treeNode) {
+		treeNode.ishover = false;
+		removeEditBtn(treeNode); 
+		removeRemoveBtn(treeNode); 
+		if ((typeof setting.removeHoverBtn) == "function") {
+			setting.removeHoverBtn(setting.treeObjId, treeNode);
+		}
+	}
 	//删除 编辑、删除按钮
 	function removeEditBtn(treeNode) {		
 		$("#" + treeNode.tId + IDMark_Edit).unbind().remove();
@@ -870,23 +897,25 @@
 		}
 
 		var aObj = $("#" + treeNode.tId + IDMark_A);
+		var nObj = $("#" + treeNode.tId + IDMark_Span);
 		var editStr = "<button type='button' class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();' style='display:none;'></button>";
-		aObj.append(editStr);
+		nObj.after(editStr);
 		
 		var editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
-		var right = (setting.treeObj.attr("offsetLeft") + setting.treeObj.attr("offsetWidth") + setting.treeObj.attr("scrollLeft") - aObj.attr("offsetLeft") - aObj.attr("offsetWidth") - 2*editBtnObj.width() - 15);
-		if (right < 0) {
-			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
-			editBtnObj.remove();
-			aObj.prepend(editStr);
-			editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
-		}
+//		var right = (setting.treeObj.offset().left+ setting.treeObj.width() + setting.treeObj.scrollLeft() - aObj.offset().left - aObj.width() - 2*editBtnObj.width() - 15);
+//		if (right < 0) {
+//			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
+//			editBtnObj.remove();
+//			aObj.prepend(editStr);
+//			editBtnObj = $("#" + treeNode.tId + IDMark_Edit);
+//		}
 		editBtnObj.bind('click', 
 			function() {
 				var beforeRename = true;
 				if ((typeof setting.callback.beforeRename) == "function") beforeRename = setting.callback.beforeRename(setting.treeObjId, treeNode);
 				if (beforeRename == false) return;
-				removeEditBtn(treeNode); removeRemoveBtn(treeNode); editTreeNode(setting, treeNode);
+				removeTreeBtn(setting, treeNode);
+				editTreeNode(setting, treeNode);
 				return false;
 			}
 		).bind('mousedown',
@@ -910,13 +939,13 @@
 		aObj.append(removeStr);
 		
 		var removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
-		var right = (setting.treeObj.attr("offsetLeft") + setting.treeObj.attr("offsetWidth") - aObj.attr("offsetLeft") - aObj.attr("offsetWidth") - 1*removeBtnObj.width() - 15);
-		if (right < 0) {
-			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
-			removeBtnObj.remove();
-			aObj.prepend(removeStr);
-			removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
-		}
+//		var right = (setting.treeObj.offset().left + setting.treeObj.width() - aObj.offset().left - aObj.width() - 1*removeBtnObj.width() - 15);
+//		if (right < 0) {
+//			//如果节点处于tree的最右侧，为避免无法正常操作按钮，则在左侧显示
+//			removeBtnObj.remove();
+//			aObj.prepend(removeStr);
+//			removeBtnObj = $("#" + treeNode.tId + IDMark_Remove);
+//		}
 		
 		$("#" + treeNode.tId + IDMark_Remove).bind('click', 
 			function() {
@@ -1592,6 +1621,7 @@
 		if (setting.curTreeNode) {
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
+			removeTreeBtn(setting, setting.curTreeNode);
 			setting.curTreeNode = null;
 		}
 	}
@@ -1640,6 +1670,7 @@
 		} else {
 			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
 		}
+		addTreeBtn(setting, treeNode);
 		setting.curTreeNode = treeNode;
 	}
 	
