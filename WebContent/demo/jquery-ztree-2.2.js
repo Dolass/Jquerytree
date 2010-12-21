@@ -1910,7 +1910,7 @@
 				//如果选择某节点，则必须展开其全部父节点
 				//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
 				//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画				
-				expandCollapseParentNode(this.setting, treeNode, true, false, function() {
+				expandCollapseParentNode(this.setting, treeNode.parentNode, true, false, function() {
 					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 				});
 			},
