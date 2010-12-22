@@ -474,8 +474,7 @@
 		setNodeUrl(setting, treeNode);
 		
 		//编辑、删除按钮
-		if (setting.editable) {
-			aObj.hover(
+		aObj.hover(
 				function() {
 					addTreeBtn(setting, treeNode);
 				},
@@ -483,8 +482,7 @@
 					if (setting.curTreeNode != treeNode)
 						removeTreeBtn(setting, treeNode);
 				}
-			);
-		}
+		);
 
 		aObj.bind('mousedown',
 		function(eventMouseDown) {
@@ -1639,12 +1637,12 @@
 	//设置节点为当前选中节点
 	function selectNode(setting, treeNode) {
 		
-		if (setting.curTreeNode == treeNode && !setting.editable) return;
+		if (setting.curTreeNode == treeNode) return;
 		
 		cancelPreSelectedNode(setting);	
 		cancelPreEditNode(setting);
 			
-		if (treeNode.editNameStatus) {
+		if (setting.editable && treeNode.editNameStatus) {
 			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "'>");
 			
 			var inputObj = $("#" + treeNode.tId + IDMark_Input);

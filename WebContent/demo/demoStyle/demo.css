@@ -153,6 +153,9 @@ button.ico.down { background:url("./img/down.png") no-repeat scroll 0 0 transpar
 button.ico.up { background:url("./img/up.png") no-repeat scroll 0 0 transparent;}
 button.ico.searchNode { background:url("./img/searchNode.png") no-repeat scroll 0 0 transparent;}
 
+button.diyBtn1 { background:url("./img/btn1.png") no-repeat scroll 1px 1px transparent;}
+button.diyBtn2 { background:url("./img/btn2.png") no-repeat scroll 1px 1px transparent;}
+
 .emptyButton {
 	width:0px; height:0px; 
 	padding:0; margin:0; 

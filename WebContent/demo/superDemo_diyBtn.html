@@ -7,146 +7,142 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery-ztree-2.2.js"></script>
-  <script type="text/javascript" src="demo.js"></script>
+  <style type="text/css">
+  button.btn1 { background:url("./img/phone.gif") no-repeat scroll -26px 0 transparent;}
+  .test {
+  	margin: 0 0 0 5px;
+  }
+  select.selDemo {
+  	height: 16px;
+  	
+ 	vertical-align: middle;
+  }
+  </style>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
-	var setting;
+
+  	var IDMark_Switch = "_switch";
+	var IDMark_Icon = "_ico";
+	var IDMark_Span = "_span";
+	var IDMark_Input = "_input";
+	var IDMark_Check = "_check";
+	var IDMark_Edit = "_edit";
+	var IDMark_Remove = "_remove";
+	var IDMark_Ul = "_ul";
+	var IDMark_A = "_a";
+
+	
+	var setting= {
+			addHoverBtn: addHoverBtn,
+			removeHoverBtn: removeHoverBtn,
+			addDiyDom: addDiyDom
+		};
 
 	var zNodes =[
-	 			{name:"100个节点", id:"1", count:100, isParent:true},
-	 			{name:"500个节点", id:"2", count:500, isParent:true},
-	 			{name:"1000个节点", id:"3", count:1000, isParent:true}
+	 	{id:1, name:"hover事件显示控件", open:true,
+		 	nodes:[
+		 	       {id:11, name:"按钮1"},
+		 	       {id:12, name:"按钮2"},
+		 	       {id:13, name:"下拉框"},
+		 	       {id:141, name:"文本1"},
+		 	       {id:142, name:"文本2"},
+		 	       {id:15, name:"超链接"},
+		 	       
+			]},
+	 	{id:2, name:"始终显示控件", open:true, 
+	 		nodes:[
+		 	       {id:21, name:"按钮1"},
+		 	       {id:22, name:"按钮2"},
+		 	       {id:23, name:"下拉框"},
+		 	       {id:24, name:"文本"},
+		 	       {id:25, name:"超链接"}		 	       
+			]}
 	 	];
 
-		setting = {
-			expandSpeed: "",
-			callback: {
-				beforeExpand: zTreeBeforeExpand,
-				beforeCollapse: zTreeBeforeCollapse,
-				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse
-			}
-		};
 
 	$(document).ready(function(){
 		reloadTree();
 	});
 
-	var asyncUrl = "asyncData/nodeForHugeData.jsp";
-//	var asyncUrl = "asyncData/nodeForHugeData.php";
-	var isGetNodes = false;
-	var curParentNode = null;
-	var startTime = 0;
-	var endTime = 0;
-	function zTreeBeforeExpand(treeId, treeNode) {
-		if (!isGetNodes && treeNode.isParent && (!treeNode.nodes || treeNode.nodes.length==0)) {
-			curParentNode = treeNode;
-			isGetNodes = true;
-			var id = curParentNode.id;
-			var count = curParentNode.count;
-			startTime = new Date();		
-			ajaxGetNodes(id, 0, count)
-			return false;
-		} else if (isGetNodes && treeNode.isParent && (!treeNode.nodes || treeNode.nodes.length==0)) {
-			alert("有其他节点正在下载数据中，请稍后展开节点。。。");
-			return false;
-		} else if (isGetNodes && treeNode == curParentNode ) {
-			alert("该节点正在下载数据中，请稍后展开节点。。。");
-			return false;
+	function addHoverBtn(treeId, treeNode) {
+		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if (treeNode.id == 11) {
+			if ($("#diyBtn_"+treeNode.id).length>0) return;
+			var editStr = "<button type='button' class='diyBtn1' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();' style='margin:0 0 0 5px;'></button>";
+			aObj.append(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+		} else if (treeNode.id == 12) {
+			if ($("#diyBtn_"+treeNode.id).length>0) return;
+			var editStr = "<button type='button' class='diyBtn2' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
+			aObj.after(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+		} else if (treeNode.id == 13) {
+			if ($("#diyBtn_"+treeNode.id).length>0) return;
+			var editStr = "<select class='selDemo test' id='diyBtn_" +treeNode.id+ "'><option value=1>1</option><option value=2>2</option><option value=3>3</option></select>";
+			aObj.append(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
+		} else if (treeNode.id == 141) {
+			if ($("#diyBtn_"+treeNode.id).length>0) return;
+			var editStr = "<span class='test' id='diyBtn_" +treeNode.id+ "'>Text Demo...</span>";
+			aObj.append(editStr);
+		} else if (treeNode.id == 142) {
+			if ($("#diyBtn_"+treeNode.id).length>0) return;
+			var editStr = "<span id='diyBtn_" +treeNode.id+ "'>Text Demo...</span>";
+			aObj.after(editStr);
+		} else if (treeNode.id == 15) {
+			if ($("#diyBtn1_"+treeNode.id).length>0) return;
+			if ($("#diyBtn2_"+treeNode.id).length>0) return;
+			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;' style='margin:0 0 0 5px;'>链接1</a>" +
+				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;' style='margin:0 0 0 5px;'>链接2</a>";
+			aObj.append(editStr);
 		}
-		return true;
 	}
-
-	function zTreeOnExpand(event, treeId, treeNode) {	
+	
+	function removeHoverBtn(treeId, treeNode) {
+		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
+		if (treeNode.id == 15) {
+			$("#diyBtn1_"+treeNode.id).unbind().remove();
+			$("#diyBtn2_"+treeNode.id).unbind().remove();
+		} else {
+			$("#diyBtn_"+treeNode.id).unbind().remove();
+		}		
 	}
-
-	function zTreeBeforeCollapse(treeId, treeNode) {
-	}
-
-	function zTreeOnCollapse(event, treeId, treeNode) {	
-	}
-
-	function ajaxGetNodes(id, times, totalCount) {
-
-		var curCount = (curParentNode.nodes) ? curParentNode.nodes.length : 0;
-			
-		var getCount = (curCount + perCount) > totalCount ? (totalCount - curCount) : perCount; 
-		
-		var tmpParam = "id="+id+"_"+times +"&count="+getCount;
-		
-		$.ajax({
-			type: "POST",
-			url: asyncUrl,
-			data: tmpParam,
-			success: function(msg) {
-				if (!msg || msg.length == 0) {
-					isGetNodes = false;
-					return;
-				}
-				var newNodes = "";
-				try {
-					newNodes = eval("(" + msg + ")");
-				} catch(err) {}
-
-				if (newNodes && newNodes != "") {
-					zTree1.addNodes(curParentNode, newNodes, true);
-
-					var ajaxInfo = "treeNode:" + curParentNode.name;
-					if (curParentNode.nodes.length < totalCount) {
-						var percent = curParentNode.nodes.length*100/totalCount + "%";
-						ajaxInfo += ("<br/>进度：" + percent);
-						if (!curParentNode.tmpName) curParentNode.tmpName = curParentNode.name;
-						curParentNode.name = curParentNode.tmpName + "(" + percent + ")";
-						zTree1.updateNode(curParentNode);
-						setTimeout("ajaxGetNodes('" + id+ "', "+(times+1)+", "+totalCount+")", perTime);
-					} else {
-						endTime = new Date();
-						var usedTime = (endTime.getTime() - startTime.getTime())/1000;		
-						ajaxInfo += ("<br/>加载完毕，共"+curParentNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
-						curParentNode.name = curParentNode.tmpName;
-						curParentNode.tmpName = null;
-						zTree1.updateNode(curParentNode);
-						//zTree1.expandNode(curParentNode, true, false);
-						zTree1.selectNode(curParentNode.nodes[0]);
-						isGetNodes = false;
-					}
-
-					$("#onAsync").html(ajaxInfo);
-				}
-
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("异步获取数据出现异常。");
-				isGetNodes = false;
-			}
-		});
-	}
-
-	var perCount = 10;
-	function changeCount(count) {
-		if (isGetNodes) {
-			alert("zTree正在下载数据中，请稍后更改配置。。。");
-			$("#a_" + perCount).attr("checked", true);
-			return;
+	
+	function addDiyDom(treeId, treeNode) {
+		if (treeNode.parentNode && treeNode.parentNode.id!=2) return;
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		if (treeNode.id == 21) {
+			var editStr = "<button type='button' class='diyBtn1' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
+			aObj.append(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+		} else if (treeNode.id == 22) {
+			var editStr = "<button type='button' class='diyBtn2' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
+			aObj.after(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+		} else if (treeNode.id == 23) {
+			var editStr = "<select class='selDemo' id='diyBtn_" +treeNode.id+ "'><option value=1>1</option><option value=2>2</option><option value=3>3</option></select>";
+			aObj.after(editStr);
+			var btn = $("#diyBtn_"+treeNode.id);
+			if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
+		} else if (treeNode.id == 24) {
+			var editStr = "<span id='diyBtn_" +treeNode.id+ "'>Text Demo...</span>";
+			aObj.after(editStr);
+		} else if (treeNode.id == 25) {
+			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;'>链接1</a>" +
+				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;'>链接2</a>";
+			aObj.after(editStr);
 		}
-		perCount = count;
-		reloadTree()
-	}
-	var perTime = 50;
-	function changeTime(time) {
-		if (isGetNodes) {
-			alert("zTree正在下载数据中，请稍后更改配置。。。");
-			$("#at_" + perTime).attr("checked", true);
-			return;
-		}
-		perTime = time;
-		reloadTree()
 	}
 	
 	function reloadTree() {
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
-		$("#onAsync").html("<br/>");
 	}
 
 	function clone(jsonObj, newName) {
@@ -188,44 +184,32 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<font color="red" style="font-size:12px;">此演示需要发布到 php 服务器下方能正常执行。<br/>
-				使用 Tomcat 的朋友，请修改asyncUrl的值</font>
-			</li>
-			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>异步加载数据配置
-				<ul class="remark">——修改以下配置后，重新展开节点看看变化</ul>
-				<ul>
-					单次获取条数：<INPUT TYPE="radio" id="a_10" NAME="aCount" checked onclick="changeCount(10);">10条
-					<INPUT TYPE="radio" id="a_50" NAME="aCount" onclick="changeCount(50);">50条
-					<INPUT TYPE="radio" id="a_100" NAME="aCount" onclick="changeCount(100);">100条
-					<br/>单次获取间隔：<INPUT TYPE="radio" id="at_50" NAME="aTime" checked onclick="changeTime(50);">50毫秒
-					<INPUT TYPE="radio" id="at_100" NAME="aTime" onclick="changeTime(100);">100毫秒
-					<INPUT TYPE="radio" id="at_300" NAME="aTime" onclick="changeTime(300);">300毫秒
-				</ul>
-			</li>
-			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>异步加载说明（此Demo请放到发布目录下执行）
-				<ul class="remark">
-					此应用完全利用 zTree 提供的接口，针对特殊案例实现的功能。
-				</ul>
-				<ul class="remark">
-					对于上千个节点的一次性加载，在IE下有可能会出现一段时间的假<br/>
-					死状态，为了避免这种情况，制作自定义的异步加载方法，将上千<br/>
-					个节点进行分组下载，即避免了页面的假死，也可以提供友好的进<br/>
-					度提示功能。
-				</ul>
-				<ul class="remark">
-					应用中还实现了自动展开节点并选中第一个子节点的功能。
-				</ul>
-			</li>
-			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>事件监控
+				<button class="ico star" onfocus="this.blur();"></button>添加自定义控件说明
+				<ul class="remark">1、提供两种添加自定义控件的方法</ul>
 				<ul class="event">
-				异步加载:&nbsp;&nbsp;<a id="onAsync"><br/></a><br/>
+					<li>&nbsp;&nbsp;对于 "button.a.b{...}" 这种 css 选择器的方法IE6是不支持的，因此不要加载 zTreeIcons.css，也就不要使用css自定义图标这个功能了</li>
 				</ul>
-				
+				<ul class="remark">2、位置灵活掌控</ul>
+				<ul class="event">
+					<li>&nbsp;&nbsp;IE6对于png图片的透明显示一直是个很大问题，因此需要支持IE6的朋友，请将png图片全部制作为gif图片</li>
+				</ul>
+				<ul class="remark">3、请注意添加的控件样式设置</ul>
+				<ul class="event">
+					<li>&nbsp;&nbsp;jQuery默认的动画效果在IE6下效果很差，因此如果您的zTree必须兼容IE6，那么请取消zTree的动画效果</li>
+				</ul>
+				<ul class="remark">4、自行绑定事件</ul>
+				<ul class="event">
+					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
+					<li></li>
+					<li>&nbsp;&nbsp;对于同级节点数据量很多时，建议模仿“高级应用演示”下的“异步加载超大数据”的例子进行自定义的异步加载</li>
+				</ul>
+				<ul class="remark">5、这是一种高级应用，根据需求量体裁衣</ul>
+				<ul class="event">
+					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
+					<li></li>
+					<li>&nbsp;&nbsp;对于同级节点数据量很多时，建议模仿“高级应用演示”下的“异步加载超大数据”的例子进行自定义的异步加载</li>
+				</ul>
 			</li>
-				
 		</div>	
 		</TD>
 	</TR>

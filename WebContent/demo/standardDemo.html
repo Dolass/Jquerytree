@@ -11,11 +11,42 @@
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
+var simpleNodes1 =[
+{id:'06585df382bc46569b61992ec15686a7',pId:'0',name:"sf77"},
+{id:'0fa34f44ff5948fd89d36bd7f18ec9b5',pId:'0',name:"saf"},
+{id:'205242dc50d742fc9211812b361f5196',pId:'0',name:"珠海2"},
+{id:'1fef67a4133d4cbfb7a5e3ba67956125',pId:'0',name:"珠海"},
+{id:'a4d591b243154bc193170cea65721f00',pId:'205242dc50d742fc9211812b361f5196',name:"珠海2"},
+{id:'7b2c40de947349c9bcc6c8824801f61e',pId:'06585df382bc46569b61992ec15686a7',name:"珠海"},
+{id:'43276c6574e44605be5437954ec89618',pId:'205242dc50d742fc9211812b361f5196',name:"珠海"},
+{id:'67321abc5b8441a8b9bc616d31f58616',pId:'06585df382bc46569b61992ec15686a7',name:"珠海"},
+{id:'7000d6413a43458fae2fb1966edf5907',pId:'06585df382bc46569b61992ec15686a7',name:"珠海"},
+{id:'7fd84253b60147fc9425050ab586aacf',pId:'7b2c40de947349c9bcc6c8824801f61e',name:"sad"},
+{id:'8dafb11811564865993c8cb26e55b649',pId:'7b2c40de947349c9bcc6c8824801f61e',name:"df"},
+{id:'90bc91519e0b46c1b2a023a419ae63e7',pId:'7b2c40de947349c9bcc6c8824801f61e',name:"珠海2"},
+{id:'cb79e21306c24218a4c514aa3e3534d5',pId:'0fa34f44ff5948fd89d36bd7f18ec9b5',name:"珠海2"},
+{id:'cc8739c289b844d692bd05b82b3b1233',pId:'0fa34f44ff5948fd89d36bd7f18ec9b5',name:"珠海3"},
+{id:'dbfe244273c740d7bf640a07a50eb2fe',pId:'0fa34f44ff5948fd89d36bd7f18ec9b5',name:"珠海"},
+{id:'336f6c9bb150446dad5a6b06d7ebb7b6',pId:'205242dc50d742fc9211812b361f5196',name:"珠海"},
+{id:'3cf3141bc1294b0f9d86fbc33d62d773',pId:'205242dc50d742fc9211812b361f5196',name:"ss"},
+{id:'3d9eb26b29ee4ffc997796a48e26d968',pId:'205242dc50d742fc9211812b361f5196',name:"珠海"},
+{id:'439f34f4115f40c9bfefe3723e4c070c',pId:'43276c6574e44605be5437954ec89618',name:"珠海"},
+{id:'5ea2aaea08864e93bb683b486546a323',pId:'43276c6574e44605be5437954ec89618',name:"珠海"},
+{id:'6142690e91fa4af4846f374d6471e928',pId:'43276c6574e44605be5437954ec89618',name:"珠海3"},
+{id:'94f9d12d170e4dd8bd1271e1e1385a9b',pId:'205242dc50d742fc9211812b361f5196',name:"珠海"},
+{id:'9c184ab1d7f64103b67bff4b6871ca73',pId:'205242dc50d742fc9211812b361f5196',name:"a"},
+{id:'ad69c5abf2de4c539640b56776ddc48f',pId:'a4d591b243154bc193170cea65721f00',name:"珠海3"},
+{id:'b22e8f414894428fa788e8f6b5afcc09',pId:'a4d591b243154bc193170cea65721f00',name:"asd"},
+{id:'b73c0517b9cd43febb449279931374c8',pId:'a4d591b243154bc193170cea65721f00',name:"珠海"},
+{id:'c28b81213c634d4c8308ee89a0807920',pId:'a4d591b243154bc193170cea65721f00',name:"珠海"},
+{id:'c48271145d5d444e9f3498fde526d419',pId:'a4d591b243154bc193170cea65721f00',name:"珠海2"}
+];
+
 	var zTree1;
 
-		var setting = {
-			showLine: true
-		};
+	var setting = {
+		showLine: true
+	};
 
 	$(document).ready(function(){
 		reloadTree("1");
@@ -73,7 +104,7 @@
 			$("#standardDataDemo").css({"display":"none"});
 			$("#simpleDataDemo").css({"display":"block"});
 			setting1.isSimpleData = true;
-			zNodes1 = clone(simpleNodes);
+			zNodes1 = clone(simpleNodes1);
 		}
 
 		if (!type) type = (curType=='0') ? '1' : curType;
