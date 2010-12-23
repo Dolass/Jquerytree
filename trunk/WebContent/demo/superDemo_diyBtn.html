@@ -34,8 +34,8 @@
 
 	
 	var setting= {
-			addHoverBtn: addHoverBtn,
-			removeHoverBtn: removeHoverBtn,
+			addHoverDom: addHoverDom,
+			removeHoverDom: removeHoverDom,
 			addDiyDom: addDiyDom
 		};
 
@@ -65,7 +65,7 @@
 		reloadTree();
 	});
 
-	function addHoverBtn(treeId, treeNode) {
+	function addHoverDom(treeId, treeNode) {
 		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.id == 11) {
@@ -103,7 +103,7 @@
 		}
 	}
 	
-	function removeHoverBtn(treeId, treeNode) {
+	function removeHoverDom(treeId, treeNode) {
 		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
 		if (treeNode.id == 15) {
 			$("#diyBtn1_"+treeNode.id).unbind().remove();

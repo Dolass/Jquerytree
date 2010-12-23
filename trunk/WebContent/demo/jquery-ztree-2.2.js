@@ -124,9 +124,9 @@
 			//折叠、展开Trigger开关
 			expandTriggerFlag:false,
 			//hover 增加按钮接口
-			addHoverBtn:null,
+			addHoverDom:null,
 			//hover 删除按钮接口
-			removeHoverBtn:null,
+			removeHoverDom:null,
 			//永久自定义显示控件方法
 			addDiyDom:null,
 			
@@ -856,23 +856,23 @@
 	//添加zTree的按钮控件
 	function addTreeBtn(setting, treeNode) {
 		if (setting.dragStatus == 0) {
-			treeNode.ishover = true;
+			treeNode.isHover = true;
 			if (setting.editable) {
 				addEditBtn(setting, treeNode);
 				addRemoveBtn(setting, treeNode);
 			}
-			if ((typeof setting.addHoverBtn) == "function") {
-				setting.addHoverBtn(setting.treeObjId, treeNode);
+			if ((typeof setting.addHoverDom) == "function") {
+				setting.addHoverDom(setting.treeObjId, treeNode);
 			}
 		}
 	}
 	//删除zTree的按钮控件
 	function removeTreeBtn(setting, treeNode) {
-		treeNode.ishover = false;
+		treeNode.isHover = false;
 		removeEditBtn(treeNode); 
 		removeRemoveBtn(treeNode); 
-		if ((typeof setting.removeHoverBtn) == "function") {
-			setting.removeHoverBtn(setting.treeObjId, treeNode);
+		if ((typeof setting.removeHoverDom) == "function") {
+			setting.removeHoverDom(setting.treeObjId, treeNode);
 		}
 	}
 	//删除 编辑、删除按钮

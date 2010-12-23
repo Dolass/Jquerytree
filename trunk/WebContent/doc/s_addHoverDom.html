@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>addHoverDom</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Function(treeId, treeNode)</span>addHoverDom</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮</p>
+			<p style="color:red">属于高级应用，使用时请确保对 zTree 比较了解。</p>
+			<p>Function 格式举例：function addHoverDom(treeId, treeNode) {...}</p>
+		</div>
+	</div>
+	<h3>Function 参数</h3>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>需要显示自定义控件的节点 JSON 数据对象</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>设置异步获取节点的 URL 为 nodes.php</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;asyncUrl : "nodes.php",
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h4>描述：</h4>
+	<p>设置异步获取节点的 URL 为 function 动态获取</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>function getAsyncUrl(treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;var url = "";
+&nbsp;&nbsp;&nbsp;&nbsp;......
+&nbsp;&nbsp;&nbsp;&nbsp;return url;
+};
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;asyncUrl : getAsyncUrl,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_removeHoverDom.html">removeHoverDom</A> | <A href="s_addDiyDom.html">addDiyDom</A></h4>
+
+</div>
+</div>
+
+</body></html>
