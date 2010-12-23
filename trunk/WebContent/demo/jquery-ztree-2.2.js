@@ -475,13 +475,13 @@
 		
 		//编辑、删除按钮
 		aObj.hover(
-				function() {
-					addTreeBtn(setting, treeNode);
-				},
-				function() {
-					if (setting.curTreeNode != treeNode)
-						removeTreeBtn(setting, treeNode);
-				}
+			function() {
+				addTreeBtn(setting, treeNode);
+			},
+			function() {
+				if (setting.curTreeNode != treeNode)
+					removeTreeBtn(setting, treeNode);
+			}
 		);
 
 		aObj.bind('mousedown',
@@ -1636,8 +1636,7 @@
 	
 	//设置节点为当前选中节点
 	function selectNode(setting, treeNode) {
-		
-		if (setting.curTreeNode == treeNode) return;
+		if (setting.curTreeNode == treeNode && !treeNode.editNameStatus) return;
 		
 		cancelPreSelectedNode(setting);	
 		cancelPreEditNode(setting);
@@ -1677,7 +1676,6 @@
 		treeNode[setting.nameCol] = newName;
 		//触发rename事件
 		$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
-		cancelPreEditNode(setting);
 		selectNode(setting, treeNode);
 	}
 	
