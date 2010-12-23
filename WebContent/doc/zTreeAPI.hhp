@@ -112,12 +112,17 @@ m_transformToArray.html
 m_transformTozTreeNodes.html
 m_updateNode.html
 m_updateSetting.html
+s_addDiyDom.html
+s_addHoverDom.html
 s_async.html
 s_asyncParam.html
 s_asyncParamOther.html
 s_asyncUrl.html
 s_callback.html
+s_check_False_Full.html
+s_check_True_Full.html
 s_checkable.html
+s_checkboxFocus.html
 s_checked.html
 s_checkedCol.html
 s_checkedNew.html
@@ -142,6 +147,7 @@ s_icon.html
 s_iconSkin.html
 s_isAjaxing.html
 s_isFirstNode.html
+s_ishover.html
 s_isLastNode.html
 s_isParent.html
 s_isSimpleData.html
@@ -152,6 +158,7 @@ s_nodes.html
 s_nodesCol.html
 s_open.html
 s_parentNode.html
+s_removeHoverDom.html
 s_root.html
 s_showLine.html
 s_target.html
