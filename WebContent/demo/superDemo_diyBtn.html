@@ -47,7 +47,7 @@
 		 	       {id:13, name:"下拉框"},
 		 	       {id:141, name:"文本1"},
 		 	       {id:142, name:"文本2"},
-		 	       {id:15, name:"超链接"},
+		 	       {id:15, name:"超链接"}
 		 	       
 			]},
 	 	{id:2, name:"始终显示控件", open:true, 
@@ -70,7 +70,7 @@
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.id == 11) {
 			if ($("#diyBtn_"+treeNode.id).length>0) return;
-			var editStr = "<button type='button' class='diyBtn1' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();' style='margin:0 0 0 5px;'></button>";
+			var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' >&nbsp;</span><button type='button' class='diyBtn1' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
 			aObj.append(editStr);
 			var btn = $("#diyBtn_"+treeNode.id);
 			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
@@ -82,7 +82,7 @@
 			if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
 		} else if (treeNode.id == 13) {
 			if ($("#diyBtn_"+treeNode.id).length>0) return;
-			var editStr = "<select class='selDemo test' id='diyBtn_" +treeNode.id+ "'><option value=1>1</option><option value=2>2</option><option value=3>3</option></select>";
+			var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' >&nbsp;</span><select class='selDemo ' id='diyBtn_" +treeNode.id+ "'><option value=1>1</option><option value=2>2</option><option value=3>3</option></select>";
 			aObj.append(editStr);
 			var btn = $("#diyBtn_"+treeNode.id);
 			if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
@@ -110,6 +110,7 @@
 			$("#diyBtn2_"+treeNode.id).unbind().remove();
 		} else {
 			$("#diyBtn_"+treeNode.id).unbind().remove();
+			$("#diyBtn_space_" +treeNode.id).unbind().remove();
 		}		
 	}
 	
@@ -204,6 +205,7 @@
 					<li>&nbsp;&nbsp;A、自定义添加的控件请注意其高度不要超过节点的高度，这方面请根据实际情况进行调整。</li>
 					<li>&nbsp;&nbsp;在这个演示中，下拉框默认高度是高于18px的，所以演示的例子中强行设定了下拉框的样式 height:16px</li>
 					<li>&nbsp;&nbsp;B、自定义添加的控件因为是显示在zTree内部，因此一些css样式会直接继承自zTree的样式设定，这方面有特殊情况的用户请自行调整。</li>
+					<li style="color:red">&nbsp;&nbsp;需要兼容IE6的朋友要注意了，下拉框很难设置高度。</li>
 				</ul>
 				<ul class="remark">4、自行绑定事件</ul>
 				<ul class="event">
