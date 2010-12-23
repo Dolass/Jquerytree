@@ -187,27 +187,31 @@
 				<button class="ico star" onfocus="this.blur();"></button>添加自定义控件说明
 				<ul class="remark">1、提供两种添加自定义控件的方法</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;对于 "button.a.b{...}" 这种 css 选择器的方法IE6是不支持的，因此不要加载 zTreeIcons.css，也就不要使用css自定义图标这个功能了</li>
+					<li>&nbsp;&nbsp;一种是当事件切换（hover），即 A、鼠标移动到节点上时显示，B、鼠标移走后删除，C、当节点被选中时显示。</li>
+					<li>&nbsp;&nbsp;参数：setting.addHoverBtn、setting.removeHoverBtn</li>
+					<li>&nbsp;&nbsp;另一种是随着节点初始化后就始终显示。</li>
+					<li>&nbsp;&nbsp;参数：setting.addDiyDom</li>
+					<li style="color:red">&nbsp;&nbsp;zTree内置的编辑、删除按钮都采用事件切换的方式进行显示的。</li>
 				</ul>
 				<ul class="remark">2、位置灵活掌控</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;IE6对于png图片的透明显示一直是个很大问题，因此需要支持IE6的朋友，请将png图片全部制作为gif图片</li>
+					<li>&nbsp;&nbsp;至于你的自定义控件想显示在节点的什么位置，只要在保证zTree完整性的基础上可以任意添加。</li>
+					<li>&nbsp;&nbsp;建议参考代码  var aObj = $("#" + treeNode.tId + IDMark_A); 这个对象对于zTree来讲，应该不会有大的变化，所以你所需要添加的控件是放在aObj的前面后面还是里面，就看你的需求了。</li>
+					<li style="color:red">&nbsp;&nbsp;建议不要让节点换行，否则连线会出现异常。</li>
 				</ul>
 				<ul class="remark">3、请注意添加的控件样式设置</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;jQuery默认的动画效果在IE6下效果很差，因此如果您的zTree必须兼容IE6，那么请取消zTree的动画效果</li>
+					<li>&nbsp;&nbsp;A、自定义添加的控件请注意其高度不要超过节点的高度，这方面请根据实际情况进行调整。</li>
+					<li>&nbsp;&nbsp;在这个演示中，下拉框默认高度是高于18px的，所以演示的例子中强行设定了下拉框的样式 height:16px</li>
+					<li>&nbsp;&nbsp;B、自定义添加的控件因为是显示在zTree内部，因此一些css样式会直接继承自zTree的样式设定，这方面有特殊情况的用户请自行调整。</li>
 				</ul>
 				<ul class="remark">4、自行绑定事件</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
-					<li></li>
-					<li>&nbsp;&nbsp;对于同级节点数据量很多时，建议模仿“高级应用演示”下的“异步加载超大数据”的例子进行自定义的异步加载</li>
+					<li>&nbsp;&nbsp;对于自定义添加的控件，如果需要有 click 等事件时，请在添加控件时进行事件绑定。</li>
 				</ul>
 				<ul class="remark">5、这是一种高级应用，根据需求量体裁衣</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
-					<li></li>
-					<li>&nbsp;&nbsp;对于同级节点数据量很多时，建议模仿“高级应用演示”下的“异步加载超大数据”的例子进行自定义的异步加载</li>
+					<li>&nbsp;&nbsp;对于 zTree 来讲，添加自定义控件的功能完全是一种高级应用，请在对 zTree 的 HTML、css、数据结构都比较了解的情况下，根据不同项目的特殊需求再来决定如何添加自定义控件。</li>
 				</ul>
 			</li>
 		</div>	
