@@ -1719,6 +1719,9 @@
 			var r = [];
 			var tmpMap = [];
 			for (var i=0; i<simpleTreeNodes.length; i++) {
+				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
+			}
+			for (var i=0; i<simpleTreeNodes.length; i++) {
 				if (simpleTreeNodes[i][parentKey] && tmpMap[simpleTreeNodes[i][parentKey]]) {
 					if (!tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol])
 						tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol] = [];
@@ -1726,7 +1729,6 @@
 				} else {
 					r.push(simpleTreeNodes[i]);
 				}
-				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
 			}
 			return r;
 		} else {
