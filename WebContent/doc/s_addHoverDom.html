@@ -16,8 +16,7 @@
 		<p></p>
 		<div class="longdesc">
 			<p>鼠标移动到节点上时，显示用户自定义控件，显示隐藏状态同 zTree 内部的编辑、删除按钮</p>
-			<p style="color:red">属于高级应用，使用时请确保对 zTree 比较了解。</p>
-			<p>Function 格式举例：function addHoverDom(treeId, treeNode) {...}</p>
+			<p style="color:red">请务必与 <A href="s_removeHoverDom.html">removeHoverDom</A> 同时使用；属于高级应用，使用时请确保对 zTree 比较了解。</p>
 		</div>
 	</div>
 	<h3>Function 参数</h3>
@@ -27,24 +26,28 @@
 	<p>需要显示自定义控件的节点 JSON 数据对象</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>设置异步获取节点的 URL 为 nodes.php</p>
-	<h5 xmlns="">setting 举例:</h5>
+	<p>设置鼠标移到节点上，在后面显示一个按钮</p>
+	<h5 xmlns="">setting & function 举例:</h5>
 	<pre xmlns=""><code>var setting = {
-&nbsp;&nbsp;&nbsp;&nbsp;asyncUrl : "nodes.php",
+&nbsp;&nbsp;&nbsp;&nbsp;addHoverDom: addHoverDom,
+&nbsp;&nbsp;&nbsp;&nbsp;removeHoverDom: removeHoverDom,
 &nbsp;&nbsp;&nbsp;&nbsp;......
-};</code></pre>
-	<h4>描述：</h4>
-	<p>设置异步获取节点的 URL 为 function 动态获取</p>
-	<h5 xmlns="">setting 举例:</h5>
-	<pre xmlns=""><code>function getAsyncUrl(treeNode) {
-&nbsp;&nbsp;&nbsp;&nbsp;var url = "";
-&nbsp;&nbsp;&nbsp;&nbsp;......
-&nbsp;&nbsp;&nbsp;&nbsp;return url;
 };
-var setting = {
-&nbsp;&nbsp;&nbsp;&nbsp;asyncUrl : getAsyncUrl,
-&nbsp;&nbsp;&nbsp;&nbsp;......
-};</code></pre>
+function addHoverDom(treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;var aObj = $("#" + treeNode.tId + "_a");
+&nbsp;&nbsp;&nbsp;&nbsp;if ($("#diyBtn_"+treeNode.id).length>0) return;
+&nbsp;&nbsp;&nbsp;&nbsp;var editStr = "&lt;span id='diyBtn_space_" +treeNode.id+ "' &gt;&nbsp;&lt;/span&gt;"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "&lt;button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "' title='"+treeNode.name+"' onfocus='this.blur();'&gt;&lt;/button&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;aObj.append(editStr);
+&nbsp;&nbsp;&nbsp;&nbsp;var btn = $("#diyBtn_"+treeNode.id);
+&nbsp;&nbsp;&nbsp;&nbsp;if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+};
+function removeHoverDom(treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;$("#diyBtn_"+treeNode.id).unbind().remove();
+&nbsp;&nbsp;&nbsp;&nbsp;$("#diyBtn_space_" +treeNode.id).unbind().remove();
+};
+......</code></pre>
 	<h3>相关参数</h3>
 	<h4><A href="s_removeHoverDom.html">removeHoverDom</A> | <A href="s_addDiyDom.html">addDiyDom</A></h4>
 

@@ -476,11 +476,11 @@
 		//编辑、删除按钮
 		aObj.hover(
 			function() {
-				addTreeBtn(setting, treeNode);
+				addTreeDom(setting, treeNode);
 			},
 			function() {
 				if (setting.curTreeNode != treeNode)
-					removeTreeBtn(setting, treeNode);
+					removeTreeDom(setting, treeNode);
 			}
 		);
 
@@ -537,7 +537,7 @@
 
 					//设置节点为选中状态
 					selectNode(setting, treeNode);
-					removeTreeBtn(setting, treeNode);
+					removeTreeDom(setting, treeNode);
 
 					var tmpNode = $("#" + treeNode.tId).clone();
 					tmpNode.attr("id", treeNode.tId + "_tmp");
@@ -854,7 +854,7 @@
 	}
 	
 	//添加zTree的按钮控件
-	function addTreeBtn(setting, treeNode) {
+	function removeTreeDom(setting, treeNode) {
 		if (setting.dragStatus == 0) {
 			treeNode.isHover = true;
 			if (setting.editable) {
@@ -867,7 +867,7 @@
 		}
 	}
 	//删除zTree的按钮控件
-	function removeTreeBtn(setting, treeNode) {
+	function removeTreeDom(setting, treeNode) {
 		treeNode.isHover = false;
 		removeEditBtn(treeNode); 
 		removeRemoveBtn(treeNode); 
@@ -912,7 +912,7 @@
 				var beforeRename = true;
 				if ((typeof setting.callback.beforeRename) == "function") beforeRename = setting.callback.beforeRename(setting.treeObjId, treeNode);
 				if (beforeRename == false) return;
-				removeTreeBtn(setting, treeNode);
+				removeTreeDom(setting, treeNode);
 				editTreeNode(setting, treeNode);
 				return false;
 			}
@@ -1619,7 +1619,7 @@
 		if (setting.curTreeNode) {
 			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
 			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
-			removeTreeBtn(setting, setting.curTreeNode);
+			removeTreeDom(setting, setting.curTreeNode);
 			setting.curTreeNode = null;
 		}
 	}
@@ -1667,7 +1667,7 @@
 		} else {
 			$("#" + treeNode.tId + IDMark_A).addClass(Class_CurSelectedNode);
 		}
-		addTreeBtn(setting, treeNode);
+		addTreeDom(setting, treeNode);
 		setting.curTreeNode = treeNode;
 	}
 	
