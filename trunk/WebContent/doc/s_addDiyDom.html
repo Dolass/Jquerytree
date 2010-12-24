@@ -1,11 +1,52 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<HTML>
-<HEAD>
-<META http-equiv="Content-Type" content="text/html; charset=gb2312">
-<META name="GENERATOR" content="QuickCHM">
-<TITLE>addDiyDom</TITLE>
-</HEAD>
-<BODY>
-<P>addDiyDom</P>
-</BODY>
-</HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>addDiyDom</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Function(treeId, treeNode)</span>addDiyDom</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>在节点上固定显示用户自定义控件</p>
+			<p style="color:red">属于高级应用，使用时请确保对 zTree 比较了解。</p>
+		</div>
+	</div>
+	<h3>Function 参数</h3>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>需要显示自定义控件的节点 JSON 数据对象</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>设置节点后面显示一个按钮</p>
+	<h5 xmlns="">setting & function 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;addDiyDom: addDiyDom,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+function addDiyDom(treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;var aObj = $("#" + treeNode.tId + "_a");
+&nbsp;&nbsp;&nbsp;&nbsp;if ($("#diyBtn_"+treeNode.id).length>0) return;
+&nbsp;&nbsp;&nbsp;&nbsp;var editStr = "&lt;span id='diyBtn_space_" +treeNode.id+ "' &gt;&nbsp;&lt;/span&gt;"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "&lt;button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "' title='"+treeNode.name+"' onfocus='this.blur();'&gt;&lt;/button&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;aObj.append(editStr);
+&nbsp;&nbsp;&nbsp;&nbsp;var btn = $("#diyBtn_"+treeNode.id);
+&nbsp;&nbsp;&nbsp;&nbsp;if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+};
+......</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_removeHoverDom.html">removeHoverDom</A> | <A href="s_addDiyDom.html">addDiyDom</A></h4>
+
+</div>
+</div>
+
+</body></html>
