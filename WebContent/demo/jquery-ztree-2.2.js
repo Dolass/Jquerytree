@@ -854,7 +854,7 @@
 	}
 	
 	//添加zTree的按钮控件
-	function removeTreeDom(setting, treeNode) {
+	function addTreeDom(setting, treeNode) {
 		if (setting.dragStatus == 0) {
 			treeNode.isHover = true;
 			if (setting.editable) {
