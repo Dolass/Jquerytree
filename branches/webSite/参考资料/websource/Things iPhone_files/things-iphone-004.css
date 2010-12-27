@@ -1,0 +1,889 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { 
+	margin: 0;
+	padding: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+fieldset, img { 
+	border: 0;
+}
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+ol, ul {
+	list-style: none;
+}
+caption, th {
+	text-align: left;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+q:before, q:after {
+	content: '';
+}
+abbr, acronym { 
+	border: 0;
+}
+a {
+	outline: none;
+}
+
+
+
+
+
+
+
+/*
+============================================
+General
+============================================
+*/
+
+body {
+	font-family: 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	line-height: 18px;
+	color: #222;
+}
+
+p {
+	margin-bottom: 18px;
+}
+
+ul, ol {
+	margin-bottom: 18px;
+}
+
+a {
+	text-decoration: none;
+	color: #4d6399;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+em {
+	font-style: normal;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 18px;
+	margin-top: 10px;
+	margin-bottom: 12px;
+	line-height: 18px;
+	font-weight: normal;
+	color: #222;
+}
+
+h3 {
+	font-size: 18px;
+	margin-top: 18px;
+	margin-bottom: 12px;
+	line-height: 18px;
+	font-weight: normal;
+	color: #222;
+}
+
+h4 {
+	font-size: 15px;
+	margin-top: 18px;
+	margin-bottom: 18px;
+	font-weight: bold;
+	color: #222;
+}
+
+
+
+
+
+/*
+============================================
+Header & Content & Footer (Layout)
+============================================
+*/
+
+body {
+	/*background: #ededed;*/
+	background: #d5e9ed;
+	background-image: url(images/background_solid.png);
+}
+
+#Wrapper {
+	width: 934px; /* Page + Sidebar */
+	margin: 0px auto;
+	position: relative;
+}
+
+#Sidebar {
+	width: 120px;
+	/*float: right; */ /* absolute positioning instead */
+	position: absolute;
+	top: 0px;
+	left: 814px;
+}
+
+#Page {
+	width: 814px;
+	background: #fff url(images-things-iphone/things-touch-background.png) repeat-y;
+	position: absolute;
+	top: 70px;
+	left: 0px;
+}
+
+
+#Header {
+	text-indent: -9999px;
+	overflow: hidden;
+	width: 814px;
+	height: 265px;
+	background: url(images-things-iphone/things-touch-header-002.jpg) no-repeat;
+	position: relative;
+}
+
+#Header a#LinkCulturedCode {
+	display: none;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+#Header a#LinkThingsProductPage {
+	display: block;
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	top: 40px;
+	left: 100px;
+}
+
+#Header a#LinkAppStore {
+	display: block;
+	width: 90px;
+	height: 110px;
+	position: absolute;
+	top: 90px;
+	left: 613px;
+}
+
+
+
+
+#Content {
+	padding: 20px 114px 0px 114px;
+}
+
+#Content hr {
+	display: block;
+	margin-left: -82px;
+	width: 750px;
+	height: 32px;
+	border: none;
+	background: #ccc;
+}
+
+
+
+#Footer {
+	height: 44px;
+	margin-top: 20px;
+	padding-top: 50px;
+	text-align: center;
+	font-size: 10px;
+	background: #d5e9ed url(images-things-iphone/things-touch-background-bottom.png) no-repeat;
+}
+
+#Footer a {
+	color: #777;
+}
+
+#Footer a img {
+	margin-left: 5px;
+	position: relative;
+	top: 3px;
+}
+
+
+
+
+
+
+
+/*
+============================================
+Navigation
+============================================
+*/
+
+
+
+#Navigation {
+	padding-left: 22px;
+}
+
+#Navigation ul {
+	width: 770px;
+	height: 50px;
+	margin-left: 6px;
+	position: relative;
+	line-height: 0px; /* fixes IE6 stepdown bug */
+}
+
+#Navigation ul li a {
+	display: block;	height: 50px;
+	position: absolute; top: 0;
+	text-indent: -9999px;
+	background-image: url(images/navigation3.png);
+	background-repeat: no-repeat;
+}
+
+
+#Navigation ul li#welcome_link a {
+	left: 0;
+	width: 160px;
+	background-position: 0px 0px;
+}
+#Navigation ul li#welcome_link a:hover {
+	background-position: 0px -60px;
+}
+#Navigation ul li#welcome_link a:active {
+	background-position: 0px -120px;
+}
+#Navigation ul li#welcome_link a.current {
+	background-position: 0px -120px;
+}
+
+
+#Navigation ul li#things_link a {
+	left: 160px;
+	width: 130px;
+	background-position: -160px 0px;
+}
+#Navigation ul li#things_link a:hover {
+	background-position: -160px -60px;
+}
+#Navigation ul li#things_link a:active {
+	background-position: -160px -120px;
+}
+#Navigation ul li#things_link a.current {
+	background-position: -160px -120px;
+}
+
+
+
+
+
+
+#Navigation ul li#thingsiphone_link a {
+	left: 290px;
+	width: 130px;
+	background-position: -290px 0px;
+}
+#Navigation ul li#thingsiphone_link a:hover {
+	background-position: -290px -60px;
+}
+#Navigation ul li#thingsiphone_link a:active {
+	background-position: -290px -120px;
+}
+#Navigation ul li#thingsiphone_link a.current {
+	background-position: -290px -120px;
+}
+
+
+#Navigation ul li#thingsipad_link a {
+	left: 420px;
+	width: 130px;
+	background-position: -420px 0px;
+}
+#Navigation ul li#thingsipad_link a:hover {
+	background-position: -420px -60px;
+}
+#Navigation ul li#thingsipad_link a:active {
+	background-position: -420px -120px;
+}
+#Navigation ul li#thingsipad_link a.current {
+	background-position: -420px -120px;
+}
+
+
+#Navigation ul li#support_link a {
+	left: 550px;
+	width: 80px;
+	background-position: -550px 0px;
+}
+#Navigation ul li#support_link a:hover {
+	background-position: -550px -60px;
+}
+#Navigation ul li#support_link a:active {
+	background-position: -550px -120px;
+}
+#Navigation ul li#support_link a.current {
+	background-position: -550px -120px;
+}
+
+
+#Navigation ul li#blog_link a {
+	left: 630px;
+	width: 80px;
+	background-position: -630px 0px;
+}
+#Navigation ul li#blog_link a:hover {
+	background-position: -630px -60px;
+}
+#Navigation ul li#blog_link a:active {
+	background-position: -630px -120px;
+}
+#Navigation ul li#blog_link a.current {
+	background-position: -630px -120px;
+}
+
+
+#Navigation ul li#about_link a {
+	left: 710px;
+	width: 80px;
+	background-position: -710px 0px;
+}
+#Navigation ul li#about_link a:hover {
+	background-position: -710px -60px;
+}
+#Navigation ul li#about_link a:active {
+	background-position: -710px -120px;
+}
+#Navigation ul li#about_link a.current {
+	background-position: -710px -120px;
+}
+
+
+
+#Navigation ul li a:hover {
+	background-position-y: -50px;
+}
+
+#Navigation ul li a:active {
+	background-position-y: -100px;
+}
+
+#Navigation ul li a.current {
+	background-position-y: -100px;
+	text-indent: -9999px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+============================================
+Sidebar
+============================================
+*/
+
+
+#Sidebar {
+	padding-top: 240px;
+	color: #222; 
+	font-size: 11px; 
+	line-height: 14px;
+}
+
+
+#Sidebar #AppStore {
+}
+
+
+#Sidebar .review {
+	margin-top: 50px; 
+	color: #222; 
+	font-size: 11px; 
+	line-height: 14px;
+}
+
+#Sidebar .review-quote {
+	margin-bottom: 7px; 
+}
+
+#Sidebar .review-rating {
+	margin-bottom: 3px;
+}
+
+#Sidebar .review-author {
+	font-style: italic; 
+	color: #555;
+}
+
+
+
+
+#Sidebar #iPhoneAndMacVersions {
+}
+
+#Sidebar #iPhoneAndMacVersions img.tiny-silhouette {
+	display: block;
+	width: 24px;
+	height: 24px;
+	float: left;
+}
+
+#Sidebar #iPhoneAndMacVersions p {
+	margin-left: 30px;
+}
+
+
+
+#Sidebar .award {
+	margin-top: 50px; 
+	/*color: #555;*/
+	color: #222; 
+	font-size: 11px; 
+	line-height: 14px;
+}
+
+
+
+
+
+
+
+
+/*
+============================================
+Content
+============================================
+*/
+
+#Content {
+	position: relative;
+}
+
+#Content ul {
+	list-style: disc;
+}
+
+#Content ul li {
+	margin-left: 20px;
+}
+
+#Content ol {
+	list-style: decimal;
+}
+
+#Content ol li {
+	margin-left: 20px;
+}
+
+
+
+
+
+
+/*
+============================================
+Introduction
+============================================
+*/
+
+#Introduction {
+	position: relative;
+}
+
+#Introduction p {
+	color: #555;
+	width: 320px;
+}
+
+#Introduction h2 {
+	width: 300px;
+	line-height: 20px;
+}
+
+#IntroductionSide {
+	position: absolute;
+	top: 0px;
+	left: 365px;	
+	width: 250px;
+}
+
+#IntroductionSide .button-download a {
+	display: block;
+	width: 150px;
+	height: 64px;
+	padding-left: 72px;
+	margin-bottom: 20px;
+	font-size: 12px;
+	line-height: 16px;
+	color: #555;
+	overflow: hidden;
+}
+
+#IntroductionSide .button-download a {
+	background-image: url(images/button2_white_download.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+#IntroductionSide .button-download a:hover {
+	background-position: 0px -64px;
+	text-decoration: none;
+}
+
+#IntroductionSide .button-download a strong {
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: normal;
+	color: #222;
+	display: block;
+	padding-top: 3px;
+}
+
+#IntroductionSide .specs {
+	font-size: 11px;
+	line-height: 14px;
+	color: #555;
+	margin-bottom: 14px;
+}
+
+#IntroductionSide .specs strong {
+	font-weight: normal;
+	color: #222;
+}
+
+
+/*
+============================================
+Screencast
+============================================
+*/
+
+#Screencast {
+	margin-top: 80px;
+	margin-bottom: 40px;
+}
+
+#ScreencastContainer {
+	height: 450px; 
+	position: relative;
+	margin-bottom: 40px;
+}
+
+#ScreencastBackground {
+	position: absolute; /* absolute positioning because movie is too wide */
+	top: 0px;
+	left: -20px;
+	width: 640px;
+	height: 450px;
+	/*background: url(images-things-iphone/things-touch-screencast-background.png) no-repeat;*/
+}
+
+#ScreencastVideo {
+	position: absolute; /* absolute positioning - out of document flow - because movie is too wide */
+	top: 10px;
+	left: 20px;
+	width: 600px;
+	height: 400px;
+	/*background: #555;*/
+}
+
+
+
+
+/*
+============================================
+Screenshots / Tutorials
+============================================
+*/
+
+#Tutorials {
+
+}
+
+.tutorial {
+	clear: both;
+	margin-left: -49px;
+	height: 410px;
+	margin-top: 50px;
+	position: relative;
+}
+
+.tutorial p {
+ 	/*width: inherit;*/ /* Overwrite general p style */
+}
+ 	
+.tutorial .description {
+	margin-left: 342px;
+	padding-top: 20px;
+	color: #555;
+}
+
+.tutorial .description em {
+	color: #222;
+}
+
+.tutorial dl dt {
+	float: left;
+	display: block;
+	width: 33px;
+	height: 33px;
+}
+
+.tutorial dl dd {
+	margin-left: 40px;
+	margin-bottom: 18px;
+}
+
+.tutorial .screenshot {
+	display: block;
+	width: 340px;
+	height: 410px;
+	background: url(images-things-iphone/things-touch-screenshot-shadow.png) no-repeat;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+}
+
+.tutorial .screenshot img {
+	display: block;
+	width: 240px;
+	height: 345px;
+	position: absolute;
+	top: 2px;
+	left: 50px;
+}
+
+
+.tutorial .description a {
+	font-weight: bold;
+}
+
+
+
+
+
+
+/*
+============================================
+Adjustments for other languages
+============================================
+*/
+
+.DE #IntroductionSide .button-download a {
+	padding-top: 10px;
+	height: 54px;
+}
+
+
+
+
+
+
+/*
+============================================
+Extra
+============================================
+*/
+
+#GermanNote {
+	position: absolute;
+	top: 40px;
+	left: 731px;
+	width: 170px;
+	height: 115px;
+	background: url(images-things-iphone/things-touch-german-note.png) no-repeat;
+}
+
+#GermanNote p {
+	margin: 20px;
+	font-size: 10px;
+	line-height: 14px;
+	color: #181711;
+}
+
+
+
+
+
+
+
+
+
+/*
+========================================================================================
+========================================================================================
+  T  H  I  N  G  S     F  O  R     I  P  A  D 
+========================================================================================
+========================================================================================
+*/
+
+
+/*
+============================================
+Header
+============================================
+*/
+
+
+.things-ipad #Header {
+	background: url(images-things-ipad/things-ipad-header-001.jpg) no-repeat;
+}
+
+
+
+/*
+============================================
+Introduction
+============================================
+*/
+
+
+.things-ipad #Introduction {
+	margin-bottom: 40px;
+}
+
+.things-ipad #Introduction .comingsoon {
+	background-color: #aab;
+	font-size: 13px; line-height: 17px; 
+	margin-bottom: 20px;
+	padding: 1em;
+}
+
+
+/*
+============================================
+Screencast
+============================================
+*/
+
+.things-ipad #Teaser {
+	position: relative;
+	height: 360px;
+	margin-top: 40px; margin-bottom: 40px;
+}
+
+.things-ipad #TeaserVideo {
+	position: absolute; /* absolute positioning - out of document flow - because movie is too wide */
+	top: 0px; left: -20px;
+	width: 640px; height: 360px;
+	background: #555;
+}
+
+
+
+
+
+
+/* Overwrite default QT style */
+
+#Teaser .playButton {
+	/*
+	display: block; width: 120px; height: 120px;
+	position: absolute; top: 10px; left: 10px;
+	padding: 0px;
+	margin-top: -60px;
+	background: url(images-things-ipad/things-ipad-teaser-button.png) no-repeat;
+	text-indent: -9999px;
+	opacity: 1.0;
+	*/
+}
+
+
+
+
+/*
+============================================
+FEATURES
+============================================
+*/
+
+
+.things-ipad #Features {
+}
+
+.things-ipad .feature {
+	position: relative;
+	clear: both;
+/*
+	margin-left: -49px;
+	height: 410px;
+	margin-top: 50px;
+	position: relative;
+*/
+}
+
+
+/* Normal */
+ 	
+.things-ipad .feature .description {
+	margin-left: 280px;
+	margin-bottom: 60px;
+}
+
+.things-ipad .feature .screenshot {
+	float: left;
+	position: relative;
+	width: 240px;
+	margin-bottom: 60px;
+}
+
+/* Reverse */
+
+.things-ipad .feature.reverse .description {
+	margin-left: 0px;
+	margin-right: 280px;
+}
+
+.things-ipad .feature.reverse .screenshot {
+	float: right;
+	position: relative;
+	width: 240px;
+	margin-left: 40px;
+}
+
+
+
+
+.things-ipad .feature .screenshot img {
+	display: block;
+}
+
+
+.things-ipad .feature .description p {
+}
+
+.things-ipad .feature .description a {
+	font-weight: bold;
+}
+
+
+
+
+
+
