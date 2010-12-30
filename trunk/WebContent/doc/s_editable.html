@@ -19,7 +19,7 @@
 			<p>editable = true 时：</p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、将不会对节点指定的 <A href="s_url.html">url</A> 地址进行响应</p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、为避免数据混乱，需要异步获取子节点的功能将失效，因此对于使用此功能，请将 Tree 节点数据一次性全部生成</p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、可以对节点进行拖拽</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、可以对节点进行拖拽 <font style="color:red;">v2.3 版本开始支持多棵树之间进行拖拽</font></p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、可以通过编辑按钮修改 name 属性</p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5、可以通过删除按钮删除节点</p>
 			<p>默认值：false</p>
@@ -33,8 +33,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;editable : true,
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_edit_renameBtn.html">edit_renameBtn</A> | <A href="s_edit_removeBtn.html">edit_removeBtn</A></h4>
 	<h3>相关事件</h3>
-	<h4><A href="e_drag.html">drag</A> | <A href="e_drop.html">drop</A></h4>
+	<h4><A href="e_beforeDrag.html">beforeDrag(treeId, treeNode)</A> | <A href="e_beforeDrop.html">beforeDrop(treeId, treeNode, targetNode, moveType)</A>
+	<br/><A href="e_drag.html">drag(event, treeId, treeNode)</A> | <A href="e_drop.html">drop(event, treeId, treeNode, targetNode, moveType)</A></h4>
 
 </div>
 </div>

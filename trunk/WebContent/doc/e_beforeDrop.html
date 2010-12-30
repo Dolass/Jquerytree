@@ -21,7 +21,8 @@
 	</div>
 	<h3>参数</h3>
 	<h4><strong>treeId</strong><span>String</span></h4>
-	<p>因为 zTree 支持页面上同时存在多个zTree的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<p>因为 zTree 支持页面上同时存在多个 zTree 的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<p style="color:red">多个 zTree 之间进行拖拽时，返回目标节点的 treeObjId </p>
 	<h4><strong>treeNode</strong><span>JSON</span></h4>
 	<p>被拖拽的节点 JSON 数据对象。</p>
 	<p style="color:red">如果没有拖拽到合法节点内，则返回 null</p>
