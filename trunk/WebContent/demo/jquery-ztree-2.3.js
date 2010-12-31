@@ -1,10 +1,10 @@
 /*
- * JQuery zTree 2.2
+ * JQuery zTree 2.3
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-12-16
+ * Date: 2010-12-31
  *
  */
 
@@ -585,10 +585,14 @@
 					var treeOffset = targetSetting.treeObj.offset();
 					var scrollHeight = targetSetting.treeObj.get(0).scrollHeight;
 					var scrollWidth = targetSetting.treeObj.get(0).scrollWidth;
-					var isTop = (event.clientY + docScrollTop - treeOffset.top < 10);
-					var isBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop < 10);
-					var isLeft = (event.clientX + docScrollLeft - treeOffset.left < 10);
-					var isRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft < 10);
+					var dTop = (event.clientY + docScrollTop - treeOffset.top);
+					var dBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop);
+					var dLeft = (event.clientX + docScrollLeft - treeOffset.left);
+					var dRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft);
+					var isTop = (dTop < 10 && dTop > -5);
+					var isBottom = (dBottom < 10 && dBottom > -5);
+					var isLeft = (dLeft < 10 && dLeft > -5);
+					var isRight = (dRight < 10 && dRight > -5);
 					var isTreeTop = (isTop && targetSetting.treeObj.scrollTop() <= 0);
 					var isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight);
 					var isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0);
