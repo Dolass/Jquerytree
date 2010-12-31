@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -85,16 +85,34 @@
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>编辑状态说明
 				<ul class="remark">
-					<li>编辑状态时，可以对节点进行拖拽操作。<br/> &nbsp;&nbsp;(可以尝试水平方向拖拽节点试试看)</li>
+					<li>1、编辑状态时，可以对节点进行拖拽操作</li>
+					
+				</ul>
+				<ul class="event">
+					<li>v2.2 版本可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
+					<li>v2.3 版本可以在多棵树之间拖拽节点。</li>
 				</ul>
 				<ul class="remark">
-					<li>拖拽节点时，如果 Tree的背景变色，释放后该节点将成为根节点。</li>
+					<li>2、拖拽节点规则</li>
+				</ul>
+				<ul class="event">
+					<li>A、拖拽时如果 zTree 的背景变色，释放后该节点将成为根节点（只有拖拽到zTree边缘时才能成为根节点）</li>
+					<li>B、拖拽到其他节点上时请注意 “箭头图标” 位置（目标节点的上、中、下）</li>
+					<li>C、拖拽到边缘时，滚动条能够自动移动</li>
 				</ul>
 				<ul class="remark">
-					<li>编辑状态时，可以修改节点的名称，以及删除节点。</li>
+					<li>3、进入编辑状态时，禁止异步加载</li>
+				</ul>
+				<ul class="event">
+					<li>编辑状态与异步加载模式共存，容易造成数据混乱，不利于管理。如果你的需求必须使用此功能，建议利用zTree提供的接口进行异步操作。</li>
 				</ul>
 				<ul class="remark">
-					<li>v2.2版本可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
+					<li>4、编辑状态时，可以修改节点的名称，以及删除节点</li>
+				</ul>
+				<ul class="event">
+					<li>A、按钮可统一设定是否显示</li>
+					<li>B、按钮可根据节点由需求决定是否显示</li>
+					<li>C、自定义控件请参考“高级应用演示” 中的 “添加自定义控件”</li>
 				</ul>
 			</li>
 		</div>	

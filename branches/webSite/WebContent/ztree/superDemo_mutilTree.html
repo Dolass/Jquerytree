@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,8 +14,12 @@
 	var setting;
 
 		setting = {
+			editable: true,
+			edit_renameBtn:false,
+			edit_removeBtn:false,
 			callback: {
-				click:	zTreeOnClick
+				click:	zTreeOnClick,
+				drop: zTreeOnDrop
 			}
 		};
 
@@ -42,6 +46,11 @@
 				preSelectedNode2 = treeNode;
 			}
 		}
+	}
+
+	function zTreeOnDrop(event, treeId, treeNode, targetNode, moveType) {
+		preSelectedNode1 = zTree1.getSelectedNode();
+		preSelectedNode2 = zTree2.getSelectedNode();
 	}
 
 	function moveTreeL2R() {
@@ -103,17 +112,20 @@
 		<div class="demoContent">
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>两棵树之间数据交互说明
-				<ul class="operate">
-					1、重新点击已选中的节点，可以取消被选中状态。
+				<ul class="operate" style="color:red">
+					1、使用最新的 v2.3 版本，可以直接使用鼠标在多棵树之间拖拽节点。
 				</ul>
 				<ul class="operate">
-					2、目标树没有被选中节点时，则直接转移到根节点。
+					2、拖拽规则请参考“编辑演示”的说明。
 				</ul>
 				<ul class="operate">
-					3、转移节点代码请务先执行 srcTree.removeNode(srcNode) 方法，后执行 targetTree.addNodes(targetNode, [srcNode]) 方法。
+					3、重新点击已选中的节点，可以取消被选中状态；目标树没有被选中节点时，则直接转移到根节点。
+				</ul>
+				<ul class="operate">
+					4、转移节点代码请务先执行 srcTree.removeNode(srcNode) 方法，后执行 targetTree.addNodes(targetNode, [srcNode]) 方法。
 				</ul>
 				<ul class="operate" style="color:red">
-					4、需要使用 cancelSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
+					5、需要使用 cancelSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
 				</ul>
 				<ul></ul>
 			</li>

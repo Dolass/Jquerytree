@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -20,6 +20,7 @@
 	 	];
 
 		setting = {
+			expandSpeed: "",
 			callback: {
 				beforeExpand: zTreeBeforeExpand,
 				beforeCollapse: zTreeBeforeCollapse,
@@ -32,8 +33,8 @@
 		reloadTree();
 	});
 
-//	var asyncUrl = "asyncData/nodeForHugeData.jsp";
-	var asyncUrl = "asyncData/nodeForHugeData.php";
+	var asyncUrl = "asyncData/nodeForHugeData.jsp";
+//	var asyncUrl = "asyncData/nodeForHugeData.php";
 	var isGetNodes = false;
 	var curParentNode = null;
 	var startTime = 0;
@@ -80,6 +81,7 @@
 			data: tmpParam,
 			success: function(msg) {
 				if (!msg || msg.length == 0) {
+					isGetNodes = false;
 					return;
 				}
 				var newNodes = "";
@@ -175,7 +177,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">高级应用演示<span> —— 异步加载超大数据</span></center>
+<center class="headTitle">大数据量演示<span> —— 高级异步加载</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -202,7 +204,7 @@
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>异步加载说明（此Demo请放到发布目录下执行）
+				<button class="ico books" onfocus="this.blur();"></button>异步加载说明
 				<ul class="remark">
 					此应用完全利用 zTree 提供的接口，针对特殊案例实现的功能。
 				</ul>

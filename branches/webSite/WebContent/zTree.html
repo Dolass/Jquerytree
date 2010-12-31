@@ -59,6 +59,10 @@ function show(demoName) {
 		$("#superAppMenuDiv").show();
 		setSuperApp("1");
 		demoIframe.attr("src", "ztree/superDemo_mutilTree.html");
+	} else if (demoName == 'bigDataDemo') {
+		$("#bigDataMenuDiv").show();
+		setBigData("1");
+		demoIframe.attr("src", "ztree/bigDataDemo_normal.html");
 	} else if (demoName == 'skinDemo') {
 		demoIframe.attr("src", "ztree/skinDemo.html"); 
 	}
@@ -68,6 +72,7 @@ function subMenuHide() {
 	$("#standardMenuDiv").hide();
 	$("#superAppMenuDiv").hide();
 	$("#checkMenuDiv").hide();
+	$("#bigDataMenuDiv").hide();
 }
 
 var curStandardName = "1";
@@ -101,6 +106,18 @@ function setCheck(checkName) {
 	$("#check_" + curCheckName).removeClass("current");
 	$("#check_" + checkName).addClass("current");
 	curCheckName = checkName;
+	return true;
+}
+
+var curBigDataName = "1";
+function setBigData(bigDataName) {
+	if (curBigDataName == bigDataName) {
+		return false;
+	}
+	
+	$("#bigData_" + curBigDataName).removeClass("current");
+	$("#bigData_" + bigDataName).addClass("current");
+	curBigDataName = bigDataName;
 	return true;
 }
 
@@ -188,10 +205,17 @@ function goDownloadzTree() {
 					</td>
 					<td>
 						<li id="jscontrolDemo_li">
-						<a onclick="show('jscontrolDemo');" title="JS操作 & 大数据量 演示">
+						<a onclick="show('jscontrolDemo');" title="JS操作">
 						<button class="ico jscontrolDemo" onfocus="this.blur();"></button>
-						<ul>JS操作 &amp;</ul>
-						<ul>大数据量 演示</ul>
+						<ul>JS操作</ul>
+						</a>
+						</li>
+					</td>
+					<td>
+						<li id="bigDataDemo_li">
+						<a onclick="show('bigDataDemo');" title="大数据量演示">
+						<button class="ico download" onfocus="this.blur();"></button>
+						<ul>大数据量演示</ul>
 						</a>
 						</li>
 					</td>
@@ -208,14 +232,6 @@ function goDownloadzTree() {
 						<a onclick="show('skinDemo');" title="皮肤演示">
 						<button class="ico skinDemo" onfocus="this.blur();"></button>
 						<ul>皮肤演示</ul>
-						</a>
-						</li>
-					</td>
-					<td>
-						<li id="download_li">
-						<a onclick="goDownloadzTree();" title="下载 zTree">
-						<button class="ico download" onfocus="this.blur();"></button>
-						<ul>下载 zTree</ul>
 						</a>
 						</li>
 					</td>
@@ -249,7 +265,11 @@ function goDownloadzTree() {
 			</div>
 			<div id="superAppMenuDiv" class="superMenu" style="display:none">
 				<a id="app_1" href="ztree/superDemo_mutilTree.html" target="demoIframe" class="current" onclick="return setSuperApp('1');">两棵树之间数据交互</a> 
-				| <a id="app_2" href="ztree/superDemo_hugeData.html" target="demoIframe" onclick="return setSuperApp('2');">异步加载超大数据</a>
+				| <a id="app_2" href="ztree/superDemo_diyBtn.html" target="demoIframe" onclick="return setSuperApp('2');">添加自定义控件</a>
+			</div>
+			<div id="bigDataMenuDiv" class="superMenu" style="display:none">
+				<a id="bigData_1" href="ztree/bigDataDemo_normal.html" target="demoIframe" class="current" onclick="return setBigData('1');">普通加载</a> 
+				| <a id="bigData_2" href="ztree/bigDataDemo_super.html" target="demoIframe" onclick="return setBigData('2');">高级异步加载</a>
 			</div>
 			<div id="checkMenuDiv" class="superMenu" style="display:none">
 				<a id="check_1" href="ztree/checkboxDemo.html" target="demoIframe" class="current" onclick="return setCheck('1');">CheckBox 演示</a> 

@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.2.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -247,11 +247,7 @@
 	}
 
 	function reloadTree() {
-		if ($("#num_1").attr("checked")) {
-			zTree1 = $("#treeDemo").zTree(setting, zNodes.concat(clone(zNodes)));
-		} else {
-			zTree1 = $("#treeDemo").zTree(setting, zNodesBig);
-		}
+		zTree1 = $("#treeDemo").zTree(setting, zNodes.concat(clone(zNodes)));
 		getNodes();
 		$("#renameTxt").attr("value", "");
 		srcLiId = null;
@@ -286,7 +282,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">代码操作演示</center>
+<center class="headTitle">Javascript 操作演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -297,12 +293,15 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>节点列表
-				<ul class="remark">——先选择需要操作的节点，再点击操作指示内的功能按钮</ul>
+				<button class="ico star" onfocus="this.blur();"></button>zTree数据同步演示
 				<ul>
-					节点数据量:&nbsp;
-					<INPUT TYPE="radio" id="num_1" NAME="numRadio" checked onclick="reloadTree();">简单数据&nbsp;
-					<INPUT TYPE="radio" id="num_2" NAME="numRadio" onclick="reloadTree();">大数据量(400个节点)
+				<TABLE border=0 align=center class="tb1">
+					<TR>
+						<TD align=left valign=top>
+						<div  id="srcList" style="width:300px; height:100px; overflow:auto; cursor:pointer; "></div>
+						</TD>
+					</TR>
+				</TABLE>
 				</ul>
 			</li>
 			<li class="title focus">
@@ -351,18 +350,7 @@
 					<br />getNodesByParam 方法演示（需要完全匹配）
 				</ul>
 			</li>
-			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>zTree数据同步演示
-				<ul>
-				<TABLE border=0 align=center class="tb1">
-					<TR>
-						<TD align=left valign=top>
-						<div  id="srcList" style="width:300px; height:200px; overflow:auto; cursor:pointer; "></div>
-						</TD>
-					</TR>
-				</TABLE>
-				</ul>
-			</li>
+			
 		</div>	
 		</TD>
 	</TR>
