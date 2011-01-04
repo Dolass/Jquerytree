@@ -623,14 +623,15 @@
 							}
 						}
 					}
-					if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && treeNode.parentNode != null))) {
-						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
-						tmpTarget = targetSetting.treeObj;
-						tmpTarget.addClass(Class_TmpTargetTree);
-					}
 					
-					//滚动条自动滚动
+					//确保鼠标在zTree内部
 					if (event.target.id == targetSetting.treeObjId || $(event.target).parents("#" + targetSetting.treeObjId).length>0) {
+						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
+						if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && treeNode.parentNode != null))) {
+							tmpTarget = targetSetting.treeObj;
+							tmpTarget.addClass(Class_TmpTargetTree);
+						}
+						//滚动条自动滚动
 						if (isTop) {
 							targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()-10);
 						} else if (isBottom)  {
@@ -743,6 +744,8 @@
 					} else {
 						moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
 					}
+					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+					
 					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
 					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
 
@@ -1446,11 +1449,13 @@
 				if (targetParentNode[setting.nodesCol][i].tId == targetNode.tId) tmpTargetIndex = i;
 			}
 		}
+		var targetIsNewParent = false;
 		if (moveType == MoveType_Inner) {
 			if (targetNodeIsRoot) {
 				//成为根节点，则不操作目标节点数据
 				treeNode.parentNode = null;
 			} else {
+				targetIsNewParent = !targetNode.isParent;
 				targetNode.isParent = true;
 				treeNode.parentNode = targetNode;
 			}
@@ -1521,7 +1526,7 @@
 			targetNode.open = true;
 			target_ulObj.css({"display":"block"});
 			//如果目标节点不是父节点，且不是根，增加树节点展开、关闭事件
-			if (!targetNode.isParent && !targetNodeIsRoot) {
+			if (targetIsNewParent && !targetNodeIsRoot) {
 				target_switchObj.unbind('click');
 				target_switchObj.bind('click',
 						function() {
