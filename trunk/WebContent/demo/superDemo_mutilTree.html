@@ -69,7 +69,8 @@
 		}
 		var targetNode = targetTree.getSelectedNode();
 		srcTree.removeNode(srcNode);		
-		targetTree.addNodes(targetNode, [srcNode]);		
+		targetTree.addNodes(targetNode, [srcNode]);
+		targetTree.selectNode(srcNode);		
 	}
 
 	function reloadTree() {

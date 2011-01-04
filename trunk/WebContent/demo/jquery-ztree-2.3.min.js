@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2010-12-31
+ * Date: 2011-01-04
  *
  */
 (function(e){function kb(a,b){b.unbind(ka);b.bind(ka,function(c,d,f){typeof a.callback.click=="function"&&a.callback.click(c,d,f)});b.unbind(la);b.bind(la,function(c,d,f){typeof a.callback.change=="function"&&a.callback.change(c,d,f)});b.unbind(ma);b.bind(ma,function(c,d,f){typeof a.callback.rename=="function"&&a.callback.rename(c,d,f)});b.unbind(na);b.bind(na,function(c,d,f){typeof a.callback.remove=="function"&&a.callback.remove(c,d,f)});b.unbind(oa);b.bind(oa,function(c,d,f){typeof a.callback.drag==
