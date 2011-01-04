@@ -49,7 +49,6 @@
 
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
-		console.log($("#treeDemo").html());
 		if (treeNode) {
 			$("#onAsyncSuccessNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name );
 		} else {
