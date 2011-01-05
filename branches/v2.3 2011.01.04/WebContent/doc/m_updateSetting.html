@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>updateSetting(setting)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: 无</span>updateSetting(setting)</h2>
+	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>更新 zTree 当前配置信息。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+			<p style="color:red">此方法主要用于 zTree 更为灵活的高级操作，因此使用中请注意以下几点：</p>
+			<p style="color:red">&nbsp;1、更新后配置信息会立即生效，因此对于 <A href="s_showLine.html">showLine</A>、<A href="s_editable.html">editable</A>、<A href="s_checkable.html">checkable</A>... 等影响 zTree 显示的配置最好不要随便修改，如果必须修改，请在更新后使用 <A href="m_refresh.html">refresh()</A> 方法</p>
+			<p style="color:red">&nbsp;2、建议对以下属性可随时修改：<A href="s_asyncUrl.html">asyncUrl</A>、<A href="s_asyncParam.html">asyncParam</A>、<A href="s_asyncParamOther.html">asyncParamOther</A>、<A href="s_checkType.html">checkType</A>、<A href="s_expandSpeed.html">expandSpeed</A>、<A href="s_callback.html">callback</A></p>
+			<p style="color:red">&nbsp;3、无法修改 <A href="s_treeObjId.html">treeObjId</A> 和 <A href="s_root.html">root</A> 属性, 修改节点数据，请参考其他 Node 相关方法</p>
+			<p style="color:red">&nbsp;4、获取当前配置信息，请参考 <A href="m_getSetting.html">getSetting()</A> 方法</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>更新 zTree 当前配置中异步获取数据的URL (Demo中“CheckBox  演示”已经使用了此方法)</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+var xSetting = zTreeObj.getSetting();
+xSetting.asyncUrl = "node.jsp";
+zTreeObj.updateSetting(xSetting);
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_getSetting.html">getSetting()</A></h4>
+
+</div>
+</div>
+
+</body></html>
