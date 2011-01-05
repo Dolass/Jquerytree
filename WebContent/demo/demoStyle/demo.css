@@ -112,6 +112,26 @@ div.demoContent ul.event a{
 	color: #0078ff;
 }
 
+/* ------------- 右键菜单 -----------------  */
+
+div#rMenu {
+	background-color:#555555;
+	text-align: left;
+	padding:2px;
+}
+
+div#rMenu ul {
+	margin:1px 0;
+	padding:0 5px;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color:#DFDFDF;
+}
+div#rMenu ul li {
+	margin:0;
+	padding:2px 0;
+}
+
 /* ------------- 图标按钮 -----------------  */
 button.ico {
 	width:26px; height:26px; 
