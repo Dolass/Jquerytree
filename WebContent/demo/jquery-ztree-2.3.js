@@ -1,10 +1,10 @@
 /*
- * JQuery zTree 2.3
+ * JQuery zTree 2.4 Beta
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2011-01-04
+ * Date: 2011-01-11
  *
  */
 
@@ -1245,9 +1245,12 @@
 					ulObj.show();
 					if (typeof callback == "function") callback();
 				} else {
-					if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)
+					if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
 						ulObj.show(setting.expandSpeed, callback);
-					else if (typeof callback == "function") callback();
+					} else {
+						ulObj.show();
+						if (typeof callback == "function") callback();
+					}
 				}
 			} else {
 				replaceSwitchClass(switchObj, FolderMark_Close);
@@ -1258,6 +1261,7 @@
 					if (typeof callback == "function") callback();
 				} else {
 					ulObj.hide(setting.expandSpeed, callback);
+					console.log(callback);
 				}
 			}
 		} else {
@@ -1945,7 +1949,6 @@
 					//如果展开某节点，则必须展开其全部父节点
 					//为了保证效率,展开父节点时不使用动画
 					if (treeNode.parentNode) expandCollapseParentNode(this.setting, treeNode.parentNode, expandSign, false);
-					expandAndCollapseNode(this.setting, treeNode, expandSign, true);
 				}
 				if (sonSign) {
 					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
