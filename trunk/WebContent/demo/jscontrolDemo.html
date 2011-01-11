@@ -13,20 +13,46 @@
 	var zTree1;
 	var setting;
 
-		setting = {
-			checkable : true,
-			callback: {
-				click:	zTreeOnClick
-			}
-			
-		};
+	setting = {
+		checkable : true,
+		callback: {
+			beforeClick: zTreeBeforeClick,
+			click:	zTreeOnClick,
+			change: zTreeOnChange
+		}
+	};
 
 	$(document).ready(function(){
 		reloadTree();
 	});
 
+	var srcNode = null;
 	function zTreeOnClick(event, treeId, treeNode) {
-		selectNode("srcList", "demo_srcList_"+treeNode.tId, treeNode.tId, false);
+		var p = "[" + treeNode.name + "]";
+		var pNode = treeNode.parentNode;
+		while (pNode != null) {
+			p = "[" + pNode.name + "] -- " + p;
+			pNode = pNode.parentNode;
+		}
+		p = "[Root] -- " + p;
+		$("#curNodePath").html(p);
+		$("#renameTxt").attr("value", treeNode.name);
+		srcNode = treeNode;
+		
+	}
+	function zTreeBeforeClick(treeId, treeNode) {
+		var canClick = (treeNode!=zTree1.getSelectedNode());
+		if (!canClick) {
+			zTree1.cancelSelectedNode();
+			$("#renameTxt").attr("value", "");
+			srcNode = null;
+			$("#curNodePath").html("[Root]");
+		}
+		return canClick;
+	}
+	
+	function zTreeOnChange(event, treeId, treeNode) {
+		getNodes();
 	}
 	
 	function expandAll(expandSign) {
@@ -34,18 +60,17 @@
 	}
 
 	function expandNode(expandSign) {
-		if (srcLiId) {
+		if (srcNode) {
 			zTree1.expandNode(srcNode, expandSign, $("#sonChk").attr("checked"));
 		}
 	}
 
 	var addCount = 1;
-	function addNode() {
-		if (srcLiId) {
-			zTree1.addNodes(srcNode, [{ name:"增加" + (addCount++)}]);
-			getNodes();
-
-		}
+	function addNode(type) {
+		var newNode = [{ name:"增加" + (addCount++)}];
+		if (type=="p") newNode[0].isParent = true;
+		zTree1.addNodes(srcNode, newNode);
+		getNodes();
 	}
 	function removeTreeNode() {
 		if (srcNode) {
@@ -110,33 +135,11 @@
 	}
 
 	function getNodes() {
-		if (zTree1) {
-			var nodes = zTree1.getNodes();
-			$("#srcList").html("");
-			$("#srcList").append("<li id='demo_Root_srcList' style='line-height:20px;' onclick='selectNode(\"srcList\", this.id, null, true)'>根 Root</li>");
-			getNodesList("srcList", nodes);
-
-			if (srcLiId && $("#" + srcLiId).length>0) {
-				$("#" + srcLiId).addClass("selectLi");
-			} else {
-				srcLiId = null;
-				srcNode = null;
-			}
-		}
-	}
-
-	function getNodesList(nListId, nodes) {
-		if (!nodes) return;
-		for (var i=0; i<nodes.length ; i++ ) {
-			var space = "";
-			for (var s = 0; s<nodes[i].level; s++ ) {
-				space = space + "--";
-			}
-			$("#" + nListId).append("<li id='demo_" + nListId + "_" + nodes[i].tId+ "' style='line-height:20px;' onclick='selectNode(\""+ nListId + "\", this.id, \""+ nodes[i].tId + "\", true)'  onmouseover='mouseOverLi(this);' onmouseout='mouseOutLi(this);'></li>");
-			$("#demo_" + nListId + "_" + nodes[i].tId).text(makeListName(nodes[i]));
-			$("#demo_" + nListId + "_" + nodes[i].tId).prepend("<button id='demo_" + nListId + "_" + nodes[i].tId+ "_image' class='emptyButton' />");
-			getNodesList(nListId, nodes[i].nodes);
-		}
+		var a = zTree1.transformToArray(zTree1.getNodes());
+		$("#allNum").html(a.length);
+		a = zTree1.getCheckedNodes();
+		$("#allCheckNum").html(a.length);
+		
 	}
 
 	function makeListName(node) {
@@ -160,47 +163,15 @@
 		}
 	}
 
-	var srcLiId;
-	var srcNode;
-	function selectNode(listId, liId, tId, goTreeFlag) {
-		var node = zTree1.getNodeByTId(tId);
-		srcNode = node;
-		if (srcLiId) {
-			$("#" + srcLiId).removeClass();
-		}
-		srcLiId = liId;
-		var curLiObj = $("#" + srcLiId);
-		curLiObj.removeClass();
-
-		if (!node) {
-			zTree1.cancelSelectedNode();
-			$("#renameTxt").attr("value", "");
-			curLiObj.addClass("selectLi");
-			$("#" + srcLiId + "_image").focus();
-		} else if (node && ((goTreeFlag && node!=zTree1.getSelectedNode()) || (!goTreeFlag))) {
-			zTree1.selectNode(node);
-			$("#renameTxt").attr("value", node.name);
-			curLiObj.addClass("selectLi");
-			$("#" + srcLiId + "_image").focus();
-		} else {
-			zTree1.cancelSelectedNode();
-			$("#renameTxt").attr("value", "");
-			node = null;
-			srcLiId = null;
-			srcNode = null;				
-		}
-	}
-
 	function renameTreeNode(txtObj) {
 		if (!srcNode) {
 			alert("请先选中一个节点");
+			$("#renameTxt").attr("value", "");
 			return;
 		}
 		srcNode.name = txtObj.value;
 		zTree1.updateNode(srcNode);
 		zTree1.selectNode(srcNode);
-		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
-		$("#demo_srcList_" + srcNode.tId).prepend("<button id='demo_srcList_" + srcNode.tId+ "_image' class='emptyButton' />");
 		
 	}
 	function checkTreeNode(checked) {
@@ -211,8 +182,6 @@
 		var connFlag = $("#connTrue").attr("checked");
 		srcNode.checked = checked;
 		zTree1.updateNode(srcNode, connFlag);
-		$("#demo_srcList_" + srcNode.tId).text(makeListName(srcNode));
-		$("#demo_srcList_" + srcNode.tId).prepend("<button id='demo_srcList_" + srcNode.tId+ "_image' class='emptyButton' />");
 	}
 	function checkAllTreeNode(checked) {
 		zTree1.checkAllNodes(checked);
@@ -232,26 +201,28 @@
 	
 	function getNodesByParam() {
 		var key = $("#searchKey2").get(0).value;
-		if (key.length > 0) {
-			treeNodes = zTree1.getNodesByParam("name", key);
-			if (treeNodes && treeNodes.length>0) {
-				var msg = "找到节点信息: ";
-				for (var i=0; i<treeNodes.length; i++) {
-					msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
-				}
-				alert(msg);
-			} else {
-				alert("没有找到匹配的节点，请更换搜索条件");
+		if (key.length == 0 || isNaN(key)) {
+			alert('请输入数字！')
+			return; 
+		}
+		key = parseInt(key);
+		treeNodes = zTree1.getNodesByParam("level", key);
+		if (treeNodes && treeNodes.length>0) {
+			var msg = "找到节点信息: ";
+			for (var i=0; i<treeNodes.length; i++) {
+				msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
 			}
+			alert(msg);
+		} else {
+			alert("没有找到匹配的节点，请更换搜索条件");
 		}
 	}
 
 	function reloadTree() {
-		zTree1 = $("#treeDemo").zTree(setting, zNodes.concat(clone(zNodes)));
-		getNodes();
+		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
 		$("#renameTxt").attr("value", "");
-		srcLiId = null;
-		srcNode = null;
+		$("#curNodePath").html("[Root]");
+		getNodes();
 		
 	}	
 
@@ -293,25 +264,20 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>zTree数据同步演示
-				<ul>
-				<TABLE border=0 align=center class="tb1">
-					<TR>
-						<TD align=left valign=top>
-						<div  id="srcList" style="width:300px; height:100px; overflow:auto; cursor:pointer; "></div>
-						</TD>
-					</TR>
-				</TABLE>
-				</ul>
+				<button class="ico star" onfocus="this.blur();"></button>获取数据
+				<ul class="remark">1、总节点数：<span id="allNum"></span>; 总Check节点数：<span id="allCheckNum"></span></ul>
+				<ul class="remark" style="white-space: normal;">2、当前选中节点</ul>
+				<ul class="event"><li><span id="curNodePath"></span></li></ul>
 			</li>
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>操作指示
 				<ul class="operate">
-					修改选中节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
+					修改节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
 				</ul>
 				<ul class="operate">
-					给选中节点增加子节点: <button class="ico addNode" onfocus="this.blur();" title="增加节点" onclick="addNode();"></button>
-					删除选中节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
+					增加父节点: <button class="ico addNode" onfocus="this.blur();" title="增加父节点" onclick="addNode('p');"></button>
+					增加普通节点: <button class="ico addNode" onfocus="this.blur();" title="增加普通节点" onclick="addNode();"></button>
+					删除节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
 				</ul>
 				<ul class="operate">
 					修改选中节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check节点" onclick="checkTreeNode(true);"></button>
@@ -340,12 +306,12 @@
 					折叠<button class="ico collapseNode" onfocus="this.blur();" title="全部折叠" onclick="expandAll(false);"></button> 
 				</ul>
 				<ul class="operate">
-					关键字搜索单个节点: <input type="text" value="手机" id="searchKey"></input>
+					名称匹配搜索单个节点: <input type="text" value="手机" id="searchKey"></input>
 					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodeByParam();"></button>
 					<br />getNodeByParam 方法演示（需要完全匹配）
 				</ul>
 				<ul class="operate">
-					关键字搜索节点集合: <input type="text" value="手机" id="searchKey2"></input>
+					level搜索节点集合: <input type="text" value="0" id="searchKey2"></input>
 					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParam();"></button>
 					<br />getNodesByParam 方法演示（需要完全匹配）
 				</ul>
