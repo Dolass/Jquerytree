@@ -14,7 +14,7 @@ class DemoData {
 	var $demoDataMap = array();
 	
 	public function getDataByPId($pId) {
-		if ($pId!=null && $this->demoDataMap[$pId]!=null) {
+		if ($pId!=null && array_key_exists($pId,$this->demoDataMap) && $this->demoDataMap[$pId]) {
 			return $this->demoDataMap[$pId]->nodes;
 		} else {
 			return $this->demoDataList;
@@ -1222,7 +1222,7 @@ class DemoData {
    		
    		for ($i = 0; $i < count($this->demoDataMap); $i++) {
    			$d = $this->demoDataMap[$i];
-   			if ($this->demoDataMap[$d->pId]!=null) {
+   			if (array_key_exists($d->pId,$this->demoDataMap) && $this->demoDataMap[$d->pId]) {
 	    		$this->demoDataMap[$d->pId]->nodes[] = $d;
 	    	} else {
 	    		$this->demoDataList[] = $d;
@@ -1232,9 +1232,11 @@ class DemoData {
 }
 ?>
 [<?
-$pId = $_REQUEST["prod_id"];
-if ($pId==null) $pId = "-1";
-
+$pId = "-1";
+if(array_key_exists( 'prod_id',$_REQUEST)) {
+	$pId=$_REQUEST['prod_id'];
+}
+if ($pId==null || $pId=="") $pId = "-1";
 $d = new DemoData;
 $nodes = $d->getDataByPId($pId);
 
