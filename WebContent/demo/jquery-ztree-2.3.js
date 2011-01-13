@@ -1079,6 +1079,18 @@
 		obj.addClass(CheckBox_Default);
 		obj.addClass(chkName);
 	}
+	function repairAllChk(setting, checked) {
+		if (setting.checkable) {
+			for (var son = 0; son < setting.root[setting.nodesCol].length; son++) {
+				var treeNode = setting.root[setting.nodesCol][son];
+				treeNode[setting.checkedCol] = checked;
+				checkNodeRelation(setting, treeNode);
+				var checkObj = $("#" + treeNode.tId + IDMark_Check);
+				setChkClass(setting, checkObj, treeNode);
+				repairParentChkClassWithSelf(setting, treeNode);
+			}
+		}
+	}
 	//修正父节点选择的样式
 	function repairParentChkClass(setting, treeNode) {
 		if (!treeNode || !treeNode.parentNode) return;
@@ -1986,9 +1998,7 @@
 			},
 			
 			checkAllNodes : function(checked) {
-				if (this.setting.checkable) {
-					setSonNodeCheckBox(this.setting, this.setting.root, (checked==true));
-				}
+				repairAllChk(this.setting, checked);
 			},
 			
 			reAsyncChildNodes : function(parentNode, reloadType) {
