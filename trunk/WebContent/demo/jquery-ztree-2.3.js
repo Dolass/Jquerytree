@@ -1179,8 +1179,14 @@
 		for (var i = 0; treeNode && i < setting.asyncParam.length; i++) {
 			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParam[i] + "=" + treeNode[setting.asyncParam[i]];
 		}
-		for (var i = 0; i < setting.asyncParamOther.length; i += 2) {
-			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParamOther[i] + "=" + setting.asyncParamOther[i + 1];
+		if (Object.prototype.toString.apply(setting.asyncParamOther) === "[object Array]") {
+			for (var i = 0; i < setting.asyncParamOther.length; i += 2) {
+				tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParamOther[i] + "=" + setting.asyncParamOther[i + 1];
+			}
+		} else {
+			for (var p in setting.asyncParamOther) {
+	            tmpParam += (tmpParam.length > 0 ? "&" : "") + p + "=" + setting.asyncParamOther[p];
+			}
 		}
 		
 		var url = setting.asyncUrl;

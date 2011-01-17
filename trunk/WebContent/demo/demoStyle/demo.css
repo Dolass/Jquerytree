@@ -112,6 +112,22 @@ div.demoContent ul.event a{
 	color: #0078ff;
 }
 
+div.demoContent a {
+	cursor: pointer;
+	text-decoration:none;
+}
+div.demoContent a:hover{
+	text-decoration:underline;
+}
+
+div.demoContent a.disabled{
+	color: #898D8A;
+	text-decoration:line-through;
+}
+div.demoContent a.able{
+	color: #1D11F0;
+}
+
 /* ------------- 右键菜单 -----------------  */
 
 div#rMenu {

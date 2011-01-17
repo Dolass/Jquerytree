@@ -37,8 +37,9 @@
 		p = "[Root] -- " + p;
 		$("#curNodePath").html(p);
 		$("#renameTxt").attr("value", treeNode.name);
+		$("#jCopy").attr("class","able");
+		$("#jxCopy").attr("class","able");
 		srcNode = treeNode;
-		
 	}
 	function zTreeBeforeClick(treeId, treeNode) {
 		var canClick = (treeNode!=zTree1.getSelectedNode());
@@ -47,6 +48,8 @@
 			$("#renameTxt").attr("value", "");
 			srcNode = null;
 			$("#curNodePath").html("[Root]");
+			$("#jCopy").attr("class","disabled");
+			$("#jxCopy").attr("class","disabled");
 		}
 		return canClick;
 	}
@@ -271,6 +274,9 @@
 			</li>
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>操作指示
+				<ul class="operate">
+					[<a id="jCopy" class="disabled">复制</a>] [<a id="jxCopy" class="disabled">剪切</a>] [<a id="jPaste">粘贴</a>]
+				</ul>
 				<ul class="operate">
 					修改节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
 				</ul>
