@@ -1279,7 +1279,6 @@
 					if (typeof callback == "function") callback();
 				} else {
 					ulObj.hide(setting.expandSpeed, callback);
-					console.log(callback);
 				}
 			}
 		} else {
@@ -2028,7 +2027,8 @@
 			addNodes : function(parentNode, newNodes, isSilent) {
 				if (!newNodes) return;
 				if (!parentNode) parentNode = null;
-				addTreeNodes(this.setting, parentNode, newNodes, (isSilent==true));
+				var xNewNodes = (Object.prototype.toString.apply(newNodes) === "[object Array]")? newNodes: [newNodes];
+				addTreeNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
 			},
 			
 			updateNode : function(treeNode, checkTypeFlag) {
