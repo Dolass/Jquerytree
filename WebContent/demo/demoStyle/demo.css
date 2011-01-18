@@ -127,6 +127,9 @@ div.demoContent a.disabled{
 div.demoContent a.able{
 	color: #1D11F0;
 }
+div.demoContent span.info{
+	color: #28B30B;
+}
 
 /* ------------- 右键菜单 -----------------  */
 

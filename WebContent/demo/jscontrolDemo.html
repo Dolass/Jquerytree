@@ -28,17 +28,10 @@
 
 	var srcNode = null;
 	function zTreeOnClick(event, treeId, treeNode) {
-		var p = "[" + treeNode.name + "]";
-		var pNode = treeNode.parentNode;
-		while (pNode != null) {
-			p = "[" + pNode.name + "] -- " + p;
-			pNode = pNode.parentNode;
-		}
-		p = "[Root] -- " + p;
-		$("#curNodePath").html(p);
+		$("#curNodePath").html(getNodePath(treeNode));
 		$("#renameTxt").attr("value", treeNode.name);
-		$("#jCopy").attr("class","able");
-		$("#jxCopy").attr("class","able");
+		showCopy(treeNode);
+		showPaste(treeNode);
 		srcNode = treeNode;
 	}
 	function zTreeBeforeClick(treeId, treeNode) {
@@ -47,9 +40,9 @@
 			zTree1.cancelSelectedNode();
 			$("#renameTxt").attr("value", "");
 			srcNode = null;
-			$("#curNodePath").html("[Root]");
-			$("#jCopy").attr("class","disabled");
-			$("#jxCopy").attr("class","disabled");
+			$("#curNodePath").html(getNodePath(null));
+			showCopy(null);
+			showPaste(null);
 		}
 		return canClick;
 	}
@@ -221,14 +214,124 @@
 		}
 	}
 
-	function reloadTree() {
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
+	function reloadTree(node) {
+		zTree1 = $("#treeDemo").zTree(setting, node?node:clone(zNodes));
 		$("#renameTxt").attr("value", "");
 		$("#curNodePath").html("[Root]");
 		getNodes();
-		
+		initCopy();
 	}	
 
+	function getNodePath(treeNode) {
+		if (!treeNode) return "[Root]";
+		var p = "[" + treeNode.name + "]";
+		var pNode = treeNode.parentNode;
+		while (pNode != null) {
+			p = "[" + pNode.name + "] -- " + p;
+			pNode = pNode.parentNode;
+		}
+		p = "[Root] -- " + p;
+		return p;
+	}
+
+	function initCopy() {
+		$("#jCopy").attr("class","disabled");
+		$("#jCut").attr("class","disabled");
+		$("#jPaste").attr("class","disabled");
+	}
+	function showCopy(treeNode) {
+		var canPaste = true;
+		if (!treeNode) canPaste = false; 
+		if (canPaste) {
+			$("#jCopy").attr("class","able");
+			$("#jCut").attr("class","able");
+		} else {
+			$("#jCopy").attr("class","disabled");
+			$("#jCut").attr("class","disabled");
+		}
+		
+	}
+	function showPaste(targetNode) {
+		var canPaste = true;
+		
+		if (!clipboard.srcNode || targetNode == clipboard.srcNode) {
+			canPaste = false;
+		} else if (clipboard.type) {
+			if (targetNode == clipboard.srcNode.parentNode && clipboard.type=="cut") {
+				canPaste = false;
+			} else if (targetNode) {
+				var tmpParent = targetNode.parentNode;
+				while (tmpParent && tmpParent != clipboard.srcNode) {
+					tmpParent = tmpParent.parentNode;
+				}
+				if (tmpParent) {
+					canPaste = false;
+				}
+			}
+		}
+		 
+		if (canPaste) {
+			$("#jPaste").attr("class","able");
+		} else {
+			$("#jPaste").attr("class","disabled");
+		}
+	}
+	var clipboard = {};
+	function zCopy(type) {
+		var treeNode = zTree1.getSelectedNode();
+		if ($("#jCopy").attr("class") == "disabled" || !treeNode) {
+			alert("请先选择需要" + (type=="copy"?"复制":"剪切") + "节点..");
+		} else if (treeNode) {
+			clipboard.type = type;
+			clipboard.srcNode = treeNode;
+			$("#jClip").text("......[" + treeNode.name + "] 被" + (type=="copy"?"复制":"剪切"));
+		}
+	}
+	function zPaste() {
+		var treeNode = zTree1.getSelectedNode();
+		if (!clipboard.srcNode) {
+			alert("请先 复制 或 剪切 节点..");
+		} else if ($("#jPaste").attr("class") == "disabled") {
+			alert("无法粘贴..");
+		} else {
+			if (clipboard.type=="copy") {
+				var srcNode = clone(clipboard.srcNode);
+				zTree1.addNodes(treeNode, srcNode, false);
+				zTree1.selectNode(srcNode);
+			} else if (clipboard.type=="cut") {
+				zTree1.removeNode(clipboard.srcNode);
+				zTree1.addNodes(treeNode, clipboard.srcNode, false);
+				zTree1.selectNode(clipboard.srcNode);
+				showCopy(clipboard.srcNode);
+				clipboard.type==null;
+				clipboard.srcNode = null;
+				showPaste(clipboard.srcNode);
+				$("#jClip").text("");
+			}
+			setBack();
+		}
+	}
+	var gobackPool = [];
+	var curBack = 0;
+	var poolMax = 20;
+	function setBack() {
+		var n = clone(zTree1.getNodes());
+		gobackPool.splice(curBack, (gobackPool.length-curBack-1), n);
+		if (gobackPool.length>=poolMax) {
+			gobackPool.splice(0,1);
+		}
+		curBack = gobackPool.length-1;
+	}
+	function goBack() {
+		var n = gobackPool[curBack];
+		reloadTree(n);
+		curBack--;
+	}
+	function refreshBack() {
+		
+	}
+		
+	
 	function clone(jsonObj) {
 	    var buf;
 	    if (jsonObj instanceof Array) {
@@ -243,7 +346,9 @@
 	    }else if (jsonObj instanceof Object){
 	        buf = {};
 	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k]);
+		        if (k!="parentNode") {
+		            buf[k] = clone(jsonObj[k]);
+		        }
 	        }
 	        return buf;
 	    }else{
@@ -275,7 +380,12 @@
 			<li class="title focus">
 				<button class="ico star" onfocus="this.blur();"></button>操作指示
 				<ul class="operate">
-					[<a id="jCopy" class="disabled">复制</a>] [<a id="jxCopy" class="disabled">剪切</a>] [<a id="jPaste">粘贴</a>]
+					[<a id="jCopy" class="disabled" onclick="zCopy('copy'); return false;">复制</a>] [<a id="jCut" class="disabled" onclick="zCopy('cut'); return false;">剪切</a>] [<a id="jPaste" class="disabled" onclick="zPaste(); return false;">粘贴</a>]
+					<span id="jClip" class="info"></span>
+				</ul>
+				<ul class="operate">
+					[<a id="jGoBack" class="disabled" onclick="zCopy('copy'); return false;">撤销</a>] [<a id="jCut" class="disabled" onclick="zCopy('cut'); return false;">重做</a>] [<a id="jPaste" class="disabled" onclick="zPaste(); return false;">粘贴</a>]
+					<span id="jClip" class="info"></span>
 				</ul>
 				<ul class="operate">
 					修改节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
