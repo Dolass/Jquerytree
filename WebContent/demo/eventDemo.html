@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -29,7 +29,8 @@
 				beforeRemove: zTreeBeforeRemove,
 				beforeExpand: zTreeBeforeExpand,
 				beforeCollapse: zTreeBeforeCollapse,
-				
+
+				nodeCreated: zTreeOnNodeCreated,
 				click: zTreeOnClick,
 				rightClick: zTreeRightClick,
 				mouseDown: zTreeMouseDown,
@@ -111,6 +112,13 @@
 		return r;
 	}
 
+	var createdCount = 0;
+	function zTreeOnNodeCreated(event, treeId, treeNode) {
+		createdCount++;
+		$("#onNodeCreated").html( "Created 计数：" + createdCount);
+		
+	}
+	
 	function zTreeOnClick(event, treeId, treeNode) {
 		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
 	}
@@ -304,6 +312,10 @@
 						</td>
 					</tr>
 					</TABLE>
+				</ul>
+				<ul class="remark">onNodeCreated 事件可以得到任意节点渲染完毕的信息</ul>
+				<ul class="event">
+				onNodeCreated 事件:&nbsp;&nbsp;<a id="onNodeCreated"><br/></a><br/>
 				</ul>
 				<ul class="event">
 				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>

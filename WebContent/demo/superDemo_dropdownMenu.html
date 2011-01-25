@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
@@ -16,6 +16,7 @@
 		isSimpleData: true,
 		treeNodeKey: "id",
 		treeNodeParentKey: "pId",
+		fontCss: setFont,
 		callback: {
 			beforeExpand: function(){return false;},
 			beforeCollapse: function(){return false;},
@@ -58,6 +59,14 @@
 				}
 			});
 	});
+
+	function setFont(treeId, treeNode) {
+		if (treeNode && treeNode.isParent) {
+			return {color: "blue"};
+		} else {
+			return null;
+		}
+	}
 
 	function showMenu() {
 		var cityObj = $("#citySel");
