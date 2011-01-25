@@ -6,7 +6,7 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-   # 【增加】treeNodeCreated事件，即每个节点渲染完毕后发出通知
+   # 【增加】nodeCreated事件，即每个节点渲染完毕后发出通知
    # 【修改】asyncParamOther参数，允许其支持Json对象
    # 【修改】addNodes方法，允许newNodes参数是单个的Json数据，而不限定必须为Array
 
