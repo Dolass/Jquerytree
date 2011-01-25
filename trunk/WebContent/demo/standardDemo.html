@@ -7,19 +7,38 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeIcons.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
   <script type="text/javascript" src="demo.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
 
 		var setting = {
+			fontCss: setFont,
 			showLine: true
 		};
 
 	$(document).ready(function(){
 		reloadTree("1");
 	});
+
+	var colorR = 16;
+	var colorG = 80;
+	var colorB = 120;
+	function setFont(treeId, treeNode) {
+		if (treeNode && treeNode.isParent) {
+			var css = {color: "#"+colorR.toString(16)+colorG.toString(16)+colorB.toString(16)};
+			colorR+=16;
+			colorG+=20;
+			colorB+=30;
+			if (colorR>255) colorR = 16;
+			if (colorG>255) colorG = 16;
+			if (colorB>255) colorB = 16;
+			return css;
+		} else {
+			return null;
+		}
+	}
 
 	function changeIconSkin(zNodes, skinName) {
 		if ($("#standardData").attr("checked")) {

@@ -1,15 +1,16 @@
 /*
- * JQuery zTree 2.4 Beta
+ * JQuery zTree 2.4
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2011-01-11
+ * Date: 2011-02-10
  *
  */
 
 (function($) {
 
+	var ZTREE_NODECREATED = "ZTREE_NODECREATED";
 	var ZTREE_CLICK = "ZTREE_CLICK";
 	var ZTREE_RIGHTCLICK = "ZTREE_RIGHTCLICK";
 	var ZTREE_CHANGE = "ZTREE_CHANGE";
@@ -129,6 +130,8 @@
 			removeHoverDom:null,
 			//永久自定义显示控件方法
 			addDiyDom:null,
+			//字体个性化样式接口
+			fontCss:"",
 			
 			root: {
 				isRoot: true,
@@ -148,6 +151,7 @@
 				beforeExpand:null,
 				beforeCollapse:null,
 				
+				nodeCreated:null,
 				click:null,
 				rightClick:null,
 				mouseDown:null,
@@ -204,7 +208,7 @@
 		}
 		settings[setting.treeObjId] = setting;
 
-		$("#" + setting.treeObjId).empty();
+		setting.treeObj.empty();
 
 		bindTreeNodes(setting, this);
 
@@ -220,6 +224,11 @@
 
 	//绑定事件
 	function bindTreeNodes(setting, treeObj) {
+		treeObj.unbind(ZTREE_NODECREATED);		
+		treeObj.bind(ZTREE_NODECREATED, function (event, treeId, treeNode) {
+			if ((typeof setting.callback.nodeCreated) == "function") setting.callback.nodeCreated(event, treeId, treeNode);
+		});
+
 		treeObj.unbind(ZTREE_CLICK);		
 		treeObj.bind(ZTREE_CLICK, function (event, treeId, treeNode) {
 		  if ((typeof setting.callback.click) == "function") setting.callback.click(event, treeId, treeNode);
@@ -270,7 +279,7 @@
 		  if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown);
 		});
 		
-		$("#" + setting.treeObjId).bind('contextmenu',
+		setting.treeObj.bind('contextmenu',
 			function(event) {
 				var targetObj = $(event.target);
 				var treeNode = getTreeNodeByDom(setting, targetObj);
@@ -286,7 +295,7 @@
 				return (typeof setting.callback.rightClick) != "function";
 			});
 		
-		$("#" + setting.treeObjId).bind('mouseup',
+		setting.treeObj.bind('mouseup',
 			function(event) {
 				var targetObj = $(event.target);
 				var treeNode = getTreeNodeByDom(setting, targetObj);
@@ -300,7 +309,7 @@
 				}
 				return true;
 			});
-		$("#" + setting.treeObjId).bind('mousedown',
+		setting.treeObj.bind('mousedown',
 			function(event) {
 				var targetObj = $(event.target);
 				var treeNode = getTreeNodeByDom(setting, targetObj);
@@ -378,7 +387,7 @@
 		//获取父节点
 		var p = treeNode.parentNode;
 		if (!p) {
-			p = $("#" + setting.treeObjId);
+			p = setting.treeObj;
 		} else {
 			p = $("#" + treeNode.parentNode.tId + IDMark_Ul);
 		}
@@ -394,6 +403,16 @@
 		
 		setNodeName(setting, treeNode);
 		setNodeLineIcos(setting, treeNode);
+		
+		var fontCss = {};
+		if ((typeof setting.fontCss) == "function") {
+			fontCss = setting.fontCss(setting.treeObjId, treeNode);
+		} else {
+			fontCss = setting.fontCss;
+		}
+		if (fontCss) {
+			aObj.css(fontCss);
+		}
 		
 		//增加树节点展开、关闭事件
 		ulObj.css({
@@ -421,7 +440,7 @@
 			//设置节点为选中状态
 			selectNode(setting, treeNode);
 			//触发click事件
-			$("#" + setting.treeObjId).trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
+			setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
 		});
 		icoObj.bind('mousedown',
 		function() {
@@ -453,7 +472,7 @@
 				repairParentChkClassWithSelf(setting, treeNode);
 
 				//触发 CheckBox 点击事件
-				$("#" + setting.treeObjId).trigger(ZTREE_CHANGE, [setting.treeObjId, treeNode]);
+				setting.treeObj.trigger(ZTREE_CHANGE, [setting.treeObjId, treeNode]);
 
 			});
 			
@@ -550,7 +569,7 @@
 
 					curNode = $("<ul class='zTreeDragUL'></ul>").append(tmpNode);
 					curNode.attr("id", treeNode.tId + IDMark_Ul + "_tmp");
-					curNode.addClass($("#" + setting.treeObjId).attr("class"));
+					curNode.addClass(setting.treeObj.attr("class"));
 					curNode.appendTo("body");
 
 					tmpArrow = $("<button class='tmpzTreeMove_arrow'></button>");
@@ -558,7 +577,7 @@
 					tmpArrow.appendTo("body");
 
 					//触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
-					$("#" + setting.treeObjId).trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
+					setting.treeObj.trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
 				}
 				
 				if (setting.dragStatus == 1 && tmpArrow.attr("id") != event.target.id) {
@@ -747,11 +766,11 @@
 					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
 					
 					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
-					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
+					setting.treeObj.trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
 
 				} else {
 					//触发 DROP 拖拽事件，返回null
-					$("#" + setting.treeObjId).trigger(ZTREE_DROP, [setting.treeObjId, null, null, null]);
+					setting.treeObj.trigger(ZTREE_DROP, [setting.treeObjId, null, null, null]);
 				}
 			});
 			
@@ -765,6 +784,8 @@
 		if ((typeof setting.addDiyDom) == "function") {
 			setting.addDiyDom(setting.treeObjId, treeNode);
 		}
+		//触发nodeCreated事件
+		setting.treeObj.trigger(ZTREE_NODECREATED, [setting.treeObjId, treeNode]);
 	}
 
 	//获取对象的绝对坐标
@@ -1008,7 +1029,7 @@
 				if (beforeRemove == false) return;
 				removeTreeNode(setting, treeNode);
 				//触发remove事件
-				$("#" + setting.treeObjId).trigger(ZTREE_REMOVE, [setting.treeObjId, treeNode]);
+				setting.treeObj.trigger(ZTREE_REMOVE, [setting.treeObjId, treeNode]);
 				return false;
 			}
 		).bind('mousedown',
@@ -1218,14 +1239,14 @@
 					addTreeNodes(setting, treeNode, [], false);
 				}
 				if (treeNode) treeNode.isAjaxing = undefined;
-				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
+				setting.treeObj.trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				setting.expandTriggerFlag = false;
 				setNodeLineIcos(setting, treeNode);
 				if (treeNode) treeNode.isAjaxing = undefined;
-				$("#" + setting.treeObjId).trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
+				setting.treeObj.trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 			}
 		});
 	}
@@ -1241,10 +1262,10 @@
 			callback = function(){
 				if (treeNode.open) {
 					//触发expand事件
-					$("#" + setting.treeObjId).trigger(ZTREE_EXPAND, [setting.treeObjId, treeNode]);
+					setting.treeObj.trigger(ZTREE_EXPAND, [setting.treeObjId, treeNode]);
 				} else {
 					//触发collapse事件
-					$("#" + setting.treeObjId).trigger(ZTREE_COLLAPSE, [setting.treeObjId, treeNode]);
+					setting.treeObj.trigger(ZTREE_COLLAPSE, [setting.treeObjId, treeNode]);
 				}
 			};
 			setting.expandTriggerFlag = false;
@@ -1373,7 +1394,7 @@
 		}
 		if (parentNode) {
 			//目标节点必须在当前树内
-			if ($("#" + setting.treeObjId).find("#" + parentNode.tId).length == 0) return;
+			if (setting.treeObj.find("#" + parentNode.tId).length == 0) return;
 
 			target_switchObj = $("#" + parentNode.tId + IDMark_Switch);
 			target_icoObj = $("#" + parentNode.tId + IDMark_Icon);
@@ -1529,7 +1550,7 @@
 
 		if (targetNodeIsRoot) {
 			//转移到根节点
-			targetObj = $("#" + setting.treeObjId);
+			targetObj = setting.treeObj;
 			target_ulObj = targetObj;
 		} else {
 			//转移到子节点
@@ -1754,7 +1775,7 @@
 	function editNameOver(newName, setting, treeNode) {
 		treeNode[setting.nameCol] = newName;
 		//触发rename事件
-		$("#" + setting.treeObjId).trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
+		setting.treeObj.trigger(ZTREE_RENAME, [setting.treeObjId, treeNode]);
 		selectNode(setting, treeNode);
 	}
 	
@@ -1843,7 +1864,7 @@
 			},
 
 			refresh : function() {
-				$("#" + this.setting.treeObjId).empty();
+				this.setting.treeObj.empty();
 				this.setting.curTreeNode = null;
 				this.setting.curEditTreeNode = null;
 				this.setting.dragStatus = 0;
