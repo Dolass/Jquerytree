@@ -131,7 +131,7 @@
 			//永久自定义显示控件方法
 			addDiyDom:null,
 			//字体个性化样式接口
-			fontCss:"",
+			fontCss:{},
 			
 			root: {
 				isRoot: true,

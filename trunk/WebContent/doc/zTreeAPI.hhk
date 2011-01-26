@@ -273,6 +273,10 @@
 <PARAM NAME="Local" VALUE="c_FolderMark_Open.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="fontCss">
+<PARAM NAME="Local" VALUE="s_fontCss.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getChangeCheckedNodes()">
 <PARAM NAME="Local" VALUE="m_getChangeCheckedNodes.html">
 </OBJECT>
@@ -441,6 +445,10 @@
 <PARAM NAME="Local" VALUE="s_nameCol.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nodeCreated(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_nodeCreated.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="nodes">
 <PARAM NAME="Local" VALUE="s_nodes.html">
 </OBJECT>
@@ -579,6 +587,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ZTREE_DROP">
 <PARAM NAME="Local" VALUE="c_ZTREE_DROP.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="ZTREE_NODECREATED">
+<PARAM NAME="Local" VALUE="c_ZTREE_NODECREATED.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ZTREE_REMOVE">
