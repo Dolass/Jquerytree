@@ -36,7 +36,7 @@
 			if (colorB>255) colorB = 16;
 			return css;
 		} else {
-			return null;
+			return {};
 		}
 	}
 
@@ -98,6 +98,7 @@
 		if (!type) type = (curType=='0') ? '1' : curType;
 		setting1.nameCol = $("#nameCol_1").attr("checked") ? "name" : "ename";
 		setting1.expandSpeed = $("#speed_1").attr("checked") ? "fast" : ($("#speed_2").attr("checked") ? "slow" : "");
+		setting1.fontCss = $("#font_1").attr("checked") ? setFont : {};
 		
 		if (type=="1") {
 			setting1.showLine = true;
@@ -142,6 +143,7 @@
 		zTree1 = $("#treeDemo").zTree(setting1, zNodes1);
 		$("#nameCode").html(setting1.nameCol);
 		$("#expandSpeedCode").html(setting1.expandSpeed);
+		$("#fontCssCode").html($("#font_1").attr("checked") ? "setFont" : "{}");
 		$("#isSimpleDataCode").html(setting1.isSimpleData + "");
 		
 	}
@@ -201,6 +203,14 @@
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.expandSpeed = "<a id="expandSpeedCode">fast</a>";</li>
+				</ul>
+				<ul>
+					<font color="red">* new *</font> 个性化字体效果:&nbsp;
+					<INPUT TYPE="radio" id="font_1" NAME="fontRadio" checked onclick="reloadTree();">yes 
+					<INPUT TYPE="radio" id="font_2" NAME="fontRadio" onclick="reloadTree();">no(Default)
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.fontCss = <a id="fontCssCode">setFont</a>;</li>
 				</ul>
 				<ul>
 					zTreeNode 数据格式:&nbsp;

@@ -58,6 +58,7 @@ c_ZTREE_CHECK_MAX_ERROR.html
 c_ZTREE_CLICK.html
 c_ZTREE_DRAG.html
 c_ZTREE_DROP.html
+c_ZTREE_NODECREATED.html
 c_ZTREE_REMOVE.html
 c_ZTREE_RENAME.html
 css.html
@@ -77,6 +78,7 @@ e_del.html
 e_expand.html
 e_mouseDown.html
 e_mouseUp.html
+e_nodeCreated.html
 e_rename.html
 e_rightClick.html
 e_zTreeOnAsyncError.html
@@ -143,6 +145,7 @@ s_editable.html
 s_editNameStatus.html
 s_expandSpeed.html
 s_expandTriggerFlag.html
+s_fontCss.html
 s_icon.html
 s_iconSkin.html
 s_isAjaxing.html
