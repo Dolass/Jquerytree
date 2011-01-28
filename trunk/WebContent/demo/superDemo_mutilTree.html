@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
-  <script type="text/javascript" src="demo.js"></script>
+  <script type="text/javascript" src="asyncData/demoData.js"></script>
+  <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1, zTree2;
@@ -76,29 +77,6 @@
 	function reloadTree() {
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, "-t1"));
 		zTree2 = $("#treeDemo2").zTree(setting, clone(zNodes, "-t2"));
-	}
-
-	function clone(jsonObj, newName) {
-	    var buf;
-	    if (jsonObj instanceof Array) {
-	        buf = [];
-	        var i = jsonObj.length;
-	        while (i--) {
-	            buf[i] = clone(jsonObj[i], newName);
-	        }
-	        return buf;
-	    }else if (typeof jsonObj == "function"){
-	        return jsonObj;
-	    }else if (jsonObj instanceof Object){
-	        buf = {};
-	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k], newName);
-	            if (k=="name") buf[k] += newName;
-	        }
-	        return buf;
-	    }else{
-	        return jsonObj;
-	    }
 	}
 
   //-->

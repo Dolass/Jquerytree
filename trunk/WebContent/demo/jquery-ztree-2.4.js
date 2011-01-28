@@ -403,16 +403,7 @@
 		
 		setNodeName(setting, treeNode);
 		setNodeLineIcos(setting, treeNode);
-		
-		var fontCss = {};
-		if ((typeof setting.fontCss) == "function") {
-			fontCss = setting.fontCss(setting.treeObjId, treeNode);
-		} else {
-			fontCss = setting.fontCss;
-		}
-		if (fontCss) {
-			aObj.css(fontCss);
-		}
+		setNodeFontCss(setting, treeNode);
 		
 		//增加树节点展开、关闭事件
 		ulObj.css({
@@ -888,6 +879,19 @@
 		if (treeNode.icon) icoObj.attr("style", "background:url(" + treeNode.icon + ") 0 0 no-repeat;");
 		else icoObj.attr("style", "");
 	}
+	//设置自定义字体样式
+	function setNodeFontCss(setting, treeNode) {
+		var aObj = $("#" + treeNode.tId + IDMark_A);
+		var fontCss = {};
+		if ((typeof setting.fontCss) == "function") {
+			fontCss = setting.fontCss(setting.treeObjId, treeNode);
+		} else {
+			fontCss = setting.fontCss;
+		}
+		if (fontCss) {
+			aObj.css(fontCss);
+		}
+	}
 
 	//对于button替换class 拼接字符串
 	function replaceSwitchClass(obj, newName) {
@@ -1161,17 +1165,18 @@
 	function onSwitchNode(event) {
 		var setting = settings[event.data.treeObjId];
 		var treeNode = event.data.treeNode;
-		setting.expandTriggerFlag = true;
 		
 		if (treeNode.open) {
 			var beforeCollapse = true;
 			if ((typeof setting.callback.beforeCollapse) == "function") beforeCollapse = setting.callback.beforeCollapse(setting.treeObjId, treeNode);
-			if (beforeCollapse == false) {setting.expandTriggerFlag = false; return;}
+			if (beforeCollapse == false) return;
+			setting.expandTriggerFlag = true;
 			switchNode(setting, treeNode);
 		} else {
 			var beforeExpand = true;
 			if ((typeof setting.callback.beforeExpand) == "function") beforeExpand = setting.callback.beforeExpand(setting.treeObjId, treeNode);
-			if (beforeExpand == false) {setting.expandTriggerFlag = false; return;}
+			if (beforeExpand == false) return;
+			setting.expandTriggerFlag = true;
 			switchNode(setting, treeNode);
 		}
 	}
@@ -1280,7 +1285,7 @@
 				replaceSwitchClass(switchObj, FolderMark_Open);
 				replaceIcoClass(icoObj, FolderMark_Open);
 				treeNode.open = true;
-				if (animateSign == false) {
+				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.show();
 					if (typeof callback == "function") callback();
 				} else {
@@ -1295,7 +1300,7 @@
 				replaceSwitchClass(switchObj, FolderMark_Close);
 				replaceIcoClass(icoObj, FolderMark_Close);
 				treeNode.open = false;
-				if (animateSign == false) {
+				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.hide();
 					if (typeof callback == "function") callback();
 				} else {
@@ -2064,6 +2069,7 @@
 				setNodeTarget(treeNode);
 				setNodeUrl(this.setting, treeNode);
 				setNodeLineIcos(this.setting, treeNode);
+				setNodeFontCss(this.setting, treeNode);
 			},
 
 			moveNode : function(targetNode, treeNode, moveType) {
