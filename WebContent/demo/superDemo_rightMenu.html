@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
+  <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
@@ -115,28 +116,6 @@
 		hideRMenu();
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
 	}	
-
-	function clone(jsonObj) {
-	    var buf;
-	    if (jsonObj instanceof Array) {
-	        buf = [];
-	        var i = jsonObj.length;
-	        while (i--) {
-	            buf[i] = clone(jsonObj[i]);
-	        }
-	        return buf;
-	    }else if (typeof jsonObj == "function"){
-	        return jsonObj;
-	    }else if (jsonObj instanceof Object){
-	        buf = {};
-	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k]);
-	        }
-	        return buf;
-	    }else{
-	        return jsonObj;
-	    }
-	} 
 
   //-->
   </SCRIPT>
