@@ -6,8 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
-  <script type="text/javascript" src="demo.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
+  <script type="text/javascript" src="asyncData/demoData.js"></script>
+  <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1, zTree2;
@@ -78,29 +79,6 @@
 		zTree2 = $("#treeDemo2").zTree(setting, clone(zNodes, "-t2"));
 	}
 
-	function clone(jsonObj, newName) {
-	    var buf;
-	    if (jsonObj instanceof Array) {
-	        buf = [];
-	        var i = jsonObj.length;
-	        while (i--) {
-	            buf[i] = clone(jsonObj[i], newName);
-	        }
-	        return buf;
-	    }else if (typeof jsonObj == "function"){
-	        return jsonObj;
-	    }else if (jsonObj instanceof Object){
-	        buf = {};
-	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k], newName);
-	            if (k=="name") buf[k] += newName;
-	        }
-	        return buf;
-	    }else{
-	        return jsonObj;
-	    }
-	}
-
   //-->
   </SCRIPT>
  </HEAD>
@@ -114,7 +92,7 @@
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>两棵树之间数据交互说明
 				<ul class="operate" style="color:red">
-					1、使用最新的 v2.3 版本，可以直接使用鼠标在多棵树之间拖拽节点。
+					1、从 v2.3 版本开始，可以直接使用鼠标在多棵树之间拖拽节点。
 				</ul>
 				<ul class="operate">
 					2、拖拽规则请参考“编辑演示”的说明。

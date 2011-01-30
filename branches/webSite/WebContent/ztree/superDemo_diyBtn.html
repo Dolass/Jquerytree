@@ -6,15 +6,14 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
+  <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
-  button.btn1 { background:url("./img/phone.gif") no-repeat scroll -26px 0 transparent;}
   .test {
   	margin: 0 0 0 5px;
   }
   select.selDemo {
   	height: 16px;
-  	
  	vertical-align: middle;
   }
   </style>
@@ -144,29 +143,6 @@
 	
 	function reloadTree() {
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
-	}
-
-	function clone(jsonObj, newName) {
-	    var buf;
-	    if (jsonObj instanceof Array) {
-	        buf = [];
-	        var i = jsonObj.length;
-	        while (i--) {
-	            buf[i] = clone(jsonObj[i], newName);
-	        }
-	        return buf;
-	    }else if (typeof jsonObj == "function"){
-	        return jsonObj;
-	    }else if (jsonObj instanceof Object){
-	        buf = {};
-	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k], newName);
-	            if (k=="name") buf[k] += newName;
-	        }
-	        return buf;
-	    }else{
-	        return jsonObj;
-	    }
 	}
 
   //-->

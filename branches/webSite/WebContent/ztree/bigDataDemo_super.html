@@ -6,28 +6,28 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.3.js"></script>
-  <script type="text/javascript" src="demo.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.4.js"></script>
+  <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
 	var setting;
 
 	var zNodes =[
-	 			{name:"100个节点", id:"1", count:100, isParent:true},
-	 			{name:"500个节点", id:"2", count:500, isParent:true},
-	 			{name:"1000个节点", id:"3", count:1000, isParent:true}
-	 	];
+		{name:"100个节点", id:"1", count:100, isParent:true},
+		{name:"500个节点", id:"2", count:500, isParent:true},
+		{name:"1000个节点", id:"3", count:1000, isParent:true}
+	];
 
-		setting = {
-			expandSpeed: "",
-			callback: {
-				beforeExpand: zTreeBeforeExpand,
-				beforeCollapse: zTreeBeforeCollapse,
-				expand: zTreeOnExpand,
-				collapse: zTreeOnCollapse
-			}
-		};
+	setting = {
+		expandSpeed: "",
+		callback: {
+			beforeExpand: zTreeBeforeExpand,
+			beforeCollapse: zTreeBeforeCollapse,
+			expand: zTreeOnExpand,
+			collapse: zTreeOnCollapse
+		}
+	};
 
 	$(document).ready(function(){
 		reloadTree();
@@ -147,29 +147,6 @@
 	function reloadTree() {
 		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
 		$("#onAsync").html("<br/>");
-	}
-
-	function clone(jsonObj, newName) {
-	    var buf;
-	    if (jsonObj instanceof Array) {
-	        buf = [];
-	        var i = jsonObj.length;
-	        while (i--) {
-	            buf[i] = clone(jsonObj[i], newName);
-	        }
-	        return buf;
-	    }else if (typeof jsonObj == "function"){
-	        return jsonObj;
-	    }else if (jsonObj instanceof Object){
-	        buf = {};
-	        for (var k in jsonObj) {
-	            buf[k] = clone(jsonObj[k], newName);
-	            if (k=="name") buf[k] += newName;
-	        }
-	        return buf;
-	    }else{
-	        return jsonObj;
-	    }
 	}
 
   //-->
