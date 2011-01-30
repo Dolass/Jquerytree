@@ -15,7 +15,7 @@
    # 【修改】expandNode方法针对展开节点时，无法将节点移到可视区域的Bug
    # 【修改】expandSpeed=""时，无法正常触发expand / collapse 事件的Bug
    # 【修改】在 beforeExpand / beforeCollapse 事件中通过 expandNode 方法展开、折叠节点时，会导致 before 事件对应的 expand / collapse 事件丢失的Bug
-   # 制作高级应用：下拉树状菜单、其他拖拽、check、radio共存演示  
+   # 制作高级应用：其他拖拽演示  
       
   * 远期功能扩展：
    # 可以支持 tab 还有 4个方向键，而不是必须通过鼠标点击
