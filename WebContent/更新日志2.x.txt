@@ -6,6 +6,10 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
+   # 【增加】beforeSend 事件 callback，便于捕获异步加载之前的信息
+   # 【修改】在AJAX方式下，如果下级没有数据，if (!msg || msg.length == 0) {return; }
+                这里是直接返回了，然而那个小loading图标没有做处理，始终显示，这里是不是应该隐藏loading并且把树前面的+应该变为-
+   
    # 【增加】setting.fontCss 参数，可以自定义设置节点样式
    # 【增加】nodeCreated 事件，即每个节点渲染完毕后发出通知
    # 【修改】asyncParamOther 参数，允许其支持Json对象
@@ -18,6 +22,7 @@
    # 制作高级应用：其他拖拽演示  
       
   * 远期功能扩展：
+   # 兼容 jQuery 1.5 在Firefox上的问题
    # 可以支持 tab 还有 4个方向键，而不是必须通过鼠标点击
    # 增加Ctrl + 鼠标左键  进行多节点选中的功能
    # 增加 selectNodes([]) 和 getSelectedNodes() 方法，允许用户选中多个节点 并获取 选中的多个节点   
