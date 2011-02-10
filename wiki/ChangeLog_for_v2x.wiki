@@ -7,7 +7,7 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-	制作高级应用：下拉树状菜单、右键菜单、其他拖拽演示  
+   # 兼容 jQuery 1.5 在Firefox上的问题
       
   * 远期功能扩展：
    # 可以支持 tab 还有 4个方向键，而不是必须通过鼠标点击
@@ -22,6 +22,18 @@
 		这个问题简单处理了一下，因为JQuery 1.3.2不支持detach()方法，换成使用clone方法对节点进行移动，会牵扯很多深层复制的问题，或者引起一些多层节点的事件问题，由于时间关系，暂且放弃，还是从JQuery v1.4.2开始支持吧。不好意思了。
   * 增加皮肤
 </font>
+
+*2011.02.10* v2.4
+   * 【增加】setting.fontCss 参数，可以自定义设置节点样式
+   * 【增加】nodeCreated 事件，即每个节点渲染完毕后发出通知
+   * 【修改】asyncParamOther 参数，允许其支持Json对象
+   * 【修改】addNodes 方法，允许 newNodes 参数是单个的Json数据，而不限定必须为Array
+   * 【修改】checkAllNodes 方法针对父节点没有被check，但子节点被check的情况下，全部取消check状态后，无法将父节点的灰色背景去掉的Bug
+   * 【修改】不存在子节点的父节点展开后，无法显示新增加的子节点的Bug
+   * 【修改】expandNode方法针对展开节点时，无法将节点移到可视区域的Bug
+   * 【修改】expandSpeed=""时，无法正常触发expand / collapse 事件的Bug
+   * 【修改】在 beforeExpand / beforeCollapse 事件中通过 expandNode 方法展开、折叠节点时，会导致 before 事件对应的 expand / collapse 事件丢失的Bug
+   * 【修改】在AJAX方式下，如果下级没有数据，只能允许[] 不支持空字符串的Bug
 
 *2011.01.04* v2.3
    * 【修改】拖拽节点时，当叶子节点变为父节点后，无法正常展开、折叠的Bug。
