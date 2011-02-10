@@ -1225,12 +1225,11 @@
 			url: url,
 			data: tmpParam,
 			success: function(msg) {
-				if (!msg || msg.length == 0) {
-					return;
-				}
-				var newNodes = "";
+				var newNodes = [];
 				try {
-					if (typeof msg == "string") {
+					if (!msg || msg.length == 0) {
+						newNodes = [];
+					} else if (typeof msg == "string") {
 						newNodes = eval("(" + msg + ")");
 					} else {
 						newNodes = msg;
