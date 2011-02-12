@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>zTree v2.4 速查表</TITLE>
+<META content="text/html; charset=gb2312" http-equiv=Content-Type>
+<META name=author content=Shawphy(shawphy.com)>
+<STYLE type=text/css>
+		body{margin: 2px;}
+		h1,h2,h3,ul,li{font-size: 11px;font-weight: normal;padding:0;margin:0;list-style:none;font-family:Verdana,Tahoma,Arial,sans-serif,"宋体";line-height: 1.2;}
+		h1{margin-bottom: 3px;}
+		h2{background: rgb(79,129,189);color:#eee;padding: 2px 5px;}
+		h3{color: #666;padding-top: 2px;}
+		h2,h3{font-size: 12px;}
+		ul{margin:0 0 5px 10px;}
+		ul ul{margin:0 0 0 10px;}
+		div.col{float:left;width: 196px;height:920px;overflow:hidden;margin-right: 2px;}
+		a,a:link,a:visited{color:rgb(64,112,170);text-decoration: none; line-height:14px;}
+		a:hover{color:white;background: rgb(79,129,189); }
+		span {margin-right:4px;}
+		.col>div:hover{background:rgb(232,238,247);}
+		.update {color:yellow; background-color:#4F81BD;}
+		.new {color:red;}
+		
+</STYLE>
+
+<META name=GENERATOR content="MSHTML 8.00.6001.18904"></HEAD>
+<BODY>
+<H1>zTree&nbsp;v2.4 速查表 --&nbsp;作者：<A
+href="mailto:hunter.z@263.net">Hunter.z</A>&nbsp;&nbsp;&nbsp;特别感谢&nbsp;<A
+href="mailto:czwlucky@163.com">独上太行</A>&nbsp;的大力支持
+<span style="margin-left:120px;">【 <span class="update">#</span> 标记为针对 v1.x 版本的修改; <span class="new">*</span> 标记为 v2.0 - v2.xx 版本新增】</span>
+</H1>
+<DIV class=col>
+<DIV id=about>
+<H2>关于</H2>
+<UL>
+  <LI>
+  <H3></H3>
+  <UL>
+    <LI></LI>
+    <LI><A href="about.html">zTree 介绍</A></LI>
+    <LI></LI>
+    <LI><A href="bug.html">提交bug及获取更新</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL></DIV>
+<DIV id=core>
+<H2>核心</H2>
+<UL>
+  <LI>
+  <H3>zTree&nbsp;核心函数</H3>
+  <UL>
+    <LI><A href="zTree.html">zTree(setting, [zTreeNodes])</A></LI>
+    <LI></LI></UL>
+  </LI>
+  <LI>
+  <H3>skin 皮肤说明</H3>
+  <UL>
+    <LI><A href="css.html">zTreeStyle.css</A></LI>
+    <LI><A href="zTreeIcons.css.html">zTreeIcons.css</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL>
+</DIV>
+<DIV id=setting>
+<H2>参数说明</H2>
+<UL>
+  <LI>
+  <H3>setting <A href="setting.html">详解</A></H3>
+  <UL>
+    <LI><A href="s_async.html">async</A></LI>
+    <LI><A href="s_asyncUrl.html">asyncUrl</A></LI>
+    <LI><A href="s_asyncParam.html">asyncParam</A></LI>
+    <LI><span class="update">#</span><A href="s_asyncParamOther.html">asyncParamOther</A></LI>
+    <LI><span class="new">*</span><A href="s_isSimpleData.html">isSimpleData</A></LI>
+    <LI><span class="new">*</span><A href="s_treeNodeKey.html">treeNodeKey</A></LI>
+    <LI><span class="new">*</span><A href="s_treeNodeParentKey.html">treeNodeParentKey</A></LI>
+    <LI><A href="s_checkable.html">checkable</A></LI>
+    <LI><A href="s_checkType.html">checkType</A></LI>
+    <LI><span class="update">#</span><A href="s_checkStyle.html">checkStyle</A></LI>
+    <LI><A href="s_checkRadioType.html">checkRadioType</A></LI>
+    <LI><A href="s_editable.html">editable</A></LI>
+    <LI><span class="new">*</span><A href="s_edit_renameBtn.html">edit_renameBtn</A></LI>
+    <LI><span class="new">*</span><A href="s_edit_removeBtn.html">edit_removeBtn</A></LI>
+    <LI><A href="s_root.html">root</A></LI>
+    <LI><A href="s_showLine.html">showLine</A></LI>
+    <LI><span class="new">*</span><A href="s_fontCss.html">fontCss</A></LI>
+    <LI><span class="new">*</span><A href="s_nameCol.html">nameCol</A></LI>
+    <LI><span class="new">*</span><A href="s_nodesCol.html">nodesCol</A></LI>
+    <LI><span class="new">*</span><A href="s_checkedCol.html">checkedCol</A></LI>
+    <LI><span class="new">*</span><A href="s_expandSpeed.html">expandSpeed</A></LI>
+    <LI><span class="new">*</span><A href="s_addHoverDom.html">addHoverDom</A></LI>
+    <LI><span class="new">*</span><A href="s_removeHoverDom.html">removeHoverDom</A></LI>
+    <LI><span class="new">*</span><A href="s_addDiyDom.html">addDiyDom</A></LI>
+    <LI><span class="new">*</span><A href="s_callback.html">callback</A></LI>
+    <LI></LI>
+    <LI>[<A href="s_curTreeNode.html">curTreeNode</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_curEditTreeNode.html">curEditTreeNode</A>]</LI>
+    <LI>[<A href="s_dragNodeShowBefore.html">dragNodeShowBefore</A>]</LI>
+    <LI>[<A href="s_dragStatus.html">dragStatus</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_expandTriggerFlag.html">expandTriggerFlag</A>]</LI>
+	<LI>[<A href="s_treeObjId.html">treeObjId</A>]</LI>
+	<LI>[<A href="s_checkRadioCheckedList.html">checkRadioCheckedList</A>]</LI>
+    <LI></LI>
+  </UL>
+  </LI>
+</UL>
+</DIV>
+</DIV>
+<DIV class=col style="width:300px">
+<DIV id=setting_zTreeNodes>
+<H2>参数说明</H2>
+<UL>
+  <LI>
+  <H3>zTreeNodes <A href="zTreeNodes.html">详解</A></H3>
+  <UL>
+    <LI><A href="s_checked.html">checked</A></LI>
+    <LI><A href="s_click.html">click</A></LI>
+    <LI><A href="s_icon.html">icon</A></LI>
+	<LI><A href="s_iconSkin.html">iconSkin</A></LI>
+    <LI><A href="s_isParent.html">isParent</A></LI>
+    <LI><A href="s_name.html">name</A></LI>
+    <LI><A href="s_nodes.html">nodes</A></LI>
+    <LI><A href="s_open.html">open</A></LI>
+    <LI><A href="s_target.html">target</A></LI>
+    <LI><A href="s_url.html">url</A></LI>
+    <LI><A href="s_diy.html">*自定义*</A></LI>
+    <LI></LI>
+    <LI><span class="new">*</span>[<A href="s_checkedOld.html">checkedOld</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_checkboxFocus.html">checkboxFocus</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_check_True_Full.html">check_True_Full</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_check_False_Full.html">check_False_Full</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_editNameStatus.html">editNameStatus</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_isAjaxing.html">isAjaxing</A>]</LI>
+    <LI><span class="new">*</span>[<A href="s_isHover.html">isHover</A>]</LI>
+    <LI>[<A href="s_isFirstNode.html">isFirstNode</A>]</LI>
+    <LI>[<A href="s_isLastNode.html">isLastNode</A>]</LI>
+    <LI>[<A href="s_level.html">level</A>]</LI>
+    <LI>[<A href="s_parentNode.html">parentNode</A>]</LI>
+    <LI>[<A href="s_tId.html">tId</A>]</LI>
+    <LI></LI>
+  </UL>
+  </LI>
+</UL></DIV>
+<DIV id=methods>
+<H2>方法</H2>
+<UL>
+  <LI>
+  <H3>获取</H3>
+  <UL>
+    <LI><span class="update">#</span><A href="m_getSelectedNode.html">getSelectedNode()</A></LI>
+    <LI><A href="m_getNodeByTId.html">getNodeByTId(tID)</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodeIndex.html">getNodeIndex(treeNode)</A></LI>
+    <LI><A href="m_getNodes.html">getNodes()</A></LI>
+    <LI><span class="update">#</span><A href="m_getCheckedNodes.html">getCheckedNodes(checked)</A></LI>
+    <LI><span class="new">*</span><A href="m_getChangeCheckedNodes.html">getChangeCheckedNodes()</A></LI>
+    <LI><span class="new">*</span><A href="m_getSetting.html">getSetting()</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodeByParam.html">getNodeByParam(key, value)</A></LI>
+    <LI><span class="new">*</span><A href="m_getNodesByParam.html">getNodesByParam(key, value)</A></LI>
+    <LI><span class="new">*</span><A href="m_transformTozTreeNodes.html">transformTozTreeNodes(simpleTreeNodes)</A></LI>
+    <LI><span class="new">*</span><A href="m_transformToArray.html">transformToArray(treeNodes)</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>操作</H3>
+  <UL>
+    <LI><A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A></LI>
+    <LI><A href="m_expandAll.html">expandAll(expandSign)</A></LI>
+    <LI><span class="update">#</span><A href="m_expandNode.html">expandNode(treeNode, expandSign, sonSign)</A></LI>
+    <LI><span class="update">#</span><A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A></LI>
+    <LI><A href="m_refresh.html">refresh()</A></LI>
+    <LI><A href="m_removeNode.html">removeNode(treeNode)</A></LI>
+	<LI><span class="update">#</span><A href="m_selectNode.html">selectNode(treeNode)</A></LI>
+    <LI><span class="new">*</span><A href="m_checkAllNodes.html">checkAllNodes(checked)</A></LI>
+    <LI><A href="m_setEditable.html">setEditable(editable)</A></LI>
+	<LI><span class="new">*</span><A href="m_cancelSelectedNode.html">cancelSelectedNode()</A></LI>
+    <LI><span class="new">*</span><A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A></LI>
+    <LI><span class="new">*</span><A href="m_updateSetting.html">updateSetting(setting)</A></LI>
+    <LI><span class="new">*</span><A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL></DIV></DIV>
+
+<DIV class=col>
+<DIV id=events>
+<H2>事件</H2>
+<UL>
+  <LI>
+  <H3>callback 回调函数</H3>
+  <UL>
+    <LI><span class="new">*</span><A href="e_beforeClick.html">beforeClick</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRightClick.html">beforeRightClick</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeMouseDown.html">beforeMouseDown</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeMouseUp.html">beforeMouseUp</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeChange.html">beforeChange</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeDrag.html">beforeDrag</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeDrop.html">beforeDrop</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRename.html">beforeRename</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeRemove.html">beforeRemove</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeExpand.html">beforeExpand</A></LI>
+    <LI><span class="new">*</span><A href="e_beforeCollapse.html">beforeCollapse</A></LI>
+    <LI><span class="new">*</span><A href="e_nodeCreated.html">nodeCreated</A></LI>
+    <LI><span class="update">#</span><A href="e_click.html">click</A></LI>
+    <LI><span class="new">*</span><A href="e_rightClick.html">rightClick</A></LI>
+    <LI><span class="new">*</span><A href="e_mouseDown.html">mouseDown</A></LI>
+    <LI><span class="new">*</span><A href="e_mouseUp.html">mouseUp</A></LI>
+    <LI><span class="update">#</span><A href="e_change.html">change</A></LI>
+    <LI><span class="update">#</span><A href="e_drag.html">drag</A></LI>
+    <LI><span class="update">#</span><A href="e_drop.html">drop</A></LI>
+    <LI><span class="new">*</span><A href="e_rename.html">rename</A></LI>
+    <LI><span class="new">*</span><A href="e_remove.html">remove</A></LI>
+    <LI><span class="new">*</span><A href="e_expand.html">expand</A></LI>
+    <LI><span class="new">*</span><A href="e_collapse.html">collapse</A></LI>
+    <LI><span class="update">#</span><A href="e_asyncSuccess.html">asyncSuccess</A></LI>
+    <LI><span class="update">#</span><A href="e_asyncError.html">asyncError</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL></DIV>
+<DIV id=constant1>
+<H2>常量</H2>
+<UL>
+  <LI>
+  <H3>事件相关</H3>
+  <UL>
+    <LI><span class="new">*</span><A href="c_ZTREE_NODECREATED.html">ZTREE_NODECREATED</A></LI>
+    <LI><A href="c_ZTREE_CLICK.html">ZTREE_CLICK</A></LI>
+    <LI><span class="update">#</span><A href="c_ZTREE_CHANGE.html">ZTREE_CHANGE</A></LI>
+    <LI><span class="new">*</span><A href="c_ZTREE_RENAME.html">ZTREE_RENAME</A></LI>
+    <LI><span class="new">*</span><A href="c_ZTREE_REMOVE.html">ZTREE_REMOVE</A></LI>
+    <LI><A href="c_ZTREE_DRAG.html">ZTREE_DRAG</A></LI>
+    <LI><A href="c_ZTREE_DROP.html">ZTREE_DROP</A></LI>
+    <LI><A href="c_ZTREE_ASYNC_SUCCESS.html">ZTREE_ASYNC_SUCCESS</A></LI>
+    <LI><A href="c_ZTREE_ASYNC_ERROR.html">ZTREE_ASYNC_ERROR</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>ID命名相关</H3>
+  <UL>
+    <LI><A href="c_IDMark_Switch.html">IDMark_Switch</A></LI>
+    <LI><A href="c_IDMark_Icon.html">IDMark_Icon</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Check.html">IDMark_Check</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Edit.html">IDMark_Edit</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Remove.html">IDMark_Remove</A></LI>
+    <LI><A href="c_IDMark_A.html">IDMark_A</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Span.html">IDMark_Span</A></LI>
+    <LI><span class="new">*</span><A href="c_IDMark_Input.html">IDMark_Input</A></LI>
+    <LI><A href="c_IDMark_Ul.html">IDMark_Ul</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL></DIV></DIV>
+<DIV class=col>
+<DIV id=constant>
+<H2>常量</H2>
+<UL>
+  <LI>
+  <H3>背景线条相关</H3>
+  <UL>
+    <LI><A href="c_LineMark_Root.html">LineMark_Root</A></LI>
+    <LI><A href="c_LineMark_Roots.html">LineMark_Roots</A></LI>
+    <LI><A href="c_LineMark_Center.html">LineMark_Center</A></LI>
+    <LI><A href="c_LineMark_Bottom.html">LineMark_Bottom</A></LI>
+    <LI><A href="c_LineMark_NoLine.html">LineMark_NoLine</A></LI>
+    <LI><A href="c_LineMark_Line.html">LineMark_Line</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>文件夹图标相关</H3>
+  <UL>
+    <LI><A href="c_FolderMark_Open.html">FolderMark_Open</A></LI>
+    <LI><A href="c_FolderMark_Close.html">FolderMark_Close</A></LI>
+    <LI><A href="c_FolderMark_Docu.html">FolderMark_Docu</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>className相关</H3>
+  <UL>
+    <LI><A href="c_Class_CurSelectedNode.html">Class_CurSelectedNode</A></LI>
+    <LI><span class="new">*</span><A href="c_Class_CurSelectedNode_Edit.html">Class_CurSelectedNode_Edit</A></LI>
+    <LI><A href="c_Class_TmpTargetTree.html">Class_TmpTargetTree</A></LI>
+    <LI><A href="c_Class_TmpTargetNode.html">Class_TmpTargetNode</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>CheckBox &amp; Radio 相关</H3>
+  <UL>
+    <LI><A href="c_Check_Style_Box.html">Check_Style_Box</A></LI>
+    <LI><A href="c_Check_Style_Radio.html">Check_Style_Radio</A></LI>
+    <LI><A href="c_CheckBox_Default.html">CheckBox_Default</A></LI>
+    <LI><A href="c_CheckBox_False.html">CheckBox_False</A></LI>
+    <LI><A href="c_CheckBox_True.html">CheckBox_True</A></LI>
+    <LI><A href="c_CheckBox_Full.html">CheckBox_Full</A></LI>
+    <LI><A href="c_CheckBox_Part.html">CheckBox_Part</A></LI>
+    <LI><A href="c_CheckBox_Focus.html">CheckBox_Focus</A></LI>
+    <LI><A href="c_Radio_Type_All.html">Radio_Type_All</A></LI>
+    <LI><A href="c_Radio_Type_Level.html">Radio_Type_Level</A></LI>
+    <LI></LI>
+  </UL></LI>
+  <LI>
+  <H3>其他</H3>
+  <UL>
+    <LI><span class="new">*</span><A href="c_MinMoveSize.html">MinMoveSize</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_Inner.html">MoveType_Inner</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_Before.html">MoveType_Before</A></LI>
+    <LI><span class="new">*</span><A href="c_MoveType_After.html">MoveType_After</A></LI>
+    <LI></LI>
+  </UL></LI>
+</UL></DIV></DIV>
+
+</BODY></HTML>

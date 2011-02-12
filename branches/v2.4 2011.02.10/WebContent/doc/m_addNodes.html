@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>addNodes(parentNode, newNodes, isSilent)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: Array(JSON)</span>addNodes(parentNode, newNodes, isSilent)</h2>
+	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>在指定节点下增加子节点。</p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>parentNode</strong><span>JSON Object</span></h4>
+	<p>指定的父节点，如果增加根节点，请设置 parentNode 为 null 即可。</p>
+	<h4><strong>newNodes</strong><span>Array(JSON)</span></h4>
+	<p>需要增加的节点数据 JSON 对象集合，支持将节点的n级子节点一次性增加，只需要符合zTree的节点数据结构即可。详情参考 <A href="zTreeNodes.html">zTreeNodes 详解</A></p>
+	<h4><strong>isSilent</strong><span>Boolean</span></h4>
+	<p>设定增加节点后是否展开其父节点。isSilent = true 时，不展开父节点，其他值或缺省状态都自动展开。</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>增加根节点</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+var newNodes = [ {...}, {...}, ...];
+var nodes = zTreeObj.addNodes(null, newNodes);
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_getNodes.html">getNodes()</A> | <A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A> | <A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A>
+	<br/><A href="m_removeNode.html">removeNode(treeNode)</A></h4>
+	<h3>相关参数</h3>
+	<h4><A href="s_nodes.html">nodes</A></h4>
+
+</div>
+</div>
+
+</body></html>
