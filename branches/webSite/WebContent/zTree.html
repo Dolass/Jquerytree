@@ -50,6 +50,8 @@ function show(demoName) {
 	} else if (demoName == 'eventDemo') {
 		demoIframe.attr("src", "ztree/eventDemo.html"); 
 	} else if (demoName == 'editDemo') {
+		$("#editMenuDiv").show();
+		setEdit("1");
 		demoIframe.attr("src", "ztree/editDemo.html"); 
 	} else if (demoName == 'asyncDemo') {
 		demoIframe.attr("src", "ztree/asyncDemo.html"); 
@@ -83,6 +85,17 @@ function setStandard(appName) {
 	$("#standard_" + curStandardName).removeClass("current");
 	$("#standard_" + appName).addClass("current");
 	curStandardName = appName;
+	return true;
+}
+
+var curEditName = "1";
+function setEdit(editName) {
+	if (curEditName == editName) {
+		return false;
+	}
+	$("#edit_" + curEditName).removeClass("current");
+	$("#edit_" + editName).addClass("current");
+	curEditName = editName;
 	return true;
 }
 
@@ -262,6 +275,10 @@ function goDownloadzTree() {
 			<div id="standardMenuDiv" class="superMenu" style="display:none">
 				<a id="standard_1" href="ztree/standardDemo.html" target="demoIframe" class="current" onclick="return setStandard('1');">不兼容IE6</a> 
 				| <a id="standard_2" href="ztree/standardDemoForIe6.html" target="demoIframe" onclick="return setStandard('2');">兼容IE6</a>
+			</div>
+			<div id="editMenuDiv" class="superMenu" style="display:none">
+				<a id="edit_1" href="ztree/editDemo.html" target="demoIframe" class="current" onclick="return setEdit('1');">默认编辑</a> 
+				| <a id="edit_2" href="ztree/edit&asyncDemo.html" target="demoIframe" onclick="return setEdit('2');">编辑 & 异步加载 共存</a>
 			</div>
 			<div id="superAppMenuDiv" class="superMenu" style="display:none">
 				<a id="app_1" href="ztree/superDemo_mutilTree.html" target="demoIframe" class="current" onclick="return setSuperApp('1');">两棵树之间数据交互</a> 
