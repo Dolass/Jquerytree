@@ -84,6 +84,8 @@
 			edit_removeBtn:true,
 			//是否显示树的线
 			showLine: true,
+			//是否显示图标
+			showIcon: true,
 			//当前被选择的TreeNode
 			curTreeNode: null,
 			//当前正被编辑的TreeNode
@@ -114,6 +116,7 @@
 			isSimpleData: false,
 			treeNodeKey: "",
 			treeNodeParentKey: "",
+			rootPID: null,
 			//用户自定义名称列
 			nameCol: "name",
 			//用户自定义子节点列
@@ -356,7 +359,8 @@
 			node.check_True_Full = true;
 			node.check_False_Full = true;
 			node.editNameStatus = false;
-
+			fixParentKeyValue(setting, node);
+			
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
 
 			//允许在非空节点上增加节点
@@ -876,7 +880,12 @@
 			switchObj.attr("class", switchObj.attr("class") + "_" + FolderMark_Docu);
 			icoObj.addClass("ico_" + FolderMark_Docu);
 		}
-		if (treeNode.icon) icoObj.attr("style", "background:url(" + treeNode.icon + ") 0 0 no-repeat;");
+		var icoStyle = "";
+		if (treeNode.icon) icoStyle += "background:url(" + treeNode.icon + ") 0 0 no-repeat;";
+		if (setting.showIcon == false || ((typeof setting.showIcon) == "function" && !setting.showIcon(setting.treeObjId, treeNode))) {
+			icoStyle += "width:0px;height:0px;";
+		}
+		if (icoStyle != "")	icoObj.attr("style", icoStyle);
 		else icoObj.attr("style", "");
 	}
 	//设置自定义字体样式
@@ -1540,6 +1549,8 @@
 			treeNode.isFirstNode = false;
 			treeNode.isLastNode = false;
 		}
+		fixParentKeyValue(setting, treeNode);
+		
 		setSonNodeLevel(setting, treeNode.parentNode, treeNode);
 		
 		//进行HTML结构修正
@@ -1627,6 +1638,13 @@
 		
 		//移动后，则必须展开新位置的全部父节点
 		expandCollapseParentNode(setting, treeNode.parentNode, true, animateSign);
+	}
+	
+	//修正pId
+	function fixParentKeyValue(setting, treeNode) {
+		if (setting.isSimpleData) {
+			treeNode[setting.treeNodeParentKey] = treeNode.parentNode ? treeNode.parentNode[setting.treeNodeKey] : setting.rootPID;
+		}
 	}
 	
 	//编辑子节点名称
@@ -1824,7 +1842,7 @@
 				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
 			}
 			for (var i=0; i<simpleTreeNodes.length; i++) {
-				if (simpleTreeNodes[i][parentKey] && tmpMap[simpleTreeNodes[i][parentKey]]) {
+				if (tmpMap[simpleTreeNodes[i][parentKey]]) {
 					if (!tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol])
 						tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol] = [];
 					tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol].push(simpleTreeNodes[i]);
