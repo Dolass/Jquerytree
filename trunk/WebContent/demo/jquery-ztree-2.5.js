@@ -1,10 +1,10 @@
 /*
- * JQuery zTree 2.4
+ * JQuery zTree 2.5
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2011-02-10
+ * Date: 2011-03-10
  *
  */
 
