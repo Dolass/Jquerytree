@@ -13,6 +13,11 @@
           增加setting.showIcon
    # 【修改】简单数据模式中，如果 [treeNodeKey] 属性值为 0 的节点无法成为父节点的bug
    
+   # 入门级教程的制作
+   # zTree 数据结构讲解（包括clone、Json转换的注意事项）
+   # zTree 数据后台创建、解析讨论（zTreeUtil）
+   # 傻瓜级zTree代码架构在线工具
+   
       
   * 远期功能扩展：
    # 可以支持 tab 还有 4个方向键，而不是必须通过鼠标点击
