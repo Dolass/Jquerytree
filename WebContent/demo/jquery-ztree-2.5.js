@@ -1735,6 +1735,18 @@
 		}
 		return result;
 	}
+	//根据属性 模糊搜索获取 节点的数据对象集合（仅限String）
+	function getTreeNodesByParamFuzzy(setting, treeNodes, key, value) {
+		if (!treeNodes || !key) return [];
+		var result = [];
+		for (var i = 0; i < treeNodes.length; i++) {
+			if (typeof treeNodes[i][key] == "string" && treeNodes[i][key].indexOf(value)>-1) {
+				result.push(treeNodes[i]);
+			}
+			result = result.concat(getTreeNodesByParamFuzzy(setting, treeNodes[i][setting.nodesCol], key, value));
+		}
+		return result;
+	}
 
 	//取消之前选中节点状态
 	function cancelPreSelectedNode(setting) {
@@ -1937,6 +1949,10 @@
 			getNodesByParam : function(key, value) {
 				if (!key) return;
 				return getTreeNodesByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
+			},
+			getNodesByParamFuzzy : function(key, value, parentNode) {
+				if (!key) return;
+				return getTreeNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.nodesCol]:this.setting.root[this.setting.nodesCol], key, value);
 			},
 			
 			getNodeIndex : function(treeNode) {
