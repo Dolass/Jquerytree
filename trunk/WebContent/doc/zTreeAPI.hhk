@@ -301,8 +301,12 @@
 <PARAM NAME="Local" VALUE="m_getNodes.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="getNodesByParam(key, value)">
+<PARAM NAME="Name" VALUE="getNodesByParam(key, value, parentNode)">
 <PARAM NAME="Local" VALUE="m_getNodesByParam.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="getNodesByParamFuzzy(key, value, parentNode)">
+<PARAM NAME="Local" VALUE="m_getNodesByParamFuzzy.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="getSelectedNode()">
@@ -505,6 +509,10 @@
 <PARAM NAME="Local" VALUE="s_root.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="rootPID">
+<PARAM NAME="Local" VALUE="s_rootPID.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="selectNode(treeNode)">
 <PARAM NAME="Local" VALUE="m_selectNode.html">
 </OBJECT>
@@ -515,6 +523,10 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting">
 <PARAM NAME="Local" VALUE="setting.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="showIcon">
+<PARAM NAME="Local" VALUE="s_showIcon.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="showLine">

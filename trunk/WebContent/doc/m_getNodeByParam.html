@@ -15,8 +15,8 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>根据节点数据的属性获取满足条件的的 JSON 数据对象。</p>
-			<p style="color:red">如果有多个同样属性值的节点，则只返回第一个找到的节点，如果需要获取全部满足条件的节点集合，请参考 <A href="m_getNodesByParam.html">getNodesByParam(key, value)</A> </p>
+			<p>根据节点数据的属性精确搜索满足条件的的 JSON 数据对象。</p>
+			<p style="color:red">如果有多个同样属性值的节点，则只返回第一个找到的节点，如果需要获取全部满足条件的节点集合，请参考 <A href="m_getNodesByParam.html">getNodesByParam(key, value, parentNode)</A> </p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
 			<p>如果当前没有满足条件的节点，则返回 null</p>
 		</div>
@@ -35,7 +35,8 @@ var zTreeObj = zTree(setting, zTreeNodes);
 var node = zTreeObj.getNodeByParam("id", 10);
 ......</code></pre>
 	<h3>相关方法</h3>
-	<h4><A href="m_getNodesByParam.html">getNodesByParam(key, value)</A> | <A href="m_getNodeByTId.html">getNodeByTId(tID)</A></h4>
+	<h4><A href="m_getNodesByParam.html">getNodesByParam(key, value, parentNode)</A> | <A href="m_getNodesByParamFuzzy.html">getNodesByParamFuzzy(key, value, parentNode)</A>
+	<br/><A href="m_getNodeByTId.html">getNodeByTId(tID)</A></h4>
 </div>
 </div>
 
