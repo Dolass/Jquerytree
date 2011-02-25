@@ -3,40 +3,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>asyncParamOther</title>
+<title>showIcon</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>Array(String) / JSON</span>asyncParamOther</h2>
+	<h2><span>Boolean / Function</span>showIcon</h2>
 	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>当 async = true ，且访问 asyncUrl 时，提交的固定键值对。</p>
-			<p>默认值：[]</p>
-			<p style="color:red">可以为空[]，如果有 key，则必须存在 value。 例如：[key, value]</p>
-			<p style="color:red">从 v2.5 版本开始可以支持 JSON 对象，例如：{key1:value1, key2:value2}</p>
+			<p>设置 zTree 是否显示节点的图标。</p>
+			<p>默认值：true</p>
+			<p style="color:red">允许接收 function 的引用，以便于用户独立设置每一个节点是否显示图标。</p>
+			<p>function 格式举例：function showIconForTree(treeId, treeNode) {...}</p>
 		</div>
 	</div>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>设置异步获取数据时，传递 Array 格式的 key, value</p>
+	<p>设置 zTree 不显示图标</p>
 	<h5 xmlns="">setting 举例:</h5>
 	<pre xmlns=""><code>var setting = {
-&nbsp;&nbsp;&nbsp;&nbsp;asyncParamOther : ["key", "value"],
+&nbsp;&nbsp;&nbsp;&nbsp;showIcon : false,
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
-	<p>设置异步获取数据时，传递 JSON 格式的 key, value</p>
+	<p>设置 zTree 仅仅 level=2 的节点不显示图标</p>
 	<h5 xmlns="">setting 举例:</h5>
-	<pre xmlns=""><code>var setting = {
-&nbsp;&nbsp;&nbsp;&nbsp;asyncParamOther : {"key":"value"},
+	<pre xmlns=""><code>function showIconForTree(treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;return treeNode.level != 2;
+};
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;showIcon : showIconForTree,
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
-	<h3>相关参数</h3>
-	<h4><A href="s_async.html">async</A> | <A href="s_asyncUrl.html">asyncUrl</A> | <A href="s_asyncParam.html">asyncParam</A></h4>
 
 </div>
 </div>

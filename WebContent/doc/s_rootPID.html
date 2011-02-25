@@ -3,20 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>treeNodeKey</title>
+<title>rootPID</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>String</span>treeNodeKey</h2>
+	<h2><span>任意类型</span>rootPID</h2>
 	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>设置节点唯一标识属性名称，转换数据格式时使用，例如：当 <A href="s_isSimpleData.html">isSimpleData</A> 设置为 true，或 调用 <A href="m_transformTozTreeNodes.html">transformTozTreeNodes(simpleTreeNodes)</A> 方法。</p>
-			<p>默认值：""</p>
+			<p>当 <A href="s_isSimpleData.html">isSimpleData</A> 设置为 true，zTree 需要在增加、移动节点时修正其 <A href="s_treeNodeParentKey.html">treeNodeParentKey</A> 对应属性值。</p>
+			<p>rootPID 用于通知 zTree，对于根节点 <A href="s_treeNodeParentKey.html">treeNodeParentKey</A> 对应属性值</p>
+			<p><font style="color:red">rootPID 可以是任何类型，请尽可能与 <A href="s_treeNodeParentKey.html">treeNodeParentKey</A> 对应属性值一致</font></p>
+			<p>默认值：null</p>
 		</div>
 	</div>
 	<h3>示例</h3>
@@ -39,7 +41,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;......
 ];</code></pre>
 	<h3>相关参数</h3>
-	<h4><A href="s_isSimpleData.html">isSimpleData</A> | <A href="s_rootPID.html">rootPID</A> | <A href="s_treeNodeParentKey.html">treeNodeParentKey</A></h4>
+	<h4><A href="s_isSimpleData.html">isSimpleData</A> | <A href="s_treeNodeKey.html">treeNodeKey</A> | <A href="s_treeNodeParentKey.html">treeNodeParentKey</A></h4>
 	<h3>相关方法</h3>
 	<h4><A href="m_transformTozTreeNodes.html">transformTozTreeNodes(simpleTreeNodes)</A></h4>
 
