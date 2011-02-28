@@ -15,17 +15,15 @@
 	setting = {
 		editable: true,
 		edit_renameBtn: setRenameBtn,
+		keepParent: false,
+		keepLeaf: false,
 		async: true,
-//		asyncUrl: "asyncData/node.jsp",
-		asyncUrl: "asyncData/node.php",  
+		asyncUrl: "asyncData/node.jsp",
+//		asyncUrl: "asyncData/node.php",  
 		asyncParam: ["name", "id"],
 		callback: {
 			beforeExpand: zTreeBeforeExpand,
-			beforeDrop: zTreeBeforeDrop,
-			beforeRemove: zTreeBeforeRemove,
-			drop: zTreeOnDrop,
-			expand: zTreeOnExpand,
-			remove: zTreeOnRemove
+			expand: zTreeOnExpand
 		}
 	};
 
@@ -36,18 +34,7 @@
 	function setRenameBtn(treeNode) {
 		return false;
 	}
-	var srcParentNode = null;
-	function zTreeBeforeDrop(treeId, treeNode, targetNode, moveType) {
-		if (targetNode && !targetNode.isParent && $("#leafTrue").attr("checked") && moveType=="inner") {
-			alert("叶子节点无法成为父节点!");
-			return false;
-		}
-		srcParentNode = treeNode.parentNode;
-		return true;
-	}
-	function zTreeOnDrop(event, treeId, treeNode, targetNode, moveType) {
-		recoveryFolder();
-	}
+
 	function zTreeBeforeExpand(treeId, treeNode) {
 		var r = true;
 		if (treeNode.level >= 3 && (!treeNode.nodes || treeNode.nodes.length<1)) {
@@ -61,20 +48,14 @@
 			zTree1.reAsyncChildNodes(treeNode, "refresh");
 		}
 	}
-	function zTreeBeforeRemove(treeId, treeNode) {
-		srcParentNode = treeNode.parentNode;
-		return true;
-	}
-	function zTreeOnRemove(event, treeId, treeNode) {
-		recoveryFolder();
-	}
 
-	function recoveryFolder() {
-		if (srcParentNode && !srcParentNode.isParent && $("#parentTrue").attr("checked")) {
-			srcParentNode.isParent = true;
-			srcParentNode.open = false;
-			zTree1.updateNode(srcParentNode);
-		}
+	function updateSetting() {
+		var s = zTree1.getSetting();
+		s.keepParent = $("#parentTrue").attr("checked");
+		s.keepLeaf = $("#leafTrue").attr("checked");
+		zTree1.updateSetting(s);
+		$("#keepParentCode").html(s.keepParent + "");
+		$("#keepLeafCode").html(s.keepLeaf + "");
 	}
 
 	function refreshTree() {
@@ -104,12 +85,18 @@
 				<button class="ico star" onfocus="this.blur();"></button>编辑规则切换
 				<ul class="remark">——修改以下配置后，看看变化</ul>
 				<ul>
-					永远保持父节点isParent状态: <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" checked>true
-					<INPUT TYPE="radio" id="parentFalse" NAME="parentBtn">false
+					锁定父节点: <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" onclick="updateSetting();">true
+					<INPUT TYPE="radio" id="parentFalse" NAME="parentBtn" onclick="updateSetting();" checked >false
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.keepParent = <a id="keepParentCode">false</a>;</li>
 				</ul>
 				<ul>
-					叶子节点无法成为父节点: <INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" checked>true
-					<INPUT TYPE="radio" id="leafTrue" NAME="leafBtn">false
+					锁定叶子节点: <INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();">true
+					<INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();" checked >false
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.keepLeaf = <a id="keepLeafCode">false</a>;</li>
 				</ul>
 			</li>
 			<li class="title focus">
@@ -134,9 +121,9 @@
 				</ul>
 				<ul class="event">
 					<li>A、默认规则：任意节点只要 isParent=true 或 存在子节点，就是父节点；只要 isParent!=true 且 没有子节点 就是叶子节点</li>
-					<li>B、默认规则：如果将父节点的子节点全部删除或移走，则该父节点就成为叶子节点（<font color="red">将上面第一个配置修改为：false</font>）</li>
-					<li>C、默认规则：如果将某节点移动到叶子节点内，则该叶子节点就成为父节点（<font color="red">将上面第二个配置修改为：false</font>）</li>
-					<li>D、这个 Demo 利用 beforeDrop、drop、beforeRemove、remove 这几个事件回调函数将默认规则进行了一定的调整，仅供参考</li>
+					<li>B、默认规则：如果将父节点的子节点全部删除或移走，则该父节点就成为叶子节点</li>
+					<li>C、默认规则：如果将某节点移动到叶子节点内，则该叶子节点就成为父节点</li>
+					<li>D、从 v2.5 版本开始， zTree 提供了锁定父节点或叶子节点的配置参数，让用户能够更灵活的调整这一规则</li>
 				</ul>
 			</li>
 		</div>	

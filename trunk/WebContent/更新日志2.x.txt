@@ -9,6 +9,7 @@
 
    # 【增加】setting.keepParent 的参数，默认false
    # 【增加】setting.keepLeaf 的参数，默认false
+   # 【修改】拖拽操作让叶子节点变为父节点后，展开/折叠按钮事件异常的Bug
 
 
    # 【增加】getNodesByParamFuzzy(key, value, parentNode) 方法支持模糊查找（只能针对String的属性）
