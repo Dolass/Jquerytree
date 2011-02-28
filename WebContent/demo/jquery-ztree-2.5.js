@@ -86,6 +86,10 @@
 			showLine: true,
 			//是否显示图标
 			showIcon: true,
+			//是否锁定父节点状态
+			keepParent: false,
+			//是否锁定叶子节点状态
+			keepLeaf: false,
 			//当前被选择的TreeNode
 			curTreeNode: null,
 			//当前正被编辑的TreeNode
@@ -670,15 +674,27 @@
 					var dX = 0;
 					var dY = 0;
 					if (tmpTarget && tmpTarget.attr("id")!=targetSetting.treeObjId) {
-						var isPrev = ($("#" + treeNode.tId).prev().attr("id") == tmpTarget.attr("id")) ;
-						var isNext = ($("#" + treeNode.tId).next().attr("id") == tmpTarget.attr("id")) ;
+						var tmpTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
+						var tmpNodeObj = $("#" + treeNode.tId);
+						var isPrev = (tmpNodeObj.prev().attr("id") == tmpTargetNodeId) ;
+						var isNext = (tmpNodeObj.next().attr("id") == tmpTargetNodeId) ;
+						var isInner = (treeNode.parentNode && treeNode.parentNode.tId == tmpTargetNodeId) ;
+						
+						var canPrev = !isNext;
+						var canNext = !isPrev;
+						var canInner = !isInner && !(targetSetting.keepLeaf && !tmpTargetNode.isParent);
+						var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1;
+						var nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1;
+						
+						
 						var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
 						var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
-						if (dY_percent<0.25 && dY_percent>=-.2 && !isNext) {
+						
+						if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
 							dX = 1 - tmpArrow.width();
 							dY = 0 - tmpArrow.height()/2;
 							moveType = MoveType_Before;
-						} else if (dY_percent>0.75 && dY_percent<=1.2 && !isPrev) {
+						} else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
 							dX = 1 - tmpArrow.width();
 							dY = tmpTargetA.height() - tmpArrow.height()/2;
 							moveType = MoveType_After;
@@ -1402,6 +1418,9 @@
 
 	//增加子节点
 	function addTreeNodes(setting, parentNode, newNodes, isSilent) {
+		if (setting.keepLeaf && !parentNode.isParent) {
+			return;
+		}
 		if (setting.isSimpleData) {
 			newNodes = transformTozTreeFormat(setting, newNodes);
 		}
@@ -1427,10 +1446,11 @@
 			//如果目标节点不是父节点，增加树节点展开、关闭事件
 			if (!parentNode.isParent) {
 				target_switchObj.unbind('click');
-				target_switchObj.bind('click',
-				function() {
-					expandAndCollapseNode(setting, parentNode, !parentNode.open);
-				});
+				target_switchObj.bind('click', {
+					treeObjId: setting.treeObjId,
+					treeNode: parentNode
+				},
+				onSwitchNode);
 				target_aObj.unbind('dblclick');
 				target_aObj.bind('dblclick', {
 					treeObjId: setting.treeObjId,
@@ -1465,6 +1485,7 @@
 	//移动子节点
 	function moveTreeNode(setting, targetNode, treeNode, moveType, animateSign) {
 		if (targetNode == treeNode) return;
+		if (setting.keepLeaf && targetNode && !targetNode.isParent && moveType == MoveType_Inner) return;
 		var oldParentNode = treeNode.parentNode == null ? setting.root: treeNode.parentNode;
 		
 		var targetNodeIsRoot = (targetNode === null || targetNode == setting.root);
@@ -1585,10 +1606,11 @@
 			//如果目标节点不是父节点，且不是根，增加树节点展开、关闭事件
 			if (targetIsNewParent && !targetNodeIsRoot) {
 				target_switchObj.unbind('click');
-				target_switchObj.bind('click',
-						function() {
-					expandAndCollapseNode(setting, targetNode, !targetNode.open);
-				});
+				target_switchObj.bind('click',{
+					treeObjId: setting.treeObjId,
+					treeNode: targetNode
+				},
+				onSwitchNode);
 				target_aObj.unbind('dblclick');
 				target_aObj.bind('dblclick', {
 					treeObjId: setting.treeObjId,
@@ -1608,7 +1630,7 @@
 		setNodeLineIcos(setting, treeNode);
 		
 		//处理原节点的父节点
-		if (oldParentNode[setting.nodesCol].length < 1) {
+		if (!setting.keepParent && oldParentNode[setting.nodesCol].length < 1) {
 			//原所在父节点无子节点
 			oldParentNode.isParent = false;
 			var tmp_ulObj = $("#" + oldParentNode.tId + IDMark_Ul);
@@ -1671,7 +1693,7 @@
 		}
 
 		//处理原节点的父节点的图标、线
-		if (parentNode[setting.nodesCol].length < 1) {
+		if (!setting.keepParent && parentNode[setting.nodesCol].length < 1) {
 			//原所在父节点无子节点
 			parentNode.isParent = false;
 			parentNode.open = false;
@@ -1682,7 +1704,7 @@
 			replaceIcoClass(tmp_icoObj, FolderMark_Docu);
 			tmp_ulObj.css("display", "none");
 
-		} else if (setting.showLine) {
+		} else if (setting.showLine && parentNode[setting.nodesCol].length > 0) {
 			//原所在父节点有子节点
 			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isLastNode = true;
 			parentNode[setting.nodesCol][parentNode[setting.nodesCol].length - 1].isFirstNode = (parentNode[setting.nodesCol].length == 1);
