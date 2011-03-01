@@ -22,8 +22,7 @@
 //		asyncUrl: "asyncData/node.php",  
 		asyncParam: ["name", "id"],
 		callback: {
-			beforeExpand: zTreeBeforeExpand,
-			expand: zTreeOnExpand
+			beforeAsync: beforeAsync
 		}
 	};
 
@@ -35,18 +34,11 @@
 		return false;
 	}
 
-	function zTreeBeforeExpand(treeId, treeNode) {
-		var r = true;
-		if (treeNode.level >= 3 && (!treeNode.nodes || treeNode.nodes.length<1)) {
-			r = false;
-			alert(" Demo 不支持异步加载更深的子节点...");
+	function beforeAsync(treeId, treeNode) {
+		if (treeNode.level>3) {
+			return false;
 		}
-		return r;
-	}
-	function zTreeOnExpand(event, treeId, treeNode) {	
-		if (!treeNode.nodes || treeNode.nodes.length<1) {
-			zTree1.reAsyncChildNodes(treeNode, "refresh");
-		}
+		return true;
 	}
 
 	function updateSetting() {
@@ -102,19 +94,25 @@
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>编辑 与 异步加载 共存 说明
 				<ul class="remark">
-					<li>1、关键参数：isParent</li>
+					<li>1、全新修正规则</li>
+				</ul>
+				<ul class="event">
+					<li style="color:red;">从 v2.5 版本开始完全支持 编辑状态 与 异步加载状态 共存</li>
+				</ul>
+				<ul class="remark">
+					<li>2、关键参数：isParent</li>
 				</ul>
 				<ul class="event">
 					<li>A、渲染节点时，通过 isParent 来确定是否显示为父节点</li>
 					<li>B、异步加载时，通过 isParent 以及是否存在子节点，来确定是否需要异步加载子节点</li>
-					<li>C、编辑过程中，由于灵活的拖拽会导致 isParent 在子节点变化的时候而发生改变，从而导致与异步加载之间的冲突</li>
+					<li>C、编辑过程中，由于灵活的拖拽会导致 isParent 在子节点变化的时候而发生改变，从而有可能导致与异步加载之间的数据冲突</li>
 				</ul>
 				<ul class="remark">
-					<li>2、灵活的 reAsyncChildNodes 接口</li>
+					<li>2、beforeAsync 事件回调函数</li>
 				</ul>
 				<ul class="event">
-					<li>A、从 v2.2 版本开始，zTree 提供了用户指定父节点进行异步加载的接口</li>
-					<li>B、在 expand 事件回调函数，根据自己的规则利用这个接口可以很好的将 编辑状态 与 异步加载状态 结合起来</li>
+					<li>A、从 v2.5 版本开始，增加的这个回调函数，可以便于用户处理编辑状态时造成的父节点重新异步加载的数据问题，根据自定义的规则确定是否进行异步加载。</li>
+					<li>B、这个 Demo 中，判定 level>3 时，将不进行异步加载操作</li>
 				</ul>
 				<ul class="remark">
 					<li>3、父节点、叶子节点的状态</li>
@@ -123,7 +121,7 @@
 					<li>A、默认规则：任意节点只要 isParent=true 或 存在子节点，就是父节点；只要 isParent!=true 且 没有子节点 就是叶子节点</li>
 					<li>B、默认规则：如果将父节点的子节点全部删除或移走，则该父节点就成为叶子节点</li>
 					<li>C、默认规则：如果将某节点移动到叶子节点内，则该叶子节点就成为父节点</li>
-					<li>D、从 v2.5 版本开始， zTree 提供了锁定父节点或叶子节点的配置参数，让用户能够更灵活的调整这一规则</li>
+					<li style="color:red;">D、从 v2.5 版本开始，增加 setting.keepParent 和 setting.keepLeaf 参数，可以随意控制父节点和叶子节点状态的锁定，让用户能够更灵活的调整这一规则</li>
 				</ul>
 			</li>
 		</div>	
