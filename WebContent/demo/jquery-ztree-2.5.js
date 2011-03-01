@@ -146,6 +146,7 @@
 			},
 			//event Function
 			callback: {
+				beforeAsync:null,
 				beforeClick:null,
 				beforeRightClick:null,
 				beforeMouseDown:null,
@@ -886,23 +887,22 @@
 		} else {
 			switchObj.attr("class", "switch_" + LineMark_NoLine);
 		}
+		
+		var tmpOpen = (treeNode.open ? ("_" + FolderMark_Open) : ("_" + FolderMark_Close));
+		switchObj.attr("class", treeNode.isParent ? (switchObj.attr("class") + tmpOpen) : (switchObj.attr("class") + "_" + FolderMark_Docu));
 
-		icoObj.attr("class", (treeNode.iconSkin ? treeNode.iconSkin : ""));
-		if (treeNode.isParent) {
-			var tmpOpen = (treeNode.open ? ("_" + FolderMark_Open) : ("_" + FolderMark_Close));
-			switchObj.attr("class", switchObj.attr("class") + tmpOpen);
-			icoObj.addClass("ico" + tmpOpen);
-		} else {
-			switchObj.attr("class", switchObj.attr("class") + "_" + FolderMark_Docu);
-			icoObj.addClass("ico_" + FolderMark_Docu);
+		if (!treeNode.isAjaxing) {
+			icoObj.attr("class", (treeNode.iconSkin ? treeNode.iconSkin : ""));
+			icoObj.addClass(treeNode.isParent ? ("ico" + tmpOpen) : ("ico_" + FolderMark_Docu));
+			var icoStyle = "";
+			if (treeNode.icon) icoStyle += "background:url(" + treeNode.icon + ") 0 0 no-repeat;";
+			if (setting.showIcon == false || ((typeof setting.showIcon) == "function" && !setting.showIcon(setting.treeObjId, treeNode))) {
+				icoStyle += "width:0px;height:0px;";
+			}
+			if (icoStyle != "")	icoObj.attr("style", icoStyle);
+			else icoObj.attr("style", "");
 		}
-		var icoStyle = "";
-		if (treeNode.icon) icoStyle += "background:url(" + treeNode.icon + ") 0 0 no-repeat;";
-		if (setting.showIcon == false || ((typeof setting.showIcon) == "function" && !setting.showIcon(setting.treeObjId, treeNode))) {
-			icoStyle += "width:0px;height:0px;";
-		}
-		if (icoStyle != "")	icoObj.attr("style", icoStyle);
-		else icoObj.attr("style", "");
+
 	}
 	//设置自定义字体样式
 	function setNodeFontCss(setting, treeNode) {
@@ -942,8 +942,8 @@
 
 		obj.attr("class", tmpList.join("_"));
 	}
-	function replaceIcoClass(obj, newName) {
-		if (!obj) return;
+	function replaceIcoClass(treeNode, obj, newName) {
+		if (!obj || treeNode.isAjaxing) return;
 
 		var tmpName = obj.attr("class");
 		if (tmpName == undefined) return;
@@ -1209,7 +1209,14 @@
 	function switchNode(setting, treeNode) {
 		if (treeNode.open || (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
-		} else if (setting.async && !setting.editable) {
+		} else if (setting.async) {
+			var beforeAsync = true;
+			if ((typeof setting.callback.beforeAsync) == "function") beforeAsync = setting.callback.beforeAsync(setting.treeObjId, treeNode);
+			if (beforeAsync == false) {
+				expandAndCollapseNode(setting, treeNode, !treeNode.open);
+				return;
+			}
+			
 			asyncGetNode(setting, treeNode);
 		} else if (treeNode) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
@@ -1261,13 +1268,13 @@
 					}
 				} catch(err) {}
 				
+				if (treeNode) treeNode.isAjaxing = undefined;
 				setNodeLineIcos(setting, treeNode);
 				if (newNodes && newNodes != "") {
 					addTreeNodes(setting, treeNode, newNodes, false);
 				} else {
 					addTreeNodes(setting, treeNode, [], false);
 				}
-				if (treeNode) treeNode.isAjaxing = undefined;
 				setting.treeObj.trigger(ZTREE_ASYNC_SUCCESS, [setting.treeObjId, treeNode, msg]);
 
 			},
@@ -1307,7 +1314,7 @@
 		if (treeNode.isParent) {
 			if (!treeNode.open) {
 				replaceSwitchClass(switchObj, FolderMark_Open);
-				replaceIcoClass(icoObj, FolderMark_Open);
+				replaceIcoClass(treeNode, icoObj, FolderMark_Open);
 				treeNode.open = true;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.show();
@@ -1322,7 +1329,7 @@
 				}
 			} else {
 				replaceSwitchClass(switchObj, FolderMark_Close);
-				replaceIcoClass(icoObj, FolderMark_Close);
+				replaceIcoClass(treeNode, icoObj, FolderMark_Close);
 				treeNode.open = false;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.hide();
@@ -1436,7 +1443,7 @@
 			//处理节点在目标节点的图片、线
 			if (!parentNode.open) {
 				replaceSwitchClass(target_switchObj, FolderMark_Close);
-				replaceIcoClass(target_icoObj, FolderMark_Close);			
+				replaceIcoClass(parentNode, target_icoObj, FolderMark_Close);			
 				parentNode.open = false;
 				target_ulObj.css({
 					"display": "none"
@@ -1600,7 +1607,7 @@
 		//处理目标节点
 		if (moveType == MoveType_Inner) {
 			replaceSwitchClass(target_switchObj, FolderMark_Open);
-			replaceIcoClass(target_icoObj, FolderMark_Open);
+			replaceIcoClass(targetNode, target_icoObj, FolderMark_Open);
 			targetNode.open = true;
 			target_ulObj.css({"display":"block"});
 			//如果目标节点不是父节点，且不是根，增加树节点展开、关闭事件
@@ -1637,7 +1644,7 @@
 			var tmp_switchObj = $("#" + oldParentNode.tId + IDMark_Switch);
 			var tmp_icoObj = $("#" + oldParentNode.tId + IDMark_Icon);
 			replaceSwitchClass(tmp_switchObj, FolderMark_Docu);
-			replaceIcoClass(tmp_icoObj, FolderMark_Docu);
+			replaceIcoClass(oldParentNode, tmp_icoObj, FolderMark_Docu);
 			tmp_ulObj.css("display", "none");
 
 		} else if (oldNeighbor) {
@@ -1701,7 +1708,7 @@
 			var tmp_switchObj = $("#" + parentNode.tId + IDMark_Switch);
 			var tmp_icoObj = $("#" + parentNode.tId + IDMark_Icon);
 			replaceSwitchClass(tmp_switchObj, FolderMark_Docu);
-			replaceIcoClass(tmp_icoObj, FolderMark_Docu);
+			replaceIcoClass(parentNode, tmp_icoObj, FolderMark_Docu);
 			tmp_ulObj.css("display", "none");
 
 		} else if (setting.showLine && parentNode[setting.nodesCol].length > 0) {
