@@ -7,7 +7,6 @@
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="关于">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -23,7 +22,6 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="zTree 核心函数">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -56,6 +54,7 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="setting 详解">
 <PARAM NAME="Local" VALUE="setting.html">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -133,6 +132,18 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="editable">
 <PARAM NAME="Local" VALUE="s_editable.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="keepParent">
+<PARAM NAME="Local" VALUE="s_keepParent.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="keepLeaf">
+<PARAM NAME="Local" VALUE="s_keepLeaf.html">
 </OBJECT>
 </UL>
 <UL>
@@ -571,10 +582,12 @@
 </UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="事件">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="callback 回调函数">
+<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
@@ -640,6 +653,12 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeCollapse(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeCollapse.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeAsync(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeAsync.html">
 </OBJECT>
 </UL>
 <UL>
