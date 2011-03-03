@@ -37,6 +37,10 @@
 <PARAM NAME="Local" VALUE="s_asyncUrl.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeAsync(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeAsync.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="beforeChange(treeId, treeNode)">
 <PARAM NAME="Local" VALUE="e_beforeChange.html">
 </OBJECT>
@@ -383,6 +387,14 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="isSimpleData">
 <PARAM NAME="Local" VALUE="s_isSimpleData.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="keepLeaf">
+<PARAM NAME="Local" VALUE="s_keepLeaf.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="keepParent">
+<PARAM NAME="Local" VALUE="s_keepParent.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="level">

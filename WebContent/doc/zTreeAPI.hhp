@@ -59,6 +59,7 @@ c_ZTREE_NODECREATED.html
 c_ZTREE_REMOVE.html
 c_ZTREE_RENAME.html
 css.html
+e_beforeAsync.html
 e_beforeChange.html
 e_beforeClick.html
 e_beforeCollapse.html
@@ -137,6 +138,8 @@ s_ishover.html
 s_isLastNode.html
 s_isParent.html
 s_isSimpleData.html
+s_keepLeaf.html
+s_keepParent.html
 s_level.html
 s_name.html
 s_nameCol.html
