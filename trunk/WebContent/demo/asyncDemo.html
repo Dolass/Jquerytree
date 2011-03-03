@@ -21,6 +21,7 @@
 			asyncParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
 			asyncParamOther: ["test","true"], //其它参数 ( key, value 键值对格式)
 			callback:{
+				beforeAsync: zTreeBeforeAsync,
 				asyncSuccess: zTreeOnAsyncSuccess,
 				asyncError: zTreeOnAsyncError
 			}
@@ -47,6 +48,11 @@
 		return tmpUrl;
 	}
 
+	function zTreeBeforeAsync(treeId, treeNode) {
+		var r = $("#beforeAsyncTrue").attr("checked");
+		if (!r) alert("beforeAsync return false!!");
+		return r;
+	}
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 		if (treeNode) {
@@ -143,6 +149,11 @@
 			<li class="title focus">
 				<button class="ico safari" onfocus="this.blur();"></button>事件监控
 				<ul class="remark">——修改 node.php 产生服务器错误可触发onAsyncError事件</ul>
+				<ul>
+					beforeAsync&nbsp;事件 return:
+					<INPUT TYPE="radio" id="beforeAsyncTrue" name="beforeAsyncRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeAsyncFalse" name="beforeAsyncRadio" onfocus="this.blur();">false
+				</ul>
 				<ul class="event">
 				<li>onAsyncSuccess 事件:&nbsp;&nbsp;<a id="onAsyncSuccessNode"><br/></a></li>
 				</ul>
