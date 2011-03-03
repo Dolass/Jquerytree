@@ -51,7 +51,9 @@
 			zNodes1[1].nodes[2].icon = "demoStyle/img/people.gif";
 		
 			curLi = $("#diyIconStyle");
-		}
+		} else if (type=="5") {
+			setting1.showIcon = false;
+			curLi = $("#noIconStyle");}
 	
 		curLi.addClass("focus");
 		curType = type;
@@ -104,6 +106,8 @@
 						<button class="ico star" onfocus="this.blur();"></button>默认样式</li>
 					<li id="noLineStyle" class="menu" onclick="reloadTree('2')">
 						<button class="ico star" onfocus="this.blur();"></button>不显示节点连线</li>
+					<li id="noIconStyle" class="menu" onclick="reloadTree('5')">
+						<button class="ico star" onfocus="this.blur();"></button>不显示节点图标</li>
 					<li id="diyIconStyle" class="menu" onclick="reloadTree('3')">
 						<button class="ico star" onfocus="this.blur();"></button>icon属性自定义图标</li>
 					<li id="cssIconStyle" class="menu" onclick="alert('由于ie6对于css选择器的支持问题，因此ie6无法兼容此种类型的图标')">
