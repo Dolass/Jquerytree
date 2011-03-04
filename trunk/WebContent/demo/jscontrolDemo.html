@@ -200,9 +200,24 @@
 	function getNodeByParam() {
 		var key = $("#searchKey").get(0).value;
 		if (key.length > 0) {
-			treeNode = zTree1.getNodeByParam("name", key);
+			var treeNode = zTree1.getNodeByParam("name", key);
 			if (treeNode) {
 				alert("找到节点信息: \ntId=" + treeNode.tId + ", name=" + treeNode.name + ", level=" + treeNode.level);
+			} else {
+				alert("没有找到匹配的节点，请更换搜索条件");
+			}
+		}
+	}
+	function getNodesByParamFuzzy() {
+		var key = $("#searchKeyFuzzy").get(0).value;
+		if (key.length > 0) {
+			var treeNodes = zTree1.getNodesByParamFuzzy("name", key);
+			if (treeNodes && treeNodes.length>0) {
+				var msg = "找到节点信息: ";
+				for (var i=0; i<treeNodes.length; i++) {
+					msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
+				}
+				alert(msg);
 			} else {
 				alert("没有找到匹配的节点，请更换搜索条件");
 			}
@@ -216,7 +231,7 @@
 			return; 
 		}
 		key = parseInt(key);
-		treeNodes = zTree1.getNodesByParam("level", key);
+		var treeNodes = zTree1.getNodesByParam("level", key);
 		if (treeNodes && treeNodes.length>0) {
 			var msg = "找到节点信息: ";
 			for (var i=0; i<treeNodes.length; i++) {
@@ -427,7 +442,7 @@
 				</ul>
 				<ul class="operate">
 					增加父节点: <button class="ico addNode" onfocus="this.blur();" title="增加父节点" onclick="addNode('p');"></button>
-					增加普通节点: <button class="ico addNode" onfocus="this.blur();" title="增加普通节点" onclick="addNode();"></button>
+					增加叶子节点: <button class="ico addNode" onfocus="this.blur();" title="增加叶子节点" onclick="addNode();"></button>
 					删除节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
 				</ul>
 				<ul class="operate">
@@ -459,12 +474,17 @@
 				<ul class="operate">
 					名称匹配搜索单个节点: <input type="text" value="手机" id="searchKey"></input>
 					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodeByParam();"></button>
-					<br />getNodeByParam 方法演示（需要完全匹配）
+					<br />getNodeByParam 方法演示（完全匹配）
+				</ul>
+				<ul class="operate">
+					名称模糊搜索单个节点: <input type="text" value="电" id="searchKeyFuzzy"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParamFuzzy();"></button>
+					<br />getNodesByParamFuzzy 方法演示（模糊匹配）
 				</ul>
 				<ul class="operate">
 					level搜索节点集合: <input type="text" value="0" id="searchKey2"></input>
 					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParam();"></button>
-					<br />getNodesByParam 方法演示（需要完全匹配）
+					<br />getNodesByParam 方法演示（完全匹配）
 				</ul>
 			</li>
 			
