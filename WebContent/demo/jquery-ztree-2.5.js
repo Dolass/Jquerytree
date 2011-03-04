@@ -4,7 +4,7 @@
  *
  * Copyright (c) 2010 Hunter.z
  *
- * Date: 2011-03-10
+ * Date: 2011-03-08
  *
  */
 
@@ -1425,7 +1425,7 @@
 
 	//增加子节点
 	function addTreeNodes(setting, parentNode, newNodes, isSilent) {
-		if (setting.keepLeaf && !parentNode.isParent) {
+		if (setting.keepLeaf && parentNode && !parentNode.isParent) {
 			return;
 		}
 		if (setting.isSimpleData) {

@@ -14,7 +14,9 @@
 	var setting;
 
 		setting = {
-			editable: true
+			editable: true,
+			keepParent: false,
+			keepLeaf: false	
 		};
 
 	$(document).ready(function(){
@@ -26,6 +28,15 @@
 	}
 	function setRemoveBtn(treeNode) {
 		return (!treeNode.isParent);
+	}
+
+	function updateSetting() {
+		var s = zTree1.getSetting();
+		s.keepParent = $("#parentTrue").attr("checked");
+		s.keepLeaf = $("#leafTrue").attr("checked");
+		zTree1.updateSetting(s);
+		$("#keepParentCode").html(s.keepParent + "");
+		$("#keepLeafCode").html(s.keepLeaf + "");
 	}
 
 	function refreshTree() {
@@ -67,6 +78,20 @@
 				<button class="ico star" onfocus="this.blur();"></button>编辑 &amp; 浏览 状态切换
 				<ul class="remark">——修改以下配置后，看看变化</ul>
 				<ul>
+					锁定父节点: <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" onclick="updateSetting();">true
+					<INPUT TYPE="radio" id="parentFalse" NAME="parentBtn" onclick="updateSetting();" checked >false
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.keepParent = <a id="keepParentCode">false</a>;</li>
+				</ul>
+				<ul>
+					锁定叶子节点: <INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();">true
+					<INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();" checked >false
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.keepLeaf = <a id="keepLeafCode">false</a>;</li>
+				</ul>
+				<ul>
 					是否显示编辑按钮: <INPUT TYPE="radio" id="ebTrue" NAME="editBtn" checked onclick="refreshTree();">true
 					<INPUT TYPE="radio" id="ebFalse" NAME="editBtn" onclick="refreshTree();">false
 					<INPUT TYPE="radio" id="ebfun" NAME="editBtn" onclick="refreshTree();">function
@@ -91,6 +116,7 @@
 				<ul class="event">
 					<li>从 v2.2 版本开始，可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
 					<li>从 v2.3 版本开始，可以在多棵树之间拖拽节点。请参考“高级应用演示” 中的 “两棵树之间数据交互”</li>
+					<li>从 v2.5 版本开始，可以锁定父节点、叶子节点状态</li>
 				</ul>
 				<ul class="remark">
 					<li>2、拖拽节点规则</li>
@@ -109,7 +135,7 @@
 					<li>C、自定义控件请参考“高级应用演示” 中的 “添加自定义控件”</li>
 				</ul>
 				<ul class="remark">
-					<li style="text-decoration:line-through;">4、进入编辑状态时，禁止异步加载</li>
+					<li style="text-decoration:line-through; color:red;">4、进入编辑状态时，禁止异步加载</li>
 				</ul>
 				<ul class="event">
 					<li>从 v2.5 版本开始，允许 编辑状态 和 异步加载状态 共存，请参考对应的 Demo。</li>

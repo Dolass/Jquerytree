@@ -44,16 +44,15 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;01、【修改】<A href="s_asyncParamOther.html">asyncParamOther</A> 参数，允许其支持 JSON 对象</p>
-			<p>&nbsp;02、【修改】<A href="m_addNodes.html">addNodes</A> 方法，允许 newNodes 参数是单个的 JSON 数据，而不限定必须为 Array</p>
-			<p>&nbsp;03、【修改】<A href="m_checkAllNodes.html">checkAllNodes(checked)</A> 方法针对父节点没有被 check ，但子节点被 check 的情况下，全部取消 check 状态后，无法将父节点的灰色背景去掉的 Bug</p>
-			<p>&nbsp;04、【修改】不存在子节点的父节点展开后，无法显示新增加的子节点的Bug</p>
-			<p>&nbsp;05、【修改】<A href="m_expandNode.html">expandNode</A> 方法针对展开节点时，无法将节点移到可视区域的 Bug</p>
-			<p>&nbsp;06、【修改】<A href="s_expandSpeed.html">expandSpeed</A> = "" 时，无法正常触发 <A href="e_expand.html">expand</A> / <A href="e_collapse.html">collapse</A> 事件的Bug</p>
-			<p>&nbsp;07、【修改】在 <A href="e_beforeExpand.html">beforeExpand</A> / <A href="e_beforeCollapse.html">beforeCollapse</A> 事件中通过 expandNode 方法展开、折叠节点时，会导致 before 事件对应的 <A href="e_expand.html">expand</A> / <A href="e_collapse.html">collapse</A> 事件丢失的Bug</p>
-			<p>&nbsp;08、【修改】在 AJAX 方式下，如果下级没有数据，只能允许[] 不支持空字符串的Bug</p>
-			<p>&nbsp;09、【增加】<A href="s_fontCss.html">fontCss</A> 参数，可以自定义设置节点样式</p>
-			<p>&nbsp;10、【增加】<A href="e_nodeCreated.html">nodeCreated</A> 事件，即每个节点渲染完毕后发出通知</p>
+			<p>&nbsp;01、【修订】允许异步加载与编辑状态共存，无需特殊代码</p>
+			<p>&nbsp;02、【修改】拖拽操作让叶子节点变为父节点后，展开/折叠按钮事件异常的 Bug</p>
+			<p>&nbsp;03、【修改】关于 [<A href="s_treeNodeParentKey.html">treeNodeParentKey</A>] 属性值在拖拽后没有被修正的Bug （增加 <A href="s_rootPID.html">rootPID</A>）</p>
+			<p>&nbsp;04、【修改】简单数据模式中，如果 [<A href="s_treeNodeKey.html">treeNodeKey</A>] 属性值为 0 的节点无法成为父节点的 Bug</p>
+			<p>&nbsp;05、【增加】锁定父节点的参数 <A href="s_keepParent.html">keepParent</A> ，默认false</p>
+			<p>&nbsp;06、【增加】锁定叶子节点的参数 <A href="s_keepLeaf.html">keepLeaf</A> ，默认false</p>
+			<p>&nbsp;07、【增加】 <A href="e_beforeAsync.html">beforeAsync</A> 的回调函数，由用户控制是否允许进行异步加载</p>
+			<p>&nbsp;08、【增加】<A href="m_getNodesByParamFuzzy.html">getNodesByParamFuzzy(key, value, parentNode)</A> 方法支持模糊查找（只能针对String的属性）</p>
+			<p>&nbsp;09、【增加】提供一个不显示图标的参数设置 <A href="s_showIcon.html">showIcon</A></p>
 		</div>
 	</div>
 </div>

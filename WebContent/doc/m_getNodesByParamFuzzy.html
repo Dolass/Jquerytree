@@ -34,14 +34,14 @@
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-var nodes = zTreeObj.getNodesByParam("name", "测试");
+var nodes = zTreeObj.getNodesByParamFuzzy("name", "测试");
 ......</code></pre>
 	<p>获取 当前选择的父节点下子节点名字包含“测试”字符串 的全部节点数据</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
 var pNode = zTreeObj.getSelectedNode();
-var nodes = zTreeObj.getNodesByParam("name", "测试", pNode);
+var nodes = zTreeObj.getNodesByParamFuzzy("name", "测试", pNode);
 ......</code></pre>
 	<h3>相关方法</h3>
 	<h4><A href="m_getNodesByParam.html">getNodesByParam(key, value, parentNode)</A> | <A href="m_getNodeByParam.html">getNodeByParam(key, value)</A> | <A href="m_getNodeByTId.html">getNodeByTId(tID)</A></h4>
