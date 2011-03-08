@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>beforeDrop(treeId, treeNode, targetNode, moveType)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: Boolean</span>beforeDrop(treeId, treeNode, targetNode, moveType)</h2>
+	<h3><span>目录: [事件] --> [callback 回调函数]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>用户在使用 zTree 的页面上，编写 beforeDrop(treeId, treeNode, targetNode, moveType) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可在触发 zTree 的 drop 事件之前得到相应信息，并根据自己的需求确定是否此次拖拽结果可以生效。</p>
+			<p style="color:red">该事件在节点拖拽操作结束时最先触发，如果返回 false，则中断 drop 事件，也不会触发 <A href="e_drop.html">drop</A> 回调函数。</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>treeId</strong><span>String</span></h4>
+	<p>因为 zTree 支持页面上同时存在多个 zTree 的实例，因此在 callback 回调函数内返回对应 zTree 的 <A href="s_treeObjId.html">treeObjId</A>，便于用户操控</p>
+	<p style="color:red">多个 zTree 之间进行拖拽时，返回目标节点的 treeObjId </p>
+	<h4><strong>treeNode</strong><span>JSON</span></h4>
+	<p>被拖拽的节点 JSON 数据对象。</p>
+	<p style="color:red">如果没有拖拽到合法节点内，则返回 null</p>
+	<h4><strong>targetNode</strong><span>JSON</span></h4>
+	<p>成为 treeNode 父节点的目标节点 JSON 数据对象。</p>
+	<p style="color:red">如果没有拖拽到合法节点内 或 拖拽成为根节点，则返回 null</p>
+	<h4><strong>moveType</strong><span>String</span></h4>
+	<p>指定移动到目标节点的相对位置</p>
+	<p style="color:red">"inner"：成为子节点，"before"：成为同级前一个节点，"after"：成为同级后一个节点</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>禁止 zTree 的 drop 操作</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;callback : {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeDrop: zTreeBeforeDrop,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;......
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};
+......
+function zTreeBeforeDrop(treeId, treeNode, targetNode, moveType) {
+	return false;
+}
+......</code></pre>
+	<h3>相关事件</h3>
+	<h4><A href="e_drop.html">drop(event, treeId, treeNode, targetNode, moveType)</A>
+	<br/><A href="e_beforeDrag.html">beforeDrag(treeId, treeNode)</A> | <A href="e_drag.html">drag(event, treeId, treeNode)</A></h4>
+	<h3>相关参数</h3>
+	<h4><A href="s_editable.html">editable</A></h4>
+
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>getNodeByParam(key, value)</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: JSON Object</span>getNodeByParam(key, value)</h2>
+	<h3><span>目录: [方法] --> [获取]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>根据节点数据的属性精确搜索满足条件的的 JSON 数据对象。</p>
+			<p style="color:red">如果有多个同样属性值的节点，则只返回第一个找到的节点，如果需要获取全部满足条件的节点集合，请参考 <A href="m_getNodesByParam.html">getNodesByParam(key, value, parentNode)</A> </p>
+			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
+			<p>如果当前没有满足条件的节点，则返回 null</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>key</strong><span>String</span></h4>
+	<p>进行搜索的节点数据的属性名称</p>
+	<h4><strong>value</strong><span></span></h4>
+	<p>进行搜索的节点数据的属性值，一定要保证数据类型匹配</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>获取 id = 10 的节点数据</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+var node = zTreeObj.getNodeByParam("id", 10);
+......</code></pre>
+	<h3>相关方法</h3>
+	<h4><A href="m_getNodesByParam.html">getNodesByParam(key, value, parentNode)</A> | <A href="m_getNodesByParamFuzzy.html">getNodesByParamFuzzy(key, value, parentNode)</A>
+	<br/><A href="m_getNodeByTId.html">getNodeByTId(tID)</A></h4>
+</div>
+</div>
+
+</body></html>

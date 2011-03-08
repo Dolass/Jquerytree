@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>zTree(setting, [zTreeNodes])</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>返回值: zTreePlugin</span>zTree(setting, [zTreeNodes])</h2>
+	<h3><span>目录: [zTree 核心函数]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>这个函数接受一个 JSON 格式的数据对象 setting 和 一个 JSON 格式的数据对象 zTreeNodes，从而建立 Tree。</p>
+			<p>对于用户在 Web 页面上建立 Tree，就是通过这个函数实现的，对于后期的代码控制，则通过返回的 zTreePlugin 对象操作即可。</p>
+			<p style="color:red">需要显示 Tree 的 Web 页面需要加载 jquery-1.4.2.js / jquery-ztree-2.5.js / zTreeStyle.css 这三个文件。</p>
+			<p style="color:red">请注意对于 Tree 的容器增加 class="tree"。</p>
+			<p style="color:red">需要使用系列图标请加载 zTreeIcons.css。</p>
+			<p style="color:red">页面需要进行 W3C 申明，例如：&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"&nbsp;&nbsp; &nbsp;"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</p>
+		</div>
+	</div>
+	<h3>参数</h3>
+	<h4><strong>setting</strong><span>Json</span></h4>
+	<p>zTree 的参数配置数据，详细请参见 参数说明 -> <a href="setting.html">setting 详解</a></p>
+	<h4><strong>zTreeNodes<em> (可选)</em></strong><span>JSON</span></h4>
+	<p>zTree 的参数配置数据，详细请参见 参数说明 -> zTreeNodes 详解；</p>
+	<p>如果将节点数据直接放在 setting.root.nodes 下，或者 全部从异步获取节点数据，则不需要传递此参数。</p>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>简单创建 zTree 演示</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;showLine: true,
+&nbsp;&nbsp;&nbsp;&nbsp;checkable: true
+};</code></pre>
+	<h5 xmlns="">普通 zTreeNodes 举例:</h5>
+	<pre xmlns=""><code>var zTreeNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{ "name":"google", "url":"http://g.cn", "target":"_blank"},
+&nbsp;&nbsp;&nbsp;&nbsp;{ "name":"baidu", "url":"http://baidu.com", "target":"_blank"},
+&nbsp;&nbsp;&nbsp;&nbsp;{ "name":"sina", "url":"http://www.sina.com.cn", "target":"_blank"}
+];</code></pre>
+	<h5 xmlns="">带有父子关系的标准 zTreeNodes 举例:</h5>
+	<pre xmlns=""><code>var zTreeNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "name":"test1", "nodes":[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "name":"test11", "nodes":[
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "name":"test111"}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]},
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "name":"test12"}
+&nbsp;&nbsp;&nbsp;&nbsp;]},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+];</code></pre>
+	<h5 xmlns="">带有父子关系的简单 Array 格式的 zTreeNodes 举例（使用简单 Array 格式的数据请参考 <A href="s_isSimpleData.html">isSimpleData</A> ）:</h5>
+	<pre xmlns=""><code>var treeNodes = [
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":1, "pId":0, "name":"test1"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":11, "pId":1, "name":"test11"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":12, "pId":1, "name":"test12"},
+&nbsp;&nbsp;&nbsp;&nbsp;{"id":111, "pId":11, "name":"test111"},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+];</code></pre>
+	<h5 xmlns="">Html 对象:</h5>
+	<pre xmlns=""><code>&lt;ul id="tree" class="<font style="color:red">tree</font>" style="width:300px; overflow:auto;"&gt;&lt;/ul&gt;</code></pre>
+	<h5 xmlns="">初始化 Tree:</h5>
+	<pre xmlns=""><code>var zTree = $("#tree").zTree(setting, zTreeNodes);</code></pre>
+
+</div>
+</div>
+
+</body></html>
