@@ -1231,7 +1231,7 @@ class DemoData {
 	}
 }
 ?>
-[<?
+[<?php
 $pId = "-1";
 if(array_key_exists( 'prod_id',$_REQUEST)) {
 	$pId=$_REQUEST['prod_id'];

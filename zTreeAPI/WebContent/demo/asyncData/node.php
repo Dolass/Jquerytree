@@ -1,5 +1,5 @@
 <?php ?>
-[<?
+[<?php
 $pId = "0";
 $pName = "";
 if(array_key_exists( 'id',$_REQUEST)) {
