@@ -11,7 +11,6 @@
    # 【增加】confirmRename 事件，以提供名称校验功能
    # zTree 数据结构讲解（包括clone、Json转换的注意事项）
    # zTree 数据后台创建、解析讨论（zTreeUtil）
-
    
   * 远期功能扩展：
    # 傻瓜级zTree代码架构在线工具
