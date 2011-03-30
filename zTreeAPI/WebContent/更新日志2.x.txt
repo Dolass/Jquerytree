@@ -6,6 +6,8 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
+   # 【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.5.js
+   # 【修改】设置checkType: {"Y": "", "N":""} 后，checkAllNodes无法全部选中或取消的Bug
    # 【增加】节点拖拽的个性化控制属性
    # 【增加】触发节点进入重命名状态的接口
    # 【增加】confirmRename 事件，以提供名称校验功能
