@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Once Add Simple Dom Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+div.content {
+    margin: 20px 0 0 0;
+    border: grey solid 1px;
+    overflow:scroll;
+    width: 300px;
+    height: 400px;
+}
+span#resultContent {
+    color: #fb7878;
+}
+    </style>
+    <script type="text/javascript">
+function addDoms() {
+    var count = document.getElementById("domCount").value;
+    var testContent = document.getElementById("testContent");
+    var resultContent = document.getElementById("resultContent");
+    if (isNaN(count)) {
+        count = 1000;
+    } else {
+        count = parseInt(count);
+    }
+    var timeStart = new Date();
+    (function(){
+        var newRootUL = document.createElement("ul");
+        for (var i = 0; i<count; i++) {
+            var newDom = document.createElement("li");
+            newDom.innerHTML = "-- li " + i + "--";
+            newRootUL.insertBefore(newDom, newRootUL.firstChild);
+            var newUL = document.createElement("ul");
+            newDom.appendChild(newUL);
+            newUL.innerHTML = "<li> == ul " + i + " == </li>"
+        }
+        testContent.firstChild.insertBefore(newRootUL, testContent.firstChild.firstChild);
+    })()
+    var timeEnd = new Date();
+    resultContent.innerHTML = "wait time [" + (timeEnd.getTime() - timeStart.getTime()) + "ms]";
+
+}
+
+function clearDoms() {
+    var testContent = document.getElementById("testContent");
+    var resultContent = document.getElementById("resultContent");
+    testContent.innerHTML = "<li></li>";
+    resultContent.innerHTML = "";
+}
+
+    </script>
+  </head>
+  <body>
+      <h1>Once Add Simple Dom Test</h1>
+          <span>add dom counts:</span><input type="text" id="domCount" value="1000" />
+          <input type="submit" onclick="addDoms();"  value="start" />
+          <input type="submit" onclick="clearDoms();"  value="clear" />
+          <br/><br/><span>test result:</span>&nbsp;&nbsp;<span id="resultContent"></span>
+      <div class="content">
+          <ul id="testContent"><li></li></ul>
+      </div>
+
+  </body>
+</html>
