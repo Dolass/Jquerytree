@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Repeat Add Simple Html Test</title>
+    <title>Once Add Simple Html Test</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
 div.content {
@@ -21,17 +21,18 @@ function addDoms() {
     var testContent = document.getElementById("testContent");
     var resultContent = document.getElementById("resultContent");
     if (isNaN(count)) {
-        count = 100;
+        count = 1000;
     } else {
         count = parseInt(count);
     }
     var timeStart = new Date();
     (function(){
-        testContent.firstChild.innerHTML = "<ul></ul>" + testContent.firstChild.innerHTML;
-        lastDom = testContent.firstChild.firstChild;
+        var htmlstr = "";
         for (var i = 0; i<count; i++) {
-            lastDom.innerHTML = "<li><ul><li> == ul " + i + " == </li></ul>-- li " + i + "--</li>" + lastDom.innerHTML;
+            htmlstr = "<li><ul><li> == ul " + i + " == </li></ul>-- li " + i + "--</li>" + htmlstr;
         }
+        htmlstr = "<ul>" + htmlstr + "</ul>";
+        testContent.firstChild.innerHTML = htmlstr;
     })()
     var timeEnd = new Date();
     resultContent.innerHTML = "wait time [" + (timeEnd.getTime() - timeStart.getTime()) + "ms]";
@@ -48,7 +49,7 @@ function clearDoms() {
     </script>
   </head>
   <body>
-      <h1>Repeat Add Simple Html Test</h1>
+      <h1>Once Add Simple Html Test</h1>
           <span>add dom counts:</span><input type="text" id="domCount" value="1000" />
           <input type="submit" onclick="addDoms();"  value="start" />
           <input type="submit" onclick="clearDoms();"  value="clear" />
