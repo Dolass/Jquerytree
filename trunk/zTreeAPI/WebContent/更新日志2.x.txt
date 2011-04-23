@@ -1,4 +1,5 @@
 =ZTree v2.x (JQuery Tree插件) 更新日志=
+
 <font color="red">由于发现之前部分方法的命名规则不太利于今后的拓展，并且容易引起歧义，故在全面修正方法命名规则后，将 zTree 版本升级为2.0。</font>
 <font color="red">具体修改内容可参考API文档。</font>
 
