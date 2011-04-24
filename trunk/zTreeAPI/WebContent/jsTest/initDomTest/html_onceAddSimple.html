@@ -14,6 +14,12 @@ div.content {
 span#resultContent {
     color: #fb7878;
 }
+li {
+    white-space: nowrap;
+}
+span.remark {
+    color:red;
+}
     </style>
     <script type="text/javascript">
 function addDoms() {
@@ -29,7 +35,7 @@ function addDoms() {
     (function(){
         var htmlstr = "";
         for (var i = 0; i<count; i++) {
-            htmlstr = "<li><ul><li> == ul " + i + " == </li></ul>-- li " + i + "--</li>" + htmlstr;
+            htmlstr = "<li>-- li " + i + "--<ul><li> == ul " + i + " == </li></ul></li>" + htmlstr;
         }
         htmlstr = "<ul>" + htmlstr + "</ul>";
         testContent.firstChild.innerHTML = htmlstr;
