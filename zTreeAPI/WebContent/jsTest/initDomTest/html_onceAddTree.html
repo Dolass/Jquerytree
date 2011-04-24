@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Repeat Add Simple Html Test</title>
+    <title>Once Add Tree Html Test</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
 div.content {
@@ -34,12 +34,13 @@ function addDoms() {
     var tmpUL = document.createElement("ul");
     var timeStart = new Date();
     (function(){
-        testContent.firstChild.innerHTML = "<ul></ul>";
-        lastDom = testContent.firstChild.firstChild;
+        var beforeStr = "<ul>";
+        var afterStr = "</ul>";
         for (var i = 0; i<count; i++) {
-            tmpUL.innerHTML = "<li>-- li " + i + "--<ul><li> == ul " + i + " == </li></ul></li>";
-            lastDom.insertBefore(tmpUL.firstChild, lastDom.firstChild);
+            beforeStr = beforeStr + "<li>-- li " + i + "--<ul>";
+            afterStr = "<li> == ul " + i + " == </li></ul></li>" + afterStr;
         }
+        testContent.innerHTML = beforeStr + afterStr;
     })()
     var timeEnd = new Date();
     resultContent.innerHTML = "wait time [" + (timeEnd.getTime() - timeStart.getTime()) + "ms]";
@@ -56,7 +57,7 @@ function clearDoms() {
     </script>
   </head>
   <body>
-      <h1>Repeat Add Simple Html Test</h1>
+      <h1>Once Add Tree Html Test</h1>
           <span>add dom counts:</span><input type="text" id="domCount" value="1000" />
           <input type="submit" onclick="addDoms();"  value="start" />
           <input type="submit" onclick="clearDoms();"  value="clear" />
