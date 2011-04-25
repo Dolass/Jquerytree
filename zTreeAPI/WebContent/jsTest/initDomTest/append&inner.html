@@ -152,13 +152,12 @@ testFun = {
         var newRootLi = document.createElement("li");
         newRootLi.appendChild(document.createElement("ul"));
         testContent.appendChild(newRootLi);
-        var htmlstr = ["<ul>"];
+        var htmlstr = [];
         (function(){
             for (var i = 0; i<count; i++) {
                 htmlstr.push("<li><ul><li> == ul " + i + " == </li></ul></li>");
             }
         })();
-        htmlstr.push("</ul>");
         newRootLi.firstChild.innerHTML = htmlstr.join("");
         var timeEnd = new Date();
         return (timeEnd.getTime() - timeStart.getTime());
