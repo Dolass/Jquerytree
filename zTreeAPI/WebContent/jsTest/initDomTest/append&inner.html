@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>AppendChild & innerHTML Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+div.content {
+    margin: 20px 0 0 0;
+    border: grey solid 1px;
+    overflow:scroll;
+    width: 800px;
+    height: 400px;
+}
+span#resultContent {
+    color: #fb7878;
+}
+li {
+    white-space: nowrap;
+}
+input {
+    margin-right: 10px;
+}
+span.remark {
+    color:red;
+}
+table {
+    width: 80%;
+    border-collapse:collapse;
+    border-spacing:0;
+    border-left:1px solid #888;
+    border-top:1px solid #888;
+    background:#efefef;
+    margin: 5px 0;
+}
+th,td{
+    border-right:1px solid #888;
+    border-bottom:1px solid #888;
+    padding:5px 15px;
+}
+td {
+    height: 20px;
+}
+th{
+    font-weight:bold;
+    background:#ccc;
+}
+    </style>
+    <script type="text/javascript">
+function testOperator() {
+    document.getElementById("testBtn").disabled = true;
+    var totalTime = 0;
+    var curTimes = 0;
+    var testTimes = document.getElementById("testTimes").value;
+    testTimes = isNaN(testTimes) ? 10 : parseInt(testTimes);
+    var domCount = document.getElementById("domCount").value;
+    domCount = isNaN(domCount) ? 500 : parseInt(domCount);
+    
+    var testName = "";
+    var radios = document.getElementsByName("testRadio");
+    for (var r = 0; r < radios.length; r++) {
+        if (radios[r].checked) {
+            testName = radios[r].id;
+            break;
+        }
+    }
+    if (testName.length==0) {
+        document.getElementById("testBtn").disabled = false;
+        return;
+    }
+    
+    var resultContent = document.getElementById(testName + "_result");
+    var resultLog = document.getElementById(testName + "_log");
+    resultContent.innerHTML = "testing...";
+    resultLog.innerHTML = "";
+    
+    testFun.clearDoms();
+    while (curTimes < testTimes) {
+        curTimes++;
+        var time = testFun[testName](domCount);
+        totalTime += time;
+        resultLog.appendChild(document.createTextNode("(" + curTimes + ")  " + time));
+        resultLog.appendChild(document.createElement("br"));
+        if (curTimes < testTimes) {testFun.clearDoms();}
+    }
+    resultContent.innerHTML = (totalTime/curTimes).toFixed(1) + "";
+    document.getElementById("testBtn").disabled = false;
+    
+}
+
+testFun = {
+    /* simple_append_repeat */
+    r1 : function(count) {
+        var timeStart = new Date();
+        var testContent = document.getElementById("testContent");
+        var newRootLi = document.createElement("li");
+        newRootLi.appendChild(document.createElement("ul"));
+        testContent.appendChild(newRootLi);
+        (function(){
+            for (var i = 0; i<count; i++) {
+                var newLi = document.createElement("li");
+                newLi.appendChild(document.createElement("ul"));
+                newLi.firstChild.appendChild(document.createElement("li"));
+                newLi.firstChild.firstChild.appendChild(document.createTextNode(" == ul " + i + " == "));
+                newRootLi.firstChild.appendChild(newLi);
+            }
+        })()
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+    /* simple_append_once */
+    o1 : function(count) {
+        var timeStart = new Date();
+        var testContent = document.getElementById("testContent");
+        var newRootLi = document.createElement("li");
+        newRootLi.appendChild(document.createElement("ul"));
+        (function(){
+            for (var i = 0; i<count; i++) {
+                var newLi = document.createElement("li");
+                newLi.appendChild(document.createElement("ul"));
+                newLi.firstChild.appendChild(document.createElement("li"));
+                newLi.firstChild.firstChild.appendChild(document.createTextNode(" == ul " + i + " == "));
+                newRootLi.firstChild.appendChild(newLi);
+            }
+        })();
+        testContent.appendChild(newRootLi);
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+ 
+     /* simple_inner_repeat */
+    r2 : function(count) {
+        var timeStart = new Date();
+        var tmpUL = document.createElement("ul");
+        var testContent = document.getElementById("testContent");
+        var newRootLi = document.createElement("li");
+        newRootLi.appendChild(document.createElement("ul"));
+        testContent.appendChild(newRootLi);
+        (function(){
+            for (var i = 0; i<count; i++) {
+                tmpUL.innerHTML = "<li><ul><li> == ul " + i + " == </li></ul></li>";
+                newRootLi.firstChild.appendChild(tmpUL.firstChild);
+            }
+        })();
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+
+     /* simple_inner_once */
+    o2 : function(count) {
+        var timeStart = new Date();
+        var testContent = document.getElementById("testContent");
+        var newRootLi = document.createElement("li");
+        newRootLi.appendChild(document.createElement("ul"));
+        testContent.appendChild(newRootLi);
+        var htmlstr = ["<ul>"];
+        (function(){
+            for (var i = 0; i<count; i++) {
+                htmlstr.push("<li><ul><li> == ul " + i + " == </li></ul></li>");
+            }
+        })();
+        htmlstr.push("</ul>");
+        newRootLi.firstChild.innerHTML = htmlstr.join("");
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+    
+    clearDoms : function () {
+        var testContent = document.getElementById("testContent");
+        testContent.innerHTML = "";
+    }
+}
+
+
+
+    </script>
+    </head>
+    <body>
+        <h1>Add Dom Test --- AppendChild & innerHTML</h1>
+        <span>Add Dom Counts:</span><input type="text" id="domCount" value="500" size="6"/>
+        <span>Test Times:</span><input type="text" id="testTimes" value="10" size="3" />
+        <input type="button" id="testBtn" onclick="testOperator();"  value="start" />
+        <table>
+            <tbody>
+                <tr><th colspan="4">Simple Dom</th><th colspan="4">Tree Dom</th></tr>
+                <tr><th colspan="2">appendChild</th><th colspan="2">innerHTML</th><th colspan="2">appendChild</th><th colspan="2">innerHTML</th></tr>
+                <tr>
+                    <th><input type="radio" name="testRadio" id="r1" />repeat</th><th><input type="radio" name="testRadio" id="o1" />once</th>
+                    <th><input type="radio" name="testRadio" id="r2" />repeat</th><th><input type="radio" name="testRadio" id="o2" />once</th>
+                    <th><input type="radio" name="testRadio" id="r3" />repeat</th><th><input type="radio" name="testRadio" id="o3" />once</th>
+                    <th><input type="radio" name="testRadio" id="r4" />repeat</th><th><input type="radio" name="testRadio" id="o4" />once</th>
+               </tr>
+                <tr>
+                    <td id="r1_result"></td><td id="o1_result"></td>
+                    <td id="r2_result"></td><td id="o2_result"></td>
+                    <td id="r3_result"></td><td id="o3_result"></td>
+                    <td id="r4_result"></td><td id="o4_result"></td>
+               </tr>
+                <tr>
+                    <td id="r1_log"></td><td id="o1_log"></td>
+                    <td id="r2_log"></td><td id="o2_log"></td>
+                    <td id="r3_log"></td><td id="o3_log"></td>
+                    <td id="r4_log"></td><td id="o4_log"></td>
+               </tr>
+            </tbody>
+        </table>
+        <br/><br/><span>test result:</span>&nbsp;&nbsp;<span id="resultContent"></span>
+        <div class="content">
+            <ul id="testContent"></ul>
+        </div>
+    </body>
+</html>
