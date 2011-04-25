@@ -8,7 +8,7 @@ div.content {
     margin: 20px 0 0 0;
     border: grey solid 1px;
     overflow:scroll;
-    width: 300px;
+    width: 800px;
     height: 400px;
 }
 span#resultContent {
@@ -22,16 +22,19 @@ span.remark {
 }
     </style>
     <script type="text/javascript">
+var totalTime = 0;
+var times = 0;
 function addDoms() {
     var count = document.getElementById("domCount").value;
     var testContent = document.getElementById("testContent");
     var resultContent = document.getElementById("resultContent");
     if (isNaN(count)) {
-        count = 100;
+        count = 500;
     } else {
         count = parseInt(count);
     }
     var tmpUL = document.createElement("ul");
+    times++;
     var timeStart = new Date();
     (function(){
         testContent.firstChild.innerHTML = "<ul></ul>";
@@ -43,7 +46,9 @@ function addDoms() {
         }
     })()
     var timeEnd = new Date();
-    resultContent.innerHTML = "wait time [" + (timeEnd.getTime() - timeStart.getTime()) + "ms]";
+    var time = (timeEnd.getTime() - timeStart.getTime());
+    totalTime += time;
+    resultContent.innerHTML = "times: " + times + "; wait time [" + time + "ms]; average time [" + (totalTime/times).toFixed(1) + "]";
 
 }
 
@@ -58,9 +63,10 @@ function clearDoms() {
   </head>
   <body>
       <h1>Repeat Add Tree Html Test</h1>
-          <span>add dom counts:</span><input type="text" id="domCount" value="1000" />
+          <span>add dom counts:</span><input type="text" id="domCount" value="500" />
           <input type="submit" onclick="addDoms();"  value="start" />
           <input type="submit" onclick="clearDoms();"  value="clear" />
+          <br/><span class="remark">使用FireFox 3/4，当count比较大（超过300以后）有可能会导致崩溃，但情况还不太稳定</span>
           <br/><br/><span>test result:</span>&nbsp;&nbsp;<span id="resultContent"></span>
       <div class="content">
           <ul id="testContent"><li></li></ul>
