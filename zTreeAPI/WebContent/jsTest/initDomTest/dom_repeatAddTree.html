@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Repeat Add Tree Html Test</title>
+    <title>Repeat Add Tree Dom Test</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style>
 div.content {
@@ -22,32 +22,38 @@ span.remark {
 }
     </style>
     <script type="text/javascript">
+var totalTime = 0;
+var times = 0;
 function addDoms() {
     var count = document.getElementById("domCount").value;
     var testContent = document.getElementById("testContent");
     var resultContent = document.getElementById("resultContent");
     if (isNaN(count)) {
-        count = 100;
+        count = 500;
     } else {
         count = parseInt(count);
     }
+    times++;
     var timeStart = new Date();
     (function(){
         var newRootUL = document.createElement("ul");
-        testContent.firstChild.insertBefore(newRootUL, testContent.firstChild.firstChild);
+        testContent.firstChild.appendChild(newRootUL);
         var lastContent = newRootUL;
         for (var i = 0; i<count; i++) {
             var newDom = document.createElement("li");
-            newDom.innerHTML = "-- li " + i + "--";
-            lastContent.insertBefore(newDom, lastContent.firstChild);
+            newDom.appendChild(document.createTextNode("-- li " + i + "--"));
+            lastContent.appendChild(newDom);
             var newUL = document.createElement("ul");
+            newUL.appendChild(document.createElement("li"));
+            newUL.firstChild.appendChild(document.createTextNode(" == ul " + i + " == "));
             newDom.appendChild(newUL);
-            newUL.innerHTML = "<li> == ul " + i + " == </li>"
             lastContent = newUL;
         }
     })()
     var timeEnd = new Date();
-    resultContent.innerHTML = "wait time [" + (timeEnd.getTime() - timeStart.getTime()) + "ms]";
+    var time = (timeEnd.getTime() - timeStart.getTime());
+    totalTime += time;
+    resultContent.innerHTML = "times: " + times + "; wait time [" + time + "ms]; average time [" + (totalTime/times).toFixed(1) + "]";
 
 }
 
@@ -61,8 +67,8 @@ function clearDoms() {
     </script>
   </head>
   <body>
-      <h1>Repeat Add Tree Html Test</h1>
-          <span>add dom counts:</span><input type="text" id="domCount" value="100" />
+      <h1>Repeat Add Tree Dom Test</h1>
+          <span>add dom counts:</span><input type="text" id="domCount" value="500" />
           <input type="submit" onclick="addDoms();"  value="start" />
           <input type="submit" onclick="clearDoms();"  value="clear" />
           <br/><span class="remark">使用FireFox 4.0，当count大于380会导致崩溃，但情况还不太稳定</span>
