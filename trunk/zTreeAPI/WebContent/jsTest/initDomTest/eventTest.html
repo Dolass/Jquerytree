@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Event Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+div.content {
+    margin: 20px 0 0 0;
+    border: grey solid 1px;
+    overflow:scroll;
+    width: 800px;
+    height: 400px;
+}
+span#resultContent {
+    color: #fb7878;
+}
+li {
+    white-space: nowrap;
+}
+input {
+    margin-right: 10px;
+}
+span.remark {
+    color:red;
+}
+table {
+    width: 80%;
+    border-collapse:collapse;
+    border-spacing:0;
+    border-left:1px solid #888;
+    border-top:1px solid #888;
+    background:#efefef;
+    margin: 5px 0;
+}
+th,td{
+    border-right:1px solid #888;
+    border-bottom:1px solid #888;
+    padding:5px 15px;
+}
+td {
+    height: 20px;
+}
+th{
+    font-weight:bold;
+    background:#ccc;
+}
+    </style>
+    <script type="text/javascript">
+var EventUtil = {
+    addHandler : function(element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    },
+    removeHandler : function(element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
+        }
+    }
+    
+};
+
+function testOperator() {
+    document.getElementById("testBtn").disabled = true;
+    var totalTime = 0;
+    var curTimes = 0;
+    var testTimes = document.getElementById("testTimes").value;
+    testTimes = isNaN(testTimes) ? 10 : parseInt(testTimes);
+    var domCount = document.getElementById("domCount").value;
+    domCount = isNaN(domCount) ? 5000 : parseInt(domCount);
+
+    var testName = "";
+    var radios = document.getElementsByName("testRadio");
+    for (var r = 0; r < radios.length; r++) {
+        if (radios[r].checked) {
+            testName = radios[r].id;
+            break;
+        }
+    }
+    if (testName.length==0) {
+        document.getElementById("testBtn").disabled = false;
+        return;
+    }
+
+    var resultContent = document.getElementById(testName + "_result");
+    var resultLog = document.getElementById(testName + "_log");
+    resultContent.innerHTML = "testing...";
+    resultLog.innerHTML = "";
+
+    testFun.clearDoms();
+//    testFun.initDoms(domCount);
+    while (curTimes < testTimes) {
+        curTimes++;
+        var time = testFun[testName](domCount);
+        totalTime += time;
+        resultLog.appendChild(document.createTextNode("(" + curTimes + ")  " + time));
+        resultLog.appendChild(document.createElement("br"));
+        if (curTimes < testTimes) {
+            testFun.clearDoms();
+//            testFun.initDoms(domCount);
+        }
+    }
+    resultContent.innerHTML = (totalTime/curTimes).toFixed(1) + "";
+    document.getElementById("testBtn").disabled = false;
+
+}
+
+testFun = {
+    /* normal event */
+    r1 : function(count) {
+        var timeStart = new Date();
+        testFun.initDoms(count);
+        var liList = document.getElementsByTagName("li");
+        (function(){
+            for (var i = 0; i<liList.length; i++) {
+                EventUtil.addHandler(liList[i], "click", testFun.eventHandler);
+            }
+        })()
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+
+     /* delegate */
+    r2 : function(count) {
+        var timeStart = new Date();
+        testFun.initDoms(count);
+        var testContent = document.getElementById("testContent");
+        (function(){
+            EventUtil.addHandler(testContent, "click", testFun.eventHandler);
+        })();
+        var timeEnd = new Date();
+        return (timeEnd.getTime() - timeStart.getTime());
+    },
+
+    eventHandler : function(event) {
+        var target = event ? event.target : window.event.srcElement;
+        alert(target.innerHTML);
+    },
+
+    initDoms : function(count) {
+        var testContent = document.getElementById("testContent");
+        var newRootLi = document.createElement("li");
+        newRootLi.appendChild(document.createElement("ul"));
+        testContent.appendChild(newRootLi);
+        var htmlstr = [];
+        (function(){
+            for (var i = 0; i<count; i++) {
+                htmlstr.push("<li> == " + i + " == </li>");
+            }
+        })();
+        testContent.innerHTML = htmlstr.join("");
+    },
+
+    clearDoms : function () {
+        var testContent = document.getElementById("testContent");
+        while (testContent.firstChild != null ) {
+            testContent.removeChild(testContent.firstChild);
+        }
+        EventUtil.removeHandler(testContent, "click", testFun.eventHandler);
+    }
+}
+
+
+
+    </script>
+    </head>
+    <body>
+        <h1>Add Event Test --- event & delegate</h1>
+        <span>Add Dom Counts:</span><input type="text" id="domCount" value="5000" size="6"/>
+        <span>Test Times:</span><input type="text" id="testTimes" value="10" size="3" />
+        <input type="button" id="testBtn" onclick="testOperator();"  value="start" />
+        <table>
+            <tbody>
+                <tr><th><input type="radio" name="testRadio" id="r1" />event</th><th><input type="radio" name="testRadio" id="r2" />delegate</th></tr>
+                <tr>
+                    <td id="r1_result"></td><td id="r2_result"></td>
+               </tr>
+                <tr>
+                    <td id="r1_log"></td><td id="r2_log"></td>
+               </tr>
+            </tbody>
+        </table>
+        <br/><br/><span>test result:</span>&nbsp;&nbsp;<span id="resultContent"></span>
+        <div class="content">
+            <ul id="testContent"></ul>
+        </div>
+    </body>
+</html>
