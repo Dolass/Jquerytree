@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -46,7 +46,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">大数据量演示<span> —— 普通加载</span></center>
+<center class="headTitle">澶ф暟鎹噺婕旂ず<span> 鈥斺� 鏅�鍔犺浇</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -57,31 +57,31 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<font color="red" style="font-size:12px;">此演示需要发布到 php 服务器下方能正常执行。<br/>
-				使用 Tomcat 的朋友，请修改asyncUrl的值</font>
+				<font color="red" style="font-size:12px;">姝ゆ紨绀洪渶瑕佸彂甯冨埌 php 鏈嶅姟鍣ㄤ笅鏂硅兘姝ｅ父鎵ц銆�br/>
+				浣跨敤 Tomcat 鐨勬湅鍙嬶紝璇蜂慨鏀筧syncUrl鐨勫�</font>
 			</li>
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>加载方式
-				<ul class="remark">——改换不同的加载方式进行比较(总节点数：397 个)</ul>
+				<button class="ico star" onfocus="this.blur();"></button>鍔犺浇鏂瑰紡
+				<ul class="remark">鈥斺�鏀规崲涓嶅悓鐨勫姞杞芥柟寮忚繘琛屾瘮杈�鎬昏妭鐐规暟锛�97 涓�</ul>
 				<ul>
 					&nbsp;
-					<INPUT TYPE="radio" id="init_1" NAME="initRadio" checked onclick="reloadTree();">异步加载&nbsp;
-					<INPUT TYPE="radio" id="init_2" NAME="initRadio" onclick="reloadTree();">一次性加载(<font color="red">会假死</font>)
+					<INPUT TYPE="radio" id="init_1" NAME="initRadio" checked onclick="reloadTree();">寮傛鍔犺浇&nbsp;
+					<INPUT TYPE="radio" id="init_2" NAME="initRadio" onclick="reloadTree();">涓�鎬у姞杞�<font color="red">浼氬亣姝�/font>)
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>建议说明
-				<ul class="remark">1、这个 Demo 是针对总节点数较多，但每一级节点数量较少的例子</ul>
+				<button class="ico books" onfocus="this.blur();"></button>寤鸿璇存槑
+				<ul class="remark">1銆佽繖涓�Demo 鏄拡瀵规�鑺傜偣鏁拌緝澶氾紝浣嗘瘡涓�骇鑺傜偣鏁伴噺杈冨皯鐨勪緥瀛�/ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
+					<li>&nbsp;&nbsp;娴忚鍣ㄦ暣浣撶殑鎬ц兘閮戒笉鏄壒鍒ソ锛屽挨鍏舵槸IE锛屽洜姝ゅ浜庤妭鐐规�鏁拌緝澶氾紝姣忓眰鑺傜偣鏁颁笉澶氾紝灞傛暟杈冨鏉傜殑鎯呭喌锛屽缓璁娇鐢ㄥ紓姝ュ姞杞芥ā寮忥紝鍥犱负寮傛鍔犺浇妯″紡鏈�ぇ鐨勫ソ澶勫氨鏄敤澶氬皯鍔犺浇澶氬皯锛屽浜庝竴涓鏉傜殑鏍戞潵璇达紝鐢ㄦ埛璁块棶椤甸潰鏃朵竴鑸儏鍐典笅鏄笉浼氫竴涓釜鍏ㄩ儴鑺傜偣鐐瑰嚮涓�亶</li>
 					<li></li>
-					<li>&nbsp;&nbsp;对于同级节点数据量很多时，异步加载也会出现假死，建议模仿“大数据量演示”下的“高级异步加载”的例子进行自定义的异步加载</li>
+					<li>&nbsp;&nbsp;瀵逛簬鍚岀骇鑺傜偣鏁版嵁閲忓緢澶氭椂锛屽紓姝ュ姞杞戒篃浼氬嚭鐜板亣姝伙紝寤鸿妯′豢鈥滃ぇ鏁版嵁閲忔紨绀衡�涓嬬殑鈥滈珮绾у紓姝ュ姞杞解�鐨勪緥瀛愯繘琛岃嚜瀹氫箟鐨勫紓姝ュ姞杞�/li>
 				</ul>
-				<ul class="remark">2、取消展开、折叠特效 &nbsp;setting.expandSpeed = "";</ul>
+				<ul class="remark">2銆佸彇娑堝睍寮��鎶樺彔鐗规晥 &nbsp;setting.expandSpeed = "";</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;动画特效会比较耗费资源，因此对于节点很多的情况下，就不要使用动画特效了</li>
+					<li>&nbsp;&nbsp;鍔ㄧ敾鐗规晥浼氭瘮杈冭�璐硅祫婧愶紝鍥犳瀵逛簬鑺傜偣寰堝鐨勬儏鍐典笅锛屽氨涓嶈浣跨敤鍔ㄧ敾鐗规晥浜�/li>
 				</ul>
-				<ul class="remark">3、如果你有好的建议，也请提供出来，谢谢了</ul>
+				<ul class="remark">3銆佸鏋滀綘鏈夊ソ鐨勫缓璁紝涔熻鎻愪緵鍑烘潵锛岃阿璋簡</ul>
 				<ul class="event">
 					<li>&nbsp;&nbsp;</li>
 				</ul>

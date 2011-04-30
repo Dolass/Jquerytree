@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -64,7 +64,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">编辑演示<span> —— 默认编辑</span></center>
+<center class="headTitle">缂栬緫婕旂ず<span> 鈥斺� 榛樿缂栬緫</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -75,29 +75,29 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>编辑 &amp; 浏览 状态切换
-				<ul class="remark">——修改以下配置后，看看变化</ul>
+				<button class="ico star" onfocus="this.blur();"></button>缂栬緫 &amp; 娴忚 鐘舵�鍒囨崲
+				<ul class="remark">鈥斺�淇敼浠ヤ笅閰嶇疆鍚庯紝鐪嬬湅鍙樺寲</ul>
 				<ul>
-					锁定父节点: <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" onclick="updateSetting();">true
+					閿佸畾鐖惰妭鐐� <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" onclick="updateSetting();">true
 					<INPUT TYPE="radio" id="parentFalse" NAME="parentBtn" onclick="updateSetting();" checked >false
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.keepParent = <a id="keepParentCode">false</a>;</li>
 				</ul>
 				<ul>
-					锁定叶子节点: <INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();">true
+					閿佸畾鍙跺瓙鑺傜偣: <INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();">true
 					<INPUT TYPE="radio" id="leafTrue" NAME="leafBtn" onclick="updateSetting();" checked >false
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.keepLeaf = <a id="keepLeafCode">false</a>;</li>
 				</ul>
 				<ul>
-					是否显示编辑按钮: <INPUT TYPE="radio" id="ebTrue" NAME="editBtn" checked onclick="refreshTree();">true
+					鏄惁鏄剧ず缂栬緫鎸夐挳: <INPUT TYPE="radio" id="ebTrue" NAME="editBtn" checked onclick="refreshTree();">true
 					<INPUT TYPE="radio" id="ebFalse" NAME="editBtn" onclick="refreshTree();">false
 					<INPUT TYPE="radio" id="ebfun" NAME="editBtn" onclick="refreshTree();">function
 				</ul>
 				<ul>
-					是否显示删除按钮: <INPUT TYPE="radio" id="dbTrue" NAME="removeBtn" checked onclick="refreshTree();">true
+					鏄惁鏄剧ず鍒犻櫎鎸夐挳: <INPUT TYPE="radio" id="dbTrue" NAME="removeBtn" checked onclick="refreshTree();">true
 					<INPUT TYPE="radio" id="dbFalse" NAME="removeBtn" onclick="refreshTree();">false
 					<INPUT TYPE="radio" id="dbfun" NAME="removeBtn" onclick="refreshTree();">function
 				</ul>
@@ -108,37 +108,37 @@
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>编辑状态说明
+				<button class="ico books" onfocus="this.blur();"></button>缂栬緫鐘舵�璇存槑
 				<ul class="remark">
-					<li>1、编辑状态时，可以对节点进行拖拽操作</li>
+					<li>1銆佺紪杈戠姸鎬佹椂锛屽彲浠ュ鑺傜偣杩涜鎷栨嫿鎿嶄綔</li>
 					
 				</ul>
 				<ul class="event">
-					<li>从 v2.2 版本开始，可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
-					<li>从 v2.3 版本开始，可以在多棵树之间拖拽节点。请参考“高级应用演示” 中的 “两棵树之间数据交互”</li>
-					<li>从 v2.5 版本开始，可以锁定父节点、叶子节点状态</li>
+					<li>浠�v2.2 鐗堟湰寮�锛屽彲浠ユ嫋鎷借妭鐐硅繘琛屾帓搴忥紝鍙互鍚岀骇鑺傜偣涓婁笅鎷栨嫿銆�/li>
+					<li>浠�v2.3 鐗堟湰寮�锛屽彲浠ュ湪澶氭５鏍戜箣闂存嫋鎷借妭鐐广�璇峰弬鑰冣�楂樼骇搴旂敤婕旂ず鈥�涓殑 鈥滀袱妫垫爲涔嬮棿鏁版嵁浜や簰鈥�/li>
+					<li>浠�v2.5 鐗堟湰寮�锛屽彲浠ラ攣瀹氱埗鑺傜偣銆佸彾瀛愯妭鐐圭姸鎬�/li>
 				</ul>
 				<ul class="remark">
-					<li>2、拖拽节点规则</li>
+					<li>2銆佹嫋鎷借妭鐐硅鍒�/li>
 				</ul>
 				<ul class="event">
-					<li>A、拖拽时如果 zTree 的背景变色，释放后该节点将成为根节点（只有拖拽到zTree边缘时才能成为根节点）</li>
-					<li>B、拖拽到其他节点上时请注意 “箭头图标” 位置（目标节点的上、中、下）</li>
-					<li>C、拖拽到边缘时，滚动条能够自动移动</li>
+					<li>A銆佹嫋鎷芥椂濡傛灉 zTree 鐨勮儗鏅彉鑹诧紝閲婃斁鍚庤鑺傜偣灏嗘垚涓烘牴鑺傜偣锛堝彧鏈夋嫋鎷藉埌zTree杈圭紭鏃舵墠鑳芥垚涓烘牴鑺傜偣锛�/li>
+					<li>B銆佹嫋鎷藉埌鍏朵粬鑺傜偣涓婃椂璇锋敞鎰�鈥滅澶村浘鏍団� 浣嶇疆锛堢洰鏍囪妭鐐圭殑涓娿�涓�涓嬶級</li>
+					<li>C銆佹嫋鎷藉埌杈圭紭鏃讹紝婊氬姩鏉¤兘澶熻嚜鍔ㄧЩ鍔�/li>
 				</ul>
 				<ul class="remark">
-					<li>3、编辑状态时，可以修改节点的名称，以及删除节点</li>
+					<li>3銆佺紪杈戠姸鎬佹椂锛屽彲浠ヤ慨鏀硅妭鐐圭殑鍚嶇О锛屼互鍙婂垹闄よ妭鐐�/li>
 				</ul>
 				<ul class="event">
-					<li>A、按钮可统一设定是否显示</li>
-					<li>B、按钮可根据节点由需求决定是否显示</li>
-					<li>C、自定义控件请参考“高级应用演示” 中的 “添加自定义控件”</li>
+					<li>A銆佹寜閽彲缁熶竴璁惧畾鏄惁鏄剧ず</li>
+					<li>B銆佹寜閽彲鏍规嵁鑺傜偣鐢遍渶姹傚喅瀹氭槸鍚︽樉绀�/li>
+					<li>C銆佽嚜瀹氫箟鎺т欢璇峰弬鑰冣�楂樼骇搴旂敤婕旂ず鈥�涓殑 鈥滄坊鍔犺嚜瀹氫箟鎺т欢鈥�/li>
 				</ul>
 				<ul class="remark">
-					<li style="text-decoration:line-through; color:red;">4、进入编辑状态时，禁止异步加载</li>
+					<li style="text-decoration:line-through; color:red;">4銆佽繘鍏ョ紪杈戠姸鎬佹椂锛岀姝㈠紓姝ュ姞杞�/li>
 				</ul>
 				<ul class="event">
-					<li>从 v2.5 版本开始，允许 编辑状态 和 异步加载状态 共存，请参考对应的 Demo。</li>
+					<li>浠�v2.5 鐗堟湰寮�锛屽厑璁�缂栬緫鐘舵� 鍜�寮傛鍔犺浇鐘舵� 鍏卞瓨锛岃鍙傝�瀵瑰簲鐨�Demo銆�/li>
 				</ul>
 			</li>
 		</div>	

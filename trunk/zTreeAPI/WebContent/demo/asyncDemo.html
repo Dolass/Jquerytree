@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
 
 
   <SCRIPT LANGUAGE="JavaScript">
@@ -17,9 +17,9 @@
 		setting = {
 			checkable: true,
 			async: true,
-			asyncUrl: "asyncData/node.txt",  //获取节点数据的URL地址
-			asyncParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
-			asyncParamOther: ["test","true"], //其它参数 ( key, value 键值对格式)
+			asyncUrl: "asyncData/node.txt",  //鑾峰彇鑺傜偣鏁版嵁鐨刄RL鍦板潃
+			asyncParam: ["name", "id"],  //鑾峰彇鑺傜偣鏁版嵁鏃讹紝蹇呴』鐨勬暟鎹悕绉帮紝渚嬪锛歩d銆乶ame
+			asyncParamOther: ["test","true"], //鍏跺畠鍙傛暟 ( key, value 閿�瀵规牸寮�
 			callback:{
 				beforeAsync: zTreeBeforeAsync,
 				asyncSuccess: zTreeOnAsyncSuccess,
@@ -86,7 +86,7 @@
 	function reloadAsync() {
 		var treeNode = zTree1.getSelectedNode();
 		if (!treeNode) {
-			alert("请先选中一个节点");
+			alert("璇峰厛閫変腑涓�釜鑺傜偣");
 			return;
 		}
 		zTree1.reAsyncChildNodes(treeNode, $("#refreshType").attr("checked") ? "refresh" : "add")
@@ -102,7 +102,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">异步加载演示</center>
+<center class="headTitle">寮傛鍔犺浇婕旂ず</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -113,14 +113,14 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>异步加载数据源配置
-				<ul class="remark">——使用 Tomcat 的朋友，可以自己编写 node.jsp</ul>
+				<button class="ico star" onfocus="this.blur();"></button>寮傛鍔犺浇鏁版嵁婧愰厤缃�
+				<ul class="remark">鈥斺�浣跨敤 Tomcat 鐨勬湅鍙嬶紝鍙互鑷繁缂栧啓 node.jsp</ul>
 				<ul>
-					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('asyncData/node.txt');">node.txt（静态数据）
+					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('asyncData/node.txt');">node.txt锛堥潤鎬佹暟鎹級
 					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('asyncData/node.php');">node.php（动态数据）
+					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('asyncData/node.php');">node.php锛堝姩鎬佹暟鎹級
 					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree(setAsyncUrl);">function（根据节点修改URL地址）
+					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree(setAsyncUrl);">function锛堟牴鎹妭鐐逛慨鏀筓RL鍦板潃锛�
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.async = true;</li>
@@ -130,35 +130,35 @@
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>操作指示
+				<button class="ico star" onfocus="this.blur();"></button>鎿嶄綔鎸囩ず
 				<ul class="operate">
-					异步加载选中节点的子节点: <button onclick="reloadAsync();" title="异步加载" onfocus="this.blur();" class="ico refresh"></button>
-					加载模式：<INPUT TYPE="radio" id="refreshType" name="reloadTypeRadio" checked onfocus="this.blur();">刷新
-					<INPUT TYPE="radio" id="addType" name="reloadTypeRadio" onfocus="this.blur();">追加
+					寮傛鍔犺浇閫変腑鑺傜偣鐨勫瓙鑺傜偣: <button onclick="reloadAsync();" title="寮傛鍔犺浇" onfocus="this.blur();" class="ico refresh"></button>
+					鍔犺浇妯″紡锛�INPUT TYPE="radio" id="refreshType" name="reloadTypeRadio" checked onfocus="this.blur();">鍒锋柊
+					<INPUT TYPE="radio" id="addType" name="reloadTypeRadio" onfocus="this.blur();">杩藉姞
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>异步加载说明
+				<button class="ico books" onfocus="this.blur();"></button>寮傛鍔犺浇璇存槑
 				<ul class="remark">
-					异步加载时获取的数据可以是某一级节点的集合。
+					寮傛鍔犺浇鏃惰幏鍙栫殑鏁版嵁鍙互鏄煇涓�骇鑺傜偣鐨勯泦鍚堛�
 				</ul>
 				<ul class="remark">
-					异步加载时获取的数据也可以是若干级节点的集合；<br/>只要满足树形结构的数据即可。
+					寮傛鍔犺浇鏃惰幏鍙栫殑鏁版嵁涔熷彲浠ユ槸鑻ュ共绾ц妭鐐圭殑闆嗗悎锛�br/>鍙婊¤冻鏍戝舰缁撴瀯鐨勬暟鎹嵆鍙�
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>事件监控
-				<ul class="remark">——修改 node.php 产生服务器错误可触发onAsyncError事件</ul>
+				<button class="ico safari" onfocus="this.blur();"></button>浜嬩欢鐩戞帶
+				<ul class="remark">鈥斺�淇敼 node.php 浜х敓鏈嶅姟鍣ㄩ敊璇彲瑙﹀彂onAsyncError浜嬩欢</ul>
 				<ul>
-					beforeAsync&nbsp;事件 return:
+					beforeAsync&nbsp;浜嬩欢 return:
 					<INPUT TYPE="radio" id="beforeAsyncTrue" name="beforeAsyncRadio" checked onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="beforeAsyncFalse" name="beforeAsyncRadio" onfocus="this.blur();">false
 				</ul>
 				<ul class="event">
-				<li>onAsyncSuccess 事件:&nbsp;&nbsp;<a id="onAsyncSuccessNode"><br/></a></li>
+				<li>onAsyncSuccess 浜嬩欢:&nbsp;&nbsp;<a id="onAsyncSuccessNode"><br/></a></li>
 				</ul>
 				<ul class="event">
-				<li>onAsyncError 事件:&nbsp;&nbsp;<a id="onAsyncErrorNode"><br/></a></li>
+				<li>onAsyncError 浜嬩欢:&nbsp;&nbsp;<a id="onAsyncErrorNode"><br/></a></li>
 				</ul>
 			</li>
 				
