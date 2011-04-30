@@ -287,6 +287,7 @@
 		  if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown);
 		});
 		
+                setting.treeObj.unbind('contextmenu');
 		setting.treeObj.bind('contextmenu',
 			function(event) {
 				var targetObj = $(event.target);
@@ -302,7 +303,7 @@
 				} 
 				return (typeof setting.callback.rightClick) != "function";
 			});
-		
+		setting.treeObj.unbind('mouseup');
 		setting.treeObj.bind('mouseup',
 			function(event) {
 				var targetObj = $(event.target);
@@ -317,6 +318,7 @@
 				}
 				return true;
 			});
+                setting.treeObj.unbind('mousedown');
 		setting.treeObj.bind('mousedown',
 			function(event) {
 				var targetObj = $(event.target);
