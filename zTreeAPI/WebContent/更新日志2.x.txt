@@ -18,7 +18,6 @@
    # 【修改】异步获取节点asyncUrl建议：有时候我异步后台获取子节点json后还需要处理一下，但现在异步返回方法是返回对应的url，建议增加个方法可以直接接受处理后的json。
    # 【查找】对于编辑模式,在点击编辑后，将输入框中的文字全部选中，然后点击其他地方进行了保存。
             如此操作多次，在速度比较快时，会发现浏览器死掉，若不即时关闭浏览器，会报该脚本造成计算机运行速度变慢的Bug
-   # 【修改】 setting.treeObj.unbind('contextmenu'); 由于没有unbind（'contextmenu'）；setting.treeObj.bind('contextmenu',导致：右键ADDNODE,右键恢复ZTREE,重复操作后多次后,TREE中NODE名称被改变。可用rightmenu.html测试一下
 
    # 【增加】dblclick双击事件
    # 【增加】子节点相关查找的方法
@@ -46,6 +45,9 @@
    # 【修改】兼容 jQuery 1.5 在Firefox上的问题（用jQuery 1.5.min 试了一下，貌似没有这个问题，暂时搁浅）
   * 增加皮肤
 </font>
+
+*2011.05.20* v2.6
+   * 【修改】contextmenu/mousedown/mouseup 事件未unbind的bug，如果多次refresh就会出现异常。
 
 *2011.03.08* v2.5
    * 【修订】允许异步加载与编辑状态共存，无需特殊代码；并且可配合新增加的beforeAsync回调函数，根据节点自行决定是否允许进行异步加载
