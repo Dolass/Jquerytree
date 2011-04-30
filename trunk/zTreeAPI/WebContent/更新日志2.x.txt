@@ -6,8 +6,7 @@
 <font color=#041594>
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
-   # 【修改】在Constructor里，zTreeId = 0; 导致实现多个Tree时，treeId计数清零导致重复的Bug
-   # 【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.5.js
+   
    # 【修改】设置checkType: {"Y": "", "N":""} 后，checkAllNodes无法全部选中或取消的Bug
    # 【增加】节点拖拽的个性化控制属性
    # 【增加】触发节点进入重命名状态的接口
@@ -48,6 +47,8 @@
 
 *2011.05.20* v2.6
    * 【修改】contextmenu/mousedown/mouseup 事件未unbind的bug，如果多次refresh就会出现异常。
+   * 【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.6.js
+   * 【修改】在Constructor里以及refresh中，重新设置zTreeId = 0; 导致实现多个Tree时，treeId计数清零导致重复的Bug
 
 *2011.03.08* v2.5
    * 【修订】允许异步加载与编辑状态共存，无需特殊代码；并且可配合新增加的beforeAsync回调函数，根据节点自行决定是否允许进行异步加载
