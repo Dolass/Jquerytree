@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -66,7 +66,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">鍏煎IE6鐨勬紨绀�/center>
+<center class="headTitle">兼容IE6的演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -77,45 +77,45 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>寤鸿璇存槑
-				<ul class="remark">1銆佷笉瑕佸姞杞�zTreeIcons.css</ul>
+				<button class="ico books" onfocus="this.blur();"></button>建议说明
+				<ul class="remark">1、不要加载 zTreeIcons.css</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;瀵逛簬 "button.a.b{...}" 杩欑 css 閫夋嫨鍣ㄧ殑鏂规硶IE6鏄笉鏀寔鐨勶紝鍥犳涓嶈鍔犺浇 zTreeIcons.css锛屼篃灏变笉瑕佷娇鐢╟ss鑷畾涔夊浘鏍囪繖涓姛鑳戒簡</li>
+					<li>&nbsp;&nbsp;对于 "button.a.b{...}" 这种 css 选择器的方法IE6是不支持的，因此不要加载 zTreeIcons.css，也就不要使用css自定义图标这个功能了</li>
 				</ul>
-				<ul class="remark">2銆佷笉瑕佷娇鐢�png 鍥剧墖</ul>
+				<ul class="remark">2、不要使用 png 图片</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;IE6瀵逛簬png鍥剧墖鐨勯�鏄庢樉绀轰竴鐩存槸涓緢澶ч棶棰橈紝鍥犳闇�鏀寔IE6鐨勬湅鍙嬶紝璇峰皢png鍥剧墖鍏ㄩ儴鍒朵綔涓篻if鍥剧墖</li>
+					<li>&nbsp;&nbsp;IE6对于png图片的透明显示一直是个很大问题，因此需要支持IE6的朋友，请将png图片全部制作为gif图片</li>
 				</ul>
-				<ul class="remark">3銆佸彇娑堝睍寮��鎶樺彔鐗规晥 &nbsp;setting.expandSpeed = "";</ul>
+				<ul class="remark">3、取消展开、折叠特效 &nbsp;setting.expandSpeed = "";</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;jQuery榛樿鐨勫姩鐢绘晥鏋滃湪IE6涓嬫晥鏋滃緢宸紝鍥犳濡傛灉鎮ㄧ殑zTree蹇呴』鍏煎IE6锛岄偅涔堣鍙栨秷zTree鐨勫姩鐢绘晥鏋�/li>
+					<li>&nbsp;&nbsp;jQuery默认的动画效果在IE6下效果很差，因此如果您的zTree必须兼容IE6，那么请取消zTree的动画效果</li>
 				</ul>
-				<ul class="remark">4銆佽妭鐐硅緝澶氭椂锛屽缓璁娇鐢ㄥ紓姝ュ姞杞芥ā寮�/ul>
+				<ul class="remark">4、节点较多时，建议使用异步加载模式</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;娴忚鍣ㄦ暣浣撶殑鎬ц兘閮戒笉鏄壒鍒ソ锛屽挨鍏舵槸IE锛屽洜姝ゅ浜庤妭鐐规�鏁拌緝澶氾紝姣忓眰鑺傜偣鏁颁笉澶氾紝灞傛暟杈冨鏉傜殑鎯呭喌锛屽缓璁娇鐢ㄥ紓姝ュ姞杞芥ā寮忥紝鍥犱负寮傛鍔犺浇妯″紡鏈�ぇ鐨勫ソ澶勫氨鏄敤澶氬皯鍔犺浇澶氬皯锛屽浜庝竴涓鏉傜殑鏍戞潵璇达紝鐢ㄦ埛璁块棶椤甸潰鏃朵竴鑸儏鍐典笅鏄笉浼氫竴涓釜鍏ㄩ儴鑺傜偣鐐瑰嚮涓�亶</li>
+					<li>&nbsp;&nbsp;浏览器整体的性能都不是特别好，尤其是IE，因此对于节点总数较多，每层节点数不多，层数较复杂的情况，建议使用异步加载模式，因为异步加载模式最大的好处就是用多少加载多少，对于一个复杂的树来说，用户访问页面时一般情况下是不会一个个全部节点点击一遍</li>
 					<li></li>
-					<li>&nbsp;&nbsp;瀵逛簬鍚岀骇鑺傜偣鏁版嵁閲忓緢澶氭椂锛屽缓璁ā浠库�澶ф暟鎹噺婕旂ず鈥濅笅鐨勨�楂樼骇寮傛鍔犺浇鈥濈殑渚嬪瓙杩涜鑷畾涔夌殑寮傛鍔犺浇</li>
+					<li>&nbsp;&nbsp;对于同级节点数据量很多时，建议模仿“大数据量演示”下的“高级异步加载”的例子进行自定义的异步加载</li>
 				</ul>
 					
 			</li>
 			<li class="title">
-				<button class="ico skin" onfocus="this.blur();"></button>鏄剧ず鏍峰紡璁剧疆
-				<ul class="remark">鈥斺�鐐瑰嚮浠ヤ笅涓嶅悓鏍峰紡锛岀湅鐪嬫湁浠�箞鍙樺寲</ul>
+				<button class="ico skin" onfocus="this.blur();"></button>显示样式设置
+				<ul class="remark">——点击以下不同样式，看看有什么变化</ul>
 				<ul>
 					<li id="defaultStyle" class="menu" onclick="reloadTree('1')">
-						<button class="ico star" onfocus="this.blur();"></button>榛樿鏍峰紡</li>
+						<button class="ico star" onfocus="this.blur();"></button>默认样式</li>
 					<li id="noLineStyle" class="menu" onclick="reloadTree('2')">
-						<button class="ico star" onfocus="this.blur();"></button>涓嶆樉绀鸿妭鐐硅繛绾�/li>
+						<button class="ico star" onfocus="this.blur();"></button>不显示节点连线</li>
 					<li id="noIconStyle" class="menu" onclick="reloadTree('5')">
-						<button class="ico star" onfocus="this.blur();"></button>涓嶆樉绀鸿妭鐐瑰浘鏍�/li>
+						<button class="ico star" onfocus="this.blur();"></button>不显示节点图标</li>
 					<li id="diyIconStyle" class="menu" onclick="reloadTree('3')">
-						<button class="ico star" onfocus="this.blur();"></button>icon灞炴�鑷畾涔夊浘鏍�/li>
-					<li id="cssIconStyle" class="menu" onclick="alert('鐢变簬ie6瀵逛簬css閫夋嫨鍣ㄧ殑鏀寔闂锛屽洜姝e6鏃犳硶鍏煎姝ょ绫诲瀷鐨勫浘鏍�)">
-						<button class="ico star" onfocus="this.blur();"></button>css鑷畾涔夊浘鏍囷紙<font color="red">涓嶅吋瀹笽E6</font>锛�
+						<button class="ico star" onfocus="this.blur();"></button>icon属性自定义图标</li>
+					<li id="cssIconStyle" class="menu" onclick="alert('由于ie6对于css选择器的支持问题，因此ie6无法兼容此种类型的图标')">
+						<button class="ico star" onfocus="this.blur();"></button>css自定义图标（<font color="red">不兼容IE6</font>）
 					</li>
 					<ul>
-						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" onclick="reloadTree('4');">sim 绯诲垪
-						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="reloadTree('4');">flag 绯诲垪
+						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" onclick="reloadTree('4');">sim 系列
+						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="reloadTree('4');">flag 系列
 					</ul>
 				</ul>
 			</li>	

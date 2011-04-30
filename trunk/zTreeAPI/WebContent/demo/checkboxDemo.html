@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -65,7 +65,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">CheckBox&nbsp;&nbsp;婕旂ず</center>
+<center class="headTitle">CheckBox&nbsp;&nbsp;演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -76,50 +76,50 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>CheckBox 鐖跺瓙鍏崇郴閰嶇疆
-				<ul class="remark">鈥斺�淇敼浠ヤ笅閰嶇疆锛岀偣鍑�Tree 鐨�CheckBox锛岀湅鐪嬪彉鍖�/ul>
+				<button class="ico star" onfocus="this.blur();"></button>CheckBox 父子关系配置
+				<ul class="remark">——修改以下配置，点击 Tree 的 CheckBox，看看变化</ul>
 				<ul>
-					&nbsp;&nbsp;&nbsp;&nbsp;CheckBox琚�涓椂:&nbsp;
-					<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">褰卞搷鐖�&nbsp;&nbsp;
-					<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">褰卞搷瀛�
+					&nbsp;&nbsp;&nbsp;&nbsp;CheckBox被选中时:&nbsp;
+					<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
+					<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
 				<ul>
-					CheckBox琚彇娑堥�涓椂:&nbsp;
-					<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">褰卞搷鐖�&nbsp;&nbsp;
-					<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">褰卞搷瀛�
+					CheckBox被取消选中时:&nbsp;
+					<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
+					<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.checkable = <a id="checkableCode">true</a>;</li>
 					<li>&nbsp;setting.checkType = <a id="checkTypeCode"></a>;</li>
 					<li>&nbsp;</li>
-					<li>&nbsp;琚�鎷╃殑鑺傜偣鍏�<a id="checkedNum">0</a> 涓�/li>
-					<li>&nbsp;褰撳墠琚慨鏀归�鎷╃姸鎬佺殑鑺傜偣鍏�<a id="checkedChangeNum">0</a> 涓�/li>
-					<li>&nbsp;鍙绠楁瘡娆heck鍚庝慨鏀圭姸鎬佺殑鑺傜偣锛�
+					<li>&nbsp;被选择的节点共 <a id="checkedNum">0</a> 个</li>
+					<li>&nbsp;当前被修改选择状态的节点共 <a id="checkedChangeNum">0</a> 个</li>
+					<li>&nbsp;只计算每次check后修改状态的节点：
 						<INPUT TYPE="radio" id="changeYes" name="changeRadio" checked onfocus="this.blur();" onclick="refreshTree();">Yes;&nbsp;
 						<INPUT TYPE="radio" id="changeNo" name="changeRadio" onfocus="this.blur();" onclick="refreshTree();">No</li>
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>CheckBox 鐘舵�璇存槑
+				<button class="ico books" onfocus="this.blur();"></button>CheckBox 状态说明
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_false_full"></button>褰撳墠鑺傜偣娌℃湁琚�鎷╋紱
-					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton checkbox_false_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">濡傛灉鏄埗鑺傜偣锛屽垯娌℃湁琚�鎷╃殑瀛愯妭鐐广�</font>					
+					<button type="BUTTON" class="treeButton checkbox_false_full"></button>当前节点没有被选择；
+					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_full_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">如果是父节点，则没有被选择的子节点。</font>					
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_false_part"></button>褰撳墠鑺傜偣娌℃湁琚�鎷╋紱
-					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton checkbox_false_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">瀛樺湪琚�鎷╃殑瀛愯妭鐐癸紙鍙湁鐖惰妭鐐瑰瓨鍦ㄦ鐘舵�锛夈�</font>					
+					<button type="BUTTON" class="treeButton checkbox_false_part"></button>当前节点没有被选择；
+					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_part_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">存在被选择的子节点（只有父节点存在此状态）。</font>					
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_true_full"></button>褰撳墠鑺傜偣琚�鎷╋紱
-					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton checkbox_true_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#bcf8ff">濡傛灉鏄埗鑺傜偣锛屽垯鍏ㄩ儴瀛愯妭鐐归兘琚�鎷┿�</font>
+					<button type="BUTTON" class="treeButton checkbox_true_full"></button>当前节点被选择；
+					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_full_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#bcf8ff">如果是父节点，则全部子节点都被选择。</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_true_part"></button>褰撳墠鑺傜偣琚�鎷╋紱
-					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton checkbox_true_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">瀛樺湪娌℃湁琚�鎷╃殑瀛愯妭鐐癸紙鍙湁鐖惰妭鐐瑰瓨鍦ㄦ鐘舵�锛夈�</font>
+					<button type="BUTTON" class="treeButton checkbox_true_part"></button>当前节点被选择；
+					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_part_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">存在没有被选择的子节点（只有父节点存在此状态）。</font>
 				</ul>
 			</li>
 		</div>	

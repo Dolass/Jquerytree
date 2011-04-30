@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeIcons.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -158,7 +158,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">鍩烘湰鍔熻兘婕旂ず</center>
+<center class="headTitle">基本功能演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -169,10 +169,10 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>鍩烘湰閰嶇疆
-				<ul class="remark">鈥斺�淇敼浠ヤ笅閰嶇疆鍚庯紝鐪嬬湅鏈変粈涔堝彉鍖�/ul>
+				<button class="ico books" onfocus="this.blur();"></button>基本配置
+				<ul class="remark">——修改以下配置后，看看有什么变化</ul>
 				<ul>
-					鑺傜偣鏄剧ず鍚嶇О瀵瑰簲灞炴�:&nbsp;
+					节点显示名称对应属性:&nbsp;
 					<INPUT TYPE="radio" id="nameCol_1" NAME="nameColRadio" checked onclick="reloadTree();">name (Default)
 					<INPUT TYPE="radio" id="nameCol_2" NAME="nameColRadio" onclick="reloadTree();">ename
 				</ul>
@@ -180,16 +180,16 @@
 					<li>&nbsp;setting.nameCol = "<a id="nameCode">name</a>";</li>
 				</ul>
 				<ul>
-					灞曞紑銆佹姌鍙犳晥鏋�&nbsp;
+					展开、折叠效果:&nbsp;
 					<INPUT TYPE="radio" id="speed_1" NAME="speedRadio" checked onclick="reloadTree();">fast (Default)
 					<INPUT TYPE="radio" id="speed_2" NAME="speedRadio" onclick="reloadTree();">slow
-					<INPUT TYPE="radio" id="speed_3" NAME="speedRadio" onclick="reloadTree();">鍏�
+					<INPUT TYPE="radio" id="speed_3" NAME="speedRadio" onclick="reloadTree();">关
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.expandSpeed = "<a id="expandSpeedCode">fast</a>";</li>
 				</ul>
 				<ul>
-					<font color="red">* new *</font> 涓�鍖栧瓧浣撴晥鏋�&nbsp;
+					<font color="red">* new *</font> 个性化字体效果:&nbsp;
 					<INPUT TYPE="radio" id="font_1" NAME="fontRadio" checked onclick="reloadTree();">yes 
 					<INPUT TYPE="radio" id="font_2" NAME="fontRadio" onclick="reloadTree();">no(Default)
 				</ul>
@@ -197,9 +197,9 @@
 					<li>&nbsp;setting.fontCss = <a id="fontCssCode">setFont</a>;</li>
 				</ul>
 				<ul>
-					zTreeNode 鏁版嵁鏍煎紡:&nbsp;
-					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="standardData" NAME="dataRadio" checked onclick="reloadTree(curType);">鏍囧噯娣卞眰宓屽 JSON 鏍煎紡 (Default)
-					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="simpleData" NAME="dataRadio" onclick="reloadTree(curType);">绠�崟 Array 鏁扮粍鏍煎紡
+					zTreeNode 数据格式:&nbsp;
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="standardData" NAME="dataRadio" checked onclick="reloadTree(curType);">标准深层嵌套 JSON 格式 (Default)
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="radio" id="simpleData" NAME="dataRadio" onclick="reloadTree(curType);">简单 Array 数组格式
 					
 				</ul>
 				<ul class="event">
@@ -230,23 +230,23 @@
 				</ul>
 			</li>
 			<li class="title">
-				<button class="ico skin" onfocus="this.blur();"></button>鏄剧ず鏍峰紡璁剧疆
-				<ul class="remark">鈥斺�鐐瑰嚮浠ヤ笅涓嶅悓鏍峰紡锛岀湅鐪嬫湁浠�箞鍙樺寲</ul>
+				<button class="ico skin" onfocus="this.blur();"></button>显示样式设置
+				<ul class="remark">——点击以下不同样式，看看有什么变化</ul>
 				<ul>
 					<li id="defaultStyle" class="menu" onclick="reloadTree('1')">
-						<button class="ico star" onfocus="this.blur();"></button>榛樿鏍峰紡</li>
+						<button class="ico star" onfocus="this.blur();"></button>默认样式</li>
 					<li id="noLineStyle" class="menu" onclick="reloadTree('2')">
-						<button class="ico star" onfocus="this.blur();"></button>涓嶆樉绀鸿妭鐐硅繛绾�/li>
+						<button class="ico star" onfocus="this.blur();"></button>不显示节点连线</li>
 					<li id="noIconStyle" class="menu" onclick="reloadTree('5')">
-						<button class="ico star" onfocus="this.blur();"></button>涓嶆樉绀鸿妭鐐瑰浘鏍�/li>
+						<button class="ico star" onfocus="this.blur();"></button>不显示节点图标</li>
 					<li id="diyIconStyle" class="menu" onclick="reloadTree('3')">
-						<button class="ico star" onfocus="this.blur();"></button>icon灞炴�鑷畾涔夊浘鏍�/li>
+						<button class="ico star" onfocus="this.blur();"></button>icon属性自定义图标</li>
 					<li id="cssIconStyle" class="menu" onclick="reloadTree('4')">
-						<button class="ico star" onfocus="this.blur();"></button>css鑷畾涔夊浘鏍囷紙<font color="red">涓嶅吋瀹笽E6</font>锛�
+						<button class="ico star" onfocus="this.blur();"></button>css自定义图标（<font color="red">不兼容IE6</font>）
 					</li>
 					<ul>
-						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" checked onclick="reloadTree('4');">sim 绯诲垪
-						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="reloadTree('4');">flag 绯诲垪
+						<INPUT TYPE="radio" id="sim" disabled NAME="cssSkin" checked onclick="reloadTree('4');">sim 系列
+						<INPUT TYPE="radio" id="flag" disabled NAME="cssSkin" onclick="reloadTree('4');">flag 系列
 					</ul>
 				</ul>
 			</li>	
