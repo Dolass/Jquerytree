@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -28,25 +28,25 @@
 	};
 
 	var zNodes =[
-  	 	{id:1, pId:0, name:"北京"},
-  	 	{id:2, pId:0, name:"天津"},
-  	 	{id:3, pId:0, name:"上海"},
-  	 	{id:6, pId:0, name:"重庆"},
-  	 	{id:4, pId:0, name:"河北省", open:true},
-  	 	{id:41, pId:4, name:"石家庄"},
-  	 	{id:42, pId:4, name:"保定"},
-  	 	{id:43, pId:4, name:"邯郸"},
-  	 	{id:44, pId:4, name:"承德"},
-  	 	{id:5, pId:0, name:"广东省", open:true},
-  	 	{id:51, pId:5, name:"广州"},
-  	 	{id:52, pId:5, name:"深圳"},
-  	 	{id:53, pId:5, name:"东莞"},
-  	 	{id:54, pId:5, name:"佛山"},
-  	 	{id:6, pId:0, name:"福建省", open:true},
-  	 	{id:61, pId:6, name:"福州"},
-  	 	{id:62, pId:6, name:"厦门"},
-  	 	{id:63, pId:6, name:"泉州"},
-  	 	{id:64, pId:6, name:"三明"}
+  	 	{id:1, pId:0, name:"鍖椾含"},
+  	 	{id:2, pId:0, name:"澶╂触"},
+  	 	{id:3, pId:0, name:"涓婃捣"},
+  	 	{id:6, pId:0, name:"閲嶅簡"},
+  	 	{id:4, pId:0, name:"娌冲寳鐪�, open:true},
+  	 	{id:41, pId:4, name:"鐭冲搴�},
+  	 	{id:42, pId:4, name:"淇濆畾"},
+  	 	{id:43, pId:4, name:"閭兏"},
+  	 	{id:44, pId:4, name:"鎵垮痉"},
+  	 	{id:5, pId:0, name:"骞夸笢鐪�, open:true},
+  	 	{id:51, pId:5, name:"骞垮窞"},
+  	 	{id:52, pId:5, name:"娣卞湷"},
+  	 	{id:53, pId:5, name:"涓滆帪"},
+  	 	{id:54, pId:5, name:"浣涘北"},
+  	 	{id:6, pId:0, name:"绂忓缓鐪�, open:true},
+  	 	{id:61, pId:6, name:"绂忓窞"},
+  	 	{id:62, pId:6, name:"鍘﹂棬"},
+  	 	{id:63, pId:6, name:"娉夊窞"},
+  	 	{id:64, pId:6, name:"涓夋槑"}
   	 	
   	 ];
 
@@ -81,7 +81,7 @@
 
 	function zTreeOnBeforeClick(treeId, treeNode) {
 		var check = (treeNode && !treeNode.isParent);
-		if (!check) alert("只能选择城市...");
+		if (!check) alert("鍙兘閫夋嫨鍩庡競...");
 		return check;
 	}
 	
@@ -103,32 +103,32 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">高级应用演示<span> —— 下拉菜单</span></center>
+<center class="headTitle">楂樼骇搴旂敤婕旂ず<span> 鈥斺� 涓嬫媺鑿滃崟</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
 			<div class="zTreeDemoBackground">
 			<br/>
-			&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value="" style="width:80px;"/>
-			&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a>
+			&nbsp;&nbsp;鍩庡競锛�input id="citySel" type="text" readonly value="" style="width:80px;"/>
+			&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">閫夋嫨</a>
 			</div>
 		</TD>
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>下拉菜单说明
-				<ul class="remark">1、菜单注释</ul>
+				<button class="ico star" onfocus="this.blur();"></button>涓嬫媺鑿滃崟璇存槑
+				<ul class="remark">1銆佽彍鍗曟敞閲�/ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;这是一个简单的下拉菜单例子，与右键菜单一样，仅仅用于功能演示。</li>
-					<li>&nbsp;&nbsp;A、点击“选择”即可弹出。</li>
-					<li>&nbsp;&nbsp;B、点击页面其他地方，即可隐藏菜单。</li>
-					<li>&nbsp;&nbsp;C、尝试点击 省 或 市 看看区别。</li>
+					<li>&nbsp;&nbsp;杩欐槸涓�釜绠�崟鐨勪笅鎷夎彍鍗曚緥瀛愶紝涓庡彸閿彍鍗曚竴鏍凤紝浠呬粎鐢ㄤ簬鍔熻兘婕旂ず銆�/li>
+					<li>&nbsp;&nbsp;A銆佺偣鍑烩�閫夋嫨鈥濆嵆鍙脊鍑恒�</li>
+					<li>&nbsp;&nbsp;B銆佺偣鍑婚〉闈㈠叾浠栧湴鏂癸紝鍗冲彲闅愯棌鑿滃崟銆�/li>
+					<li>&nbsp;&nbsp;C銆佸皾璇曠偣鍑�鐪�鎴�甯�鐪嬬湅鍖哄埆銆�/li>
 				</ul>
-				<ul class="remark">2、功能扩展</ul>
+				<ul class="remark">2銆佸姛鑳芥墿灞�/ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;A、如果不想使用JQuery的动画效果，那么可以直接使用show() 和 hide()。</li>
-					<li>&nbsp;&nbsp;B、对于菜单的点击规则，完全由你做主，可以随意制定。</li>
-					<li>&nbsp;&nbsp;C、菜单的样式、尺寸可以根据你的需求随意调节。</li>
+					<li>&nbsp;&nbsp;A銆佸鏋滀笉鎯充娇鐢↗Query鐨勫姩鐢绘晥鏋滐紝閭ｄ箞鍙互鐩存帴浣跨敤show() 鍜�hide()銆�/li>
+					<li>&nbsp;&nbsp;B銆佸浜庤彍鍗曠殑鐐瑰嚮瑙勫垯锛屽畬鍏ㄧ敱浣犲仛涓伙紝鍙互闅忔剰鍒跺畾銆�/li>
+					<li>&nbsp;&nbsp;C銆佽彍鍗曠殑鏍峰紡銆佸昂瀵稿彲浠ユ牴鎹綘鐨勯渶姹傞殢鎰忚皟鑺傘�</li>
 				</ul>
 			</li>
 			
