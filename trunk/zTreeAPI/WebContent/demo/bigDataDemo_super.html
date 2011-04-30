@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,9 +14,9 @@
 	var setting;
 
 	var zNodes =[
-		{name:"100涓妭鐐�, id:"1", count:100, isParent:true},
-		{name:"500涓妭鐐�, id:"2", count:500, isParent:true},
-		{name:"1000涓妭鐐�, id:"3", count:1000, isParent:true}
+		{name:"100个节点", id:"1", count:100, isParent:true},
+		{name:"500个节点", id:"2", count:500, isParent:true},
+		{name:"1000个节点", id:"3", count:1000, isParent:true}
 	];
 
 	setting = {
@@ -49,10 +49,10 @@
 			ajaxGetNodes(id, 0, count)
 			return false;
 		} else if (isGetNodes && treeNode.isParent && (!treeNode.nodes || treeNode.nodes.length==0)) {
-			alert("鏈夊叾浠栬妭鐐规鍦ㄤ笅杞芥暟鎹腑锛岃绋嶅悗灞曞紑鑺傜偣銆傘�銆�);
+			alert("有其他节点正在下载数据中，请稍后展开节点。。。");
 			return false;
 		} else if (isGetNodes && treeNode == curParentNode ) {
-			alert("璇ヨ妭鐐规鍦ㄤ笅杞芥暟鎹腑锛岃绋嶅悗灞曞紑鑺傜偣銆傘�銆�);
+			alert("该节点正在下载数据中，请稍后展开节点。。。");
 			return false;
 		}
 		return true;
@@ -95,7 +95,7 @@
 					var ajaxInfo = "treeNode:" + curParentNode.name;
 					if (curParentNode.nodes.length < totalCount) {
 						var percent = curParentNode.nodes.length*100/totalCount + "%";
-						ajaxInfo += ("<br/>杩涘害锛� + percent);
+						ajaxInfo += ("<br/>进度：" + percent);
 						if (!curParentNode.tmpName) curParentNode.tmpName = curParentNode.name;
 						curParentNode.name = curParentNode.tmpName + "(" + percent + ")";
 						zTree1.updateNode(curParentNode);
@@ -103,7 +103,7 @@
 					} else {
 						endTime = new Date();
 						var usedTime = (endTime.getTime() - startTime.getTime())/1000;		
-						ajaxInfo += ("<br/>鍔犺浇瀹屾瘯锛屽叡"+curParentNode.nodes.length+"涓瓙鑺傜偣, 鑰楁椂锛�+ usedTime + "绉�);
+						ajaxInfo += ("<br/>加载完毕，共"+curParentNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
 						curParentNode.name = curParentNode.tmpName;
 						curParentNode.tmpName = null;
 						zTree1.updateNode(curParentNode);
@@ -117,7 +117,7 @@
 
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("寮傛鑾峰彇鏁版嵁鍑虹幇寮傚父銆�);
+				alert("异步获取数据出现异常。");
 				isGetNodes = false;
 			}
 		});
@@ -126,7 +126,7 @@
 	var perCount = 10;
 	function changeCount(count) {
 		if (isGetNodes) {
-			alert("zTree姝ｅ湪涓嬭浇鏁版嵁涓紝璇风◢鍚庢洿鏀归厤缃�銆傘�");
+			alert("zTree正在下载数据中，请稍后更改配置。。。");
 			$("#a_" + perCount).attr("checked", true);
 			return;
 		}
@@ -136,7 +136,7 @@
 	var perTime = 50;
 	function changeTime(time) {
 		if (isGetNodes) {
-			alert("zTree姝ｅ湪涓嬭浇鏁版嵁涓紝璇风◢鍚庢洿鏀归厤缃�銆傘�");
+			alert("zTree正在下载数据中，请稍后更改配置。。。");
 			$("#at_" + perTime).attr("checked", true);
 			return;
 		}
@@ -154,7 +154,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">澶ф暟鎹噺婕旂ず<span> 鈥斺� 楂樼骇寮傛鍔犺浇</span></center>
+<center class="headTitle">大数据量演示<span> —— 高级异步加载</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -165,40 +165,40 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<font color="red" style="font-size:12px;">姝ゆ紨绀洪渶瑕佸彂甯冨埌 php 鏈嶅姟鍣ㄤ笅鏂硅兘姝ｅ父鎵ц銆�br/>
-				浣跨敤 Tomcat 鐨勬湅鍙嬶紝璇蜂慨鏀筧syncUrl鐨勫�</font>
+				<font color="red" style="font-size:12px;">此演示需要发布到 php 服务器下方能正常执行。<br/>
+				使用 Tomcat 的朋友，请修改asyncUrl的值</font>
 			</li>
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>寮傛鍔犺浇鏁版嵁閰嶇疆
-				<ul class="remark">鈥斺�淇敼浠ヤ笅閰嶇疆鍚庯紝閲嶆柊灞曞紑鑺傜偣鐪嬬湅鍙樺寲</ul>
+				<button class="ico star" onfocus="this.blur();"></button>异步加载数据配置
+				<ul class="remark">——修改以下配置后，重新展开节点看看变化</ul>
 				<ul>
-					鍗曟鑾峰彇鏉℃暟锛�INPUT TYPE="radio" id="a_10" NAME="aCount" checked onclick="changeCount(10);">10鏉�
-					<INPUT TYPE="radio" id="a_50" NAME="aCount" onclick="changeCount(50);">50鏉�
-					<INPUT TYPE="radio" id="a_100" NAME="aCount" onclick="changeCount(100);">100鏉�
-					<br/>鍗曟鑾峰彇闂撮殧锛�INPUT TYPE="radio" id="at_50" NAME="aTime" checked onclick="changeTime(50);">50姣
-					<INPUT TYPE="radio" id="at_100" NAME="aTime" onclick="changeTime(100);">100姣
-					<INPUT TYPE="radio" id="at_300" NAME="aTime" onclick="changeTime(300);">300姣
+					单次获取条数：<INPUT TYPE="radio" id="a_10" NAME="aCount" checked onclick="changeCount(10);">10条
+					<INPUT TYPE="radio" id="a_50" NAME="aCount" onclick="changeCount(50);">50条
+					<INPUT TYPE="radio" id="a_100" NAME="aCount" onclick="changeCount(100);">100条
+					<br/>单次获取间隔：<INPUT TYPE="radio" id="at_50" NAME="aTime" checked onclick="changeTime(50);">50毫秒
+					<INPUT TYPE="radio" id="at_100" NAME="aTime" onclick="changeTime(100);">100毫秒
+					<INPUT TYPE="radio" id="at_300" NAME="aTime" onclick="changeTime(300);">300毫秒
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>寮傛鍔犺浇璇存槑
+				<button class="ico books" onfocus="this.blur();"></button>异步加载说明
 				<ul class="remark">
-					姝ゅ簲鐢ㄥ畬鍏ㄥ埄鐢�zTree 鎻愪緵鐨勬帴鍙ｏ紝閽堝鐗规畩妗堜緥瀹炵幇鐨勫姛鑳姐�
+					此应用完全利用 zTree 提供的接口，针对特殊案例实现的功能。
 				</ul>
 				<ul class="remark">
-					瀵逛簬涓婂崈涓妭鐐圭殑涓�鎬у姞杞斤紝鍦↖E涓嬫湁鍙兘浼氬嚭鐜颁竴娈垫椂闂寸殑鍋�br/>
-					姝荤姸鎬侊紝涓轰簡閬垮厤杩欑鎯呭喌锛屽埗浣滆嚜瀹氫箟鐨勫紓姝ュ姞杞芥柟娉曪紝灏嗕笂鍗�br/>
-					涓妭鐐硅繘琛屽垎缁勪笅杞斤紝鍗抽伩鍏嶄簡椤甸潰鐨勫亣姝伙紝涔熷彲浠ユ彁渚涘弸濂界殑杩�br/>
-					搴︽彁绀哄姛鑳姐�
+					对于上千个节点的一次性加载，在IE下有可能会出现一段时间的假<br/>
+					死状态，为了避免这种情况，制作自定义的异步加载方法，将上千<br/>
+					个节点进行分组下载，即避免了页面的假死，也可以提供友好的进<br/>
+					度提示功能。
 				</ul>
 				<ul class="remark">
-					搴旂敤涓繕瀹炵幇浜嗚嚜鍔ㄥ睍寮�妭鐐瑰苟閫変腑绗竴涓瓙鑺傜偣鐨勫姛鑳姐�
+					应用中还实现了自动展开节点并选中第一个子节点的功能。
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>浜嬩欢鐩戞帶
+				<button class="ico safari" onfocus="this.blur();"></button>事件监控
 				<ul class="event">
-				寮傛鍔犺浇:&nbsp;&nbsp;<a id="onAsync"><br/></a><br/>
+				异步加载:&nbsp;&nbsp;<a id="onAsync"><br/></a><br/>
 				</ul>
 				
 			</li>
