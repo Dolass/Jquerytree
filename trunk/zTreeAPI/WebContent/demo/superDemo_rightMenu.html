@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -22,21 +22,21 @@
 	};
 
 	var zNodes =[
-  	 	{id:1, name:"此类节点不响应右键菜单", open:true, noR:true,
+  	 	{id:1, name:"姝ょ被鑺傜偣涓嶅搷搴斿彸閿彍鍗�, open:true, noR:true,
   		 	nodes:[
-  		 	       {id:11, name:"节点1", noR:true},
-  		 	       {id:12, name:"节点2", noR:true}
+  		 	       {id:11, name:"鑺傜偣1", noR:true},
+  		 	       {id:12, name:"鑺傜偣2", noR:true}
   		 	       
   			]},
-  	 	{id:2, name:"使用默认的 treeNode", open:true, 
+  	 	{id:2, name:"浣跨敤榛樿鐨�treeNode", open:true, 
   	 		nodes:[
-  		 	       {id:21, name:"节点1"},
-  		 	       {id:22, name:"节点2"}
+  		 	       {id:21, name:"鑺傜偣1"},
+  		 	       {id:22, name:"鑺傜偣2"}
   			]},
-  	 	{id:3, name:"重新修正的 treeNode", open:true, newrole:true,
+  	 	{id:3, name:"閲嶆柊淇鐨�treeNode", open:true, newrole:true,
   	 		nodes:[
-  		 	       {id:31, name:"节点1", newrole:true},
-  		 	       {id:32, name:"节点2", newrole:true}
+  		 	       {id:31, name:"鑺傜偣1", newrole:true},
+  		 	       {id:32, name:"鑺傜偣2", newrole:true}
   			]}
   	 	];
 
@@ -85,14 +85,14 @@
 
 	var addCount = 1;
 	function addTreeNode() {
-		zTree1.addNodes(zTree1.getSelectedNode(), [{ name:"增加" + (addCount++)}]);
+		zTree1.addNodes(zTree1.getSelectedNode(), [{ name:"澧炲姞" + (addCount++)}]);
 		hideRMenu();
 	}
 	function removeTreeNode() {
 		var node = zTree1.getSelectedNode();
 		if (node) {
 			if (node.nodes && node.nodes.length > 0) {
-				var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
+				var msg = "瑕佸垹闄ょ殑鑺傜偣鏄埗鑺傜偣锛屽鏋滃垹闄ゅ皢杩炲悓瀛愯妭鐐逛竴璧峰垹鎺夈�\n\n璇风‘璁わ紒";
 				if (confirm(msg)==true){
 					zTree1.removeNode(node);
 				}
@@ -122,7 +122,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">高级应用演示<span> —— 右键菜单</span></center>
+<center class="headTitle">楂樼骇搴旂敤婕旂ず<span> 鈥斺� 鍙抽敭鑿滃崟</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -133,22 +133,22 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>右键菜单说明
-				<ul class="remark">1、菜单注释</ul>
+				<button class="ico star" onfocus="this.blur();"></button>鍙抽敭鑿滃崟璇存槑
+				<ul class="remark">1銆佽彍鍗曟敞閲�/ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;这是一个简单的右键菜单例子，菜单本身比较简陋，仅仅用于功能演示。</li>
-					<li>&nbsp;&nbsp;A、用鼠标右键在演示区域内随便点点看。</li>
-					<li>&nbsp;&nbsp;B、请在不同的节点上下左右点击尝试。</li>
+					<li>&nbsp;&nbsp;杩欐槸涓�釜绠�崟鐨勫彸閿彍鍗曚緥瀛愶紝鑿滃崟鏈韩姣旇緝绠�檵锛屼粎浠呯敤浜庡姛鑳芥紨绀恒�</li>
+					<li>&nbsp;&nbsp;A銆佺敤榧犳爣鍙抽敭鍦ㄦ紨绀哄尯鍩熷唴闅忎究鐐圭偣鐪嬨�</li>
+					<li>&nbsp;&nbsp;B銆佽鍦ㄤ笉鍚岀殑鑺傜偣涓婁笅宸﹀彸鐐瑰嚮灏濊瘯銆�/li>
 				</ul>
-				<ul class="remark">2、当前节点的确认</ul>
+				<ul class="remark">2銆佸綋鍓嶈妭鐐圭殑纭</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;右键点击时，获取的当前节点是通过 zTree 内 Dom 组件的结构简单判定的，由于拖拽节点进行了更细节的限定，因此这方面会与拖拽节点有一些差异。</li>
-					<li>&nbsp;&nbsp;因为右键事件的event能被正常传递出来，因此用户可以根据自己的特殊需求进行修正，并通过 tId 的命名规则重新获取相应的 treeNode 数据。</li>
+					<li>&nbsp;&nbsp;鍙抽敭鐐瑰嚮鏃讹紝鑾峰彇鐨勫綋鍓嶈妭鐐规槸閫氳繃 zTree 鍐�Dom 缁勪欢鐨勭粨鏋勭畝鍗曞垽瀹氱殑锛岀敱浜庢嫋鎷借妭鐐硅繘琛屼簡鏇寸粏鑺傜殑闄愬畾锛屽洜姝よ繖鏂归潰浼氫笌鎷栨嫿鑺傜偣鏈変竴浜涘樊寮傘�</li>
+					<li>&nbsp;&nbsp;鍥犱负鍙抽敭浜嬩欢鐨別vent鑳借姝ｅ父浼犻�鍑烘潵锛屽洜姝ょ敤鎴峰彲浠ユ牴鎹嚜宸辩殑鐗规畩闇�眰杩涜淇锛屽苟閫氳繃 tId 鐨勫懡鍚嶈鍒欓噸鏂拌幏鍙栫浉搴旂殑 treeNode 鏁版嵁銆�/li>
 				</ul>
-				<ul class="remark">3、菜单图层</ul>
+				<ul class="remark">3銆佽彍鍗曞浘灞�/ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;为了保证菜单图层的独立，建议将右键菜单的 Div 直接放置于 body 内，尽量避免与zTree的css样式产生冲突。</li>
-					<li>&nbsp;&nbsp;菜单图层的样式务必设置成：<font color="red">position:absolute;</font></li>
+					<li>&nbsp;&nbsp;涓轰簡淇濊瘉鑿滃崟鍥惧眰鐨勭嫭绔嬶紝寤鸿灏嗗彸閿彍鍗曠殑 Div 鐩存帴鏀剧疆浜�body 鍐咃紝灏介噺閬垮厤涓巣Tree鐨刢ss鏍峰紡浜х敓鍐茬獊銆�/li>
+					<li>&nbsp;&nbsp;鑿滃崟鍥惧眰鐨勬牱寮忓姟蹇呰缃垚锛�font color="red">position:absolute;</font></li>
 				</ul>
 			</li>
 			
@@ -159,11 +159,11 @@
 
 <div id="rMenu" style="position:absolute; display:none;">
 <li>
-<ul id="m_add" onclick="addTreeNode();"><li>增加节点</li></ul>
-<ul id="m_del" onclick="removeTreeNode();"><li>删除节点</li></ul>
-<ul id="m_check" onclick="checkTreeNode(true);"><li>Check节点</li></ul>
-<ul id="m_unCheck" onclick="checkTreeNode(false);"><li>unCheck节点</li></ul>
-<ul id="m_reset" onclick="reloadTree();"><li>恢复zTree</li></ul>
+<ul id="m_add" onclick="addTreeNode();"><li>澧炲姞鑺傜偣</li></ul>
+<ul id="m_del" onclick="removeTreeNode();"><li>鍒犻櫎鑺傜偣</li></ul>
+<ul id="m_check" onclick="checkTreeNode(true);"><li>Check鑺傜偣</li></ul>
+<ul id="m_unCheck" onclick="checkTreeNode(false);"><li>unCheck鑺傜偣</li></ul>
+<ul id="m_reset" onclick="reloadTree();"><li>鎭㈠zTree</li></ul>
 </li>
 </div>
 </BODY>
