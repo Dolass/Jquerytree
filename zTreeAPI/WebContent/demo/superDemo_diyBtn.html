@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
   .test {
@@ -39,23 +39,23 @@
 		};
 
 	var zNodes =[
-	 	{id:1, name:"hover浜嬩欢鏄剧ず鎺т欢", open:true,
+	 	{id:1, name:"hover事件显示控件", open:true,
 		 	nodes:[
-		 	       {id:11, name:"鎸夐挳1"},
-		 	       {id:12, name:"鎸夐挳2"},
-		 	       {id:13, name:"涓嬫媺妗�},
-		 	       {id:141, name:"鏂囨湰1"},
-		 	       {id:142, name:"鏂囨湰2"},
-		 	       {id:15, name:"瓒呴摼鎺�}
+		 	       {id:11, name:"按钮1"},
+		 	       {id:12, name:"按钮2"},
+		 	       {id:13, name:"下拉框"},
+		 	       {id:141, name:"文本1"},
+		 	       {id:142, name:"文本2"},
+		 	       {id:15, name:"超链接"}
 		 	       
 			]},
-	 	{id:2, name:"濮嬬粓鏄剧ず鎺т欢", open:true, 
+	 	{id:2, name:"始终显示控件", open:true, 
 	 		nodes:[
-		 	       {id:21, name:"鎸夐挳1"},
-		 	       {id:22, name:"鎸夐挳2"},
-		 	       {id:23, name:"涓嬫媺妗�},
-		 	       {id:24, name:"鏂囨湰"},
-		 	       {id:25, name:"瓒呴摼鎺�}		 	       
+		 	       {id:21, name:"按钮1"},
+		 	       {id:22, name:"按钮2"},
+		 	       {id:23, name:"下拉框"},
+		 	       {id:24, name:"文本"},
+		 	       {id:25, name:"超链接"}		 	       
 			]}
 	 	];
 
@@ -96,8 +96,8 @@
 		} else if (treeNode.id == 15) {
 			if ($("#diyBtn1_"+treeNode.id).length>0) return;
 			if ($("#diyBtn2_"+treeNode.id).length>0) return;
-			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;' style='margin:0 0 0 5px;'>閾炬帴1</a>" +
-				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;' style='margin:0 0 0 5px;'>閾炬帴2</a>";
+			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;' style='margin:0 0 0 5px;'>链接1</a>" +
+				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;' style='margin:0 0 0 5px;'>链接2</a>";
 			aObj.append(editStr);
 		}
 	}
@@ -135,8 +135,8 @@
 			var editStr = "<span id='diyBtn_" +treeNode.id+ "'>Text Demo...</span>";
 			aObj.after(editStr);
 		} else if (treeNode.id == 25) {
-			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;'>閾炬帴1</a>" +
-				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;'>閾炬帴2</a>";
+			var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;'>链接1</a>" +
+				"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;'>链接2</a>";
 			aObj.after(editStr);
 		}
 	}
@@ -150,7 +150,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">楂樼骇搴旂敤婕旂ず<span> 鈥斺� 娣诲姞鑷畾涔夋帶浠�/span></center>
+<center class="headTitle">高级应用演示<span> —— 添加自定义控件</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -161,35 +161,35 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>娣诲姞鑷畾涔夋帶浠惰鏄�
-				<ul class="remark">1銆佹彁渚涗袱绉嶆坊鍔犺嚜瀹氫箟鎺т欢鐨勬柟娉�/ul>
+				<button class="ico star" onfocus="this.blur();"></button>添加自定义控件说明
+				<ul class="remark">1、提供两种添加自定义控件的方法</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;涓�鏄綋浜嬩欢鍒囨崲锛坔over锛夛紝鍗�A銆侀紶鏍囩Щ鍔ㄥ埌鑺傜偣涓婃椂鏄剧ず锛孊銆侀紶鏍囩Щ璧板悗鍒犻櫎锛孋銆佸綋鑺傜偣琚�涓椂鏄剧ず銆�/li>
-					<li>&nbsp;&nbsp;鍙傛暟锛歴etting.addHoverBtn銆乻etting.removeHoverBtn</li>
-					<li>&nbsp;&nbsp;鍙︿竴绉嶆槸闅忕潃鑺傜偣鍒濆鍖栧悗灏卞缁堟樉绀恒�</li>
-					<li>&nbsp;&nbsp;鍙傛暟锛歴etting.addDiyDom</li>
-					<li style="color:red">&nbsp;&nbsp;zTree鍐呯疆鐨勭紪杈戙�鍒犻櫎鎸夐挳閮介噰鐢ㄤ簨浠跺垏鎹㈢殑鏂瑰紡杩涜鏄剧ず鐨勩�</li>
+					<li>&nbsp;&nbsp;一种是当事件切换（hover），即 A、鼠标移动到节点上时显示，B、鼠标移走后删除，C、当节点被选中时显示。</li>
+					<li>&nbsp;&nbsp;参数：setting.addHoverBtn、setting.removeHoverBtn</li>
+					<li>&nbsp;&nbsp;另一种是随着节点初始化后就始终显示。</li>
+					<li>&nbsp;&nbsp;参数：setting.addDiyDom</li>
+					<li style="color:red">&nbsp;&nbsp;zTree内置的编辑、删除按钮都采用事件切换的方式进行显示的。</li>
 				</ul>
-				<ul class="remark">2銆佷綅缃伒娲绘帉鎺�/ul>
+				<ul class="remark">2、位置灵活掌控</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;鑷充簬浣犵殑鑷畾涔夋帶浠舵兂鏄剧ず鍦ㄨ妭鐐圭殑浠�箞浣嶇疆锛屽彧瑕佸湪淇濊瘉zTree瀹屾暣鎬х殑鍩虹涓婂彲浠ヤ换鎰忔坊鍔犮�</li>
-					<li>&nbsp;&nbsp;寤鸿鍙傝�浠ｇ爜  var aObj = $("#" + treeNode.tId + IDMark_A); 杩欎釜瀵硅薄瀵逛簬zTree鏉ヨ锛屽簲璇ヤ笉浼氭湁澶х殑鍙樺寲锛屾墍浠ヤ綘鎵�渶瑕佹坊鍔犵殑鎺т欢鏄斁鍦╝Obj鐨勫墠闈㈠悗闈㈣繕鏄噷闈紝灏辩湅浣犵殑闇�眰浜嗐�</li>
-					<li style="color:red">&nbsp;&nbsp;寤鸿涓嶈璁╄妭鐐规崲琛岋紝鍚﹀垯杩炵嚎浼氬嚭鐜板紓甯搞�</li>
+					<li>&nbsp;&nbsp;至于你的自定义控件想显示在节点的什么位置，只要在保证zTree完整性的基础上可以任意添加。</li>
+					<li>&nbsp;&nbsp;建议参考代码  var aObj = $("#" + treeNode.tId + IDMark_A); 这个对象对于zTree来讲，应该不会有大的变化，所以你所需要添加的控件是放在aObj的前面后面还是里面，就看你的需求了。</li>
+					<li style="color:red">&nbsp;&nbsp;建议不要让节点换行，否则连线会出现异常。</li>
 				</ul>
-				<ul class="remark">3銆佽娉ㄦ剰娣诲姞鐨勬帶浠舵牱寮忚缃�/ul>
+				<ul class="remark">3、请注意添加的控件样式设置</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;A銆佽嚜瀹氫箟娣诲姞鐨勬帶浠惰娉ㄦ剰鍏堕珮搴︿笉瑕佽秴杩囪妭鐐圭殑楂樺害锛岃繖鏂归潰璇锋牴鎹疄闄呮儏鍐佃繘琛岃皟鏁淬�</li>
-					<li>&nbsp;&nbsp;鍦ㄨ繖涓紨绀轰腑锛屼笅鎷夋榛樿楂樺害鏄珮浜�8px鐨勶紝鎵�互婕旂ず鐨勪緥瀛愪腑寮鸿璁惧畾浜嗕笅鎷夋鐨勬牱寮�height:16px</li>
-					<li>&nbsp;&nbsp;B銆佽嚜瀹氫箟娣诲姞鐨勬帶浠跺洜涓烘槸鏄剧ず鍦▃Tree鍐呴儴锛屽洜姝や竴浜沜ss鏍峰紡浼氱洿鎺ョ户鎵胯嚜zTree鐨勬牱寮忚瀹氾紝杩欐柟闈㈡湁鐗规畩鎯呭喌鐨勭敤鎴疯鑷璋冩暣銆�/li>
-					<li style="color:red">&nbsp;&nbsp;闇�鍏煎IE6鐨勬湅鍙嬭娉ㄦ剰浜嗭紝涓嬫媺妗嗗緢闅捐缃珮搴︺�</li>
+					<li>&nbsp;&nbsp;A、自定义添加的控件请注意其高度不要超过节点的高度，这方面请根据实际情况进行调整。</li>
+					<li>&nbsp;&nbsp;在这个演示中，下拉框默认高度是高于18px的，所以演示的例子中强行设定了下拉框的样式 height:16px</li>
+					<li>&nbsp;&nbsp;B、自定义添加的控件因为是显示在zTree内部，因此一些css样式会直接继承自zTree的样式设定，这方面有特殊情况的用户请自行调整。</li>
+					<li style="color:red">&nbsp;&nbsp;需要兼容IE6的朋友要注意了，下拉框很难设置高度。</li>
 				</ul>
-				<ul class="remark">4銆佽嚜琛岀粦瀹氫簨浠�/ul>
+				<ul class="remark">4、自行绑定事件</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;瀵逛簬鑷畾涔夋坊鍔犵殑鎺т欢锛屽鏋滈渶瑕佹湁 click 绛変簨浠舵椂锛岃鍦ㄦ坊鍔犳帶浠舵椂杩涜浜嬩欢缁戝畾銆�/li>
+					<li>&nbsp;&nbsp;对于自定义添加的控件，如果需要有 click 等事件时，请在添加控件时进行事件绑定。</li>
 				</ul>
-				<ul class="remark">5銆佽繖鏄竴绉嶉珮绾у簲鐢紝鏍规嵁闇�眰閲忎綋瑁佽。</ul>
+				<ul class="remark">5、这是一种高级应用，根据需求量体裁衣</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;瀵逛簬 zTree 鏉ヨ锛屾坊鍔犺嚜瀹氫箟鎺т欢鐨勫姛鑳藉畬鍏ㄦ槸涓�楂樼骇搴旂敤锛岃鍦ㄥ zTree 鐨�HTML銆乧ss銆佹暟鎹粨鏋勯兘姣旇緝浜嗚В鐨勬儏鍐典笅锛屾牴鎹笉鍚岄」鐩殑鐗规畩闇�眰鍐嶆潵鍐冲畾濡備綍娣诲姞鑷畾涔夋帶浠躲�</li>
+					<li>&nbsp;&nbsp;对于 zTree 来讲，添加自定义控件的功能完全是一种高级应用，请在对 zTree 的 HTML、css、数据结构都比较了解的情况下，根据不同项目的特殊需求再来决定如何添加自定义控件。</li>
 				</ul>
 			</li>
 		</div>	

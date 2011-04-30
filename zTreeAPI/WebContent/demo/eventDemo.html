@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -115,7 +115,7 @@
 	var createdCount = 0;
 	function zTreeOnNodeCreated(event, treeId, treeNode) {
 		createdCount++;
-		$("#onNodeCreated").html( "Created 璁℃暟锛� + createdCount);
+		$("#onNodeCreated").html( "Created 计数：" + createdCount);
 		
 	}
 	
@@ -124,7 +124,7 @@
 	}
 
 	function getMouse(event) {
-		return "榧犳爣鍧愭爣   left:" + event.clientX + "px, top:" + event.clientY + "px";
+		return "鼠标坐标   left:" + event.clientX + "px, top:" + event.clientY + "px";
 	}
 	function zTreeRightClick(event, treeId, treeNode) {
 		var mouse = getMouse(event);
@@ -167,7 +167,7 @@
 						+ "; Target Name = " + ((targetNode != null) ? targetNode.name : "root")
 						+ "; moveType=\"" + moveType + "\"" );
 		} else {
-				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;鎷栨嫿鏀惧純銆�);
+				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;拖拽放弃。");
 		}
 	}
 
@@ -186,7 +186,7 @@
 	}
 
 	function zTreeOnExpand(event, treeId, treeNode) {	
-		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (鑺傜偣Index = " + zTree1.getNodeIndex(treeNode) + ")");
+		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
 	function zTreeBeforeCollapse(treeId, treeNode) {
@@ -196,7 +196,7 @@
 	}
 
 	function zTreeOnCollapse(event, treeId, treeNode) {	
-		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (鑺傜偣Index = " + zTree1.getNodeIndex(treeNode) + ")");
+		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
 	function refreshTree() {
@@ -215,7 +215,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">浜嬩欢婕旂ず</center>
+<center class="headTitle">事件演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -226,9 +226,9 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico safari" onfocus="this.blur();"></button>浜嬩欢鐩戞帶
-				<ul class="remark">寮傛鍔犺浇鐨勭浉鍏充簨浠惰鍙傝� 寮傛鍔犺浇婕旂ず</ul>
-				<ul class="remark">鈥斺�淇敼 before 浜嬩欢杩斿洖鍊煎悗锛岀紪杈戣妭鐐癸紝鐪嬬湅鏈変粈涔堝彉鍖�/ul>
+				<button class="ico safari" onfocus="this.blur();"></button>事件监控
+				<ul class="remark">异步加载的相关事件请参考 异步加载演示</ul>
+				<ul class="remark">——修改 before 事件返回值后，编辑节点，看看有什么变化</ul>
 				<ul>
 					<TABLE border=0 width="100%" >
 					<colgroup>
@@ -236,77 +236,77 @@
 					<col width="150px">
 					</colgroup>
 					<tr>
-						<td align=right>beforeClick&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeClick&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeRightClick&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeRightClick&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeRightClickTrue" name="beforeRightClickRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeRightClickFalse" name="beforeRightClickRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeMouseDown&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeMouseDown&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeMouseDownTrue" name="beforeMouseDownRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeMouseDownFalse" name="beforeMouseDownRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeMouseUp&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeMouseUp&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeMouseUpTrue" name="beforeMouseUpRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeMouseUpFalse" name="beforeMouseUpRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeChange&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeChange&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeChangeTrue" name="beforeChangeRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeChangeFalse" name="beforeChangeRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeDrag&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeDrag&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeDragTrue" name="beforeDragRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeDragFalse" name="beforeDragRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeDrop&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeDrop&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeDropTrue" name="beforeDropRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeDropFalse" name="beforeDropRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeRename&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeRename&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeRenameTrue" name="beforeRenameRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeRenameFalse" name="beforeRenameRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeRemove&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeRemove&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeRemoveTrue" name="beforeRemoveRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeRemoveFalse" name="beforeRemoveRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeExpand&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeExpand&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeExpandTrue" name="beforeExpandRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeExpandFalse" name="beforeExpandRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeCollapse&nbsp;浜嬩欢 return: </td>
+						<td align=right>beforeCollapse&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeCollapseTrue" name="beforeCollapseRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeCollapseFalse" name="beforeCollapseRadio" onfocus="this.blur();">false
@@ -314,42 +314,42 @@
 					</tr>
 					</TABLE>
 				</ul>
-				<ul class="remark">onNodeCreated 浜嬩欢鍙互寰楀埌浠绘剰鑺傜偣娓叉煋瀹屾瘯鐨勪俊鎭�/ul>
+				<ul class="remark">onNodeCreated 事件可以得到任意节点渲染完毕的信息</ul>
 				<ul class="event">
-				onNodeCreated 浜嬩欢:&nbsp;&nbsp;<a id="onNodeCreated"><br/></a><br/>
+				onNodeCreated 事件:&nbsp;&nbsp;<a id="onNodeCreated"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onClick 浜嬩欢:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				onRightClick 浜嬩欢:&nbsp;&nbsp;<a id="onRightClickNode"><br/></a><br/>
+				onRightClick 事件:&nbsp;&nbsp;<a id="onRightClickNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;onMouseDown 浜嬩欢:&nbsp;&nbsp;<a id="onMouseDownNode"><br/></a><br/>
+				&nbsp;onMouseDown 事件:&nbsp;&nbsp;<a id="onMouseDownNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onMouseUp 浜嬩欢:&nbsp;&nbsp;<a id="onMouseUpNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;onMouseUp 事件:&nbsp;&nbsp;<a id="onMouseUpNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onChange 浜嬩欢:&nbsp;&nbsp;<a id="onChangeNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;onChange 事件:&nbsp;&nbsp;<a id="onChangeNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;&nbsp;onDrag 浜嬩欢:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;onDrag 事件:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;&nbsp;onDrop 浜嬩欢:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;onDrop 事件:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onRename 浜嬩欢:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
+				&nbsp;&nbsp;onRename 事件:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onRemove 浜嬩欢:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>
+				&nbsp;&nbsp;onRemove 事件:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onExpand 浜嬩欢:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
+				&nbsp;&nbsp;onExpand 事件:&nbsp;&nbsp;<a id="onExpandNode"></a><br/>
 				</ul>
 				<ul class="event">
-				onCollapse 浜嬩欢:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
+				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
 				</ul>
 			</li>
 				

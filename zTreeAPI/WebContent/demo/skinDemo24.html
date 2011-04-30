@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="skinStyle/24x24/zTreeStyle.css" type="text/css">
   <link rel="stylesheet" href="skinStyle/24x24/zTreeIcons.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -19,166 +19,166 @@
 
 		
 	var zNodesFlag = [ {
-		name : "鑱斿悎鍥�,
+		name : "联合国",
 		iconSkin : "flagUN",
 		open : true,
 		nodes : [ {
-			name : "涓浗",
+			name : "中国",
 			iconSkin : "flagCHN"
 		}, {
-			name : "缇庡浗",
+			name : "美国",
 			iconSkin : "flagUSA"
 		}, {
-			name : "淇勭綏鏂�,
+			name : "俄罗斯",
 			iconSkin : "flagRUS"
 		}, {
-			name : "寰峰浗",
+			name : "德国",
 			iconSkin : "flagDE"
 		} ]
 	}, {
-		name : "绾㈠崄瀛椾細",
+		name : "红十字会",
 		iconSkin : "flagRedCross",
 		open : true,
 		nodes : [ {
-			name : "鍔犳嬁澶�,
+			name : "加拿大",
 			iconSkin : "flagCA"
 		}, {
-			name : "婢冲ぇ鍒╀簹",
+			name : "澳大利亚",
 			iconSkin : "flagAU"
 		}, {
-			name : "鏃ユ湰",
+			name : "日本",
 			iconSkin : "flagJPN"
 		}, {
-			name : "闊╁浗",
+			name : "韩国",
 			iconSkin : "flagROK"
 		} ]
 	}, {
-		name : "闈炴床鑱旂洘",
+		name : "非洲联盟",
 		iconSkin : "flagAU",
 		open : true,
 		nodes : [ {
-			name : "鍗楅潪",
+			name : "南非",
 			iconSkin : "flagRSA"
 		}, {
-			name : "鍩冨強",
+			name : "埃及",
 			iconSkin : "flagEGY"
 		}, {
-			name : "鍠�害闅�,
+			name : "喀麦隆",
 			iconSkin : "flagCM"
 		}, {
-			name : "鍔犵撼",
+			name : "加纳",
 			iconSkin : "flagGH"
 		} ]
 	} ];	
 	var zNodesICandy = [ {
-		name : "鎴戠殑鏀惰棌澶�,
+		name : "我的收藏夹",
 		iconSkin : "iCandyFolder",
 		open : true,
 		nodes : [ {
 			name : "Email",
 			iconSkin : "iCandyEmail"
 		}, {
-			name : "闊充箰",
+			name : "音乐",
 			iconSkin : "iCandyMusic"
 		}, {
-			name : "鐢靛奖",
+			name : "电影",
 			iconSkin : "iCandyMovie"
 		}, {
-			name : "鍥剧墖",
+			name : "图片",
 			iconSkin : "iCandyImg"
 		} ]
 	}, {
-		name : "鎴戠殑鐢佃剳",
+		name : "我的电脑",
 		iconSkin : "iCandyMyPC",
 		open : false,
 		nodes : [ {
-			name : "鑱婂ぉ杞欢",
+			name : "聊天软件",
 			iconSkin : "iCandyIM"
 		}, {
-			name : "娓告垙",
+			name : "游戏",
 			iconSkin : "iCandyGame"
 		}, {
-			name : "宸ュ叿",
+			name : "工具",
 			iconSkin : "iCandyTools"
 		}, {
-			name : "鍨冨溇绠�,
+			name : "垃圾箱",
 			iconSkin : "iCandyRB"
 		}, {
-			name : "璁剧疆",
+			name : "设置",
 			iconSkin : "iCandySetPC"
 		} ]
 	}, {
-		name : "鎴戠殑鏃ュ巻",
+		name : "我的日历",
 		iconSkin : "iCandyMyDate",
 		open : false,
 		nodes : [ {
-			name : "绉佸瘑娲诲姩",
+			name : "私密活动",
 			iconSkin : "iCandySecret"
 		}, {
-			name : "鐖卞績娲诲姩",
+			name : "爱心活动",
 			iconSkin : "iCandyLove"
 		}, {
-			name : "褰撴棩娲诲姩",
+			name : "当日活动",
 			iconSkin : "iCandyToday"
 		}, {
-			name : "璁剧疆鏃ュ巻",
+			name : "设置日历",
 			iconSkin : "iCandySetDate"
 		} ]
 	}
 
 	];
 	var zNodesSmooth = [ {
-		name : "鎴戠殑鏀惰棌澶�,
+		name : "我的收藏夹",
 		iconSkin : "smoothFolder",
 		open : true,
 		nodes : [ {
 			name : "Email",
 			iconSkin : "smoothEmail"
 		}, {
-			name : "闊充箰",
+			name : "音乐",
 			iconSkin : "smoothMusic"
 		}, {
-			name : "鐢靛奖",
+			name : "电影",
 			iconSkin : "smoothMovie"
 		}, {
-			name : "鍥剧墖",
+			name : "图片",
 			iconSkin : "smoothImg"
 		} ]
 	}, {
-		name : "鎴戠殑鐢佃剳",
+		name : "我的电脑",
 		iconSkin : "smoothMyPC",
 		open : false,
 		nodes : [ {
-			name : "鑱婂ぉ杞欢",
+			name : "聊天软件",
 			iconSkin : "smoothIM"
 		}, {
-			name : "娓告垙",
+			name : "游戏",
 			iconSkin : "smoothGame"
 		}, {
-			name : "宸ュ叿",
+			name : "工具",
 			iconSkin : "smoothTools"
 		}, {
-			name : "鍨冨溇绠�,
+			name : "垃圾箱",
 			iconSkin : "smoothRB"
 		}, {
-			name : "璁剧疆",
+			name : "设置",
 			iconSkin : "smoothSetPC"
 		} ]
 	}, {
-		name : "鎴戠殑鏃ュ巻",
+		name : "我的日历",
 		iconSkin : "smoothMyDate",
 		open : false,
 		nodes : [ {
-			name : "绉佸瘑娲诲姩",
+			name : "私密活动",
 			iconSkin : "smoothSecret"
 		}, {
-			name : "鐖卞績娲诲姩",
+			name : "爱心活动",
 			iconSkin : "smoothLove"
 		}, {
-			name : "褰撴棩娲诲姩",
+			name : "当日活动",
 			iconSkin : "smoothToday"
 		}, {
-			name : "璁剧疆鏃ュ巻",
+			name : "设置日历",
 			iconSkin : "smoothSetDate"
 		} ]
 	}
@@ -223,7 +223,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">鐨偆婕旂ず</center>
+<center class="headTitle">皮肤演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=380px align=center valign=top>
@@ -234,26 +234,26 @@
 		<TD width=320px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>zTree 澶у皬
+				<button class="ico books" onfocus="this.blur();"></button>zTree 大小
 				<ul>
-					鍥炬爣鍍忕礌:&nbsp;
+					图标像素:&nbsp;
 					<INPUT TYPE="radio" id="nameCol_1" NAME="nameColRadio" onclick="changeSize();">18x18&nbsp;
 					<INPUT TYPE="radio" id="nameCol_2" NAME="nameColRadio" checked >24x24
 				</ul>
 			</li>
 			<li class="title">
-				<button class="ico skin" onfocus="this.blur();"></button>鐨偆鍚嶇О
-				<ul class="remark">鈥斺�鐐瑰嚮浠ヤ笅涓嶅悓鐨偆锛岀湅鐪嬫湁浠�箞鍙樺寲</ul>
+				<button class="ico skin" onfocus="this.blur();"></button>皮肤名称
+				<ul class="remark">——点击以下不同皮肤，看看有什么变化</ul>
 				<ul>
 					<li id="flagStyle" class="menu focus" onclick="reloadTree('1')">
 						<button class="ico star" onfocus="this.blur();"></button>Flag</li>
-						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/flag%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%28278%E4%B8%AA%29.zip">蹇�涓嬭浇</a> flag绯诲垪 24x24鍥炬爣 (278涓�</ul>
+						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/flag%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%28278%E4%B8%AA%29.zip">快速下载</a> flag系列 24x24图标 (278个)</ul>
 					<li id="iCandyStyle" class="menu" onclick="reloadTree('2')">
 						<button class="ico star" onfocus="this.blur();"></button>iCandy</li>
-						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/iCandy%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%28311%E4%B8%AA%29.zip">蹇�涓嬭浇</a> iCandy绯诲垪 24x24鍥炬爣 (311涓�</ul>
+						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/iCandy%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%28311%E4%B8%AA%29.zip">快速下载</a> iCandy系列 24x24图标 (311个)</ul>
 					<li id="smoothStyle" class="menu" onclick="reloadTree('3')">
 						<button class="ico star" onfocus="this.blur();"></button>smooth</li>
-						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/smooth%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%2883%E4%B8%AA%29.zip">蹇�涓嬭浇</a> smooth绯诲垪 24x24鍥炬爣 (83涓�</ul>
+						<ul class="event">&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://jquerytree.googlecode.com/files/smooth%E7%B3%BB%E5%88%97%2024x24%E5%9B%BE%E6%A0%87%2883%E4%B8%AA%29.zip">快速下载</a> smooth系列 24x24图标 (83个)</ul>
 				</ul>
 			</li>	
 		</div>	

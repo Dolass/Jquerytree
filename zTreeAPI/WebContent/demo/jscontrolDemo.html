@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -70,7 +70,7 @@
 	function addNode(type) {
 		setOperatePool();
 		var srcNode = zTree1.getSelectedNode();
-		var newNode = [{ name:"澧炲姞" + (addCount++)}];
+		var newNode = [{ name:"增加" + (addCount++)}];
 		if (type=="p") newNode[0].isParent = true;
 		zTree1.addNodes(srcNode, newNode);
 		getNodes();
@@ -79,7 +79,7 @@
 		var srcNode = zTree1.getSelectedNode();
 		if (srcNode) {
 			if (srcNode.nodes && srcNode.nodes.length > 0) {
-				var msg = "瑕佸垹闄ょ殑鑺傜偣鏄埗鑺傜偣锛屽鏋滃垹闄ゅ皢杩炲悓瀛愯妭鐐逛竴璧峰垹鎺夈�\n\n璇风‘璁わ紒";
+				var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
 				if (confirm(msg)==true){
 					setOperatePool();
 					zTree1.removeNode(srcNode);
@@ -118,7 +118,7 @@
 	function moveTreeNode(move) {
 		var srcNode = zTree1.getSelectedNode();
 		if (!srcNode) {
-			alert("璇峰厛閫変腑涓�釜鑺傜偣");
+			alert("请先选中一个节点");
 			return;
 		}
 		var moveType = "inner";
@@ -163,7 +163,7 @@
 	function renameTreeNode(txtObj) {
 		var srcNode = zTree1.getSelectedNode();
 		if (!srcNode) {
-			alert("璇峰厛閫変腑涓�釜鑺傜偣");
+			alert("请先选中一个节点");
 			$("#renameTxt").attr("value", "");
 			return;
 		}
@@ -178,7 +178,7 @@
 	function checkTreeNode(checked) {
 		var srcNode = zTree1.getSelectedNode();
 		if (!srcNode) {
-			alert("璇峰厛閫変腑涓�釜鑺傜偣");
+			alert("请先选中一个节点");
 			return;
 		}
 		var oldNodes = clone(zTree1.getNodes());
@@ -202,9 +202,9 @@
 		if (key.length > 0) {
 			var treeNode = zTree1.getNodeByParam("name", key);
 			if (treeNode) {
-				alert("鎵惧埌鑺傜偣淇℃伅: \ntId=" + treeNode.tId + ", name=" + treeNode.name + ", level=" + treeNode.level);
+				alert("找到节点信息: \ntId=" + treeNode.tId + ", name=" + treeNode.name + ", level=" + treeNode.level);
 			} else {
-				alert("娌℃湁鎵惧埌鍖归厤鐨勮妭鐐癸紝璇锋洿鎹㈡悳绱㈡潯浠�);
+				alert("没有找到匹配的节点，请更换搜索条件");
 			}
 		}
 	}
@@ -213,13 +213,13 @@
 		if (key.length > 0) {
 			var treeNodes = zTree1.getNodesByParamFuzzy("name", key);
 			if (treeNodes && treeNodes.length>0) {
-				var msg = "鎵惧埌鑺傜偣淇℃伅: ";
+				var msg = "找到节点信息: ";
 				for (var i=0; i<treeNodes.length; i++) {
 					msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
 				}
 				alert(msg);
 			} else {
-				alert("娌℃湁鎵惧埌鍖归厤鐨勮妭鐐癸紝璇锋洿鎹㈡悳绱㈡潯浠�);
+				alert("没有找到匹配的节点，请更换搜索条件");
 			}
 		}
 	}
@@ -227,19 +227,19 @@
 	function getNodesByParam() {
 		var key = $("#searchKey2").get(0).value;
 		if (key.length == 0 || isNaN(key)) {
-			alert('璇疯緭鍏ユ暟瀛楋紒')
+			alert('请输入数字！')
 			return; 
 		}
 		key = parseInt(key);
 		var treeNodes = zTree1.getNodesByParam("level", key);
 		if (treeNodes && treeNodes.length>0) {
-			var msg = "鎵惧埌鑺傜偣淇℃伅: ";
+			var msg = "找到节点信息: ";
 			for (var i=0; i<treeNodes.length; i++) {
 				msg += ("\n(" + (i+1) + ") tId=" + treeNodes[i].tId + ", name=" + treeNodes[i].name + ", level=" + treeNodes[i].level); 
 			}
 			alert(msg);
 		} else {
-			alert("娌℃湁鎵惧埌鍖归厤鐨勮妭鐐癸紝璇锋洿鎹㈡悳绱㈡潯浠�);
+			alert("没有找到匹配的节点，请更换搜索条件");
 		}
 	}
 
@@ -322,19 +322,19 @@
 	function zCopy(type) {
 		var treeNode = zTree1.getSelectedNode();
 		if ($("#jCopy").attr("class") == "disabled" || !treeNode) {
-			alert("璇峰厛閫夋嫨闇�" + (type=="copy"?"澶嶅埗":"鍓垏") + "鑺傜偣..");
+			alert("请先选择需要" + (type=="copy"?"复制":"剪切") + "节点..");
 		} else if (treeNode) {
 			clipboard.type = type;
 			clipboard.srcNode = treeNode;
-			$("#jClip").text("......[" + treeNode.name + "] 琚� + (type=="copy"?"澶嶅埗":"鍓垏"));
+			$("#jClip").text("......[" + treeNode.name + "] 被" + (type=="copy"?"复制":"剪切"));
 		}
 	}
 	function zPaste() {
 		var treeNode = zTree1.getSelectedNode();
 		if (!clipboard.srcNode) {
-			alert("璇峰厛 澶嶅埗 鎴�鍓垏 鑺傜偣..");
+			alert("请先 复制 或 剪切 节点..");
 		} else if ($("#jPaste").attr("class") == "disabled") {
-			alert("鏃犳硶绮樿创..");
+			alert("无法粘贴..");
 		} else {
 			if (clipboard.type=="copy") {
 				setOperatePool();
@@ -403,7 +403,7 @@
 		} else {
 			$("#jRedo").attr("class","disabled");
 		}
-		$("#jOperatePool").html("鎿嶄綔璁板綍: " + opreatePool.length + ", 娓告爣浣嶇疆: " + (poolCursor+1));
+		$("#jOperatePool").html("操作记录: " + opreatePool.length + ", 游标位置: " + (poolCursor+1));
 	}
 	
   //-->
@@ -411,7 +411,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">Javascript 鎿嶄綔婕旂ず</center>
+<center class="headTitle">Javascript 操作演示</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -422,69 +422,69 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>鑾峰彇鏁版嵁
-				<ul class="remark">1銆佹�鑺傜偣鏁帮細<span id="allNum"></span>; 鎬籆heck鑺傜偣鏁帮細<span id="allCheckNum"></span></ul>
-				<ul class="remark" style="white-space: normal;">2銆佸綋鍓嶉�涓妭鐐�/ul>
+				<button class="ico star" onfocus="this.blur();"></button>获取数据
+				<ul class="remark">1、总节点数：<span id="allNum"></span>; 总Check节点数：<span id="allCheckNum"></span></ul>
+				<ul class="remark" style="white-space: normal;">2、当前选中节点</ul>
 				<ul class="event"><li><span id="curNodePath"></span></li></ul>
 			</li>
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>鎿嶄綔鎸囩ず
+				<button class="ico star" onfocus="this.blur();"></button>操作指示
 				<ul class="operate">
-					[<a id="jCopy" class="disabled" onclick="zCopy('copy'); return false;">澶嶅埗</a>] [<a id="jCut" class="disabled" onclick="zCopy('cut'); return false;">鍓垏</a>] [<a id="jPaste" class="disabled" onclick="zPaste(); return false;">绮樿创</a>]
+					[<a id="jCopy" class="disabled" onclick="zCopy('copy'); return false;">复制</a>] [<a id="jCut" class="disabled" onclick="zCopy('cut'); return false;">剪切</a>] [<a id="jPaste" class="disabled" onclick="zPaste(); return false;">粘贴</a>]
 					<span id="jClip" class="info"></span>
 				</ul>
 				<ul class="operate">
-					[<a id="jRollback" class="disabled" onclick="operateRollback(); return false;">鎾ら攢</a>] [<a id="jRedo" class="disabled" onclick="operateRedo(); return false;">閲嶅仛</a>]
+					[<a id="jRollback" class="disabled" onclick="operateRollback(); return false;">撤销</a>] [<a id="jRedo" class="disabled" onclick="operateRedo(); return false;">重做</a>]
 					&nbsp;&nbsp;&nbsp;&nbsp;<span id="jOperatePool" class="info"></span>
 				</ul>
 				<ul class="operate">
-					淇敼鑺傜偣鍚嶇О: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
+					修改节点名称: <input type="text" value="" id="renameTxt" onchange="renameTreeNode(this);"></input></button>
 				</ul>
 				<ul class="operate">
-					澧炲姞鐖惰妭鐐� <button class="ico addNode" onfocus="this.blur();" title="澧炲姞鐖惰妭鐐� onclick="addNode('p');"></button>
-					澧炲姞鍙跺瓙鑺傜偣: <button class="ico addNode" onfocus="this.blur();" title="澧炲姞鍙跺瓙鑺傜偣" onclick="addNode();"></button>
-					鍒犻櫎鑺傜偣: <button class="ico removeNode" onfocus="this.blur();" title="鍒犻櫎鑺傜偣" onclick="removeTreeNode();"></button>
+					增加父节点: <button class="ico addNode" onfocus="this.blur();" title="增加父节点" onclick="addNode('p');"></button>
+					增加叶子节点: <button class="ico addNode" onfocus="this.blur();" title="增加叶子节点" onclick="addNode();"></button>
+					删除节点: <button class="ico removeNode" onfocus="this.blur();" title="删除节点" onclick="removeTreeNode();"></button>
 				</ul>
 				<ul class="operate">
-					淇敼閫変腑鑺傜偣Check鐘舵�锛�button class="ico checkNode" onfocus="this.blur();" title="Check鑺傜偣" onclick="checkTreeNode(true);"></button>
-					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck鑺傜偣" onclick="checkTreeNode(false);"></button>
-					<br/>鐖跺瓙鍏宠仈锛�INPUT TYPE="radio" id="connTrue" name="connRadio" onfocus="this.blur();">true;&nbsp;
+					修改选中节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check节点" onclick="checkTreeNode(true);"></button>
+					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck节点" onclick="checkTreeNode(false);"></button>
+					<br/>父子关联：<INPUT TYPE="radio" id="connTrue" name="connRadio" onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="connFalse" name="connRadio" checked onfocus="this.blur();">false
 				</ul>
 				<ul class="operate">
-					淇敼鍏ㄩ儴鑺傜偣Check鐘舵�锛�button class="ico checkNode" onfocus="this.blur();" title="Check鍏ㄩ儴鑺傜偣" onclick="checkAllTreeNode(true);"></button>
-					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck鍏ㄩ儴鑺傜偣" onclick="checkAllTreeNode(false);"></button>
+					修改全部节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check全部节点" onclick="checkAllTreeNode(true);"></button>
+					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck全部节点" onclick="checkAllTreeNode(false);"></button>
 				</ul>
 				<ul class="operate">
-					绉诲姩閫変腑鑺傜偣: 
-					<button class="ico up" onfocus="this.blur();" title="鍚岀骇鍚戜笂绉诲姩" onclick="moveTreeNode('up');"></button>
-					<button class="ico down" onfocus="this.blur();" title="鍚岀骇鍚戜笅绉诲姩" onclick="moveTreeNode('down');"></button>
-					<button class="ico left" onfocus="this.blur();" title="鎴愪负鐖惰妭鐐瑰悓绾ц妭鐐� onclick="moveTreeNode('left');"></button>
-					<button class="ico right" onfocus="this.blur();" title="鎴愪负鍓嶄竴涓妭鐐圭殑瀛愯妭鐐� onclick="moveTreeNode('right');"></button>
+					移动选中节点: 
+					<button class="ico up" onfocus="this.blur();" title="同级向上移动" onclick="moveTreeNode('up');"></button>
+					<button class="ico down" onfocus="this.blur();" title="同级向下移动" onclick="moveTreeNode('down');"></button>
+					<button class="ico left" onfocus="this.blur();" title="成为父节点同级节点" onclick="moveTreeNode('left');"></button>
+					<button class="ico right" onfocus="this.blur();" title="成为前一个节点的子节点" onclick="moveTreeNode('right');"></button>
 				</ul>
 				<ul class="operate">
-					閫変腑鑺傜偣:&nbsp;灞曞紑<button class="ico expandNode" onfocus="this.blur();" title="灞曞紑閫変腑鑺傜偣" onclick="expandNode(true);"></button>
-					鎶樺彔<button class="ico collapseNode" onfocus="this.blur();" title="鎶樺彔閫変腑鑺傜偣" onclick="expandNode(false);"></button>
-					&nbsp;<input type="checkbox" id="sonChk" /> 鏄惁鍖呭惈瀛愯妭鐐�
+					选中节点:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="展开选中节点" onclick="expandNode(true);"></button>
+					折叠<button class="ico collapseNode" onfocus="this.blur();" title="折叠选中节点" onclick="expandNode(false);"></button>
+					&nbsp;<input type="checkbox" id="sonChk" /> 是否包含子节点
 				</ul>
 				<ul class="operate">
-					鍏ㄩ儴鑺傜偣:&nbsp;灞曞紑<button class="ico expandNode" onfocus="this.blur();" title="鍏ㄩ儴灞曞紑" onclick="expandAll(true);"></button>
-					鎶樺彔<button class="ico collapseNode" onfocus="this.blur();" title="鍏ㄩ儴鎶樺彔" onclick="expandAll(false);"></button> 
+					全部节点:&nbsp;展开<button class="ico expandNode" onfocus="this.blur();" title="全部展开" onclick="expandAll(true);"></button>
+					折叠<button class="ico collapseNode" onfocus="this.blur();" title="全部折叠" onclick="expandAll(false);"></button> 
 				</ul>
 				<ul class="operate">
-					鍚嶇О鍖归厤鎼滅储鍗曚釜鑺傜偣: <input type="text" value="鎵嬫満" id="searchKey"></input>
-					<button class="ico searchNode" onfocus="this.blur();" title="鎼滅储" onclick="getNodeByParam();"></button>
-					<br />getNodeByParam 鏂规硶婕旂ず锛堝畬鍏ㄥ尮閰嶏級
+					名称匹配搜索单个节点: <input type="text" value="手机" id="searchKey"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodeByParam();"></button>
+					<br />getNodeByParam 方法演示（完全匹配）
 				</ul>
 				<ul class="operate">
-					鍚嶇О妯＄硦鎼滅储鍗曚釜鑺傜偣: <input type="text" value="鐢� id="searchKeyFuzzy"></input>
-					<button class="ico searchNode" onfocus="this.blur();" title="鎼滅储" onclick="getNodesByParamFuzzy();"></button>
-					<br />getNodesByParamFuzzy 鏂规硶婕旂ず锛堟ā绯婂尮閰嶏級
+					名称模糊搜索单个节点: <input type="text" value="电" id="searchKeyFuzzy"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParamFuzzy();"></button>
+					<br />getNodesByParamFuzzy 方法演示（模糊匹配）
 				</ul>
 				<ul class="operate">
-					level鎼滅储鑺傜偣闆嗗悎: <input type="text" value="0" id="searchKey2"></input>
-					<button class="ico searchNode" onfocus="this.blur();" title="鎼滅储" onclick="getNodesByParam();"></button>
-					<br />getNodesByParam 鏂规硶婕旂ず锛堝畬鍏ㄥ尮閰嶏級
+					level搜索节点集合: <input type="text" value="0" id="searchKey2"></input>
+					<button class="ico searchNode" onfocus="this.blur();" title="搜索" onclick="getNodesByParam();"></button>
+					<br />getNodesByParam 方法演示（完全匹配）
 				</ul>
 			</li>
 			

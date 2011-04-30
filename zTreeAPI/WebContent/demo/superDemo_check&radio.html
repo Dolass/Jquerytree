@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
   .test {
@@ -43,38 +43,38 @@
 		 	       {id:11, name:"Intel"},
 		 	       {id:12, name:"AMD"}
 			]},
-	 	{id:2, name:"涓绘澘",
+	 	{id:2, name:"主板",
 	 		nodes:[
-		 	       {id:21, name:"鍗庣"},
-		 	       {id:22, name:"鎶�槈"},
-		 	       {id:23, name:"寰槦"},
-		 	       {id:24, name:"涓冨僵铏�},
-		 	       {id:25, name:"鏄犳嘲"}
+		 	       {id:21, name:"华硕"},
+		 	       {id:22, name:"技嘉"},
+		 	       {id:23, name:"微星"},
+		 	       {id:24, name:"七彩虹"},
+		 	       {id:25, name:"映泰"}
 			]},
-		{id:3, name:"鏄惧崱",
+		{id:3, name:"显卡",
 	 		nodes:[
-		 	       {id:31, name:"鍗庣"},
-		 	       {id:32, name:"绱㈡嘲"},
-		 	       {id:33, name:"寰槦"},
-		 	       {id:34, name:"褰遍┌"},
-		 	       {id:35, name:"涓冨僵铏�}
+		 	       {id:31, name:"华硕"},
+		 	       {id:32, name:"索泰"},
+		 	       {id:33, name:"微星"},
+		 	       {id:34, name:"影驰"},
+		 	       {id:35, name:"七彩虹"}
 			]},
-		{id:4, name:"鍐呭瓨",
+		{id:4, name:"内存",
 	 		nodes:[
-		 	       {id:41, name:"閲戝＋椤�},
-		 	       {id:42, name:"濞佸垰"},
-		 	       {id:43, name:"瀹囩灮"},
-		 	       {id:44, name:"涓夋槦"},
-		 	       {id:45, name:"鐜颁唬"}
+		 	       {id:41, name:"金士顿"},
+		 	       {id:42, name:"威刚"},
+		 	       {id:43, name:"宇瞻"},
+		 	       {id:44, name:"三星"},
+		 	       {id:45, name:"现代"}
 			]},
-		{id:5, name:"纭洏",
+		{id:5, name:"硬盘",
 	 		nodes:[
-		 	       {id:51, name:"甯屾嵎"},
-		 	       {id:52, name:"瑗块儴鏁版嵁"},
-		 	       {id:53, name:"鏃ョ珛"},
-		 	       {id:54, name:"涓夋槦"},
-		 	       {id:55, name:"涓滆姖"},     
-		 	       {id:56, name:"瀵屽＋閫�}
+		 	       {id:51, name:"希捷"},
+		 	       {id:52, name:"西部数据"},
+		 	       {id:53, name:"日立"},
+		 	       {id:54, name:"三星"},
+		 	       {id:55, name:"东芝"},     
+		 	       {id:56, name:"富士通"}
 			]}
 	 	];
 
@@ -188,7 +188,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">楂樼骇搴旂敤婕旂ず<span> 鈥斺� checkbox & radio 鍏卞瓨</span></center>
+<center class="headTitle">高级应用演示<span> —— checkbox & radio 共存</span></center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -199,25 +199,25 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>checkbox & radio 鍏卞瓨璇存槑
-				<ul class="remark">1銆佹紨绀烘敞閲�/ul>
+				<button class="ico star" onfocus="this.blur();"></button>checkbox & radio 共存说明
+				<ul class="remark">1、演示注释</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;鐐瑰嚮涓嶅悓鐨勮妭鐐硅瘯璇曠湅銆�/li>
-					<li>&nbsp;&nbsp;鐐瑰嚮 checkbox 鎴�radio 璇曡瘯鐪嬨�</li>
+					<li>&nbsp;&nbsp;点击不同的节点试试看。</li>
+					<li>&nbsp;&nbsp;点击 checkbox 或 radio 试试看。</li>
 				</ul>
-				<ul class="remark">2銆佷娇鐢ㄨ嚜瀹氫箟鎺т欢鐨勬帴鍙ｅ疄鐜�/ul>
+				<ul class="remark">2、使用自定义控件的接口实现</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;鏃㈢劧闇�鍏卞瓨锛屼篃灏变笉鍙兘浣跨敤 zTree 鍐呴儴鐨�checkbox 鎴�radio 鐨�check 瑙勫垯锛屾墍浠ヤ竴瀹氳浣跨敤鑷畾涔夋帶浠剁殑鎺ュ彛銆�/li>
-					<li>&nbsp;&nbsp;鍙傛暟锛歴etting.addDiyDom</li>
-					<li>&nbsp;&nbsp;姣忕粍鎺т欢鐨�check 瑙勫垯锛屽畬鍏ㄦ牴鎹綘鑷繁鐨勯渶姹傦紝鑷璁惧畾銆�/li>
+					<li>&nbsp;&nbsp;既然需要共存，也就不可能使用 zTree 内部的 checkbox 或 radio 的 check 规则，所以一定要使用自定义控件的接口。</li>
+					<li>&nbsp;&nbsp;参数：setting.addDiyDom</li>
+					<li>&nbsp;&nbsp;每组控件的 check 规则，完全根据你自己的需求，自行设定。</li>
 				</ul>
-				<ul class="remark">3銆侀殢鎰忔洿鏂版枃瀛楅鑹�/ul>
+				<ul class="remark">3、随意更新文字颜色</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;閫氳繃鍒╃敤 setting.fontCss 鍙傛暟鍙互閽堝鑺傜偣鍦ㄤ笉鍚岀姸鎬佹椂锛岃缃笉鍚岀殑棰滆壊銆�/li>
+					<li>&nbsp;&nbsp;通过利用 setting.fontCss 参数可以针对节点在不同状态时，设置不同的颜色。</li>
 				</ul>
-				<ul class="remark">4銆佹瘡娆″彧灞曞紑涓�釜鑺傜偣鐨勫皾璇�/ul>
+				<ul class="remark">4、每次只展开一个节点的尝试</ul>
 				<ul class="event">
-					<li>&nbsp;&nbsp;鍒╃敤 beforeClick銆乥eforeExpand銆乪xpand 杩欎笁绉嶄簨浠讹紝鍙互瀹屽叏瀹炵幇姣忔鍙兘灞曞紑涓�釜鐖惰妭鐐圭殑鍔熻兘锛屽杩欎釜鍔熻兘鏈夊叴瓒ｇ殑鏈嬪弸鍙互鍙傝�涓�笅銆�/li>
+					<li>&nbsp;&nbsp;利用 beforeClick、beforeExpand、expand 这三种事件，可以完全实现每次只能展开一个父节点的功能，对这个功能有兴趣的朋友可以参考一下。</li>
 				</ul>
 			</li>
 		</div>	
