@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery-ztree-2.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -55,7 +55,7 @@
  </HEAD>
 
 <BODY>
-<center class="headTitle">Radio&nbsp;&nbsp;演示</center>
+<center class="headTitle">Radio&nbsp;&nbsp;婕旂ず</center>
 <TABLE border=0 width="700" class="tb1">
 	<TR>
 		<TD width=340px align=center valign=top>
@@ -66,43 +66,43 @@
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
 			<li class="title focus">
-				<button class="ico star" onfocus="this.blur();"></button>Radio 分组类型配置
-				<ul class="remark">——修改以下配置，点击 Tree 的 Radio，看看变化</ul>
+				<button class="ico star" onfocus="this.blur();"></button>Radio 鍒嗙粍绫诲瀷閰嶇疆
+				<ul class="remark">鈥斺�淇敼浠ヤ笅閰嶇疆锛岀偣鍑�Tree 鐨�Radio锛岀湅鐪嬪彉鍖�/ul>
 				<ul>
-					<INPUT TYPE="radio" id="level" NAME="radioType" checked onclick="refreshTree();">在每一级内进行进行分组控制
+					<INPUT TYPE="radio" id="level" NAME="radioType" checked onclick="refreshTree();">鍦ㄦ瘡涓�骇鍐呰繘琛岃繘琛屽垎缁勬帶鍒�
 				</ul>
 				<ul>
-					<INPUT TYPE="radio" id="all" NAME="radioType" onclick="refreshTree();">在整个 Tree 内进行分组控制
+					<INPUT TYPE="radio" id="all" NAME="radioType" onclick="refreshTree();">鍦ㄦ暣涓�Tree 鍐呰繘琛屽垎缁勬帶鍒�
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.checkable = <a id="checkableCode">true</a>;</li>
 					<li>&nbsp;setting.checkStyle = "<a id="checkableCode">radio</a>";</li>
 					<li>&nbsp;setting.checkRadioType = "<a id="checkRadioTypeCode">level</a>";</li>
 					<li>&nbsp;</li>
-					<li>&nbsp;被选择的节点共 <a id="checkedNum">0</a> 个</li>
+					<li>&nbsp;琚�鎷╃殑鑺傜偣鍏�<a id="checkedNum">0</a> 涓�/li>
 				</ul>
 			</li>
 			<li class="title focus">
-				<button class="ico books" onfocus="this.blur();"></button>Radio 状态说明
+				<button class="ico books" onfocus="this.blur();"></button>Radio 鐘舵�璇存槑
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton radio_false_full"></button>当前节点没有被选择；
-					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_false_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">如果是父节点，则没有被选择的子节点。</font>
+					<button type="BUTTON" class="treeButton radio_false_full"></button>褰撳墠鑺傜偣娌℃湁琚�鎷╋紱
+					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton radio_false_full_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">濡傛灉鏄埗鑺傜偣锛屽垯娌℃湁琚�鎷╃殑瀛愯妭鐐广�</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton radio_false_part"></button>当前节点没有被选择；
-					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_false_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">存在被选择的子节点（只有父节点存在此状态）。</font>
+					<button type="BUTTON" class="treeButton radio_false_part"></button>褰撳墠鑺傜偣娌℃湁琚�鎷╋紱
+					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton radio_false_part_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">瀛樺湪琚�鎷╃殑瀛愯妭鐐癸紙鍙湁鐖惰妭鐐瑰瓨鍦ㄦ鐘舵�锛夈�</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton radio_true_full"></button>当前节点被选择；
-					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_true_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">如果是父节点，则没有被选择的子节点。</font>
+					<button type="BUTTON" class="treeButton radio_true_full"></button>褰撳墠鑺傜偣琚�鎷╋紱
+					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton radio_true_full_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">濡傛灉鏄埗鑺傜偣锛屽垯娌℃湁琚�鎷╃殑瀛愯妭鐐广�</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton radio_true_part"></button>当前节点被选择；
-					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton radio_true_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">且有被选择的子节点（只有父节点存在此状态）。</font>
+					<button type="BUTTON" class="treeButton radio_true_part"></button>褰撳墠鑺傜偣琚�鎷╋紱
+					榧犳爣绉诲埌璇ヨ妭鐐逛笂鏄剧ず涓猴細<button type="BUTTON" class="treeButton radio_true_part_focus"></button><br/>
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">涓旀湁琚�鎷╃殑瀛愯妭鐐癸紙鍙湁鐖惰妭鐐瑰瓨鍦ㄦ鐘舵�锛夈�</font>
 				</ul>
 			</li>
 		</div>	
