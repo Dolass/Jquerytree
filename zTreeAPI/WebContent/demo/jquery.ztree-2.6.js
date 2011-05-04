@@ -224,9 +224,9 @@
 		} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
 			asyncGetNode(setting);
 		}
+		bindHandler(setting);
 		
 		return new zTreePlugin().init(this);
-
 	};
 
 	//绑定事件
@@ -360,31 +360,26 @@
 		} else {
 			$("#" + parentNode.tId + IDMark_Ul).append(zTreeHtml.join(''));
 		}
-
 		bindTreeNodesPrivate(setting, treeNodes);
-
 	}
 
 	function bindTreeNodesPrivate(setting, treeNodes) {
 		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
-//			bindHandler(setting, node);
+			if ((typeof setting.addDiyDom) == "function") {
+				setting.addDiyDom(setting.treeObjId, node);
+			}
+			//触发nodeCreated事件
+			setting.treeObj.trigger(ZTREE_NODECREATED, [setting.treeObjId, node]);
 			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
 				bindTreeNodesPrivate(setting, node[setting.nodesCol], node);
-			} else {
-				//只在末级节点的最后一个进行checkBox修正
-				if (setting.checkable && i == treeNodes.length - 1) {
-					repairParentChkClass(setting, node);
-				}
 			}
 		}
 	}
 
 	function appendTreeNodes(setting, level, treeNodes, parentNode) {
 		if (!treeNodes) return [];
-
 		var html = [];
-
 		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
 			node.level = level;
@@ -399,7 +394,6 @@
 			fixParentKeyValue(setting, node);
 
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
-
 			//允许在非空节点上增加节点
 			node.isFirstNode = (tmpParentNode[setting.nodesCol].length == treeNodes.length) && (i == 0);
 			node.isLastNode = (i == (treeNodes.length - 1));
@@ -418,10 +412,15 @@
 				fontStyle.push(f, ":", fontcss[f], ";");
 			}
 			
+			var childHtml = [];
+			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
+				childHtml = appendTreeNodes(setting, level + 1, node[setting.nodesCol], node);
+			}
 			html.push("<li id='", node.tId, "' class='tree-node'>",
 				"<button type=\"button\" id='", node.tId, IDMark_Switch,
 				"' title='' class='", makeNodeLineClass(setting, node), "' onfocus='this.blur();'></button>");
 			if (setting.checkable) {
+				makeChkFlag(setting, node);
 				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
 					setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([node]);
 				}
@@ -432,405 +431,398 @@
 				"'><button type=\"button\" id='", node.tId, IDMark_Icon,
 				"' title='' onfocus='this.blur();' class='", makeNodeIcoClass(setting, node), "' style='", makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, IDMark_Span,
 				"'>",node[setting.nameCol].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span></a><ul id='", node.tId, IDMark_Ul, "' class='", makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
-
-			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
-				html = html.concat(appendTreeNodes(setting, level + 1, node[setting.nodesCol], node));
-			}
+			html.push(childHtml.join(''));
 			html.push("</ul></li>");
 		}
 		return html;
 	}
 
-	//单个节点绑定事件
+	//利用事件委托绑定事件
 	function bindHandler(setting, treeNode) {
 		
-//		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
-//		var aObj = $("#" + treeNode.tId + IDMark_A);
-//		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
+	//		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
+	//		var aObj = $("#" + treeNode.tId + IDMark_A);
+	//		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 				
-//		if (treeNode.isParent) {
-//			switchObj.bind('click', {
-//				treeObjId: setting.treeObjId,
-//				treeNode: treeNode
-//			},
-//			onSwitchNode);
-//			aObj.bind('dblclick', {
-//				treeObjId: setting.treeObjId,
-//				treeNode: treeNode
-//			},
-//			onSwitchNode);
-//		}
-//		aObj.bind('click',
-//			function() {
-//				var beforeClick = true;
-//				if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
-//				if (beforeClick == false) return;
-//				//除掉默认事件，防止文本被选择
-//				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
-//				//设置节点为选中状态
-//				selectNode(setting, treeNode);
-//				//触发click事件
-//				setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
-//			});
-//		icoObj.bind('mousedown',
-//			function() {
-//				treeNode.editNameStatus = false;
-//			});
-//
-//		//显示CheckBox Or Radio
-//        if (setting.checkable) {
-//            switchObj.after("<BUTTON type='BUTTON' ID='" + treeNode.tId + IDMark_Check + "' onfocus='this.blur();' ></BUTTON>");
-//
-//            var checkObj = $("#" + treeNode.tId + IDMark_Check);
-//
-//            if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && treeNode[setting.checkedCol] ) {
-//                setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
-//            }
-//
-//            setChkClass(setting, checkObj, treeNode);
-//
-//            checkObj.bind('click',
-//                function() {
-//                    var beforeChange = true;
-//                    if ((typeof setting.callback.beforeChange) == "function") beforeChange = setting.callback.beforeChange(setting.treeObjId, treeNode);
-//                    if (beforeChange == false) return;
-//
-//                    treeNode[setting.checkedCol] = !treeNode[setting.checkedCol];
-//                    checkNodeRelation(setting, treeNode);
-//
-//                    setChkClass(setting, checkObj, treeNode);
-//                    repairParentChkClassWithSelf(setting, treeNode);
-//
-//                    //触发 CheckBox 点击事件
-//                    setting.treeObj.trigger(ZTREE_CHANGE, [setting.treeObjId, treeNode]);
-//
-//                });
-//
-//            checkObj.bind('mouseover',
-//                function() {
-//                    treeNode.checkboxFocus = true;
-//                    setChkClass(setting, checkObj, treeNode);
-//                });
-//
-//            checkObj.bind('mouseout',
-//                function() {
-//                    treeNode.checkboxFocus = false;
-//                    setChkClass(setting, checkObj, treeNode);
-//                });
-//        }
-//		
-//		//编辑、删除按钮
-//        aObj.hover(
-//            function() {
-//                addTreeDom(setting, treeNode);
-//            },
-//            function() {
-//                if (setting.curTreeNode != treeNode)
-//                    removeTreeDom(setting, treeNode);
-//            }
-//            );
-//
-//        aObj.bind('mousedown',
-//            function(eventMouseDown) {
-//
-//                //右键不能拖拽
-//                if (eventMouseDown.button == 2 || !setting.editable) return;
-//
-//                var doc = document;
-//                var curNode;
-//                var tmpArrow;
-//                var tmpTarget;
-//                var isOtherTree = false;
-//                var targetSetting = setting;
-//                var preTmpTargetNodeId = null;
-//                var preTmpMoveType = null;
-//                var tmpTargetNodeId = null;
-//                var moveType = MoveType_Inner;
-//                var mouseDownX = eventMouseDown.clientX;
-//                var mouseDownY = eventMouseDown.clientY;
-//                var startTime = (new Date()).getTime();
-//
-//                $(doc).mousemove(function(event) {
-//
-//                    //为便于输入框正常操作，在输入框内移动鼠标不能拖拽节点
-//                    if (treeNode.editNameStatus) {
-//                        return true;
-//                    }
-//
-//                    //除掉默认事件，防止文本被选择
-//                    window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
-//
-//                    //避免鼠标误操作，对于第一次移动小于MinMoveSize时，不开启拖拽功能
-//                    if (setting.dragStatus == 0 && Math.abs(mouseDownX - event.clientX) < MinMoveSize
-//                        && Math.abs(mouseDownY - event.clientY) < MinMoveSize) {
-//                        return true;
-//                    }
-//
-//                    $("body").css("cursor", "pointer");
-//                    var switchObj = $("#" + treeNode.tId + IDMark_Switch);
-//
-//                    if (setting.dragStatus == 0 && treeNode.isParent && treeNode.open) {
-//                        expandAndCollapseNode(setting, treeNode, !treeNode.open);
-//                        setting.dragNodeShowBefore = true;
-//                    }
-//
-//                    if (setting.dragStatus == 0) {
-//                        //避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
-//                        setting.dragStatus = -1;
-//                        var beforeDrag = true;
-//                        if ((typeof setting.callback.beforeDrag) == "function") beforeDrag = setting.callback.beforeDrag(setting.treeObjId, treeNode);
-//                        if (beforeDrag == false) return true;
-//
-//                        setting.dragStatus = 1;
-//                        showIfameMask(true);
-//
-//                        //设置节点为选中状态
-//                        selectNode(setting, treeNode);
-//                        removeTreeDom(setting, treeNode);
-//
-//                        var tmpNode = $("#" + treeNode.tId).clone();
-//                        tmpNode.attr("id", treeNode.tId + "_tmp");
-//                        tmpNode.css("padding", "0");
-//                        tmpNode.children("#" + treeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
-//                        tmpNode.children("#" + treeNode.tId + IDMark_Ul).css("display", "none");
-//
-//                        curNode = $("<ul class='zTreeDragUL'></ul>").append(tmpNode);
-//                        curNode.attr("id", treeNode.tId + IDMark_Ul + "_tmp");
-//                        curNode.addClass(setting.treeObj.attr("class"));
-//                        curNode.appendTo("body");
-//
-//                        tmpArrow = $("<button class='tmpzTreeMove_arrow'></button>");
-//                        tmpArrow.attr("id", "zTreeMove_arrow_tmp");
-//                        tmpArrow.appendTo("body");
-//
-//                        //触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
-//                        setting.treeObj.trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
-//                    }
-//
-//                    if (setting.dragStatus == 1 && tmpArrow.attr("id") != event.target.id) {
-//                        if (tmpTarget) {
-//                            tmpTarget.removeClass(Class_TmpTargetTree);
-//                            if (tmpTargetNodeId) $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).removeClass(Class_TmpTargetNode);
-//                        }
-//                        tmpTarget = null;
-//                        tmpTargetNodeId = null;
-//
-//                        //判断是否不同的树
-//                        isOtherTree = false;
-//                        targetSetting = setting;
-//                        for (var s in settings) {
-//                            if (settings[s].editable && settings[s].treeObjId != setting.treeObjId
-//                                && (event.target.id == settings[s].treeObjId || $(event.target).parents("#" + settings[s].treeObjId).length>0)) {
-//                                isOtherTree = true;
-//                                targetSetting = settings[s];
-//                            }
-//                        }
-//
-//                        var docScrollTop = $(doc).scrollTop();
-//                        var docScrollLeft = $(doc).scrollLeft();
-//                        var treeOffset = targetSetting.treeObj.offset();
-//                        var scrollHeight = targetSetting.treeObj.get(0).scrollHeight;
-//                        var scrollWidth = targetSetting.treeObj.get(0).scrollWidth;
-//                        var dTop = (event.clientY + docScrollTop - treeOffset.top);
-//                        var dBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop);
-//                        var dLeft = (event.clientX + docScrollLeft - treeOffset.left);
-//                        var dRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft);
-//                        var isTop = (dTop < 10 && dTop > -5);
-//                        var isBottom = (dBottom < 10 && dBottom > -5);
-//                        var isLeft = (dLeft < 10 && dLeft > -5);
-//                        var isRight = (dRight < 10 && dRight > -5);
-//                        var isTreeTop = (isTop && targetSetting.treeObj.scrollTop() <= 0);
-//                        var isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight);
-//                        var isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0);
-//                        var isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width()+10) >= scrollWidth);
-//
-//                        if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
-//                            //任意节点 移到 其他节点
-//                            var targetObj = $("#" + event.target.id);
-//                            while (!targetObj.is("li") && targetObj.attr("id") != targetSetting.treeObjId) {
-//                                targetObj = targetObj.parent();
-//                            }
-//
-//                            var canMove = false;
-//                            //如果移到自己 或者自己的子集，则不能当做临时目标
-//                            if (treeNode.parentNode && targetObj.attr("id") != treeNode.tId && $("#" + treeNode.tId).find("#" + targetObj.attr("id")).length == 0) {
-//                                //非根节点移动
-//                                canMove = true;
-//                            } else if (treeNode.parentNode == null && targetObj.attr("id") != treeNode.tId && $("#" + treeNode.tId).find("#" + targetObj.attr("id")).length == 0) {
-//                                //根节点移动
-//                                canMove = true;
-//                            }
-//                            if (canMove) {
-//                                if (event.target.id &&
-//                                    (event.target.id == (targetObj.attr('id') + IDMark_A) || $(event.target).parents("#" + targetObj.attr('id') + IDMark_A).length > 0)) {
-//                                    tmpTarget = targetObj;
-//                                    tmpTargetNodeId = targetObj.attr('id');
-//                                    $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
-//                                }
-//                            }
-//                        }
-//
-//                        //确保鼠标在zTree内部
-//                        if (event.target.id == targetSetting.treeObjId || $(event.target).parents("#" + targetSetting.treeObjId).length>0) {
-//                            //只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
-//                            if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && treeNode.parentNode != null))) {
-//                                tmpTarget = targetSetting.treeObj;
-//                                tmpTarget.addClass(Class_TmpTargetTree);
-//                            }
-//                            //滚动条自动滚动
-//                            if (isTop) {
-//                                targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()-10);
-//                            } else if (isBottom)  {
-//                                targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()+10);
-//                            }
-//                            if (isLeft) {
-//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()-10);
-//                            } else if (isRight) {
-//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+10);
-//                            }
-//                            //目标节点在可视区域左侧，自动移动横向滚动条
-//                            if (tmpTarget && tmpTarget != targetSetting.treeObj && tmpTarget.offset().left < targetSetting.treeObj.offset().left) {
-//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+ tmpTarget.offset().left - targetSetting.treeObj.offset().left);
-//                            }
-//                        }
-//
-//                        curNode.css({
-//                            "top": (event.clientY + docScrollTop + 3) + "px",
-//                            "left": (event.clientX + docScrollLeft + 3) + "px"
-//                        });
-//
-//                        var dX = 0;
-//                        var dY = 0;
-//                        if (tmpTarget && tmpTarget.attr("id")!=targetSetting.treeObjId) {
-//                            var tmpTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-//                            var tmpNodeObj = $("#" + treeNode.tId);
-//                            var isPrev = (tmpNodeObj.prev().attr("id") == tmpTargetNodeId) ;
-//                            var isNext = (tmpNodeObj.next().attr("id") == tmpTargetNodeId) ;
-//                            var isInner = (treeNode.parentNode && treeNode.parentNode.tId == tmpTargetNodeId) ;
-//
-//                            var canPrev = !isNext;
-//                            var canNext = !isPrev;
-//                            var canInner = !isInner && !(targetSetting.keepLeaf && !tmpTargetNode.isParent);
-//                            var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1;
-//                            var nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1;
-//
-//
-//                            var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
-//                            var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
-//
-//                            if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
-//                                dX = 1 - tmpArrow.width();
-//                                dY = 0 - tmpArrow.height()/2;
-//                                moveType = MoveType_Before;
-//                            } else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
-//                                dX = 1 - tmpArrow.width();
-//                                dY = tmpTargetA.height() - tmpArrow.height()/2;
-//                                moveType = MoveType_After;
-//                            }else {
-//                                dX = 5 - tmpArrow.width();
-//                                dY = 0;
-//                                moveType = MoveType_Inner;
-//                            }
-//                            tmpArrow.css({
-//                                "display":"block",
-//                                "top": (tmpTargetA.offset().top + dY) + "px",
-//                                "left": (tmpTargetA.offset().left + dX) + "px"
-//                            });
-//
-//                            if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
-//                                startTime = (new Date()).getTime();
-//                            }
-//                            if (moveType == MoveType_Inner) {
-//                                window.moveTimer = setTimeout(function() {
-//                                    if (moveType != MoveType_Inner) return;
-//                                    var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-//                                    if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500) {
-//                                        switchNode(targetSetting, targetNode);
-//                                    }
-//                                }, 600);
-//                            }
-//                        } else {
-//                            moveType = MoveType_Inner;
-//                            tmpArrow.css({
-//                                "display":"none"
-//                            });
-//                            if (window.moveTimer) {
-//                                clearTimeout(window.moveTimer);
-//                            }
-//                        }
-//                        preTmpTargetNodeId = tmpTargetNodeId;
-//                        preTmpMoveType = moveType;
-//                    }
-//                    return false;
-//                });
-//
-//                $(doc).mouseup(function(event) {
-//                    if (this.moveTimer) {
-//                        clearTimeout(this.moveTimer);
-//                    }
-//                    preTmpTargetNodeId = null;
-//                    preTmpMoveType = null;
-//                    $(doc).unbind("mousemove");
-//                    $(doc).unbind("mouseup");
-//                    $("body").css("cursor", "auto");
-//                    if (tmpTarget) {
-//                        tmpTarget.removeClass(Class_TmpTargetTree);
-//                        if (tmpTargetNodeId) $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).removeClass(Class_TmpTargetNode);
-//                    }
-//                    showIfameMask(false);
-//
-//                    if (setting.dragStatus == 0) return;
-//                    setting.dragStatus = 0;
-//
-//                    if (treeNode.isParent && setting.dragNodeShowBefore && !treeNode.open) {
-//                        expandAndCollapseNode(setting, treeNode, !treeNode.open);
-//                        setting.dragNodeShowBefore = false;
-//                    }
-//
-//                    if (curNode) curNode.remove();
-//                    if (tmpArrow) tmpArrow.remove();
-//
-//                    //显示树上 移动后的节点
-//                    if (tmpTarget && tmpTargetNodeId && treeNode.parentNode && tmpTargetNodeId==treeNode.parentNode.tId && moveType == MoveType_Inner) {
-//                        tmpTarget = null;
-//                    }
-//                    if (tmpTarget) {
-//                        var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-//                        var beforeDrop = true;
-//                        if ((typeof targetSetting.callback.beforeDrop) == "function") beforeDrop = targetSetting.callback.beforeDrop(targetSetting.treeObjId, treeNode, dragTargetNode, moveType);
-//                        if (beforeDrop == false) return;
-//
-//                        if (isOtherTree) {
-//                            removeTreeNode(setting, treeNode);
-//                            addTreeNodes(targetSetting, null, [treeNode], false);
-//                            moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
-//                            selectNode(targetSetting, treeNode);
-//                        }else {
-//                            moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
-//                        }
-//                        $("#" + treeNode.tId + IDMark_Icon).focus().blur();
-//
-//                        //触发 DROP 拖拽事件，返回拖拽的目标数据对象
-//                        setting.treeObj.trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
-//
-//                    } else {
-//                        //触发 DROP 拖拽事件，返回null
-//                        setting.treeObj.trigger(ZTREE_DROP, [setting.treeObjId, null, null, null]);
-//                    }
-//                });
-//
-//                //阻止默认事件专门用于处理 FireFox 的Bug，
-//                //该 Bug 导致如果 zTree Div CSS 中存在 overflow 设置，则拖拽节点移出 zTree 时，无法得到正确的event.target
-//                if(eventMouseDown.preventDefault) {
-//                    eventMouseDown.preventDefault();
-//                }
-//            });
+	//		if (treeNode.isParent) {
+	//			switchObj.bind('click', {
+	//				treeObjId: setting.treeObjId,
+	//				treeNode: treeNode
+	//			},
+	//			onSwitchNode);
+	//			aObj.bind('dblclick', {
+	//				treeObjId: setting.treeObjId,
+	//				treeNode: treeNode
+	//			},
+	//			onSwitchNode);
+	//		}
+	//		aObj.bind('click',
+	//			function() {
+	//				var beforeClick = true;
+	//				if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
+	//				if (beforeClick == false) return;
+	//				//除掉默认事件，防止文本被选择
+	//				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+	//				//设置节点为选中状态
+	//				selectNode(setting, treeNode);
+	//				//触发click事件
+	//				setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
+	//			});
+	//		icoObj.bind('mousedown',
+	//			function() {
+	//				treeNode.editNameStatus = false;
+	//			});
+	//
+	//		//显示CheckBox Or Radio
+	//        if (setting.checkable) {
+	//            switchObj.after("<BUTTON type='BUTTON' ID='" + treeNode.tId + IDMark_Check + "' onfocus='this.blur();' ></BUTTON>");
+	//
+	//            var checkObj = $("#" + treeNode.tId + IDMark_Check);
+	//
+	//            if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && treeNode[setting.checkedCol] ) {
+	//                setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
+	//            }
+	//
+	//            setChkClass(setting, checkObj, treeNode);
+	//
+	//            checkObj.bind('click',
+	//                function() {
+	//                    var beforeChange = true;
+	//                    if ((typeof setting.callback.beforeChange) == "function") beforeChange = setting.callback.beforeChange(setting.treeObjId, treeNode);
+	//                    if (beforeChange == false) return;
+	//
+	//                    treeNode[setting.checkedCol] = !treeNode[setting.checkedCol];
+	//                    checkNodeRelation(setting, treeNode);
+	//
+	//                    setChkClass(setting, checkObj, treeNode);
+	//                    repairParentChkClassWithSelf(setting, treeNode);
+	//
+	//                    //触发 CheckBox 点击事件
+	//                    setting.treeObj.trigger(ZTREE_CHANGE, [setting.treeObjId, treeNode]);
+	//
+	//                });
+	//
+	//            checkObj.bind('mouseover',
+	//                function() {
+	//                    treeNode.checkboxFocus = true;
+	//                    setChkClass(setting, checkObj, treeNode);
+	//                });
+	//
+	//            checkObj.bind('mouseout',
+	//                function() {
+	//                    treeNode.checkboxFocus = false;
+	//                    setChkClass(setting, checkObj, treeNode);
+	//                });
+	//        }
+	//
+	//		//编辑、删除按钮
+	//        aObj.hover(
+	//            function() {
+	//                addTreeDom(setting, treeNode);
+	//            },
+	//            function() {
+	//                if (setting.curTreeNode != treeNode)
+	//                    removeTreeDom(setting, treeNode);
+	//            }
+	//            );
+	//
+	//        aObj.bind('mousedown',
+	//            function(eventMouseDown) {
+	//
+	//                //右键不能拖拽
+	//                if (eventMouseDown.button == 2 || !setting.editable) return;
+	//
+	//                var doc = document;
+	//                var curNode;
+	//                var tmpArrow;
+	//                var tmpTarget;
+	//                var isOtherTree = false;
+	//                var targetSetting = setting;
+	//                var preTmpTargetNodeId = null;
+	//                var preTmpMoveType = null;
+	//                var tmpTargetNodeId = null;
+	//                var moveType = MoveType_Inner;
+	//                var mouseDownX = eventMouseDown.clientX;
+	//                var mouseDownY = eventMouseDown.clientY;
+	//                var startTime = (new Date()).getTime();
+	//
+	//                $(doc).mousemove(function(event) {
+	//
+	//                    //为便于输入框正常操作，在输入框内移动鼠标不能拖拽节点
+	//                    if (treeNode.editNameStatus) {
+	//                        return true;
+	//                    }
+	//
+	//                    //除掉默认事件，防止文本被选择
+	//                    window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+	//
+	//                    //避免鼠标误操作，对于第一次移动小于MinMoveSize时，不开启拖拽功能
+	//                    if (setting.dragStatus == 0 && Math.abs(mouseDownX - event.clientX) < MinMoveSize
+	//                        && Math.abs(mouseDownY - event.clientY) < MinMoveSize) {
+	//                        return true;
+	//                    }
+	//
+	//                    $("body").css("cursor", "pointer");
+	//                    var switchObj = $("#" + treeNode.tId + IDMark_Switch);
+	//
+	//                    if (setting.dragStatus == 0 && treeNode.isParent && treeNode.open) {
+	//                        expandAndCollapseNode(setting, treeNode, !treeNode.open);
+	//                        setting.dragNodeShowBefore = true;
+	//                    }
+	//
+	//                    if (setting.dragStatus == 0) {
+	//                        //避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
+	//                        setting.dragStatus = -1;
+	//                        var beforeDrag = true;
+	//                        if ((typeof setting.callback.beforeDrag) == "function") beforeDrag = setting.callback.beforeDrag(setting.treeObjId, treeNode);
+	//                        if (beforeDrag == false) return true;
+	//
+	//                        setting.dragStatus = 1;
+	//                        showIfameMask(true);
+	//
+	//                        //设置节点为选中状态
+	//                        selectNode(setting, treeNode);
+	//                        removeTreeDom(setting, treeNode);
+	//
+	//                        var tmpNode = $("#" + treeNode.tId).clone();
+	//                        tmpNode.attr("id", treeNode.tId + "_tmp");
+	//                        tmpNode.css("padding", "0");
+	//                        tmpNode.children("#" + treeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
+	//                        tmpNode.children("#" + treeNode.tId + IDMark_Ul).css("display", "none");
+	//
+	//                        curNode = $("<ul class='zTreeDragUL'></ul>").append(tmpNode);
+	//                        curNode.attr("id", treeNode.tId + IDMark_Ul + "_tmp");
+	//                        curNode.addClass(setting.treeObj.attr("class"));
+	//                        curNode.appendTo("body");
+	//
+	//                        tmpArrow = $("<button class='tmpzTreeMove_arrow'></button>");
+	//                        tmpArrow.attr("id", "zTreeMove_arrow_tmp");
+	//                        tmpArrow.appendTo("body");
+	//
+	//                        //触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
+	//                        setting.treeObj.trigger(ZTREE_DRAG, [setting.treeObjId, treeNode]);
+	//                    }
+	//
+	//                    if (setting.dragStatus == 1 && tmpArrow.attr("id") != event.target.id) {
+	//                        if (tmpTarget) {
+	//                            tmpTarget.removeClass(Class_TmpTargetTree);
+	//                            if (tmpTargetNodeId) $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).removeClass(Class_TmpTargetNode);
+	//                        }
+	//                        tmpTarget = null;
+	//                        tmpTargetNodeId = null;
+	//
+	//                        //判断是否不同的树
+	//                        isOtherTree = false;
+	//                        targetSetting = setting;
+	//                        for (var s in settings) {
+	//                            if (settings[s].editable && settings[s].treeObjId != setting.treeObjId
+	//                                && (event.target.id == settings[s].treeObjId || $(event.target).parents("#" + settings[s].treeObjId).length>0)) {
+	//                                isOtherTree = true;
+	//                                targetSetting = settings[s];
+	//                            }
+	//                        }
+	//
+	//                        var docScrollTop = $(doc).scrollTop();
+	//                        var docScrollLeft = $(doc).scrollLeft();
+	//                        var treeOffset = targetSetting.treeObj.offset();
+	//                        var scrollHeight = targetSetting.treeObj.get(0).scrollHeight;
+	//                        var scrollWidth = targetSetting.treeObj.get(0).scrollWidth;
+	//                        var dTop = (event.clientY + docScrollTop - treeOffset.top);
+	//                        var dBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop);
+	//                        var dLeft = (event.clientX + docScrollLeft - treeOffset.left);
+	//                        var dRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft);
+	//                        var isTop = (dTop < 10 && dTop > -5);
+	//                        var isBottom = (dBottom < 10 && dBottom > -5);
+	//                        var isLeft = (dLeft < 10 && dLeft > -5);
+	//                        var isRight = (dRight < 10 && dRight > -5);
+	//                        var isTreeTop = (isTop && targetSetting.treeObj.scrollTop() <= 0);
+	//                        var isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight);
+	//                        var isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0);
+	//                        var isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width()+10) >= scrollWidth);
+	//
+	//                        if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
+	//                            //任意节点 移到 其他节点
+	//                            var targetObj = $("#" + event.target.id);
+	//                            while (!targetObj.is("li") && targetObj.attr("id") != targetSetting.treeObjId) {
+	//                                targetObj = targetObj.parent();
+	//                            }
+	//
+	//                            var canMove = false;
+	//                            //如果移到自己 或者自己的子集，则不能当做临时目标
+	//                            if (treeNode.parentNode && targetObj.attr("id") != treeNode.tId && $("#" + treeNode.tId).find("#" + targetObj.attr("id")).length == 0) {
+	//                                //非根节点移动
+	//                                canMove = true;
+	//                            } else if (treeNode.parentNode == null && targetObj.attr("id") != treeNode.tId && $("#" + treeNode.tId).find("#" + targetObj.attr("id")).length == 0) {
+	//                                //根节点移动
+	//                                canMove = true;
+	//                            }
+	//                            if (canMove) {
+	//                                if (event.target.id &&
+	//                                    (event.target.id == (targetObj.attr('id') + IDMark_A) || $(event.target).parents("#" + targetObj.attr('id') + IDMark_A).length > 0)) {
+	//                                    tmpTarget = targetObj;
+	//                                    tmpTargetNodeId = targetObj.attr('id');
+	//                                    $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
+	//                                }
+	//                            }
+	//                        }
+	//
+	//                        //确保鼠标在zTree内部
+	//                        if (event.target.id == targetSetting.treeObjId || $(event.target).parents("#" + targetSetting.treeObjId).length>0) {
+	//                            //只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
+	//                            if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && treeNode.parentNode != null))) {
+	//                                tmpTarget = targetSetting.treeObj;
+	//                                tmpTarget.addClass(Class_TmpTargetTree);
+	//                            }
+	//                            //滚动条自动滚动
+	//                            if (isTop) {
+	//                                targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()-10);
+	//                            } else if (isBottom)  {
+	//                                targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()+10);
+	//                            }
+	//                            if (isLeft) {
+	//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()-10);
+	//                            } else if (isRight) {
+	//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+10);
+	//                            }
+	//                            //目标节点在可视区域左侧，自动移动横向滚动条
+	//                            if (tmpTarget && tmpTarget != targetSetting.treeObj && tmpTarget.offset().left < targetSetting.treeObj.offset().left) {
+	//                                targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+ tmpTarget.offset().left - targetSetting.treeObj.offset().left);
+	//                            }
+	//                        }
+	//
+	//                        curNode.css({
+	//                            "top": (event.clientY + docScrollTop + 3) + "px",
+	//                            "left": (event.clientX + docScrollLeft + 3) + "px"
+	//                        });
+	//
+	//                        var dX = 0;
+	//                        var dY = 0;
+	//                        if (tmpTarget && tmpTarget.attr("id")!=targetSetting.treeObjId) {
+	//                            var tmpTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
+	//                            var tmpNodeObj = $("#" + treeNode.tId);
+	//                            var isPrev = (tmpNodeObj.prev().attr("id") == tmpTargetNodeId) ;
+	//                            var isNext = (tmpNodeObj.next().attr("id") == tmpTargetNodeId) ;
+	//                            var isInner = (treeNode.parentNode && treeNode.parentNode.tId == tmpTargetNodeId) ;
+	//
+	//                            var canPrev = !isNext;
+	//                            var canNext = !isPrev;
+	//                            var canInner = !isInner && !(targetSetting.keepLeaf && !tmpTargetNode.isParent);
+	//                            var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1;
+	//                            var nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1;
+	//
+	//
+	//                            var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
+	//                            var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
+	//
+	//                            if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
+	//                                dX = 1 - tmpArrow.width();
+	//                                dY = 0 - tmpArrow.height()/2;
+	//                                moveType = MoveType_Before;
+	//                            } else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
+	//                                dX = 1 - tmpArrow.width();
+	//                                dY = tmpTargetA.height() - tmpArrow.height()/2;
+	//                                moveType = MoveType_After;
+	//                            }else {
+	//                                dX = 5 - tmpArrow.width();
+	//                                dY = 0;
+	//                                moveType = MoveType_Inner;
+	//                            }
+	//                            tmpArrow.css({
+	//                                "display":"block",
+	//                                "top": (tmpTargetA.offset().top + dY) + "px",
+	//                                "left": (tmpTargetA.offset().left + dX) + "px"
+	//                            });
+	//
+	//                            if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
+	//                                startTime = (new Date()).getTime();
+	//                            }
+	//                            if (moveType == MoveType_Inner) {
+	//                                window.moveTimer = setTimeout(function() {
+	//                                    if (moveType != MoveType_Inner) return;
+	//                                    var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
+	//                                    if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500) {
+	//                                        switchNode(targetSetting, targetNode);
+	//                                    }
+	//                                }, 600);
+	//                            }
+	//                        } else {
+	//                            moveType = MoveType_Inner;
+	//                            tmpArrow.css({
+	//                                "display":"none"
+	//                            });
+	//                            if (window.moveTimer) {
+	//                                clearTimeout(window.moveTimer);
+	//                            }
+	//                        }
+	//                        preTmpTargetNodeId = tmpTargetNodeId;
+	//                        preTmpMoveType = moveType;
+	//                    }
+	//                    return false;
+	//                });
+	//
+	//                $(doc).mouseup(function(event) {
+	//                    if (this.moveTimer) {
+	//                        clearTimeout(this.moveTimer);
+	//                    }
+	//                    preTmpTargetNodeId = null;
+	//                    preTmpMoveType = null;
+	//                    $(doc).unbind("mousemove");
+	//                    $(doc).unbind("mouseup");
+	//                    $("body").css("cursor", "auto");
+	//                    if (tmpTarget) {
+	//                        tmpTarget.removeClass(Class_TmpTargetTree);
+	//                        if (tmpTargetNodeId) $("#" + tmpTargetNodeId + IDMark_A, tmpTarget).removeClass(Class_TmpTargetNode);
+	//                    }
+	//                    showIfameMask(false);
+	//
+	//                    if (setting.dragStatus == 0) return;
+	//                    setting.dragStatus = 0;
+	//
+	//                    if (treeNode.isParent && setting.dragNodeShowBefore && !treeNode.open) {
+	//                        expandAndCollapseNode(setting, treeNode, !treeNode.open);
+	//                        setting.dragNodeShowBefore = false;
+	//                    }
+	//
+	//                    if (curNode) curNode.remove();
+	//                    if (tmpArrow) tmpArrow.remove();
+	//
+	//                    //显示树上 移动后的节点
+	//                    if (tmpTarget && tmpTargetNodeId && treeNode.parentNode && tmpTargetNodeId==treeNode.parentNode.tId && moveType == MoveType_Inner) {
+	//                        tmpTarget = null;
+	//                    }
+	//                    if (tmpTarget) {
+	//                        var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
+	//                        var beforeDrop = true;
+	//                        if ((typeof targetSetting.callback.beforeDrop) == "function") beforeDrop = targetSetting.callback.beforeDrop(targetSetting.treeObjId, treeNode, dragTargetNode, moveType);
+	//                        if (beforeDrop == false) return;
+	//
+	//                        if (isOtherTree) {
+	//                            removeTreeNode(setting, treeNode);
+	//                            addTreeNodes(targetSetting, null, [treeNode], false);
+	//                            moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
+	//                            selectNode(targetSetting, treeNode);
+	//                        }else {
+	//                            moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
+	//                        }
+	//                        $("#" + treeNode.tId + IDMark_Icon).focus().blur();
+	//
+	//                        //触发 DROP 拖拽事件，返回拖拽的目标数据对象
+	//                        setting.treeObj.trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
+	//
+	//                    } else {
+	//                        //触发 DROP 拖拽事件，返回null
+	//                        setting.treeObj.trigger(ZTREE_DROP, [setting.treeObjId, null, null, null]);
+	//                    }
+	//                });
+	//
+	//                //阻止默认事件专门用于处理 FireFox 的Bug，
+	//                //该 Bug 导致如果 zTree Div CSS 中存在 overflow 设置，则拖拽节点移出 zTree 时，无法得到正确的event.target
+	//                if(eventMouseDown.preventDefault) {
+	//                    eventMouseDown.preventDefault();
+	//                }
+	//            });
 		
-		if ((typeof setting.addDiyDom) == "function") {
-			setting.addDiyDom(setting.treeObjId, treeNode);
-		}
-		//触发nodeCreated事件
-		setting.treeObj.trigger(ZTREE_NODECREATED, [setting.treeObjId, treeNode]);
+		
 	}
 
 	//获取对象的绝对坐标
@@ -894,8 +886,12 @@
 	function setNodeUrl(setting, treeNode) {
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var url = makeNodeUrl(setting, treeNode);
-		if (url == null || url.length == 0) {aObj.removeAttr("href");}
-		else {aObj.attr("href", url);}
+		if (url == null || url.length == 0) {
+			aObj.removeAttr("href");
+		}
+		else {
+			aObj.attr("href", url);
+		}
 	}
 	function makeNodeUrl(setting, treeNode) {
 		return (treeNode.url && !setting.editable) ? treeNode.url : null;        
@@ -908,8 +904,12 @@
 		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
 		
 		var ulLine = makeUlLineClass(setting, treeNode);
-		if (ulLine.length==0) {ulObj.removeClass(LineMark_Line);} 
-		else {ulObj.addClass(ulLine);}	
+		if (ulLine.length==0) {
+			ulObj.removeClass(LineMark_Line);
+		}
+		else {
+			ulObj.addClass(ulLine);
+		}
 		
 		switchObj.attr("class", makeNodeLineClass(setting, treeNode));		
 		icoObj.attr("style", makeNodeIcoStyle(setting, treeNode));
@@ -967,7 +967,9 @@
 	function setNodeFontCss(setting, treeNode) {
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var fontCss = makeNodeFontCss(setting, treeNode);
-		if (fontCss) {aObj.css(fontCss);}
+		if (fontCss) {
+			aObj.css(fontCss);
+		}
 	}
 	function makeNodeFontCss(setting, treeNode) {
 		var fontCss;
@@ -1239,24 +1241,27 @@
 	}	
 	function repairChkClass(setting, treeNode) {
 		if (!treeNode) return;
-		var trueSign = true;
-		var falseSign = true;
+		makeChkFlag(setting, treeNode);
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
+		setChkClass(setting, checkObj, treeNode);
+	}
+	function makeChkFlag(setting, treeNode) {
+		if (!treeNode) return;
+		var chkFlag = {"trueFlag": true, "falseFlag": true};
 		if (treeNode[setting.nodesCol]) {
 			for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
 				if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
-					trueSign = false;
+					chkFlag.trueFlag = false;
 				} else if (setting.checkStyle != Check_Style_Radio && treeNode[setting.checkedCol] && (!treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
-					trueSign = false;
+					chkFlag.trueFlag = false;
 				} else if (setting.checkStyle != Check_Style_Radio && !treeNode[setting.checkedCol] && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_False_Full)) {
-					falseSign = false;
+					chkFlag.falseFlag = false;
 				}
-				if (!trueSign || !falseSign) break;
+				if (!chkFlag.trueFlag || !chkFlag.falseFlag) break;
 			}
 		}
-		treeNode.check_True_Full = trueSign;
-		treeNode.check_False_Full = falseSign;
-		var checkObj = $("#" + treeNode.tId + IDMark_Check);
-		setChkClass(setting, checkObj, treeNode);
+		treeNode.check_True_Full = chkFlag.trueFlag;
+		treeNode.check_False_Full = chkFlag.falseFlag;
 	}
 
 	//点击展开、折叠节点
