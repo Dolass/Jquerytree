@@ -67,6 +67,7 @@
 
 	var settings = new Array();
 	var zTreeId = 0;
+	var zTreeNodeCache = [];
 
 	//zTree构造函数
 	$.fn.zTree = function(zTreeSetting, zTreeNodes) {
@@ -74,6 +75,7 @@
 		var setting = {
 			//Tree 唯一标识，主UL的ID
 			treeObjId: "",
+			treeObj: null,
 			//是否显示CheckBox
 			checkable: false,
 			//是否在编辑状态
@@ -360,10 +362,10 @@
 		} else {
 			$("#" + parentNode.tId + IDMark_Ul).append(zTreeHtml.join(''));
 		}
-		bindTreeNodesPrivate(setting, treeNodes);
+		createCallback(setting, treeNodes);
 	}
 
-	function bindTreeNodesPrivate(setting, treeNodes) {
+	function createCallback(setting, treeNodes) {
 		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
 			if ((typeof setting.addDiyDom) == "function") {
@@ -372,7 +374,7 @@
 			//触发nodeCreated事件
 			setting.treeObj.trigger(ZTREE_NODECREATED, [setting.treeObjId, node]);
 			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
-				bindTreeNodesPrivate(setting, node[setting.nodesCol], node);
+				createCallback(setting, node[setting.nodesCol], node);
 			}
 		}
 	}
@@ -391,6 +393,7 @@
 			node.check_True_Full = true;
 			node.check_False_Full = true;
 			node.editNameStatus = false;
+			zTreeNodeCache[node.tId] = node;
 			fixParentKeyValue(setting, node);
 
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
@@ -416,9 +419,9 @@
 			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
 				childHtml = appendTreeNodes(setting, level + 1, node[setting.nodesCol], node);
 			}
-			html.push("<li id='", node.tId, "' class='tree-node'>",
+			html.push("<li id='", node.tId, "' treenode>",
 				"<button type=\"button\" id='", node.tId, IDMark_Switch,
-				"' title='' class='", makeNodeLineClass(setting, node), "' onfocus='this.blur();'></button>");
+				"' title='' class='", makeNodeLineClass(setting, node), "' treeNode", IDMark_Switch," onfocus='this.blur();'></button>");
 			if (setting.checkable) {
 				makeChkFlag(setting, node);
 				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
@@ -426,7 +429,7 @@
 				}
 				html.push("<BUTTON type='BUTTON' ID='", node.tId, IDMark_Check, "' class='", makeChkClass(setting, node), "' onfocus='this.blur();' ></BUTTON>");
 			}
-			html.push("<a id='", node.tId, IDMark_A, "' onclick=\"", (node.click || ''),
+			html.push("<a id='", node.tId, IDMark_A, "' treeNode", IDMark_A," onclick=\"", (node.click || ''),
 				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",makeNodeTarget(node),"' style='", fontStyle.join(''), 
 				"'><button type=\"button\" id='", node.tId, IDMark_Icon,
 				"' title='' onfocus='this.blur();' class='", makeNodeIcoClass(setting, node), "' style='", makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, IDMark_Span,
@@ -437,37 +440,84 @@
 		return html;
 	}
 
+	function findTarget(setting, curDom, targetExpr) {
+		if (!curDom) return null;
+		while (curDom.id !== setting.treeObjId) {
+			for (var i=0; i<targetExpr.length; i++) {
+				if (curDom.tagName.toLowerCase() === targetExpr[i].tagName && curDom.getAttribute(targetExpr[i].attrName) !== null) {
+					return curDom;
+				}
+			}
+			curDom = curDom.parentNode;
+		}
+		return null;
+	}
+	function clickProxy(event) {
+		var target = event.target;
+		var setting = settings[event.data.treeObjId];
+		var tId = "";
+		var clickType = "";
+		var tmp = null;
+
+		if (event.type.toLowerCase() === "click") {
+			if (target.tagName.toLowerCase() === "button" && target.getAttribute("treeNode"+IDMark_Switch) !== null) {
+				tId = target.parentNode.id;
+				clickType = "switchNode";
+			} else {
+				tmp = findTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+				if (tmp) {
+					tId = tmp.parentNode.id;
+					clickType = "clickNode";
+				}
+			}
+		} else if (event.type.toLowerCase() === "dblclick") {
+			tmp = findTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			if (tmp) {
+				tId = tmp.parentNode.id;
+				clickType = "switchNode";
+			}
+		}
+
+		if (tId.length>0) {
+			event.data.treeNode = getTreeNodeByTId(setting, tId);
+			switch (clickType) {
+				case "switchNode" :
+					onSwitchNode(event);
+					break;
+				case "clickNode" :
+					onClickNode(event);
+					break;
+			}
+			//除掉默认事件，防止文本被选择
+			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+		}
+
+//		if (event.preventDefault) {
+//			event.preventDefault();
+//		} else {
+//			event.returnValue = false;
+//		}
+//
+//		if (event.stopPropagation) {
+//			event.stopPropagation();
+//		} else {
+//			event.cancelBubble = true;
+//		}
+
+	}
+
 	//利用事件委托绑定事件
-	function bindHandler(setting, treeNode) {
+	function bindHandler(setting) {
+
 		
 	//		var switchObj = $("#" + treeNode.tId + IDMark_Switch);
 	//		var aObj = $("#" + treeNode.tId + IDMark_A);
 	//		var icoObj = $("#" + treeNode.tId + IDMark_Icon);
-				
-	//		if (treeNode.isParent) {
-	//			switchObj.bind('click', {
-	//				treeObjId: setting.treeObjId,
-	//				treeNode: treeNode
-	//			},
-	//			onSwitchNode);
-	//			aObj.bind('dblclick', {
-	//				treeObjId: setting.treeObjId,
-	//				treeNode: treeNode
-	//			},
-	//			onSwitchNode);
-	//		}
-	//		aObj.bind('click',
-	//			function() {
-	//				var beforeClick = true;
-	//				if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
-	//				if (beforeClick == false) return;
-	//				//除掉默认事件，防止文本被选择
-	//				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
-	//				//设置节点为选中状态
-	//				selectNode(setting, treeNode);
-	//				//触发click事件
-	//				setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
-	//			});
+		setting.treeObj.unbind('click', clickProxy);
+		setting.treeObj.bind('click', {treeObjId: setting.treeObjId}, clickProxy);
+		setting.treeObj.unbind('dblclick', clickProxy);
+		setting.treeObj.bind('dblclick', {treeObjId: setting.treeObjId}, clickProxy);
+
 	//		icoObj.bind('mousedown',
 	//			function() {
 	//				treeNode.editNameStatus = false;
@@ -1264,6 +1314,18 @@
 		treeNode.check_False_Full = chkFlag.falseFlag;
 	}
 
+	function onClickNode(event) {
+		var setting = settings[event.data.treeObjId];
+		var treeNode = event.data.treeNode;
+
+		var beforeClick = true;
+		if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
+		if (beforeClick == false) return;
+		//设置节点为选中状态
+		selectNode(setting, treeNode);
+		//触发click事件
+		setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
+	}
 	//点击展开、折叠节点
 	function onSwitchNode(event) {
 		var setting = settings[event.data.treeObjId];
@@ -1769,6 +1831,7 @@
 		if (setting.curEditTreeNode === treeNode) setting.curEditTreeNode = null;
 
 		$("#" + treeNode.tId).remove();
+		delete zTreeNodeCache[treeNode.tId];
 
 		//进行数据结构修正
 		var tmpSrcIndex = -1;
@@ -1818,7 +1881,7 @@
 
 	//根据 tId 获取 节点的数据对象
 	function getTreeNodeByTId(setting, treeId) {
-		return getTreeNodeByParam(setting, setting.root[setting.nodesCol], "tId", treeId);
+		return zTreeNodeCache[treeId];
 	}
 	//根据唯一属性 获取 节点的数据对象
 	function getTreeNodeByParam(setting, treeNodes, key, value) {
