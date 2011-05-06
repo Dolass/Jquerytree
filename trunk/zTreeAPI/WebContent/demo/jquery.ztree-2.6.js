@@ -1248,11 +1248,12 @@
 	
 	//设置check后，父子节点联动关系
 	function checkNodeRelation(setting, treeNode) {
+		var pNode, i;
 		if (setting.checkStyle == Check_Style_Radio) {
 			if (treeNode[setting.checkedCol]) {
 				if (setting.checkRadioType == Radio_Type_All) {
-					for (var i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
-						var pNode = setting.checkRadioCheckedList[i];
+					for (i = setting.checkRadioCheckedList.length-1; i >= 0; i--) {
+						pNode = setting.checkRadioCheckedList[i];
 						pNode[setting.checkedCol] = false;
 						setting.checkRadioCheckedList.splice(i, 1);
 						
@@ -1265,7 +1266,7 @@
 				} else {
 					var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
 					for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
-						var pNode = parentNode[setting.nodesCol][son];
+						pNode = parentNode[setting.nodesCol][son];
 						if (pNode[setting.checkedCol] && pNode != treeNode) {
 							pNode[setting.checkedCol] = false;
 							setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
@@ -1273,7 +1274,7 @@
 					}
 				}
 			} else if (setting.checkRadioType == Radio_Type_All) {
-				for (var i = 0; i < setting.checkRadioCheckedList.length; i++) {
+				for (i = 0; i < setting.checkRadioCheckedList.length; i++) {
 					if (treeNode == setting.checkRadioCheckedList[i]) {
 						setting.checkRadioCheckedList.splice(i, 1);
 						break;
@@ -1390,6 +1391,7 @@
 	}
 
 	function asyncGetNode(setting, treeNode) {
+		var i;
 		if (treeNode && (treeNode.isAjaxing || !treeNode.isParent)) {
 			return;
 		}
@@ -1400,11 +1402,11 @@
 		}
 
 		var tmpParam = "";
-		for (var i = 0; treeNode && i < setting.asyncParam.length; i++) {
+		for (i = 0; treeNode && i < setting.asyncParam.length; i++) {
 			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParam[i] + "=" + treeNode[setting.asyncParam[i]];
 		}
 		if (tools.isArray(setting.asyncParamOther)) {
-			for (var i = 0; i < setting.asyncParamOther.length; i += 2) {
+			for (i = 0; i < setting.asyncParamOther.length; i += 2) {
 				tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParamOther[i] + "=" + setting.asyncParamOther[i + 1];
 			}
 		} else {
@@ -1603,7 +1605,6 @@
 
 			var target_switchObj = $("#" + parentNode.tId + IDMark_Switch);
 			var target_icoObj = $("#" + parentNode.tId + IDMark_Icon);
-			var target_aObj = $("#" + parentNode.tId + IDMark_A);
 			var target_ulObj = $("#" + parentNode.tId + IDMark_Ul);
 
 			//处理节点在目标节点的图片、线
@@ -1611,9 +1612,7 @@
 				replaceSwitchClass(target_switchObj, FolderMark_Close);
 				replaceIcoClass(parentNode, target_icoObj, FolderMark_Close);			
 				parentNode.open = false;
-				target_ulObj.css({
-					"display": "none"
-				});
+				target_ulObj.css({"display": "none"});
 			}
 
 			addTreeNodesData(setting, parentNode, newNodes);
@@ -1655,6 +1654,7 @@
 		}
 		
 		//进行数据结构修正
+		var i;
 		var tmpSrcIndex = -1;
 		var tmpTargetIndex = 0;
 		var oldNeighbor = null;
@@ -1670,7 +1670,7 @@
 			oldNeighbor = oldParentNode[setting.nodesCol][tmpSrcIndex - 1];
 			oldNeighbor.isLastNode = true;
 		} else {
-			for (var i = 0; i < oldParentNode[setting.nodesCol].length; i++) {
+			for (i = 0; i < oldParentNode[setting.nodesCol].length; i++) {
 				if (oldParentNode[setting.nodesCol][i].tId == treeNode.tId) tmpSrcIndex = i;
 			}
 		}
@@ -1678,17 +1678,15 @@
 			oldParentNode[setting.nodesCol].splice(tmpSrcIndex, 1);
 		}
 		if (moveType != MoveType_Inner) {
-			for (var i = 0; i < targetParentNode[setting.nodesCol].length; i++) {
+			for (i = 0; i < targetParentNode[setting.nodesCol].length; i++) {
 				if (targetParentNode[setting.nodesCol][i].tId == targetNode.tId) tmpTargetIndex = i;
 			}
 		}
-		var targetIsNewParent = false;
 		if (moveType == MoveType_Inner) {
 			if (targetNodeIsRoot) {
 				//成为根节点，则不操作目标节点数据
 				treeNode.parentNode = null;
 			} else {
-				targetIsNewParent = !targetNode.isParent;
 				targetNode.isParent = true;
 				treeNode.parentNode = targetNode;
 			}
@@ -1732,13 +1730,9 @@
 		setSonNodeLevel(setting, treeNode.parentNode, treeNode);
 		
 		//进行HTML结构修正
-		var src_switchObj = $("#" + treeNode.tId + IDMark_Switch);
-		var src_ulObj = $("#" + treeNode.tId + IDMark_Ul);
-
 		var targetObj;
 		var target_switchObj;
 		var target_icoObj;
-		var target_aObj;
 		var target_ulObj;
 
 		if (targetNodeIsRoot) {
@@ -1750,7 +1744,6 @@
 			targetObj = $("#" + targetNode.tId);
 			target_switchObj = $("#" + targetNode.tId + IDMark_Switch);
 			target_icoObj = $("#" + targetNode.tId + IDMark_Icon);
-			target_aObj = $("#" + targetNode.tId + IDMark_A);
 			target_ulObj = $("#" + targetNode.tId + IDMark_Ul);
 		}
 		
@@ -2008,6 +2001,7 @@
 	
 	//简要数据转换为标准JSON数组
 	function transformTozTreeFormat(setting, simpleTreeNodes) {
+		var i;
 		var key = setting.treeNodeKey;
 		var parentKey = setting.treeNodeParentKey;
 		if (!key || key=="" || !simpleTreeNodes) return [];
@@ -2015,10 +2009,10 @@
 		if (tools.isArray(simpleTreeNodes)) {
 			var r = [];
 			var tmpMap = [];
-			for (var i=0; i<simpleTreeNodes.length; i++) {
+			for (i=0; i<simpleTreeNodes.length; i++) {
 				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
 			}
-			for (var i=0; i<simpleTreeNodes.length; i++) {
+			for (i=0; i<simpleTreeNodes.length; i++) {
 				if (tmpMap[simpleTreeNodes[i][parentKey]]) {
 					if (!tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol])
 						tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol] = [];
