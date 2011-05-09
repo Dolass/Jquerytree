@@ -1,23 +1,24 @@
-<?php ?>
-[<?php
-$pId = "0";
-$pName = "";
-if(array_key_exists( 'id',$_REQUEST)) {
-	$pId=$_REQUEST['id'];
+<?php ?>[<?php
+$num = 1;
+$t = "";
+if(array_key_exists( 't',$_REQUEST)) {
+	$t = $_REQUEST['t'];
 }
-if(array_key_exists('name',$_REQUEST)) {
-	$pName=$_REQUEST['name'];
+if ($t==null || $t=="") $t = "r";
+$n = "";
+if(array_key_exists( 'n',$_REQUEST)) {
+	$n = $_REQUEST['n'];
 }
-if ($pId==null || $pId=="") $pId = "0";
-if ($pName==null) $pName = "";
+if ($n==null || $n=="") $n = "1";
+$num = (int) $n;
 
-for ($i=1; $i<5; $i++) {
-	$nId = $pId.$i;
-	$nName = "tree".$nId;
-	echo "{ id:'".$nId."',	name:'".$nName."',	isParent:".(($i%2)!=0?"true":"false")."}";
-	if ($i<4) {
+for ($i=1; $i<=$num; $i++) {
+	$pId = 0;
+	if ($t == "l") $pId = $i - 1;
+	else if ($t == "n") $pId = (int)($i/10-1);
+	echo "{ id:'".$i."', pId:'".$pId."', name:'z".$i."' , open: true}";
+	if ($i<$num) {
 		echo ",";
 	}
-	
 }
 ?>]
