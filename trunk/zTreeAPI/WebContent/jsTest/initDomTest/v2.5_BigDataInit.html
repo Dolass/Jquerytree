@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 	<HEAD>
-		<TITLE> ZTREE DEMO </TITLE>
+		<TITLE>zTree BigData init Test --- v2.5</TITLE>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="../../demo/demoStyle/demo.css" type="text/css">
 		<link rel="stylesheet" href="../../demo/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -63,10 +63,11 @@
 				checkable : true
 			};
 
+			var totalTime = 0;
 			function testOperator() {
 				document.getElementById("testBtn").disabled = true;
-				var totalTime = 0;
-				var curTimes = 0;
+				totalTime = 0;
+				var curTimes = 1;
 				var testTimes = document.getElementById("testTimes").value;
 				testTimes = isNaN(testTimes) ? 10 : parseInt(testTimes);
 
@@ -83,59 +84,64 @@
 					return;
 				}
 				var nodes = [];
-//				switch (testName) {
-//					case "r1":
-//						nodes = r500;
-//						break;
-//					case "r2":
-//						nodes = r1000;
-//						break;
-//					case "r3":
-//						nodes = r2000;
-//						break;
-//					case "l1":
-//						nodes = l50;
-//						break;
-//					case "l2":
-//						nodes = l100;
-//						break;
-//					case "l3":
-//						nodes = l500;
-//						break;
-//					case "n1":
-//						nodes = r500;
-//						break;
-//					case "n2":
-//						nodes = r1000;
-//						break;
-//					case "n3":
-//						nodes = r2000;
-//						break;
-//				}
-				nodes = simpleNodes;
-	
+				switch (testName) {
+					case "r1":
+						nodes = r500;
+						break;
+					case "r2":
+						nodes = r1000;
+						break;
+					case "r3":
+						nodes = r2000;
+						break;
+					case "l1":
+						nodes = l50;
+						break;
+					case "l2":
+						nodes = l100;
+						break;
+					case "l3":
+						nodes = l500;
+						break;
+					case "n1":
+						nodes = n500;
+						break;
+					case "n2":
+						nodes = n1000;
+						break;
+					case "n3":
+						nodes = n2000;
+						break;
+				}
 				var resultContent = document.getElementById(testName + "_result");
 				var resultLog = document.getElementById(testName + "_log");
-				resultContent.innerHTML = "testing...";
-				resultLog.innerHTML = "";
+				setTimeout(function(){threadTest(curTimes, testTimes, nodes, resultContent, resultLog);}, 10);
+			}
 
-				testFun.clearDoms();
-				while (curTimes < testTimes) {
-					curTimes++;
-					var time = testFun.initTree(nodes);
-					totalTime += time;
-					resultLog.appendChild(document.createTextNode("(" + curTimes + ")  " + time));
-					resultLog.appendChild(document.createElement("br"));
-					if (curTimes < testTimes) {testFun.clearDoms();}
+			function threadTest(curTimes, testTimes, nodes, resultContent, resultLog) {				
+				if (curTimes == 1) {
+					resultContent.innerHTML = "testing...";
+					resultLog.innerHTML = "";
 				}
-				resultContent.innerHTML = (totalTime/curTimes).toFixed(1) + "";
-				document.getElementById("testBtn").disabled = false;
+				testFun.clearDoms();
+				var time = testFun.initTree(nodes);
+				totalTime += time;
+				resultLog.appendChild(document.createTextNode("(" + curTimes + ")  " + time));
+				resultLog.appendChild(document.createElement("br"));
+				
+				if (curTimes >= testTimes) {
+					resultContent.innerHTML = (totalTime/curTimes).toFixed(1) + "";
+					document.getElementById("testBtn").disabled = false;
+				} else {
+					setTimeout(function(){threadTest(curTimes+1, testTimes, nodes, resultContent, resultLog);}, 10);
+				}
 
 			}
 
 			testFun = {
 				/* simple_append_single */
 				initTree : function(nodes) {
+					nodes = clone(nodes);
 					var timeStart = new Date();
 					zTree1 = $("#treeDemo").zTree(setting, nodes);
 					var timeEnd = new Date();
