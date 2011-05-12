@@ -7,11 +7,9 @@
 *v2.0 - v2.x 计划*
   * 近期功能扩展：
    
-   # 【修改】设置checkType: {"Y": "", "N":""} 后，checkAllNodes无法全部选中或取消的Bug
    # 【增加】节点拖拽的个性化控制属性
    # 【增加】触发节点进入重命名状态的接口
-   # 【增加】iconOpen和iconClose属性，便于自定义图标使用
-   # 【修改】编辑名称状态下点击其他节点时，无法保存修改后内容的bug
+   # 【增加】iconOpen和iconClose属性，便于自定义图标使用   
    # 【增加】confirmRename 事件，以提供名称校验功能
    # 【增加】拖拽时是否自动展开节点的confirmAutoOpen事件
    # 【增加】zTreeNode的checkbox半选中状态属性（用于父节点）
@@ -25,8 +23,6 @@
    # 【增加】子节点相关查找的方法
    # 【增加】异步获取数据后，首先提供给用户进行加工，然后再反馈给zTree的接口
    # 【修改】checkbox & radio共存的Demo，让其兼容多级节点的情况
-   # 【修改】404行 设置class="tree-node" 无意义
-
 
    # zTree 数据结构讲解（包括clone、Json转换的注意事项）
    # zTree 数据后台创建、解析讨论（zTreeUtil）
@@ -49,9 +45,13 @@
 </font>
 
 *2011.05.20* v2.6
-   * 【修改】contextmenu/mousedown/mouseup 事件未unbind的bug，如果多次refresh就会出现异常。
+删除ZTREE_RIGHTCLICK常量
+   * 【优化】大数据量一次性加载的效率问题
    * 【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.6.js
    * 【修改】在Constructor里以及refresh中，重新设置zTreeId = 0; 导致实现多个Tree时，treeId计数清零导致重复的Bug
+   * 【修改】contextmenu/mousedown/mouseup 事件未unbind的bug，如果多次refresh就会出现异常。
+   * 【修改】编辑名称的状态下点击其他节点时，无法保存修改后名称的bug
+   * 【修改】设置checkType: {"Y": "", "N":""} 后，checkAllNodes无法全部选中或取消的bug
 
 *2011.03.08* v2.5
    * 【修订】允许异步加载与编辑状态共存，无需特殊代码；并且可配合新增加的beforeAsync回调函数，根据节点自行决定是否允许进行异步加载

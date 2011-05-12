@@ -12,7 +12,6 @@
 
 	var ZTREE_NODECREATED = "ZTREE_NODECREATED";
 	var ZTREE_CLICK = "ZTREE_CLICK";
-	var ZTREE_RIGHTCLICK = "ZTREE_RIGHTCLICK";
 	var ZTREE_CHANGE = "ZTREE_CHANGE";
 	var ZTREE_RENAME = "ZTREE_RENAME";
 	var ZTREE_REMOVE = "ZTREE_REMOVE";
@@ -1318,7 +1317,8 @@
 			for (var son = 0; son < setting.root[setting.nodesCol].length; son++) {
 				var treeNode = setting.root[setting.nodesCol][son];
 				treeNode[setting.checkedCol] = checked;
-				checkNodeRelation(setting, treeNode);
+				setSonNodeCheckBox(setting, treeNode, checked);
+				repairSonChkClass(setting, treeNode);
 				var checkObj = $("#" + treeNode.tId + IDMark_Check);
 				setChkClass(setting, checkObj, treeNode);
 				repairParentChkClassWithSelf(setting, treeNode);
