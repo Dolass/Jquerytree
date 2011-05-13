@@ -255,7 +255,7 @@
 		treeObj.bind(ZTREE_CLICK, function (event, treeId, treeNode) {
 			if ((typeof setting.callback.click) == "function") setting.callback.click(event, treeId, treeNode);
 		});
-		
+
 		treeObj.unbind(ZTREE_CHANGE);
 		treeObj.bind(ZTREE_CHANGE, function (event, treeId, treeNode) {
 			if ((typeof setting.callback.change) == "function") setting.callback.change(event, treeId, treeNode);
@@ -472,6 +472,7 @@
 				}
 			}
 		} else if (tools.eqs(event.type, "dblclick")) {
+			mainEventType = "dblclick";
 			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 			if (tmp) {
 				tId = tmp.parentNode.id;
@@ -518,6 +519,9 @@
 				break;
 			case "mouseup" :
 				return handler.onZTreeMouseup(event);
+				break;
+			case "dblclick" :
+				return handler.onZTreeDblclick(event);
 				break;
 			case "contextmenu" :
 				return handler.onZTreeContextmenu(event);
@@ -940,6 +944,20 @@
 			//触发mouseUp事件
 			if (doMouseUp && (typeof setting.callback.mouseUp) == "function") {
 				setting.callback.mouseUp(event, setting.treeObjId, treeNode);
+			}
+			return true;
+		},
+		onZTreeDblclick: function(event) {
+			var setting = settings[event.data.treeObjId];
+			var targetObj = $(event.target);
+			var treeNode = getTreeNodeByDom(setting, targetObj);
+			var doDblclick = true;
+			if ((typeof setting.callback.beforeDblclick) == "function") {
+				doDblclick = setting.callback.beforeDblclick(setting.treeObjId, treeNode);
+			}
+			//触发mouseUp事件
+			if (doDblclick && (typeof setting.callback.dblclick) == "function") {
+				setting.callback.dblclick(event, setting.treeObjId, treeNode);
 			}
 			return true;
 		},
