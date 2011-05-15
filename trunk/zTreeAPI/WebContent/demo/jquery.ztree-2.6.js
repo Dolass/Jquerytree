@@ -159,6 +159,7 @@
 				beforeRemove:null,
 				beforeExpand:null,
 				beforeCollapse:null,
+				confirmRename:null,
 				
 				nodeCreated:null,
 				click:null,
@@ -540,12 +541,77 @@
 			//除掉默认事件，防止文本被选择
 			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
 		},
+		inputFocus: function(inputObj) {
+			if (inputObj.get(0)) {
+				inputObj.focus();
+				setCursorPosition(inputObj.get(0), inputObj.val().length);
+			}
+		},
+		beforeFn: function(fun, param) {
+			if ((typeof fun) == "function") {
+				return fun.apply(tools, param);
+			}
+			return true;
+		},
 		getAbs: function (obj) {
 			//获取对象的绝对坐标
 			oRect = obj.getBoundingClientRect();
 			return [oRect.left,oRect.top]
 		}
 	};
+
+	var st = {
+		checkEvent: function(setting) {
+			return st.checkCancelPreEditNode(setting);
+		},
+		//取消之前选中节点状态
+		cancelPreSelectedNode: function (setting) {
+			if (setting.curTreeNode) {
+				$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
+				$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
+				removeTreeDom(setting, setting.curTreeNode);
+				setting.curTreeNode = null;
+			}
+		},
+		//取消之前编辑节点状态
+		checkCancelPreEditNode: function (setting) {
+			if (setting.curEditTreeNode) {
+				var inputObj = setting.curEditInput;
+				if ( setting.lastEdit && ((new Date()).getTime() - setting.lastEdit.beforeTime.getTime())<500 && setting.lastEdit.input === inputObj && setting.lastEdit.nameOld === setting.curEditTreeNode[setting.nameCol] && setting.lastEdit.nameNew === inputObj.val()) {
+					return setting.lastEdit.before;
+				}
+				if (!setting.lastEdit) {setting.lastEdit = {};}
+				setting.lastEdit.input = inputObj;
+				setting.lastEdit.nameOld = setting.curEditTreeNode[setting.nameCol];
+				setting.lastEdit.nameNew = inputObj.val();
+				setting.lastEdit.beforeTime = new Date();
+				setting.lastEdit.before = tools.beforeFn(setting.callback.confirmRename, [setting.treeObjId, setting.curEditTreeNode, inputObj.val()]);
+				if ( setting.lastEdit.before === false) {
+					setting.curEditTreeNode.editNameStatus = true;
+					tools.inputFocus(inputObj);
+					return false;
+				}
+			}
+			return true;
+		},
+		//取消之前编辑节点状态
+		cancelPreEditNode: function (setting) {
+			if (setting.curEditTreeNode) {
+				var inputObj = $("#" + setting.curEditTreeNode.tId + IDMark_Input);
+				setting.curEditTreeNode[setting.nameCol] = inputObj.val();
+				//触发rename事件
+				setting.treeObj.trigger(ZTREE_RENAME, [setting.treeObjId, setting.curEditTreeNode]);
+
+				$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
+				inputObj.unbind();
+				$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode[setting.nameCol]);
+				setting.curEditTreeNode.editNameStatus = false;
+				setting.curEditTreeNode = null;
+				setting.curEditInput = null;
+			}
+			return true;
+		}
+	}
 
 	var handler = {
 		//点击展开、折叠节点
@@ -554,15 +620,11 @@
 			var treeNode = event.data.treeNode;
 
 			if (treeNode.open) {
-				var beforeCollapse = true;
-				if ((typeof setting.callback.beforeCollapse) == "function") beforeCollapse = setting.callback.beforeCollapse(setting.treeObjId, treeNode);
-				if (beforeCollapse == false) return;
+				if (tools.beforeFn(setting.callback.beforeCollapse, [setting.treeObjId, treeNode]) == false) return;
 				setting.expandTriggerFlag = true;
 				switchNode(setting, treeNode);
 			} else {
-				var beforeExpand = true;
-				if ((typeof setting.callback.beforeExpand) == "function") beforeExpand = setting.callback.beforeExpand(setting.treeObjId, treeNode);
-				if (beforeExpand == false) return;
+				if (tools.beforeFn(setting.callback.beforeExpand, [setting.treeObjId, treeNode]) == false) return;
 				setting.expandTriggerFlag = true;
 				switchNode(setting, treeNode);
 			}
@@ -570,22 +632,18 @@
 		onClickNode: function (event) {
 			var setting = settings[event.data.treeObjId];
 			var treeNode = event.data.treeNode;
-
-			var beforeClick = true;
-			if ((typeof setting.callback.beforeClick) == "function") beforeClick = setting.callback.beforeClick(setting.treeObjId, treeNode);
-			if (beforeClick == false) return;
-			//设置节点为选中状态
-			selectNode(setting, treeNode);
-			//触发click事件
-			setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
+			if (st.checkEvent(setting)) {
+				if (tools.beforeFn(setting.callback.beforeClick, [setting.treeObjId, treeNode]) == false) return;
+				//设置节点为选中状态
+				selectNode(setting, treeNode);
+				//触发click事件
+				setting.treeObj.trigger(ZTREE_CLICK, [setting.treeObjId, treeNode]);
+			}
 		},
 		onCheckNode: function (event) {
 			var setting = settings[event.data.treeObjId];
 			var treeNode = event.data.treeNode;
-			
-			var beforeChange = true;
-			if ((typeof setting.callback.beforeChange) == "function") beforeChange = setting.callback.beforeChange(setting.treeObjId, treeNode);
-			if (beforeChange == false) return;
+			if (tools.beforeFn(setting.callback.beforeChange, [setting.treeObjId, treeNode]) == false) return;
 
 			treeNode[setting.checkedCol] = !treeNode[setting.checkedCol];
 			checkNodeRelation(setting, treeNode);
@@ -614,6 +672,7 @@
 		onMousedownNode: function(eventMouseDown) {
 			var setting = settings[eventMouseDown.data.treeObjId];
 			var treeNode = eventMouseDown.data.treeNode;
+			if (!st.checkEvent(setting)) return;
 			//右键不能拖拽
 			if (eventMouseDown.button == 2 || !setting.editable) return;
 			//编辑输入框内不能拖拽节点
@@ -655,9 +714,7 @@
 				if (setting.dragStatus == 0) {
 					//避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
 					setting.dragStatus = -1;
-					var beforeDrag = true;
-					if ((typeof setting.callback.beforeDrag) == "function") beforeDrag = setting.callback.beforeDrag(setting.treeObjId, treeNode);
-					if (beforeDrag == false) return true;
+					if (tools.beforeFn(setting.callback.beforeDrag, [setting.treeObjId, treeNode]) == false) return true;
 
 					setting.dragStatus = 1;
 					showIfameMask(true);
@@ -874,9 +931,7 @@
 				}
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-					var beforeDrop = true;
-					if ((typeof targetSetting.callback.beforeDrop) == "function") beforeDrop = targetSetting.callback.beforeDrop(targetSetting.treeObjId, treeNode, dragTargetNode, moveType);
-					if (beforeDrop == false) return;
+					if (tools.beforeFn(setting.callback.beforeDrop, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]) == false) return;
 
 					if (isOtherTree) {
 						removeTreeNode(setting, treeNode);
@@ -1210,23 +1265,16 @@
 			return;
 		}
 
-		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var nObj = $("#" + treeNode.tId + IDMark_Span);
 		var editStr = "<button type='button' class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' onfocus='this.blur();' style='display:none;'></button>";
 		nObj.after(editStr);
 		
 		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
 			function() {
-				var beforeRename = true;
-				if ((typeof setting.callback.beforeRename) == "function") beforeRename = setting.callback.beforeRename(setting.treeObjId, treeNode);
-				if (beforeRename == false) return true;
+				if (tools.beforeFn(setting.callback.beforeRename, [setting.treeObjId, treeNode]) == false) return true;
 				removeTreeDom(setting, treeNode);
 				editTreeNode(setting, treeNode);
 				return false;
-			}
-			).bind('mousedown',
-			function(eventMouseDown) {
-				return true;
 			}
 			).show();
 	}
@@ -1248,9 +1296,7 @@
 		
 		$("#" + treeNode.tId + IDMark_Remove).bind('click', 
 			function() {
-				var beforeRemove = true;
-				if ((typeof setting.callback.beforeRemove) == "function") beforeRemove = setting.callback.beforeRemove(setting.treeObjId, treeNode);
-				if (beforeRemove == false) return true;
+				if (tools.beforeFn(setting.callback.beforeRemove, [setting.treeObjId, treeNode]) == false) return true;
 				removeTreeNode(setting, treeNode);
 				//触发remove事件
 				setting.treeObj.trigger(ZTREE_REMOVE, [setting.treeObjId, treeNode]);
@@ -1395,13 +1441,10 @@
 		if (treeNode.open || (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		} else if (setting.async) {
-			var beforeAsync = true;
-			if ((typeof setting.callback.beforeAsync) == "function") beforeAsync = setting.callback.beforeAsync(setting.treeObjId, treeNode);
-			if (beforeAsync == false) {
+			if (tools.beforeFn(setting.callback.beforeAsync, [setting.treeObjId, treeNode]) == false) {
 				expandAndCollapseNode(setting, treeNode, !treeNode.open);
 				return;
-			}
-			
+			}			
 			asyncGetNode(setting, treeNode);
 		} else if (treeNode) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
@@ -1826,8 +1869,10 @@
 	
 	//编辑子节点名称
 	function editTreeNode(setting, treeNode) {
-		treeNode.editNameStatus = true;
-		selectNode(setting, treeNode);
+		if (st.checkEvent(setting)) {
+			treeNode.editNameStatus = true;
+			selectNode(setting, treeNode);
+		}
 	}
 
 	//删除子节点
@@ -1925,54 +1970,33 @@
 		}
 		return result;
 	}
-
-	//取消之前选中节点状态
-	function cancelPreSelectedNode(setting) {
-		if (setting.curTreeNode) {
-			$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
-			$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
-			removeTreeDom(setting, setting.curTreeNode);
-			setting.curTreeNode = null;
-		}
-	}
-	//取消之前编辑节点状态
-	function cancelPreEditNode(setting) {
-		if (setting.curEditTreeNode) {
-			var inputObj = $("#" + setting.curEditTreeNode.tId + IDMark_Input);
-			setting.curEditTreeNode[setting.nameCol] = inputObj.val();
-			//触发rename事件
-			setting.treeObj.trigger(ZTREE_RENAME, [setting.treeObjId, setting.curEditTreeNode]);
-
-			$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
-			inputObj.unbind();
-			$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode[setting.nameCol]);
-			setting.curEditTreeNode.editNameStatus = false;
-			setting.curEditTreeNode = null;
-		}
-	}
 	
 	//设置节点为当前选中节点
 	function selectNode(setting, treeNode) {
 		if (setting.curTreeNode == treeNode && ((setting.curEditTreeNode == treeNode && treeNode.editNameStatus))) {return;}
-		cancelPreEditNode(setting);
-		cancelPreSelectedNode(setting);
+		st.cancelPreEditNode(setting);
+		st.cancelPreSelectedNode(setting);
 			
 		if (setting.editable && treeNode.editNameStatus) {
 			$("#" + treeNode.tId + IDMark_Span).html("<input type=text class='rename' id='" + treeNode.tId + IDMark_Input + "' treeNode" + IDMark_Input + " >");
 			
 			var inputObj = $("#" + treeNode.tId + IDMark_Input);
+			setting.curEditInput = inputObj;
 			inputObj.attr("value", treeNode[setting.nameCol]);
-			inputObj.focus();
-			setCursorPosition(inputObj.get(0), treeNode[setting.nameCol].length);
+			tools.inputFocus(inputObj);
 			
 			//拦截A的click dblclick监听
 			inputObj.bind('blur', function(event) {
-				treeNode.editNameStatus = false;
-				selectNode(setting, treeNode);
-			}).bind('keypress', function(event) {
-				if (event.keyCode=="13") {
+				if (st.checkEvent(setting)) {
 					treeNode.editNameStatus = false;
 					selectNode(setting, treeNode);
+				} 
+			}).bind('keypress', function(event) {
+				if (event.keyCode=="13") {
+					if (st.checkEvent(setting)) {
+						treeNode.editNameStatus = false;
+						selectNode(setting, treeNode);
+					}
 				}
 			}).bind('click', function(event) {
 				return false;
@@ -2220,16 +2244,18 @@
 			selectNode : function(treeNode) {
 				if (!treeNode) return;
 
-				selectNode(this.setting, treeNode);
-				//如果选择某节点，则必须展开其全部父节点
-				//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
-				//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
-				if (treeNode.parentNode) {
-					expandCollapseParentNode(this.setting, treeNode.parentNode, true, false, function() {
+				if (st.checkEvent(this.setting)) {
+					selectNode(this.setting, treeNode);
+					//如果选择某节点，则必须展开其全部父节点
+					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
+					//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
+					if (treeNode.parentNode) {
+						expandCollapseParentNode(this.setting, treeNode.parentNode, true, false, function() {
+							$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+						});
+					} else {
 						$("#" + treeNode.tId + IDMark_Icon).focus().blur();
-					});
-				} else {
-					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+					}
 				}
 			},
 			
@@ -2237,7 +2263,7 @@
 				this.cancelSelectedNode();
 			},
 			cancelSelectedNode : function() {
-				cancelPreSelectedNode(this.setting);
+				st.cancelPreSelectedNode(this.setting);
 			},
 			
 			checkAllNodes : function(checked) {
