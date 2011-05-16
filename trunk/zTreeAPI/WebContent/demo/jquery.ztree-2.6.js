@@ -117,6 +117,8 @@
 			asyncParam: [],
 			//其它参数
 			asyncParamOther: [],
+			//异步加载获取数据，针对数据进行预处理的函数
+			asyncDataFilter: null,
 			//简单Array数组转换为JSON嵌套数据参数
 			isSimpleData: false,
 			treeNodeKey: "",
@@ -219,13 +221,12 @@
 		settings[setting.treeObjId] = setting;
 
 		setting.treeObj.empty();
-
+		bindTreeNodes(setting, this);
 		if (setting.root[setting.nodesCol] && setting.root[setting.nodesCol].length > 0) {
 			initTreeNodes(setting, 0, setting.root[setting.nodesCol]);
 		} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
 			asyncGetNode(setting);
 		}
-		bindTreeNodes(setting, this);
 		
 		return new zTreePlugin().init(this);
 	};
@@ -250,57 +251,57 @@
 
 		treeObj.unbind(ZTREE_NODECREATED);		
 		treeObj.bind(ZTREE_NODECREATED, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.nodeCreated) == "function") setting.callback.nodeCreated(event, treeId, treeNode);
+			tools.apply(setting.callback.nodeCreated, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_CLICK);		
 		treeObj.bind(ZTREE_CLICK, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.click) == "function") setting.callback.click(event, treeId, treeNode);
+			tools.apply(setting.callback.click, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_CHANGE);
 		treeObj.bind(ZTREE_CHANGE, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.change) == "function") setting.callback.change(event, treeId, treeNode);
+			tools.apply(setting.callback.change, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_RENAME);
 		treeObj.bind(ZTREE_RENAME, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.rename) == "function") setting.callback.rename(event, treeId, treeNode);
+			tools.apply(setting.callback.rename, [event, treeId, treeNode]);
 		});
 		
 		treeObj.unbind(ZTREE_REMOVE);
 		treeObj.bind(ZTREE_REMOVE, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.remove) == "function") setting.callback.remove(event, treeId, treeNode);
+			tools.apply(setting.callback.remove, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_DRAG);
 		treeObj.bind(ZTREE_DRAG, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.drag) == "function") setting.callback.drag(event, treeId, treeNode);
+			tools.apply(setting.callback.drag, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_DROP);
 		treeObj.bind(ZTREE_DROP, function (event, treeId, treeNode, targetNode, moveType) {
-			if ((typeof setting.callback.drop) == "function") setting.callback.drop(event, treeId, treeNode, targetNode, moveType);
+			tools.apply(setting.callback.drop, [event, treeId, treeNode, targetNode, moveType]);
 		});
 
 		treeObj.unbind(ZTREE_EXPAND);
 		treeObj.bind(ZTREE_EXPAND, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.expand) == "function") setting.callback.expand(event, treeId, treeNode);
+			tools.apply(setting.callback.expand, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_COLLAPSE);
 		treeObj.bind(ZTREE_COLLAPSE, function (event, treeId, treeNode) {
-			if ((typeof setting.callback.collapse) == "function") setting.callback.collapse(event, treeId, treeNode);
+			tools.apply(setting.callback.collapse, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_ASYNC_SUCCESS);
 		treeObj.bind(ZTREE_ASYNC_SUCCESS, function (event, treeId, treeNode, msg) {
-			if ((typeof setting.callback.asyncSuccess) == "function") setting.callback.asyncSuccess(event, treeId, treeNode, msg);
+			tools.apply(setting.callback.asyncSuccess, [event, treeId, treeNode]);
 		});
 
 		treeObj.unbind(ZTREE_ASYNC_ERROR);
 		treeObj.bind(ZTREE_ASYNC_ERROR, function (event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-			if ((typeof setting.callback.asyncError) == "function") setting.callback.asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown);
+			tools.apply(setting.callback.asyncError, [event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 		});
 	}
 	
@@ -335,9 +336,7 @@
 	function createCallback(setting, treeNodes) {
 		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
-			if ((typeof setting.addDiyDom) == "function") {
-				setting.addDiyDom(setting.treeObjId, node);
-			}
+			tools.apply(setting.addDiyDom, [setting.treeObjId, node]);
 			//触发nodeCreated事件
 			setting.treeObj.trigger(ZTREE_NODECREATED, [setting.treeObjId, node]);
 			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
@@ -552,17 +551,11 @@
 				setCursorPosition(inputObj.get(0), inputObj.val().length);
 			}
 		},
-		before: function(fun, param) {
+		apply: function(fun, param, defaultValue) {
 			if ((typeof fun) == "function") {
 				return fun.apply(tools, param);
 			}
-			return true;
-		},
-		apply: function(context, fun, param) {
-			if ((typeof fun) == "function") {
-				return fun.apply(context, param);
-			}
-			return null;
+			return defaultValue;
 		},
 		getAbs: function (obj) {
 			//获取对象的绝对坐标
@@ -596,7 +589,7 @@
 				setting.lastEdit.nameOld = setting.curEditTreeNode[setting.nameCol];
 				setting.lastEdit.nameNew = inputObj.val();
 				setting.lastEdit.beforeTime = new Date();
-				setting.lastEdit.before = tools.before(setting.callback.confirmRename, [setting.treeObjId, setting.curEditTreeNode, inputObj.val()]);
+				setting.lastEdit.before = tools.apply(setting.callback.confirmRename, [setting.treeObjId, setting.curEditTreeNode, inputObj.val()], true);
 				if ( setting.lastEdit.before === false) {
 					setting.curEditTreeNode.editNameStatus = true;
 					tools.inputFocus(inputObj);
@@ -631,11 +624,11 @@
 			var treeNode = event.data.treeNode;
 
 			if (treeNode.open) {
-				if (tools.before(setting.callback.beforeCollapse, [setting.treeObjId, treeNode]) == false) return;
+				if (tools.apply(setting.callback.beforeCollapse, [setting.treeObjId, treeNode], true) == false) return;
 				setting.expandTriggerFlag = true;
 				switchNode(setting, treeNode);
 			} else {
-				if (tools.before(setting.callback.beforeExpand, [setting.treeObjId, treeNode]) == false) return;
+				if (tools.apply(setting.callback.beforeExpand, [setting.treeObjId, treeNode], true) == false) return;
 				setting.expandTriggerFlag = true;
 				switchNode(setting, treeNode);
 			}
@@ -643,7 +636,7 @@
 		onClickNode: function (event) {
 			var setting = settings[event.data.treeObjId];
 			var treeNode = event.data.treeNode;
-			if (tools.before(setting.callback.beforeClick, [setting.treeObjId, treeNode]) == false) return;
+			if (tools.apply(setting.callback.beforeClick, [setting.treeObjId, treeNode], true) == false) return;
 			//设置节点为选中状态
 			selectNode(setting, treeNode);
 			//触发click事件
@@ -652,7 +645,7 @@
 		onCheckNode: function (event) {
 			var setting = settings[event.data.treeObjId];
 			var treeNode = event.data.treeNode;
-			if (tools.before(setting.callback.beforeChange, [setting.treeObjId, treeNode]) == false) return;
+			if (tools.apply(setting.callback.beforeChange, [setting.treeObjId, treeNode], true) == false) return;
 
 			treeNode[setting.checkedCol] = !treeNode[setting.checkedCol];
 			checkNodeRelation(setting, treeNode);
@@ -722,7 +715,7 @@
 				if (setting.dragStatus == 0) {
 					//避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
 					setting.dragStatus = -1;
-					if (tools.before(setting.callback.beforeDrag, [setting.treeObjId, treeNode]) == false) return true;
+					if (tools.apply(setting.callback.beforeDrag, [setting.treeObjId, treeNode], true) == false) return true;
 
 					setting.dragStatus = 1;
 					showIfameMask(true);
@@ -939,7 +932,7 @@
 				}
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-					if (tools.before(setting.callback.beforeDrop, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]) == false) return;
+					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType], true) == false) return;
 
 					if (isOtherTree) {
 						removeTreeNode(setting, treeNode);
@@ -987,8 +980,8 @@
 			var targetObj = $(event.target);
 			var treeNode = getTreeNodeByDom(setting, targetObj);
 			//触发mouseDown事件
-			if (tools.before(setting.callback.beforeMouseDown, [setting.treeObjId, treeNode]) && (typeof setting.callback.mouseDown) == "function") {
-				setting.callback.mouseDown(event, setting.treeObjId, treeNode);
+			if (tools.apply(setting.callback.beforeMouseDown, [setting.treeObjId, treeNode], true)) {
+				tools.apply(setting.callback.mouseDown, [event, setting.treeObjId, treeNode]);
 			}
 			return true;
 		},
@@ -997,8 +990,8 @@
 			var targetObj = $(event.target);
 			var treeNode = getTreeNodeByDom(setting, targetObj);
 			//触发mouseUp事件
-			if (tools.before(setting.callback.beforeMouseUp, [setting.treeObjId, treeNode]) && (typeof setting.callback.mouseUp) == "function") {
-				setting.callback.mouseUp(event, setting.treeObjId, treeNode);
+			if (tools.apply(setting.callback.beforeMouseUp, [setting.treeObjId, treeNode], true)) {
+				tools.apply(setting.callback.mouseUp, [event, setting.treeObjId, treeNode]);
 			}
 			return true;
 		},
@@ -1007,8 +1000,8 @@
 			var targetObj = $(event.target);
 			var treeNode = getTreeNodeByDom(setting, targetObj);
 			//触发mouseUp事件
-			if (tools.before(setting.callback.beforeDblclick, [setting.treeObjId, treeNode]) && (typeof setting.callback.dblclick) == "function") {
-				setting.callback.dblclick(event, setting.treeObjId, treeNode);
+			if (tools.apply(setting.callback.beforeDblclick, [setting.treeObjId, treeNode], true)) {
+				tools.apply(setting.callback.dblclick, [event, setting.treeObjId, treeNode]);
 			}
 			return true;
 		},
@@ -1017,9 +1010,8 @@
 			var targetObj = $(event.target);
 			var treeNode = getTreeNodeByDom(setting, targetObj);
 			//触发rightClick事件
-			if (tools.before(setting.callback.beforeRightClick, [setting.treeObjId, treeNode]) && (typeof setting.callback.rightClick) == "function") {
-				setting.callback.rightClick(event, setting.treeObjId, treeNode);
-				return false;
+			if (tools.apply(setting.callback.beforeRightClick, [setting.treeObjId, treeNode], true)) {
+				tools.apply(setting.callback.rightClick, [event, setting.treeObjId, treeNode]);
 			}
 			return (typeof setting.callback.rightClick) != "function";
 		}		
@@ -1146,7 +1138,7 @@
 		var icoStyle = [];
 		if (!treeNode.isAjaxing) {
 			if (treeNode.icon) icoStyle.push("background:url(", treeNode.icon, ") 0 0 no-repeat;");
-			if (setting.showIcon == false || !tools.before(setting.showIcon, [setting.treeObjId, treeNode])) {
+			if (setting.showIcon == false || !tools.apply(setting.showIcon, [setting.treeObjId, treeNode], true)) {
 				icoStyle.push("width:0px;height:0px;");
 			}			
 		}
@@ -1162,10 +1154,8 @@
 		}
 	}
 	function makeNodeFontCss(setting, treeNode) {
-		var fontCss;
-		if ((typeof setting.fontCss) == "function") {
-			fontCss = setting.fontCss(setting.treeObjId, treeNode);
-		} else {
+		var fontCss = tools.apply(setting.fontCss, [setting.treeObjId, treeNode]);
+		if (fontCss == null) {
 			fontCss = setting.fontCss;
 		}
 		if (fontCss) {
@@ -1224,19 +1214,15 @@
 				addEditBtn(setting, treeNode);
 				addRemoveBtn(setting, treeNode);
 			}
-			if ((typeof setting.addHoverDom) == "function") {
-				setting.addHoverDom(setting.treeObjId, treeNode);
-			}
+			tools.apply(setting.addHoverDom, [setting.treeObjId, treeNode]);
 		}
 	}
 	//删除zTree的按钮控件
 	function removeTreeDom(setting, treeNode) {
 		treeNode.isHover = false;
 		removeEditBtn(treeNode); 
-		removeRemoveBtn(treeNode); 
-		if ((typeof setting.removeHoverDom) == "function") {
-			setting.removeHoverDom(setting.treeObjId, treeNode);
-		}
+		removeRemoveBtn(treeNode);
+		tools.apply(setting.removeHoverDom, [setting.treeObjId, treeNode]);
 	}
 	//删除 编辑、删除按钮
 	function removeEditBtn(treeNode) {		
@@ -1249,21 +1235,16 @@
 		if (treeNode.editNameStatus || $("#" + treeNode.tId + IDMark_Edit).length > 0) {
 			return;
 		}
-		var showEdit_RenameBtn = setting.edit_renameBtn;
-		if (typeof setting.edit_renameBtn == "function") {
-			showEdit_RenameBtn = setting.edit_renameBtn(treeNode);
-		}
-		if (!showEdit_RenameBtn) {
+		if (!tools.apply(setting.edit_renameBtn, [treeNode], setting.edit_renameBtn)) {
 			return;
 		}
-
 		var nObj = $("#" + treeNode.tId + IDMark_Span);
 		var editStr = "<button type='button' class='edit' id='" + treeNode.tId + IDMark_Edit + "' title='' treeNode"+IDMark_Edit+" onfocus='this.blur();' style='display:none;'></button>";
 		nObj.after(editStr);
 		
 		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
 			function() {
-				if (tools.before(setting.callback.beforeRename, [setting.treeObjId, treeNode]) == false) return true;
+				if (tools.apply(setting.callback.beforeRename, [setting.treeObjId, treeNode], true) == false) return true;
 				removeTreeDom(setting, treeNode);
 				editTreeNode(setting, treeNode);
 				return false;
@@ -1274,21 +1255,16 @@
 		if (!setting.edit_removeBtn || $("#" + treeNode.tId + IDMark_Remove).length > 0) {
 			return;
 		}
-		var showEdit_RemoveBtn = setting.edit_removeBtn;
-		if (typeof setting.edit_removeBtn == "function") {
-			showEdit_RemoveBtn = setting.edit_removeBtn(treeNode);
-		}
-		if (!showEdit_RemoveBtn) {
+		if (!tools.apply(setting.edit_removeBtn, [treeNode], setting.edit_removeBtn)) {
 			return;
-		}
-		
+		}		
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var removeStr = "<button type='button' class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' treeNode"+IDMark_Remove+" onfocus='this.blur();' style='display:none;'></button>";
 		aObj.append(removeStr);
 		
 		$("#" + treeNode.tId + IDMark_Remove).bind('click', 
 			function() {
-				if (tools.before(setting.callback.beforeRemove, [setting.treeObjId, treeNode]) == false) return true;
+				if (tools.apply(setting.callback.beforeRemove, [setting.treeObjId, treeNode], true) == false) return true;
 				removeTreeNode(setting, treeNode);
 				//触发remove事件
 				setting.treeObj.trigger(ZTREE_REMOVE, [setting.treeObjId, treeNode]);
@@ -1433,7 +1409,7 @@
 		if (treeNode.open || (treeNode && treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0)) {
 			expandAndCollapseNode(setting, treeNode, !treeNode.open);
 		} else if (setting.async) {
-			if (tools.before(setting.callback.beforeAsync, [setting.treeObjId, treeNode]) == false) {
+			if (tools.apply(setting.callback.beforeAsync, [setting.treeObjId, treeNode], true) == false) {
 				expandAndCollapseNode(setting, treeNode, !treeNode.open);
 				return;
 			}			
@@ -1468,14 +1444,9 @@
 			}
 		}
 		
-		var url = setting.asyncUrl;
-		if (typeof setting.asyncUrl == "function") {
-			url =  setting.asyncUrl(treeNode);
-		}
-
 		$.ajax({
 			type: "POST",
-			url: url,
+			url: tools.apply(setting.asyncUrl, [treeNode], setting.asyncUrl),
 			data: tmpParam,
 			success: function(msg) {
 				var newNodes = [];
@@ -1492,6 +1463,7 @@
 				if (treeNode) treeNode.isAjaxing = undefined;
 				setNodeLineIcos(setting, treeNode);
 				if (newNodes && newNodes != "") {
+					newNodes = tools.apply(setting.asyncDataFilter, [setting.treeObjId, treeNode, newNodes], newNodes);
 					addTreeNodes(setting, treeNode, newNodes, false);
 				} else {
 					addTreeNodes(setting, treeNode, [], false);
@@ -1511,10 +1483,9 @@
 	// 展开 或者 折叠 节点下级
 	function expandAndCollapseNode(setting, treeNode, expandSign, animateSign, callback) {
 		if (!treeNode || treeNode.open == expandSign) {
-			if (typeof callback == "function") callback();
+			tools.apply(callback, []);
 			return;
-		}
-		
+		}		
 		if (setting.expandTriggerFlag) {
 			callback = function(){
 				if (treeNode.open) {
@@ -1539,13 +1510,13 @@
 				treeNode.open = true;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.show();
-					if (typeof callback == "function") callback();
+					tools.apply(callback, []);
 				} else {
 					if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
 						ulObj.show(setting.expandSpeed, callback);
 					} else {
 						ulObj.show();
-						if (typeof callback == "function") callback();
+						tools.apply(callback, []);
 					}
 				}
 			} else {
@@ -1554,13 +1525,13 @@
 				treeNode.open = false;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.hide();
-					if (typeof callback == "function") callback();
+					tools.apply(callback, []);
 				} else {
 					ulObj.hide(setting.expandSpeed, callback);
 				}
 			}
 		} else {
-			if (typeof callback == "function") callback();
+			tools.apply(callback, []);
 		}
 	}
 
