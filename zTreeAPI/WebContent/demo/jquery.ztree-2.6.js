@@ -170,6 +170,7 @@
 				mouseUp:null,
 				change:null,
 				drag:null,
+				dragConfirmOpen:null,
 				drop:null,
 				rename:null,
 				remove:null,
@@ -481,11 +482,14 @@
 			}
 		}
 
-		if (tId.length>0) {
-			if (childEventType!="hoverOverNode" && childEventType != "hoverOutNode" 
+		if (tId.length>0 || mainEventType.length>0) {
+			if (childEventType!="hoverOverNode" && childEventType != "hoverOutNode"
 				&& childEventType!="mouseoverCheck" && childEventType != "mouseoutCheck"
 				&& target.getAttribute("treeNode"+IDMark_Input) === null
 				&& !st.checkEvent(setting)) return false;
+
+		}
+		if (tId.length>0) {
 			//	编辑框Text状态下 允许选择文本
 			if (!(setting.curTreeNode && setting.curTreeNode.editNameStatus)) {
 				tools.noSel();
@@ -581,16 +585,7 @@
 		checkCancelPreEditNode: function (setting) {
 			if (setting.curEditTreeNode) {
 				var inputObj = setting.curEditInput;
-				if ( setting.lastEdit && ((new Date()).getTime() - setting.lastEdit.beforeTime.getTime())<500 && setting.lastEdit.input === inputObj && setting.lastEdit.nameOld === setting.curEditTreeNode[setting.nameCol] && setting.lastEdit.nameNew === inputObj.val()) {
-					return setting.lastEdit.before;
-				}
-				if (!setting.lastEdit) {setting.lastEdit = {};}
-				setting.lastEdit.input = inputObj;
-				setting.lastEdit.nameOld = setting.curEditTreeNode[setting.nameCol];
-				setting.lastEdit.nameNew = inputObj.val();
-				setting.lastEdit.beforeTime = new Date();
-				setting.lastEdit.before = tools.apply(setting.callback.confirmRename, [setting.treeObjId, setting.curEditTreeNode, inputObj.val()], true);
-				if ( setting.lastEdit.before === false) {
+				if ( tools.apply(setting.callback.confirmRename, [setting.treeObjId, setting.curEditTreeNode, inputObj.val()], true) === false) {
 					setting.curEditTreeNode.editNameStatus = true;
 					tools.inputFocus(inputObj);
 					return false;
@@ -880,7 +875,8 @@
 							window.zTreeMoveTimer = setTimeout(function() {
 								if (moveType != MoveType_Inner) return;
 								var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-								if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500) {
+								if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
+									&& tools.apply(targetSetting.callback.dragConfirmOpen, [targetNode], true)) {
 									switchNode(targetSetting, targetNode);
 								}
 							}, 600);
@@ -1245,7 +1241,6 @@
 		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
 			function() {
 				if (tools.apply(setting.callback.beforeRename, [setting.treeObjId, treeNode], true) == false) return true;
-				removeTreeDom(setting, treeNode);
 				editTreeNode(setting, treeNode);
 				return false;
 			}
@@ -1833,6 +1828,7 @@
 	//编辑子节点名称
 	function editTreeNode(setting, treeNode) {
 		treeNode.editNameStatus = true;
+		removeTreeDom(setting, treeNode);
 		selectNode(setting, treeNode);
 	}
 
@@ -2259,7 +2255,12 @@
 				var xNewNodes = tools.isArray(newNodes)? newNodes: [newNodes];
 				addTreeNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
 			},
-			
+			inputNodeName: function(treeNode) {
+				if (!treeNode) return;
+				if (st.checkEvent(this.setting)) {
+					editTreeNode(this.setting, treeNode)
+				}
+			},
 			updateNode : function(treeNode, checkTypeFlag) {
 				if (!treeNode) return;
 				var checkObj = $("#" + treeNode.tId + IDMark_Check);
