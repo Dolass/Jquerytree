@@ -30,7 +30,7 @@
 		var zNodes =[];
 
 	$(document).ready(function(){
-		refreshTree('asyncData/node.txt');
+		refreshTree();
 	});
 
 	function getTime() {
@@ -46,6 +46,15 @@
 		tmpUrl = "asyncData/" + (tmpUrl.indexOf("fun1.txt")>-1 ? "fun2.txt" : "fun1.txt");
 		$("#getUrl").html(tmpUrl);
 		return tmpUrl;
+	}
+
+	function dataFilter(treeId, parentNode, childNodes) {
+		if (childNodes) {
+			for(var i =0; i<childNodes.length; i++) {
+				childNodes[i].name += "_filter";
+			}
+		}
+		return childNodes;
 	}
 
 	function zTreeBeforeAsync(treeId, treeNode) {
@@ -74,12 +83,28 @@
 		$("#getUrl").html("");
 		$("#onAsyncSuccessNode").html("<br/>");
 		$("#onAsyncErrorNode").html("<br/>");
-		setting.asyncUrl = asyncUrl;
+
+		if ($("#php").attr("checked")) {
+			setting.asyncUrl = "asyncData/node.txt";
+		} else if ($("#jsp").attr("checked")) {
+			setting.asyncUrl = "asyncData/node.php";
+		} else if ($("#fun").attr("checked")) {
+			setting.asyncUrl = setAsyncUrl;
+		}		
 		if ((typeof asyncUrl) == "function") {
 			$("#asyncUrlCode").html("setAsyncUrl");
 		} else {
 			$("#asyncUrlCode").html("\"" + asyncUrl + "\"" );
 		}
+
+		if ($("#filterN").attr("checked")) {
+			setting.asyncDataFilter = null;
+			$("#asyncDataFilterCode").html("null");
+		} else if ($("#filterY").attr("checked")) {
+			setting.asyncDataFilter = dataFilter;
+			$("#asyncDataFilterCode").html("dataFilter");
+		}
+
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 	}
 
@@ -116,17 +141,25 @@
 				<button class="ico star" onfocus="this.blur();"></button>异步加载数据源配置
 				<ul class="remark">——使用 Tomcat 的朋友，可以自己编写 node.jsp</ul>
 				<ul>
-					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree('asyncData/node.txt');">node.txt（静态数据）
+					asyncUrl: <INPUT TYPE="radio" id="php" NAME="url" checked onclick="refreshTree();">node.txt（静态数据）
 					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree('asyncData/node.php');">node.php（动态数据）
+					<INPUT TYPE="radio" id="jsp" NAME="url" onclick="refreshTree();">node.php（动态数据）
 					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree(setAsyncUrl);">function（根据节点修改URL地址）
+					<INPUT TYPE="radio" id="fun" NAME="url" onclick="refreshTree();">function（根据节点修改URL地址）
 				</ul>
 				<ul class="event">
 					<li>&nbsp;setting.async = true;</li>
 					<li>&nbsp;setting.asyncUrl = <a id="asyncUrlCode"></a>;</li>
 					<li>&nbsp;</li>
 					<li>&nbsp;function return value :&nbsp;&nbsp;<a id="getUrl"></a></li>
+				</ul>
+				<ul>
+					asyncDataFilter: <INPUT TYPE="radio" id="filterN" NAME="dataFilter" checked onclick="refreshTree();">不进行数据处理
+					<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<INPUT TYPE="radio" id="filterY" NAME="dataFilter" onclick="refreshTree();">进行数据处理
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.asyncDataFilter = <a id="asyncDataFilterCode"></a>;</li>
 				</ul>
 			</li>
 			<li class="title focus">
