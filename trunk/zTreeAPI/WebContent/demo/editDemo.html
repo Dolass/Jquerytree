@@ -16,7 +16,10 @@
 		setting = {
 			editable: true,
 			keepParent: false,
-			keepLeaf: false	
+			keepLeaf: false,
+			callback: {
+				confirmRename: zTreeConfirmRename
+			}
 		};
 
 	$(document).ready(function(){
@@ -28,6 +31,19 @@
 	}
 	function setRemoveBtn(treeNode) {
 		return (!treeNode.isParent);
+	}
+	function zTreeConfirmRename(treeId, treeNode, newName) {
+		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
+		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
+		return r;
+	}
+	function renameTreeNode() {
+		var srcNode = zTree1.getSelectedNode();
+		if (!srcNode) {
+			alert("请先选中一个节点");
+			return;
+		}
+		zTree1.inputNodeName(srcNode);
 	}
 
 	function updateSetting() {
@@ -105,6 +121,16 @@
 					<li>&nbsp;setting.editable = <a id="editableCode">true</a>;</li>
 					<li>&nbsp;setting.edit_renameBtn = <a id="renameBtnCode">true</a>;</li>
 					<li>&nbsp;setting.edit_removeBtn = <a id="removeBtnCode">true</a>;</li>
+				</ul>
+				<ul>
+					callback.confirmRename return：<INPUT TYPE="radio" id="confirmRenameTrue" name="confirmRenameRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="confirmRenameFalse" name="confirmRenameRadio" onfocus="this.blur();">false
+				</ul>
+				<ul class="event">
+					<li>&nbsp;setting.callback.confirmRename = <a id="confirmRenameCode">zTreeConfirmRename</a>;</li>
+				</ul>
+				<ul>
+					<INPUT TYPE="button" id="renameBtn" value="进入名称编辑状态" onclick="renameTreeNode();">
 				</ul>
 			</li>
 			<li class="title focus">
