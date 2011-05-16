@@ -40,7 +40,9 @@
 *2011.05.20* v2.6
 删除ZTREE_RIGHTCLICK常量
 增加 beforeDblclick/dblclick/confirmRename事件
-(confirmRename return false的以后 如何恢复原始数据没想清楚)
+(confirmRename return false后将无法进行其他操作，按ESC键可以恢复修改前的数据；另外的confirmRename有可能与自定义控件的事件产生冲突，请注意。)
+增加 setting.lastEdit 对象，用于辅助confirmRename进行检测。
+
 
    * 【优化】大数据量一次性加载的效率问题
    * 【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.6.js

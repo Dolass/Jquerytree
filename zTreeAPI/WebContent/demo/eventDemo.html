@@ -108,8 +108,8 @@
 	}
 	function zTreeConfirmRename(treeId, treeNode, newName) {
 		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
-		if (!r) alert("confirmRename return false!! \n\nYou can't rename. The Original Name is '"+ treeNode.name +"'"
-			+ "\n\nconfirmRename 错误提示请勿使用 alert方式，目前的事件机制会导致多次 confirmRename");
+		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value."
+			+ "\n\nconfirmRename 有可能与自定义控件的事件产生冲突，导致不进行名称校验，请注意。");
 		return r;
 	}
 
