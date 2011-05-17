@@ -331,6 +331,7 @@
 		} else {
 			$("#" + parentNode.tId + IDMark_Ul).append(zTreeHtml.join(''));
 		}
+		repairParentChkClassWithSelf(setting, parentNode);
 		createCallback(setting, treeNodes);
 	}
 
@@ -1329,18 +1330,55 @@
 		} else {
 			if (treeNode[setting.checkedCol] && setting.checkType.Y.indexOf("s") > -1) {
 				setSonNodeCheckBox(setting, treeNode, true);
-				repairSonChkClass(setting, treeNode);
 			}
 			if (treeNode[setting.checkedCol] && setting.checkType.Y.indexOf("p") > -1) {
 				setParentNodeCheckBox(setting, treeNode, true);
 			}
 			if (!treeNode[setting.checkedCol] && setting.checkType.N.indexOf("s") > -1) {
 				setSonNodeCheckBox(setting, treeNode, false);
-				repairSonChkClass(setting, treeNode);
 			}
 			if (!treeNode[setting.checkedCol] && setting.checkType.N.indexOf("p") > -1) {
 				setParentNodeCheckBox(setting, treeNode, false);
 			}
+		}
+	}
+	
+	//遍历父节点设置checkbox
+	function setParentNodeCheckBox(setting, treeNode, value) {
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
+		treeNode[setting.checkedCol] = value;
+		setChkClass(setting, checkObj, treeNode);
+		if (treeNode.parentNode) {
+			var pSign = true;
+			if (!value) {
+				for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
+					if (treeNode.parentNode[setting.nodesCol][son][setting.checkedCol]) {
+						pSign = false;
+						break;
+					}
+				}
+			}
+			if (pSign) {
+				setParentNodeCheckBox(setting, treeNode.parentNode, value);
+			}
+		}
+	}
+
+	//遍历子节点设置checkbox
+	function setSonNodeCheckBox(setting, treeNode, value) {
+		if (!treeNode) return;
+		var checkObj = $("#" + treeNode.tId + IDMark_Check);
+
+		if (treeNode != setting.root) {
+			treeNode[setting.checkedCol] = value;
+			treeNode.check_True_Full = true;
+			treeNode.check_False_Full = true;
+			setChkClass(setting, checkObj, treeNode);
+		}
+
+		if (!treeNode[setting.nodesCol]) return;
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son]) setSonNodeCheckBox(setting, treeNode[setting.nodesCol][son], value);
 		}
 	}
 	
@@ -1363,10 +1401,6 @@
 				var treeNode = setting.root[setting.nodesCol][son];
 				treeNode[setting.checkedCol] = checked;
 				setSonNodeCheckBox(setting, treeNode, checked);
-				repairSonChkClass(setting, treeNode);
-				var checkObj = $("#" + treeNode.tId + IDMark_Check);
-				setChkClass(setting, checkObj, treeNode);
-				repairParentChkClassWithSelf(setting, treeNode);
 			}
 		}
 	}
@@ -1377,22 +1411,14 @@
 		repairParentChkClass(setting, treeNode.parentNode);
 	}	
 	function repairParentChkClassWithSelf(setting, treeNode) {
+		if (!treeNode) return;
 		if (treeNode[setting.nodesCol] && treeNode[setting.nodesCol].length > 0) {
 			repairParentChkClass(setting, treeNode[setting.nodesCol][0]);
 		} else {
 			repairParentChkClass(setting, treeNode);
 		}
 	}
-	//修正子节点选择的样式
-	function repairSonChkClass(setting, treeNode) {
-		if (!treeNode || !treeNode[setting.nodesCol]) return;
-		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
-			if (treeNode[setting.nodesCol][son][setting.nodesCol]) {
-				repairSonChkClass(setting, treeNode[setting.nodesCol][son]);
-			}
-		}
-		repairChkClass(setting, treeNode);
-	}	
+
 	function repairChkClass(setting, treeNode) {
 		if (!treeNode) return;
 		makeChkFlag(setting, treeNode);
@@ -1582,43 +1608,6 @@
 		
 		if (treeNode.parentNode) {
 			expandCollapseParentNode(setting, treeNode.parentNode, expandSign, animateSign, callback);
-		}
-	}
-
-	//遍历父节点设置checkbox
-	function setParentNodeCheckBox(setting, treeNode, value) {
-		var checkObj = $("#" + treeNode.tId + IDMark_Check);
-		treeNode[setting.checkedCol] = value;
-		setChkClass(setting, checkObj, treeNode);
-		if (treeNode.parentNode) {
-			var pSign = true;
-			if (!value) {
-				for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
-					if (treeNode.parentNode[setting.nodesCol][son][setting.checkedCol]) {
-						pSign = false;
-						break;
-					}
-				}
-			}
-			if (pSign) {
-				setParentNodeCheckBox(setting, treeNode.parentNode, value);
-			}
-		}
-	}
-
-	//遍历子节点设置checkbox
-	function setSonNodeCheckBox(setting, treeNode, value) {
-		if (!treeNode) return;
-		var checkObj = $("#" + treeNode.tId + IDMark_Check);
-		
-		if (treeNode != setting.root) {
-			treeNode[setting.checkedCol] = value;
-			setChkClass(setting, checkObj, treeNode);
-		}
-		
-		if (!treeNode[setting.nodesCol]) return;
-		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
-			if (treeNode[setting.nodesCol][son]) setSonNodeCheckBox(setting, treeNode[setting.nodesCol][son], value);
 		}
 	}
 
@@ -2204,7 +2193,7 @@
 				expandCollapseSonNode(this.setting, null, expandSign, true);
 			},
 
-			expandNode : function(treeNode, expandSign, sonSign) {
+			expandNode : function(treeNode, expandSign, sonSign, focus) {
 				if (!treeNode) return;
 
 				if (expandSign) {
@@ -2216,11 +2205,11 @@
 					//多个图层同时进行动画，导致产生的延迟很难用代码准确捕获动画最终结束时间
 					//因此为了保证准确将节点focus进行定位，则对于js操作节点时，不进行动画
 					expandCollapseSonNode(this.setting, treeNode, expandSign, false, function() {
-						$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+						if (focus !== false) {$("#" + treeNode.tId + IDMark_Icon).focus().blur();}
 					});
 				} else if (treeNode.open != expandSign) {
 					switchNode(this.setting, treeNode);
-					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+					if (focus !== false) {$("#" + treeNode.tId + IDMark_Icon).focus().blur();}
 				}
 			},
 

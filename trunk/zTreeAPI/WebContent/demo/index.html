@@ -75,7 +75,7 @@
 	});
 
 	function loadReady() {
-		var h = demoIframe.contents().find("body").height();
+		var h = demoIframe.find("body").height();
 		if (h < 600) h = 600;
 		demoIframe.height(h);
 	}

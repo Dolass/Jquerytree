@@ -14,7 +14,6 @@
 
 	setting = {
 		editable: true,
-		edit_renameBtn: setRenameBtn,
 		keepParent: true,
 		keepLeaf: true,
 		async: true,
@@ -29,10 +28,6 @@
 	$(document).ready(function(){
 		refreshTree();
 	});
-
-	function setRenameBtn(treeNode) {
-		return false;
-	}
 
 	function beforeAsync(treeId, treeNode) {
 		if (treeNode.level>3) {
