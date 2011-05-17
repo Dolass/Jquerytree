@@ -797,7 +797,7 @@
 								(event.target.id == (targetObj.id + IDMark_A) || $(event.target).parents("#" + targetObj.id + IDMark_A).length > 0)) {
 								tmpTarget = $(targetObj);
 								tmpTargetNodeId = targetObj.id;
-								$("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
+//								$("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
 							}
 						}
 					}
@@ -843,43 +843,60 @@
 						var canPrev = !isNext;
 						var canNext = !isPrev;
 						var canInner = !isInner && !(targetSetting.keepLeaf && !tmpTargetNode.isParent);
-						var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1;
-						var nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1;
-
-						var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
-						var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
-
-						if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
-							dX = 1 - tmpArrow.width();
-							dY = 0 - tmpArrow.height()/2;
-							moveType = MoveType_Before;
-						} else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
-							dX = 1 - tmpArrow.width();
-							dY = tmpTargetA.height() - tmpArrow.height()/2;
-							moveType = MoveType_After;
-						}else {
-							dX = 5 - tmpArrow.width();
-							dY = 0;
+						if (tmpTargetNode) {
+							canPrev = canPrev && !tmpTargetNode.noPrev;
+							canNext = canNext && !tmpTargetNode.noNext;
+							canInner = canInner && !tmpTargetNode.noInner;
+						}
+						if (!canPrev && !canNext && !canInner) {
+							tmpTarget = null;
+							tmpTargetNodeId = "";
 							moveType = MoveType_Inner;
-						}
-						tmpArrow.css({
-							"display":"block",
-							"top": (tmpTargetA.offset().top + dY) + "px",
-							"left": (tmpTargetA.offset().left + dX) + "px"
-						});
+							tmpArrow.css({
+								"display":"none"
+							});
+							if (window.zTreeMoveTimer) {
+								clearTimeout(window.zTreeMoveTimer);
+							}
+						} else {
+							var tmpTargetA = $("#" + tmpTargetNodeId + IDMark_A, tmpTarget);
+							tmpTargetA.addClass(Class_TmpTargetNode);
 
-						if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
-							startTime = (new Date()).getTime();
-						}
-						if (moveType == MoveType_Inner) {
-							window.zTreeMoveTimer = setTimeout(function() {
-								if (moveType != MoveType_Inner) return;
-								var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
-								if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
-									&& tools.apply(targetSetting.callback.dragConfirmOpen, [targetNode], true)) {
-									switchNode(targetSetting, targetNode);
-								}
-							}, 600);
+							var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1;
+							var nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1;
+							var dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
+							if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
+								dX = 1 - tmpArrow.width();
+								dY = 0 - tmpArrow.height()/2;
+								moveType = MoveType_Before;
+							} else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
+								dX = 1 - tmpArrow.width();
+								dY = tmpTargetA.height() - tmpArrow.height()/2;
+								moveType = MoveType_After;
+							}else {
+								dX = 5 - tmpArrow.width();
+								dY = 0;
+								moveType = MoveType_Inner;
+							}
+							tmpArrow.css({
+								"display":"block",
+								"top": (tmpTargetA.offset().top + dY) + "px",
+								"left": (tmpTargetA.offset().left + dX) + "px"
+							});							
+
+							if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
+								startTime = (new Date()).getTime();
+							}
+							if (moveType == MoveType_Inner) {
+								window.zTreeMoveTimer = setTimeout(function() {
+									if (moveType != MoveType_Inner) return;
+									var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
+									if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
+										&& tools.apply(targetSetting.callback.dragConfirmOpen, [targetNode], true)) {
+										switchNode(targetSetting, targetNode);
+									}
+								}, 600);
+							}
 						}
 					} else {
 						moveType = MoveType_Inner;
@@ -1133,7 +1150,8 @@
 	function makeNodeIcoStyle(setting, treeNode) {
 		var icoStyle = [];
 		if (!treeNode.isAjaxing) {
-			if (treeNode.icon) icoStyle.push("background:url(", treeNode.icon, ") 0 0 no-repeat;");
+			var icon = (treeNode.isParent && treeNode.iconOpen && treeNode.iconClose) ? (treeNode.open ? treeNode.iconOpen : treeNode.iconClose) : treeNode.icon;
+			if (icon) icoStyle.push("background:url(", icon, ") 0 0 no-repeat;");
 			if (setting.showIcon == false || !tools.apply(setting.showIcon, [setting.treeObjId, treeNode], true)) {
 				icoStyle.push("width:0px;height:0px;");
 			}			
@@ -1443,6 +1461,7 @@
 			type: "POST",
 			url: tools.apply(setting.asyncUrl, [treeNode], setting.asyncUrl),
 			data: tmpParam,
+			dataType: "text",
 			success: function(msg) {
 				var newNodes = [];
 				try {
@@ -1499,10 +1518,14 @@
 		var ulObj = $("#" + treeNode.tId + IDMark_Ul);
 
 		if (treeNode.isParent) {
-			if (!treeNode.open) {
+			treeNode.open = !treeNode.open;
+			if (treeNode.iconOpen && treeNode.iconClose) {
+				icoObj.attr("style", makeNodeIcoStyle(setting, treeNode));
+			}
+
+			if (treeNode.open) {
 				replaceSwitchClass(switchObj, FolderMark_Open);
 				replaceIcoClass(treeNode, icoObj, FolderMark_Open);
-				treeNode.open = true;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.show();
 					tools.apply(callback, []);
@@ -1517,7 +1540,6 @@
 			} else {
 				replaceSwitchClass(switchObj, FolderMark_Close);
 				replaceIcoClass(treeNode, icoObj, FolderMark_Close);
-				treeNode.open = false;
 				if (animateSign == false || setting.expandSpeed == "") {
 					ulObj.hide();
 					tools.apply(callback, []);
@@ -2291,7 +2313,6 @@
 				if (!treeNode) return;
 				removeTreeNode(this.setting, treeNode);
 			}
-
 		};
 	}
 })(jQuery);

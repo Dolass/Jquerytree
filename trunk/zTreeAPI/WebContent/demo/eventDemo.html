@@ -19,6 +19,7 @@
 			
 			callback:{
 				beforeClick: zTreeBeforeClick,
+				beforeDblclick: zTreeBeforeDblclick,
 				beforeRightClick: zTreeBeforeRightClick,
 				beforeMouseDown: zTreeBeforeMouseDown,
 				beforeMouseUp: zTreeBeforeMouseUp,
@@ -34,6 +35,7 @@
 
 				nodeCreated: zTreeOnNodeCreated,
 				click: zTreeOnClick,
+				dblclick: zTreeOnDblclick,
 				rightClick: zTreeRightClick,
 				mouseDown: zTreeMouseDown,
 				mouseUp: zTreeMouseUp,
@@ -66,6 +68,12 @@
 		return r;
 	}
 	
+	function zTreeBeforeDblclick(treeId, treeNode) {
+		var r = $("#beforeDblclickTrue").attr("checked");
+		if (!r) alert("beforeDblclick return false!!");
+		return r;
+	}
+
 	function zTreeBeforeRightClick(treeId, treeNode) {
 		var r = $("#beforeRightClickTrue").attr("checked");
 		if (!r) alert("beforeRightClick return false!!");
@@ -131,6 +139,14 @@
 	
 	function zTreeOnClick(event, treeId, treeNode) {
 		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
+	}
+
+	function zTreeOnDblclick(event, treeId, treeNode) {
+		if (treeNode) {
+			$("#onDblclickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
+		} else {
+			$("#onDblclickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp; treeNode is Root.");
+		}
 	}
 
 	function getMouse(event) {
@@ -212,6 +228,8 @@
 	function refreshTree() {
 		zTree1 = $("#treeDemo").zTree(setting, zNodes);
 		$("#onClickNode").html("<br/>");
+		$("#onDblclickNode").html("<br/>");
+		$("#onRightClickNode").html("<br/>");
 		$("#onDragNode").html("<br/>");
 		$("#onDropNode").html("<br/>");
 		$("#onRenameNode").html("<br/>");
@@ -250,6 +268,13 @@
 						<td>
 							<INPUT TYPE="radio" id="beforeClickTrue" name="beforeClickRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeClickFalse" name="beforeClickRadio" onfocus="this.blur();">false
+						</td>
+					</tr>
+					<tr>
+						<td align=right>beforeDblclick&nbsp;事件 return: </td>
+						<td>
+							<INPUT TYPE="radio" id="beforeDblclickTrue" name="beforeDblclickRadio" checked onfocus="this.blur();">true;&nbsp;
+							<INPUT TYPE="radio" id="beforeDblclickFalse" name="beforeDblclickRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
@@ -344,6 +369,9 @@
 				</ul>
 				<ul class="event">
 				&nbsp;&nbsp;&nbsp;onClick 事件:&nbsp;&nbsp;<a id="onClickNode"><br/></a><br/>
+				</ul>
+				<ul class="event">
+				&nbsp;&nbsp;&nbsp;onDblclick 事件:&nbsp;&nbsp;<a id="onDblclickNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
 				onRightClick 事件:&nbsp;&nbsp;<a id="onRightClickNode"><br/></a><br/>
