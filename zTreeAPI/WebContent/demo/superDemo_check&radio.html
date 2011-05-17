@@ -40,13 +40,17 @@
 	var zNodes =[
 	 	{id:1, name:"CPU",
 		 	nodes:[
-		 	       {id:11, name:"Intel"},
-		 	       {id:12, name:"AMD"}
+		 	       {id:11, name:"Intel",
+				   nodes: [{id:111, name:"i5"},{id:112, name:"i6"}]},
+		 	       {id:12, name:"AMD",
+				   nodes: [{id:121, name:"a5"},{id:122, name:"a6"}]}
 			]},
 	 	{id:2, name:"主板",
 	 		nodes:[
-		 	       {id:21, name:"华硕"},
-		 	       {id:22, name:"技嘉"},
+		 	       {id:21, name:"华硕",
+				   nodes: [{id:211, name:"x5"},{id:212, name:"x6"}]},
+		 	       {id:22, name:"技嘉",
+				   nodes: [{id:221, name:"y5"},{id:222, name:"y6"}]},
 		 	       {id:23, name:"微星"},
 		 	       {id:24, name:"七彩虹"},
 		 	       {id:25, name:"映泰"}
@@ -96,11 +100,8 @@
 	var curExpandNode = null;
 	function zTreeOnBeforeClick(treeId, treeNode) {
 		if (treeNode.level == 0 && !treeNode.open) {
+			singlePath(treeNode);
 			zTree1.expandNode(treeNode, true);
-			if (curExpandNode && curExpandNode.open==true) {
-				zTree1.expandNode(curExpandNode, false);
-			}
-			curExpandNode = treeNode;
 		} else if (treeNode.level == 1) {
 			var btn = $("#radio_" + treeNode.id).attr("checked", true);
 			checkBrand(treeNode, btn);
@@ -108,9 +109,43 @@
 		return false;
 	}
 	function zTreeOnBeforeExpand(treeId, treeNode) {
+		singlePath(treeNode);
+	}
+	function singlePath(newNode) {
+		if (newNode === curExpandNode) return;
 		if (curExpandNode && curExpandNode.open==true) {
-			zTree1.expandNode(curExpandNode, false);
+			if (newNode.parentNode === curExpandNode.parentNode) {
+				zTree1.expandNode(curExpandNode, false, true);
+			} else {
+				var newParents = [];
+				while (newNode) {
+					newNode = newNode.parentNode;
+					if (newNode === curExpandNode) {
+						newParents = null;
+						break;
+					} else if (newNode) {
+						newParents.push(newNode);
+					}
+				}
+				if (newParents!=null) {
+					var oldNode = curExpandNode;
+					var oldParents = [];
+					while (oldNode) {
+						oldNode = oldNode.parentNode;
+						if (oldNode) {
+							oldParents.push(oldNode);
+						}
+					}
+					for (var i = (newParents.length<oldParents.length ? newParents.length : oldParents.length); i>=0; i--) {
+						if (newParents[i] !== oldParents[i]) {
+							zTree1.expandNode(oldParents[i], false, true);
+							break;
+						}
+					}
+				}
+			}
 		}
+		curExpandNode = newNode;
 	}
 
 	function zTreeOnExpand(event, treeId, treeNode) {
