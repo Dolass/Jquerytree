@@ -1796,12 +1796,12 @@
 			target_ulObj.css({
 				"display":"block"
 			});
-			target_ulObj.append($("#" + treeNode.tId).detach());
+			target_ulObj.append($("#" + treeNode.tId).remove(null, true));
 		} else if (moveType == MoveType_Before) {
-			targetObj.before($("#" + treeNode.tId).detach());
+			targetObj.before($("#" + treeNode.tId).remove(null, true));
 			
 		} else if (moveType == MoveType_After) {
-			targetObj.after($("#" + treeNode.tId).detach());
+			targetObj.after($("#" + treeNode.tId).remove(null, true));
 		}
 
 		//处理被移动的节点
