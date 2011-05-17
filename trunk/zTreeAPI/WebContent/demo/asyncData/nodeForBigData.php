@@ -1220,8 +1220,7 @@ class DemoData {
 		$d397->id="396"; $d397->pId="118"; $d397->code="D50101"; $d397->name="股东权益(非产品/长期)"; $d397->state="0";
 		$this->demoDataMap[$d397->id] = $d397;
    		
-   		for ($i = 0; $i < count($this->demoDataMap); $i++) {
-   			$d = $this->demoDataMap[$i];
+   		foreach ($this->demoDataMap as $d) {
    			if (array_key_exists($d->pId,$this->demoDataMap) && $this->demoDataMap[$d->pId]) {
 	    		$this->demoDataMap[$d->pId]->nodes[] = $d;
 	    	} else {
