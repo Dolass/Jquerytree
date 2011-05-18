@@ -18,6 +18,8 @@
 			editable: true,
 			edit_renameBtn:false,
 			edit_removeBtn:false,
+			dragCopy: true,
+			dragMove: true,
 			callback: {
 				click:	zTreeOnClick,
 				drop: zTreeOnDrop
@@ -91,20 +93,23 @@
 		<div class="demoContent">
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>两棵树之间数据交互说明
-				<ul class="operate" style="color:red">
+				<ul class="operate">
 					1、从 v2.3 版本开始，可以直接使用鼠标在多棵树之间拖拽节点。
 				</ul>
-				<ul class="operate">
-					2、拖拽规则请参考“编辑演示”的说明。
+				<ul class="operate" style="color:red">
+					2、从 v2.6 版本开始，拖拽时试试按下 Ctrl 拖拽有什么不同？
 				</ul>
 				<ul class="operate">
-					3、重新点击已选中的节点，可以取消被选中状态；目标树没有被选中节点时，则直接转移到根节点。
+					3、拖拽规则请参考“编辑演示”的说明。
 				</ul>
 				<ul class="operate">
-					4、转移节点代码请务先执行 srcTree.removeNode(srcNode) 方法，后执行 targetTree.addNodes(targetNode, [srcNode]) 方法。
+					4、重新点击已选中的节点，可以取消被选中状态；目标树没有被选中节点时，则直接转移到根节点。
+				</ul>
+				<ul class="operate">
+					5、转移节点代码请务先执行 srcTree.removeNode(srcNode) 方法，后执行 targetTree.addNodes(targetNode, [srcNode]) 方法。
 				</ul>
 				<ul class="operate" style="color:red">
-					5、需要使用 cancelSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
+					6、需要使用 cancelSelectedNode() 方法的用户，请使用 2010-08-06 以及之后发布的 zTree 代码，之前的版本没有此方法。
 				</ul>
 				<ul></ul>
 			</li>
