@@ -31,7 +31,7 @@
 				beforeRemove: zTreeBeforeRemove,
 				beforeExpand: zTreeBeforeExpand,
 				beforeCollapse: zTreeBeforeCollapse,
-				dragConfirmOpen: zTreeDragConfirmOpen,
+				confirmDragOpen: zTreeConfirmDragOpen,
 
 				nodeCreated: zTreeOnNodeCreated,
 				click: zTreeOnClick,
@@ -120,8 +120,8 @@
 		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
 		return r;
 	}
-	function zTreeDragConfirmOpen(treeId, treeNode) {
-		return $("#dragConfirmOpenTrue").attr("checked");
+	function zTreeConfirmDragOpen(treeId, treeNode) {
+		return $("#confirmDragOpenTrue").attr("checked");
 	}
 
 	function zTreeBeforeRemove(treeId, treeNode) {
@@ -313,10 +313,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td align=right>dragConfirmOpen&nbsp;事件 return: </td>
+						<td align=right>confirmDragOpen&nbsp;事件 return: </td>
 						<td>
-							<INPUT TYPE="radio" id="dragConfirmOpenTrue" name="dragConfirmOpenRadio" checked onfocus="this.blur();">true;&nbsp;
-							<INPUT TYPE="radio" id="dragConfirmOpenFalse" name="dragConfirmOpenRadio" onfocus="this.blur();">false
+							<INPUT TYPE="radio" id="confirmDragOpenTrue" name="confirmDragOpenRadio" checked onfocus="this.blur();">true;&nbsp;
+							<INPUT TYPE="radio" id="confirmDragOpenFalse" name="confirmDragOpenRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>

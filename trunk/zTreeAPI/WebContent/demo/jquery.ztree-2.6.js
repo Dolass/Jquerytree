@@ -164,6 +164,7 @@
 				beforeRemove:null,
 				beforeExpand:null,
 				beforeCollapse:null,
+				confirmDragOpen:null,
 				confirmRename:null,
 				
 				nodeCreated:null,
@@ -173,7 +174,6 @@
 				mouseUp:null,
 				change:null,
 				drag:null,
-				dragConfirmOpen:null,
 				drop:null,
 				rename:null,
 				remove:null,
@@ -902,7 +902,7 @@
 									if (moveType != MoveType_Inner) return;
 									var targetNode = getTreeNodeByTId(targetSetting, tmpTargetNodeId);
 									if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
-										&& tools.apply(targetSetting.callback.dragConfirmOpen, [targetNode], true)) {
+										&& tools.apply(targetSetting.callback.confirmDragOpen, [targetSetting.treeObjId, targetNode], true)) {
 										switchNode(targetSetting, targetNode);
 									}
 								}, 600);
