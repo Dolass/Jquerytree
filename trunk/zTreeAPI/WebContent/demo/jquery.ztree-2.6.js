@@ -844,11 +844,6 @@
 						var canPrev = !isNext;
 						var canNext = !isPrev;
 						var canInner = !isInner && !(targetSetting.keepLeaf && !tmpTargetNode.isParent);
-						if (tmpTargetNode) {
-							canPrev = canPrev && !tmpTargetNode.noPrev;
-							canNext = canNext && !tmpTargetNode.noNext;
-							canInner = canInner && !tmpTargetNode.noInner;
-						}
 						if (!canPrev && !canNext && !canInner) {
 							tmpTarget = null;
 							tmpTargetNodeId = "";

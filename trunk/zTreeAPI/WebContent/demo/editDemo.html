@@ -23,14 +23,6 @@
 		};
 
 	$(document).ready(function(){
-		var newNode = { name:"拖拽新功能测试", ename:"Drag Test", open:true,
-				nodes: [
-						{ name:"noPrev", ename:"noPrev", noPrev:true},
-						{ name:"noPrev/Next/Inner", ename:"noPrev/Next/Inner", noPrev:true, noNext:true, noInner:true},
-						{ name:"noInner", ename:"noInner", noInner:true},
-						{ name:"noNext", ename:"noNext", noNext:true}
-					]};
-		zNodes.splice(0,0, newNode);
 		refreshTree();
 	});
 
@@ -151,7 +143,6 @@
 					<li>从 v2.2 版本开始，可以拖拽节点进行排序，可以同级节点上下拖拽。</li>
 					<li>从 v2.3 版本开始，可以在多棵树之间拖拽节点。请参考“高级应用演示” 中的 “两棵树之间数据交互”</li>
 					<li>从 v2.5 版本开始，可以锁定父节点、叶子节点状态</li>
-					<li style="color:red">从 v2.6 版本开始，可以利用节点属性 noPrev / noNext / noInner 设置当做目标节点时的个性化状态</li>
 				</ul>
 				<ul class="remark">
 					<li>2、拖拽节点规则</li>
