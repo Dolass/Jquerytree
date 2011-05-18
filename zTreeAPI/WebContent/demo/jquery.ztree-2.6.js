@@ -98,6 +98,9 @@
 			//是否处于拖拽期间 0: not Drag; 1: doing Drag
 			dragStatus: 0,
 			dragNodeShowBefore: false,
+			//拖拽操作控制 move or copy
+			dragCopy: false,
+			dragMove: true,
 			//选择CheckBox 或 Radio
 			checkStyle: Check_Style_Box,
 			//checkBox点击后影响父子节点设置（checkStyle=Check_Style_Radio时无效） 			
@@ -306,21 +309,6 @@
 		});
 	}
 	
-	//根据Dom获取treeNode数据
-	function getTreeNodeByDom(setting, obj) {
-		var treeNode = null;
-		if (obj.id != setting.treeObjId) {
-			while (obj && obj.tagName && !tools.eqs(obj.tagName, "li") && obj.id != setting.treeObjId) {
-				obj = obj.parentNode;
-			}
-			if (obj) {
-				var tId = obj.id;
-				treeNode = getTreeNodeByTId(setting, tId);
-			}
-		}
-		return treeNode;
-	}
-
 	//初始化并显示节点Json对象
 	function initTreeNodes(setting, level, treeNodes, parentNode) {
 		if (!treeNodes) return;
@@ -456,10 +444,12 @@
 			}
 		} else if (tools.eqs(event.type, "mouseup")) {
 			mainEventType = "mouseup";
-
+			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			if (tmp) {tId = tmp.parentNode.id;}
 		} else if (tools.eqs(event.type, "contextmenu")) {
 			mainEventType = "contextmenu";
-
+			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			if (tmp) {tId = tmp.parentNode.id;}
 		} else if (tools.eqs(event.type, "click")) {
 			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Switch) !== null) {
 				tId = target.parentNode.id;
@@ -488,7 +478,6 @@
 				&& childEventType!="mouseoverCheck" && childEventType != "mouseoutCheck"
 				&& target.getAttribute("treeNode"+IDMark_Input) === null
 				&& !st.checkEvent(setting)) return false;
-
 		}
 		if (tId.length>0) {
 			//	编辑框Text状态下 允许选择文本
@@ -522,6 +511,8 @@
 					handler.onHoverOutNode(event);
 					break;
 			}
+		} else {
+			event.data.treeNode = null;
 		}
 		switch (mainEventType) {
 			case "mousedown" :
@@ -566,6 +557,29 @@
 			//获取对象的绝对坐标
 			oRect = obj.getBoundingClientRect();
 			return [oRect.left,oRect.top]
+		},
+		clone: function (jsonObj) {
+			var buf;
+			if (jsonObj instanceof Array) {
+				buf = [];
+				var i = jsonObj.length;
+				while (i--) {
+					buf[i] = arguments.callee(jsonObj[i]);
+				}
+				return buf;
+			}else if (typeof jsonObj == "function"){
+				return jsonObj;
+			}else if (jsonObj instanceof Object){
+				buf = {};
+				for (var k in jsonObj) {
+					if (k!="parentNode") {
+						buf[k] = arguments.callee(jsonObj[k]);
+					}
+				}
+				return buf;
+			}else{
+				return jsonObj;
+			}
 		}
 	};
 
@@ -670,8 +684,8 @@
 		onMousedownNode: function(eventMouseDown) {
 			var setting = settings[eventMouseDown.data.treeObjId];
 			var treeNode = eventMouseDown.data.treeNode;
-			//右键不能拖拽
-			if (eventMouseDown.button == 2 || !setting.editable) return;
+			//右键、禁用拖拽功能 不能拖拽
+			if (eventMouseDown.button == 2 || !setting.editable || (!setting.dragCopy && !setting.dragMove)) return;
 			//编辑输入框内不能拖拽节点
 			var target = eventMouseDown.target;
 			if (treeNode.editNameStatus && tools.eqs(target.tagName, "input") && target.getAttribute("treeNode"+IDMark_Input) !== null) {
@@ -942,19 +956,34 @@
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: getTreeNodeByTId(targetSetting, tmpTargetNodeId);
 					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType], true) == false) return;
+					var isCopy = (event.ctrlKey && setting.dragMove && setting.dragCopy) || (!setting.dragMove && setting.dragCopy);
 
+					var newNode = isCopy ? tools.clone(treeNode) : treeNode;
 					if (isOtherTree) {
-						removeTreeNode(setting, treeNode);
-						addTreeNodes(targetSetting, null, [treeNode], false);
-						moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
-						selectNode(targetSetting, treeNode);
+						if (!isCopy) {removeTreeNode(setting, treeNode);}
+						if (moveType == MoveType_Inner) {
+							addTreeNodes(targetSetting, dragTargetNode, [newNode]);
+						} else {
+							addTreeNodes(targetSetting, dragTargetNode.parentNode, [newNode]);
+							moveTreeNode(targetSetting, dragTargetNode, newNode, moveType, false);
+						}
 					}else {
-						moveTreeNode(targetSetting, dragTargetNode, treeNode, moveType);
+						if (isCopy) {
+							if (moveType == MoveType_Inner) {
+								addTreeNodes(targetSetting, dragTargetNode, [newNode]);
+							} else {
+								addTreeNodes(targetSetting, dragTargetNode.parentNode, [newNode]);
+								moveTreeNode(targetSetting, dragTargetNode, newNode, moveType, false);
+							}
+						} else {
+							moveTreeNode(targetSetting, dragTargetNode, newNode, moveType);
+						}						
 					}
-					$("#" + treeNode.tId + IDMark_Icon).focus().blur();
+					selectNode(targetSetting, newNode);
+					$("#" + newNode.tId + IDMark_Icon).focus().blur();
 
 					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
-					setting.treeObj.trigger(ZTREE_DROP, [targetSetting.treeObjId, treeNode, dragTargetNode, moveType]);
+					setting.treeObj.trigger(ZTREE_DROP, [targetSetting.treeObjId, newNode, dragTargetNode, moveType]);
 
 				} else {
 					//触发 DROP 拖拽事件，返回null
@@ -986,8 +1015,7 @@
 		},
 		onZTreeMousedown: function(event) {
 			var setting = settings[event.data.treeObjId];
-			var targetObj = $(event.target);
-			var treeNode = getTreeNodeByDom(setting, targetObj);
+			var treeNode = event.data.treeNode;
 			//触发mouseDown事件
 			if (tools.apply(setting.callback.beforeMouseDown, [setting.treeObjId, treeNode], true)) {
 				tools.apply(setting.callback.mouseDown, [event, setting.treeObjId, treeNode]);
@@ -996,8 +1024,7 @@
 		},
 		onZTreeMouseup: function(event) {
 			var setting = settings[event.data.treeObjId];
-			var targetObj = $(event.target);
-			var treeNode = getTreeNodeByDom(setting, targetObj);
+			var treeNode = event.data.treeNode;
 			//触发mouseUp事件
 			if (tools.apply(setting.callback.beforeMouseUp, [setting.treeObjId, treeNode], true)) {
 				tools.apply(setting.callback.mouseUp, [event, setting.treeObjId, treeNode]);
@@ -1006,8 +1033,7 @@
 		},
 		onZTreeDblclick: function(event) {
 			var setting = settings[event.data.treeObjId];
-			var targetObj = $(event.target);
-			var treeNode = getTreeNodeByDom(setting, targetObj);
+			var treeNode = event.data.treeNode;
 			//触发mouseUp事件
 			if (tools.apply(setting.callback.beforeDblclick, [setting.treeObjId, treeNode], true)) {
 				tools.apply(setting.callback.dblclick, [event, setting.treeObjId, treeNode]);
@@ -1016,8 +1042,7 @@
 		},
 		onZTreeContextmenu: function(event) {
 			var setting = settings[event.data.treeObjId];
-			var targetObj = $(event.target);
-			var treeNode = getTreeNodeByDom(setting, targetObj);
+			var treeNode = event.data.treeNode;
 			//触发rightClick事件
 			if (tools.apply(setting.callback.beforeRightClick, [setting.treeObjId, treeNode], true)) {
 				tools.apply(setting.callback.rightClick, [event, setting.treeObjId, treeNode]);
@@ -2291,6 +2316,22 @@
 					targetNode = null;
 				}
 				moveTreeNode(this.setting, targetNode, treeNode, moveType, false);
+			},
+
+			copyNode : function(targetNode, treeNode, moveType) {
+				if (!treeNode) return null;
+				var newNode = tools.clone(treeNode);
+				if (!targetNode) {
+					targetNode = null;
+					moveType = MoveType_Inner;
+				}
+				if (moveType == MoveType_Inner) {
+					addTreeNodes(this.setting, targetNode, [newNode]);
+				} else {
+					addTreeNodes(this.setting, targetNode.parentNode, [newNode]);
+					moveTreeNode(this.setting, targetNode, newNode, moveType, false);
+				}
+				return newNode;
 			},
 
 			removeNode : function(treeNode) {

@@ -338,9 +338,8 @@
 		} else {
 			if (clipboard.type=="copy") {
 				setOperatePool();
-				var cSrcNode = clone(clipboard.srcNode);
-				zTree1.addNodes(treeNode, cSrcNode, false);
-				zTree1.selectNode(cSrcNode);
+				var newNode = zTree1.copyNode(treeNode, clipboard.srcNode, "inner");
+				zTree1.selectNode(newNode);
 			} else if (clipboard.type=="cut") {
 				setOperatePool();
 				zTree1.removeNode(clipboard.srcNode);

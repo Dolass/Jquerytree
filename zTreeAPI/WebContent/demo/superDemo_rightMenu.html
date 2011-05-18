@@ -65,17 +65,12 @@
 	}
 
 	function zTreeOnRightClick(event, treeId, treeNode) {
-		if (!treeNode) {
+		if (!treeNode && event.target.tagName.toLowerCase() != "button" && $(event.target).parents("a").length == 0) {
 			zTree1.cancelSelectedNode();
 			showRMenu("root", event.clientX, event.clientY);
 		} else if (treeNode && !treeNode.noR) {
-			if (treeNode.newrole && event.target.tagName != "a" && $(event.target).parents("a").length == 0) {
-				zTree1.cancelSelectedNode();
-				showRMenu("root", event.clientX, event.clientY);
-			} else {
-				zTree1.selectNode(treeNode);
-				showRMenu("node", event.clientX, event.clientY);
-			}
+			zTree1.selectNode(treeNode);
+			showRMenu("node", event.clientX, event.clientY);
 		}
 	}
 	
