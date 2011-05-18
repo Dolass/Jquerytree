@@ -63,6 +63,7 @@ e_beforeAsync.html
 e_beforeChange.html
 e_beforeClick.html
 e_beforeCollapse.html
+e_beforeDblclick.html
 e_beforeDrag.html
 e_beforeDrop.html
 e_beforeExpand.html
@@ -72,6 +73,9 @@ e_beforeRemove.html
 e_beforeRename.html
 e_beforeRightClick.html
 e_collapse.html
+e_confirmDragOpen.html
+e_confirmRename.html
+e_dblclick.html
 e_expand.html
 e_mouseDown.html
 e_mouseUp.html
@@ -81,6 +85,7 @@ e_rename.html
 e_rightClick.html
 m_addNodes.html
 m_checkAllNodes.html
+m_copyNode.html
 m_expandAll.html
 m_expandNode.html
 m_getCheckedNodes.html
@@ -91,6 +96,7 @@ m_getNodes.html
 m_getNodesByParam.html
 m_getNodesByParamFuzzy.html
 m_getSetting.html
+m_inputNodeName.html
 m_moveNode.html
 m_reAsyncChildNodes.html
 m_refresh.html
@@ -104,6 +110,7 @@ m_updateSetting.html
 s_addDiyDom.html
 s_addHoverDom.html
 s_async.html
+s_asyncDataFilter.html
 s_asyncParam.html
 s_asyncParamOther.html
 s_asyncUrl.html
@@ -122,6 +129,8 @@ s_click.html
 s_curEditTreeNode.html
 s_curTreeNode.html
 s_diy.html
+s_dragCopy.html
+s_dragMove.html
 s_dragNodeShowBefore.html
 s_dragStatus.html
 s_edit_rename.html
@@ -131,6 +140,8 @@ s_expandSpeed.html
 s_expandTriggerFlag.html
 s_fontCss.html
 s_icon.html
+s_iconClose.html
+s_iconOpen.html
 s_iconSkin.html
 s_isAjaxing.html
 s_isFirstNode.html

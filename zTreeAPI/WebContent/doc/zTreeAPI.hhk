@@ -253,7 +253,7 @@
 <PARAM NAME="Local" VALUE="m_expandAll.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
-<PARAM NAME="Name" VALUE="expandNode(treeNode, expandSign, sonSign)">
+<PARAM NAME="Name" VALUE="expandNode(treeNode, expandSign, sonSign, focus)">
 <PARAM NAME="Local" VALUE="m_expandNode.html">
 </OBJECT>
 <LI><OBJECT TYPE="text/sitemap">
@@ -639,5 +639,49 @@
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="*×Ô¶¨Òå*">
 <PARAM NAME="Local" VALUE="s_diy.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="asyncDataFilter">
+<PARAM NAME="Local" VALUE="s_asyncDataFilter.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="dragCopy">
+<PARAM NAME="Local" VALUE="s_dragCopy.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="dragMove">
+<PARAM NAME="Local" VALUE="s_dragMove.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="beforeDblclick(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_beforeDblclick.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="confirmDragOpen(treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_confirmDragOpen.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="confirmRename(treeId, treeNode, newName)">
+<PARAM NAME="Local" VALUE="e_confirmRename.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="dblclick(event, treeId, treeNode)">
+<PARAM NAME="Local" VALUE="e_dblclick.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="copyNode(targetNode, treeNode, moveType)">
+<PARAM NAME="Local" VALUE="m_copyNode.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="inputNodeName(treeNode)">
+<PARAM NAME="Local" VALUE="m_inputNodeName.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="iconClose">
+<PARAM NAME="Local" VALUE="s_iconClose.html">
+</OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="iconOpen">
+<PARAM NAME="Local" VALUE="s_iconOpen.html">
 </OBJECT>
 </UL></BODY></HTML>
