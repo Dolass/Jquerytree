@@ -14,132 +14,98 @@
 	var setting;
 
 	var zNodes =[
-		{name:"100个节点", id:"1", count:100, isParent:true},
-		{name:"500个节点", id:"2", count:500, isParent:true},
-		{name:"1000个节点", id:"3", count:1000, isParent:true}
+		{name:"100个节点", id:"1", count:100, times:1,isParent:true},
+		{name:"500个节点", id:"2", count:500, times:1,isParent:true},
+		{name:"1000个节点", id:"3", count:1000, times:1,isParent:true}
 	];
 
 	setting = {
 		expandSpeed: "",
+		async: true,
+		asyncUrl: getUrl,
 		callback: {
 			beforeExpand: zTreeBeforeExpand,
-			beforeCollapse: zTreeBeforeCollapse,
-			expand: zTreeOnExpand,
-			collapse: zTreeOnCollapse
+			asyncSuccess: zTreeAjaxSuccess,
+			asyncError: zTreeAjaxError
 		}
 	};
 
 	$(document).ready(function(){
 		reloadTree();
 	});
-
-//	var asyncUrl = "asyncData/nodeForHugeData.jsp";
-	var asyncUrl = "asyncData/nodeForHugeData.php";
-	var isGetNodes = false;
-	var curParentNode = null;
 	var startTime = 0;
 	var endTime = 0;
+	function getUrl(treeNode) {
+		var curCount = (treeNode.nodes) ? treeNode.nodes.length : 0;
+		var getCount = (curCount + perCount) > treeNode.count ? (treeNode.count - curCount) : perCount;
+		var param = "id="+treeNode.id+"_"+(treeNode.times++) +"&count="+getCount;
+//		return "asyncData/nodeForHugeData.jsp?" + param;
+		return "asyncData/nodeForHugeData.php?" + param;
+	}
 	function zTreeBeforeExpand(treeId, treeNode) {
-		if (!isGetNodes && treeNode.isParent && (!treeNode.nodes || treeNode.nodes.length==0)) {
-			curParentNode = treeNode;
-			isGetNodes = true;
-			var id = curParentNode.id;
-			var count = curParentNode.count;
-			startTime = new Date();		
-			ajaxGetNodes(id, 0, count)
+		if (!treeNode.isAjaxing) {
+			startTime = new Date();
+			ajaxGetNodes(treeNode, "refresh");
 			return false;
-		} else if (isGetNodes && treeNode.isParent && (!treeNode.nodes || treeNode.nodes.length==0)) {
-			alert("有其他节点正在下载数据中，请稍后展开节点。。。");
-			return false;
-		} else if (isGetNodes && treeNode == curParentNode ) {
-			alert("该节点正在下载数据中，请稍后展开节点。。。");
+		} else {
+			alert("zTree 正在下载数据中，请稍后展开节点。。。");
 			return false;
 		}
 		return true;
 	}
 
-	function zTreeOnExpand(event, treeId, treeNode) {	
-	}
-
-	function zTreeBeforeCollapse(treeId, treeNode) {
-	}
-
-	function zTreeOnCollapse(event, treeId, treeNode) {	
-	}
-
-	function ajaxGetNodes(id, times, totalCount) {
-
-		var curCount = (curParentNode.nodes) ? curParentNode.nodes.length : 0;
-			
-		var getCount = (curCount + perCount) > totalCount ? (totalCount - curCount) : perCount; 
-		
-		var tmpParam = "id="+id+"_"+times +"&count="+getCount;
-		
-		$.ajax({
-			type: "POST",
-			url: asyncUrl,
-			data: tmpParam,
-			success: function(msg) {
-				if (!msg || msg.length == 0) {
-					isGetNodes = false;
-					return;
-				}
-				var newNodes = "";
-				try {
-					newNodes = eval("(" + msg + ")");
-				} catch(err) {}
-
-				if (newNodes && newNodes != "") {
-					zTree1.addNodes(curParentNode, newNodes, true);
-
-					var ajaxInfo = "treeNode:" + curParentNode.name;
-					if (curParentNode.nodes.length < totalCount) {
-						var percent = curParentNode.nodes.length*100/totalCount + "%";
-						ajaxInfo += ("<br/>进度：" + percent);
-						if (!curParentNode.tmpName) curParentNode.tmpName = curParentNode.name;
-						curParentNode.name = curParentNode.tmpName + "(" + percent + ")";
-						zTree1.updateNode(curParentNode);
-						setTimeout("ajaxGetNodes('" + id+ "', "+(times+1)+", "+totalCount+")", perTime);
-					} else {
-						endTime = new Date();
-						var usedTime = (endTime.getTime() - startTime.getTime())/1000;		
-						ajaxInfo += ("<br/>加载完毕，共"+curParentNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
-						curParentNode.name = curParentNode.tmpName;
-						curParentNode.tmpName = null;
-						zTree1.updateNode(curParentNode);
-						//zTree1.expandNode(curParentNode, true, false);
-						zTree1.selectNode(curParentNode.nodes[0]);
-						isGetNodes = false;
-					}
-
-					$("#onAsync").html(ajaxInfo);
-				}
-
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("异步获取数据出现异常。");
-				isGetNodes = false;
-			}
-		});
-	}
-
-	var perCount = 10;
-	function changeCount(count) {
-		if (isGetNodes) {
-			alert("zTree正在下载数据中，请稍后更改配置。。。");
-			$("#a_" + perCount).attr("checked", true);
+	function zTreeAjaxSuccess(event, treeId, treeNode, msg) {
+		if (!msg || msg.length == 0) {
 			return;
 		}
+		var totalCount = treeNode.count;
+			var ajaxInfo = "treeNode:" + treeNode.name;
+			if (treeNode.nodes.length < totalCount) {
+				var percent = treeNode.nodes.length*100/totalCount + "%";
+				ajaxInfo += ("<br/>进度：" + percent);
+				setTimeout(function() {ajaxGetNodes(treeNode);}, perTime);
+			} else {
+				endTime = new Date();
+				var usedTime = (endTime.getTime() - startTime.getTime())/1000;
+				ajaxInfo += ("<br/>加载完毕，共"+treeNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
+				treeNode.icon = "";
+				zTree1.updateNode(treeNode);
+				zTree1.selectNode(treeNode.nodes[0]);
+			}
+			$("#onAsync").html(ajaxInfo);
+	}
+
+	function zTreeAjaxError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+		alert("异步获取数据出现异常。");
+		treeNode.icon = "";
+		zTree1.updateNode(treeNode);
+	}
+
+	function ajaxGetNodes(treeNode, reloadType) {
+		if (reloadType == "refresh") {
+			treeNode.icon = "zTreeStyle/img/loading.gif";
+			zTree1.updateNode(treeNode);
+		}
+		zTree1.reAsyncChildNodes(treeNode, reloadType);
+	}
+
+	var perCount = 50;
+	function changeCount(count) {
+//		if (isGetNodes) {
+//			alert("zTree正在下载数据中，请稍后更改配置。。。");
+//			$("#a_" + perCount).attr("checked", true);
+//			return;
+//		}
 		perCount = count;
 		reloadTree()
 	}
 	var perTime = 50;
 	function changeTime(time) {
-		if (isGetNodes) {
-			alert("zTree正在下载数据中，请稍后更改配置。。。");
-			$("#at_" + perTime).attr("checked", true);
-			return;
-		}
+//		if (isGetNodes) {
+//			alert("zTree正在下载数据中，请稍后更改配置。。。");
+//			$("#at_" + perTime).attr("checked", true);
+//			return;
+//		}
 		perTime = time;
 		reloadTree()
 	}
@@ -172,9 +138,9 @@
 				<button class="ico star" onfocus="this.blur();"></button>异步加载数据配置
 				<ul class="remark">——修改以下配置后，重新展开节点看看变化</ul>
 				<ul>
-					单次获取条数：<INPUT TYPE="radio" id="a_10" NAME="aCount" checked onclick="changeCount(10);">10条
-					<INPUT TYPE="radio" id="a_50" NAME="aCount" onclick="changeCount(50);">50条
+					单次获取条数：<INPUT TYPE="radio" id="a_50" NAME="aCount" checked onclick="changeCount(50);">50条
 					<INPUT TYPE="radio" id="a_100" NAME="aCount" onclick="changeCount(100);">100条
+					<INPUT TYPE="radio" id="a_200" NAME="aCount" onclick="changeCount(200);">200条
 					<br/>单次获取间隔：<INPUT TYPE="radio" id="at_50" NAME="aTime" checked onclick="changeTime(50);">50毫秒
 					<INPUT TYPE="radio" id="at_100" NAME="aTime" onclick="changeTime(100);">100毫秒
 					<INPUT TYPE="radio" id="at_300" NAME="aTime" onclick="changeTime(300);">300毫秒

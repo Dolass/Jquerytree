@@ -60,7 +60,7 @@
 		$("#cpCode").html("" + s.dragCopy);
 		$("#mvCode").html("" + s.dragMove);
 		if (s.dragCopy && s.dragMove) {
-			$("#cp_mvCode").html("按下 Ctrl 键进行 Copy，否则为 Move");
+			$("#cp_mvCode").html("按下 Ctrl 键拖拽进行 Copy，否则为 Move");
 		} else if (s.dragCopy) {
 			$("#cp_mvCode").html("所有拖拽都是 Copy");
 		} else if (s.dragMove) {
@@ -118,7 +118,7 @@
 				<ul class="event">
 					<li>&nbsp;setting.dragCopy = <a id="cpCode">true</a>;</li>
 					<li>&nbsp;setting.dragMove = <a id="mvCode">true</a>;</li>
-					<li>&nbsp;<a id="cp_mvCode" style="color:red">按下 Ctrl 键进行 Copy，否则为 Move</a></li>
+					<li>&nbsp;<a id="cp_mvCode" style="color:red">按下 Ctrl 键拖拽进行 Copy，否则为 Move</a></li>
 				</ul>
 				<ul>
 					锁定父节点: <INPUT TYPE="radio" id="parentTrue" NAME="parentBtn" onclick="updateSetting();">true

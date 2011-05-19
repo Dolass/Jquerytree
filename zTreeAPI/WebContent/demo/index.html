@@ -75,7 +75,7 @@
 	});
 
 	function loadReady() {
-		var h = demoIframe.find("body").height();
+		var h = demoIframe.contents().find("body").height();
 		if (h < 600) h = 600;
 		demoIframe.height(h);
 	}
@@ -90,7 +90,7 @@
 		<TD width=230px align=left valign=top style="BORDER-RIGHT: #999999 1px dashed">
 			<ul id="tree" class="tree" style="width:230px; overflow:auto;"></ul>
 		</TD>
-		<TD width=770px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="standardDemo.html" onload="loadReady();"></IFRAME></TD>
+		<TD width=770px align=left valign=top><IFRAME ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=600px SRC="standardDemo.html" onload="loadReady();" ></IFRAME></TD>
 	</TR>
 </TABLE>
 
