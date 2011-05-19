@@ -300,7 +300,7 @@
 
 		treeObj.unbind(ZTREE_ASYNC_SUCCESS);
 		treeObj.bind(ZTREE_ASYNC_SUCCESS, function (event, treeId, treeNode, msg) {
-			tools.apply(setting.callback.asyncSuccess, [event, treeId, treeNode]);
+			tools.apply(setting.callback.asyncSuccess, [event, treeId, treeNode, msg]);
 		});
 
 		treeObj.unbind(ZTREE_ASYNC_ERROR);
@@ -349,6 +349,7 @@
 			node.check_True_Full = true;
 			node.check_False_Full = true;
 			node.editNameStatus = false;
+			node.isAjaxing = null;
 			zTreeNodeCache[node.tId] = node;
 			fixParentKeyValue(setting, node);
 
@@ -1520,7 +1521,7 @@
 					}
 				} catch(err) {}
 				
-				if (treeNode) treeNode.isAjaxing = undefined;
+				if (treeNode) treeNode.isAjaxing = null;
 				setNodeLineIcos(setting, treeNode);
 				if (newNodes && newNodes != "") {
 					newNodes = tools.apply(setting.asyncDataFilter, [setting.treeObjId, treeNode, newNodes], newNodes);
@@ -1534,7 +1535,7 @@
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				setting.expandTriggerFlag = false;
 				setNodeLineIcos(setting, treeNode);
-				if (treeNode) treeNode.isAjaxing = undefined;
+				if (treeNode) treeNode.isAjaxing = null;
 				setting.treeObj.trigger(ZTREE_ASYNC_ERROR, [setting.treeObjId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
 			}
 		});
@@ -1978,8 +1979,8 @@
 				if (st.checkEvent(setting)) {
 					treeNode.editNameStatus = false;
 					selectNode(setting, treeNode);
-				} 
-			}).bind('keydown', function(event) {
+				}
+			}).bind('keyup', function(event) {
 				if (event.keyCode=="13") {
 					if (st.checkEvent(setting)) {
 						treeNode.editNameStatus = false;

@@ -117,7 +117,7 @@
 	}
 	function zTreeConfirmRename(treeId, treeNode, newName) {
 		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
-		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
+		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.\n\n由于不同浏览器对事件处理机制不同，因此建议实际开发中校验失败请不要使用alert方式弹出提示信息，有可能导致一次弹出多个alert");
 		return r;
 	}
 	function zTreeConfirmDragOpen(treeId, treeNode) {

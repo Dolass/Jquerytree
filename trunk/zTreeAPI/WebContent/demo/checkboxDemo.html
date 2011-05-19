@@ -79,12 +79,12 @@
 				<button class="ico star" onfocus="this.blur();"></button>CheckBox 父子关系配置
 				<ul class="remark">——修改以下配置，点击 Tree 的 CheckBox，看看变化</ul>
 				<ul>
-					&nbsp;&nbsp;&nbsp;&nbsp;CheckBox被选中时:&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;CheckBox被勾选时:&nbsp;
 					<INPUT TYPE="checkbox" id="py" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
 					<INPUT TYPE="checkbox" id="sy" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
 				<ul>
-					CheckBox被取消选中时:&nbsp;
+					CheckBox取消勾选时:&nbsp;
 					<INPUT TYPE="checkbox" id="pn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响父;&nbsp;&nbsp;
 					<INPUT TYPE="checkbox" id="sn" checked onchange="refreshTree();" onclick="refreshTree();" onfocus="this.blur();">影响子
 				</ul>
@@ -92,9 +92,9 @@
 					<li>&nbsp;setting.checkable = <a id="checkableCode">true</a>;</li>
 					<li>&nbsp;setting.checkType = <a id="checkTypeCode"></a>;</li>
 					<li>&nbsp;</li>
-					<li>&nbsp;被选择的节点共 <a id="checkedNum">0</a> 个</li>
-					<li>&nbsp;当前被修改选择状态的节点共 <a id="checkedChangeNum">0</a> 个</li>
-					<li>&nbsp;只计算每次check后修改状态的节点：
+					<li>&nbsp;被勾选的节点共 <a id="checkedNum">0</a> 个</li>
+					<li>&nbsp;当前被修改勾选状态的节点共 <a id="checkedChangeNum">0</a> 个</li>
+					<li>&nbsp;只计算每次 勾选/取消勾选 后修改状态的节点：
 						<INPUT TYPE="radio" id="changeYes" name="changeRadio" checked onfocus="this.blur();" onclick="refreshTree();">Yes;&nbsp;
 						<INPUT TYPE="radio" id="changeNo" name="changeRadio" onfocus="this.blur();" onclick="refreshTree();">No</li>
 				</ul>
@@ -102,24 +102,24 @@
 			<li class="title focus">
 				<button class="ico books" onfocus="this.blur();"></button>CheckBox 状态说明
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_false_full"></button>当前节点没有被选择；
+					<button type="BUTTON" class="treeButton checkbox_false_full"></button>当前节点没有被勾选；
 					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">如果是父节点，则没有被选择的子节点。</font>					
+					&nbsp;&nbsp;&nbsp;<font style="color:#82ff65">如果是父节点，则没有子节点被勾选。</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_false_part"></button>当前节点没有被选择；
+					<button type="BUTTON" class="treeButton checkbox_false_part"></button>当前节点没有被勾选；
 					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_false_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">存在被选择的子节点（只有父节点存在此状态）。</font>					
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">且存在被勾选的子节点（只有父节点存在此状态）。</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_true_full"></button>当前节点被选择；
+					<button type="BUTTON" class="treeButton checkbox_true_full"></button>当前节点被勾选；
 					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_full_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#bcf8ff">如果是父节点，则全部子节点都被选择。</font>
+					&nbsp;&nbsp;&nbsp;<font style="color:#bcf8ff">如果是父节点，则全部子节点都被勾选。</font>
 				</ul>
 				<ul class="remark">
-					<button type="BUTTON" class="treeButton checkbox_true_part"></button>当前节点被选择；
+					<button type="BUTTON" class="treeButton checkbox_true_part"></button>当前节点被勾选；
 					鼠标移到该节点上显示为：<button type="BUTTON" class="treeButton checkbox_true_part_focus"></button><br/>
-					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">存在没有被选择的子节点（只有父节点存在此状态）。</font>
+					&nbsp;&nbsp;&nbsp;<font style="color:#fb7878">且部分或无子节点被勾选（只有父节点存在此状态）。</font>
 				</ul>
 			</li>
 		</div>	
