@@ -15,15 +15,15 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>返回 zTree 当前checkBox / radio 输入框选择状态被改变的节点集合，即 <A href="s_checked.html">checked</A> != <A href="s_checkedOld.html">checkedOld</A></p>
-			<p style="color:red">（简单遍历 Array 就能得到全部节点）</p>
+			<p>返回 zTree 当前checkBox / radio 输入框勾选状态被改变的节点集合，即 <A href="s_checked.html">checked</A> != <A href="s_checkedOld.html">checkedOld</A></p>
+			<p style="color:red">（简单 For 循环遍历 Array 就能得到全部节点）</p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
 			<p>补充：如果想在不刷新 zTree 的情况下，获取 zTree 每次点击后被自动转换的节点集合，可以在每次 <A href="e_change.html">change</A> 事件后，使用本方法，并将所有节点的 <A href="s_checked.html">checked</A> 属性值赋给 <A href="s_checkedOld.html">checkedOld</A> 属性即可。</p>
 		</div>
 	</div>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>获取全部被选择的节点数据</p>
+	<p>获取全部勾选状态产生变化的节点数据</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);

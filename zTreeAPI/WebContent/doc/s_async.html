@@ -16,6 +16,7 @@
 		<p></p>
 		<div class="longdesc">
 			<p>确定 zTree 是否通过异步方式获取 isParent = true，且没有子节点数据的父节点的子节点数据</p>
+			<p style="color:red">异步加载需要设置的其它参数，请注意下面的相关参数</p>
 			<p>默认值：false</p>
 		</div>
 	</div>
@@ -28,9 +29,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
 	<h3>相关参数</h3>
-	<h4><A href="s_asyncUrl.html">asyncUrl</A> | <A href="s_asyncParam.html">asyncParam</A> | <A href="s_asyncParamOther.html">asyncParamOther</A></h4>
+	<h4><A href="s_asyncUrl.html">asyncUrl</A> | <A href="s_asyncParam.html">asyncParam</A> | <A href="s_asyncParamOther.html">asyncParamOther</A> | <A href="s_asyncDataFilter.html">asyncDataFilter</A></h4>
 	<h3>相关事件</h3>
-	<h4><A href="e_asyncSuccess.html">asyncSuccess(event, treeId, treeNode, msg)</A> | <A href="e_asyncError.html">asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown)</A></h4>
+	<h4><A href="e_asyncSuccess.html">asyncSuccess(event, treeId, treeNode, msg)</A>
+		<br/><A href="e_asyncError.html">asyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown)</A></h4>
+	<h3>相关方法</h3>
+	<h4><A href="m_reAsyncChildNodes.html">reAsyncChildNodes(parentNode, reloadType)</A></h4>
 
 </div>
 </div>

@@ -15,16 +15,20 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>当 checkable = true 时，checkType 配置点击 CheckBox 后，对于父子节点的影响规则。</p>
-			<p>规则说明：Y 表明 CheckBox 被选中后的情况；N 表明 CheckBox 取消选中后的情况；p 表示选择会影响父级节点；s 表明会影响子级节点。</p>
+			<p>当 checkable = true 且 checkStyle = "checkbox" 时，checkType 配置勾选 checkbox 对于父子节点关联关系。</p>
+			<p>规则说明：
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y 属性定义 CheckBox 被勾选后的情况；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N 属性定义 CheckBox 取消勾选后的情况；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"p" 表示操作会影响父级节点；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"s" 表明操作会影响子级节点。</p>
 			<p style="color:red;">请注意大小写，不要改变</p>
-			<p style="color:red;">请注意在取消选择的操作时，如果设置影响父级节点，只有在父节点下的子节点全部取消选择时才会生效。</p>
+			<p style="color:red;">请注意在取消勾选的操作时，如果设置影响父级节点，只有在父节点下的子节点全部取消勾选时才会生效。</p>
 			<p>默认值：{ "Y": "ps", "N": "ps" }</p>
 		</div>
 	</div>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>CheckBox 被选中后，只影响父级节点；取消选中后，只影响子级节点</p>
+	<p>CheckBox 被勾选后，只影响父级节点；取消选中后，只影响子级节点</p>
 	<h5 xmlns="">setting 举例:</h5>
 	<pre xmlns=""><code>var setting = {
 &nbsp;&nbsp;&nbsp;&nbsp;checkable : true,

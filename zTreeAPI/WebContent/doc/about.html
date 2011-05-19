@@ -44,15 +44,25 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>&nbsp;01、【修订】允许异步加载与编辑状态共存，无需特殊代码</p>
-			<p>&nbsp;02、【修改】拖拽操作让叶子节点变为父节点后，展开/折叠按钮事件异常的 Bug</p>
-			<p>&nbsp;03、【修改】关于 [<A href="s_treeNodeParentKey.html">treeNodeParentKey</A>] 属性值在拖拽后没有被修正的Bug （增加 <A href="s_rootPID.html">rootPID</A>）</p>
-			<p>&nbsp;04、【修改】简单数据模式中，如果 [<A href="s_treeNodeKey.html">treeNodeKey</A>] 属性值为 0 的节点无法成为父节点的 Bug</p>
-			<p>&nbsp;05、【增加】锁定父节点的参数 <A href="s_keepParent.html">keepParent</A> ，默认false</p>
-			<p>&nbsp;06、【增加】锁定叶子节点的参数 <A href="s_keepLeaf.html">keepLeaf</A> ，默认false</p>
-			<p>&nbsp;07、【增加】 <A href="e_beforeAsync.html">beforeAsync</A> 的回调函数，由用户控制是否允许进行异步加载</p>
-			<p>&nbsp;08、【增加】<A href="m_getNodesByParamFuzzy.html">getNodesByParamFuzzy(key, value, parentNode)</A> 方法支持模糊查找（只能针对String的属性）</p>
-			<p>&nbsp;09、【增加】提供一个不显示图标的参数设置 <A href="s_showIcon.html">showIcon</A></p>
+			<p>&nbsp;01、【优化】一次性加载大数据量的效率问题</p>
+			<p>&nbsp;02、【优化】checkbox 选择时父子关联的效率问题</p>
+			<p>&nbsp;03、【修改】支持jQuery 1.3.2 / jQuery 1.6 的问题</p>
+			<p>&nbsp;04、【修改】zTree js文件命名规范，符合jQuery插件的命名标准：jquery.ztree-2.6.js</p>
+			<p>&nbsp;05、【修改】<A href="m_expandNode.html">expandNode</A> 方法，增加 focus 参数(boolean)，为保证向下兼容，默认展开时会聚焦到节点上，如果不需要聚焦请设置 focus 为 false</p>
+			<p>&nbsp;06、【修改】在 constructor 里以及 refresh 中，重新设置zTreeId = 0; 导致实现多个Tree时，treeId 计数清零出现重复 id 的 Bug</p>
+			<p>&nbsp;07、【修改】contextmenu/mousedown/mouseup 事件未 unbind 的 Bug，如果多次 refresh 就会出现异常</p>
+			<p>&nbsp;08、【修改】编辑名称的状态下点击其他节点时，无法保存修改后名称的 Bug</p>
+			<p>&nbsp;09、【修改】IE 浏览器节点重命名时,如果用鼠标全选中编辑内容并在当前 Text 控件之外释放左键，则浏览器会出现死机的 Bug
+				&nbsp;&nbsp;(这种特殊操作时，使用jQuery.parent()方法永远都能获取parent，从而造成死循环)</p>
+			<p>&nbsp;10、【修改】设置 <A href="s_checkStyle.html">checkStyle</A>: {"Y": "", "N":""} 后，<A href="m_checkAllNodes.html">checkAllNodes(checked)</A>无法全部选中或取消的 Bug</p>
+			<p>&nbsp;11、【增加】setting.<A href="s_asyncDataFilter.html">asyncDataFilter</A> 属性；异步获取数据后，首先提供给用户进行加工，然后再反馈给 zTree 的进行添加</p>
+			<p>&nbsp;12、【增加】setting.<A href="s_dragCopy.html">dragCopy</A>/<A href="s_dragMove.html">dragMove</A> 属性，可以指定节点拖拽后是copy 还是move，如果这两个属性同时false，则Tree无法进行拖拽操作，如果同时为true，则按下Ctrl键拖拽时copy，否则move</p>
+			<p>&nbsp;13、【增加】treeNode.<A href="s_iconOpen.html">iconOpen</A>/<A href="s_iconClose.html">iconClose</A> 属性，便于自定义文件夹图标在展开、折叠时更换</p>
+			<p>&nbsp;14、【增加】<A href="e_beforeDblclick.html">beforeDblclick</A>、<A href="e_dblclick.html">dblclick</A> 双击事件，供特殊使用，该事件与右键的 rightClick 使用方法类似</p>
+			<p>&nbsp;15、【增加】<A href="e_confirmRename.html">confirmRename</A> 事件回调函数，以提供修改名称的校验功能</p>
+			<p>&nbsp;16、【增加】<A href="e_confirmDragOpen.html">confirmDragOpen</A> 事件,拖拽过程中 target 是父节点时，允许自行控制是否自动展开</p>
+			<p>&nbsp;17、【增加】<A href="m_inputNodeName.html">inputNodeName(treeNode)</A> 接口，让节点进入重命名状态</p>
+			<p>&nbsp;18、【增加】<A href="m_copyNode.html">copyNode(targetNode, treeNode, moveType)</A> 接口，与 Move 功能类似，允许复制节点</p>
 		</div>
 	</div>
 </div>
