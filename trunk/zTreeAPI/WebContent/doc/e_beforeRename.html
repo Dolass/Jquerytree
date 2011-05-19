@@ -17,6 +17,7 @@
 		<div class="longdesc">
 			<p>用户在使用 zTree 的页面上，编写 beforeRename(treeId, treeNode) 函数（函数名可以自定义），并配置在 setting 的 <A href="s_callback.html">callback</A> 参数内，即可在显示编辑名称的输入框之前得到相应信息，并根据自己的需求确定是否该节点可以修改名称。</p>
 			<p style="color:red">该事件在节点的编辑按钮被点击后最先触发，如果返回 false，则不会进入名称编辑状态 和 触发 <A href="e_rename.html">rename</A> 回调函数。</p>
+			<p style="color:red">v2.6 版本增加 节点进入编辑状态时，按 ESC 键可以放弃当前修改</p>
 		</div>
 	</div>
 	<h3>参数</h3>

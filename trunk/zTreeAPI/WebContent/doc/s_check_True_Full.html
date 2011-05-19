@@ -15,7 +15,15 @@
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>用于设置节点的 checkBox 或 radio 的样式</p>
+			<p>用于设置父节点的 checkBox 或 radio 的半选状态</p>
+			<p style="color:red">不需要用户进行初始化，属于内部参数。</p>
+			<p>规则如下：</p>
+			<p>(checkType = "checkbox")</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、父节点本身被勾选时，check_True_Full = true 表明全部子节点被勾选；false 表明部分或无子节点被勾选</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、父节点本身未被勾选时，check_False_Full = true 表明无子节点被勾选；false 表明存在被勾选的子节点</p>
+			<p>(checkType = "radio")</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、父节点本身被勾选时，check_True_Full = true 表明无子节点被勾选；false 表明存在被勾选的子节点</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、父节点本身未被勾选时，check_True_Full = true 表明无子节点被勾选；false 表明存在被勾选的子节点</p>
 		</div>
 	</div>
 	

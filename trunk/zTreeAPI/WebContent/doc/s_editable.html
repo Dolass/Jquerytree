@@ -18,10 +18,11 @@
 			<p>确定 zTree 是否处于编辑状态。</p>
 			<p>editable = true 时：</p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、将不会对节点指定的 <A href="s_url.html">url</A> 地址进行响应</p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、<font style="color:red;">从 v2.5 版本开始支持 编辑 与 异步加载 状态共存</font></p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、可以对节点进行拖拽 <font style="color:red;">从 v2.3 版本开始支持多棵树之间进行拖拽</font></p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、可以通过编辑按钮修改 name 属性</p>
-			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5、可以通过删除按钮删除节点</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、从 v2.5 版本开始支持 编辑 与 异步加载 状态共存</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、可以对节点进行拖拽，从 v2.3 版本开始支持多棵树之间进行拖拽</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4、<font style="color:red;">从 v2.6 版本开始支持拖拽时 复制/移动 节点（参考: <A href="s_dragCopy.html">dragCopy</A> / <A href="s_dragMove.html">dragMove</A>）</font></p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5、可以通过编辑按钮修改 name 属性</p>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6、可以通过删除按钮删除节点</p>
 			<p>默认值：false</p>
 		</div>
 	</div>
@@ -34,7 +35,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
 	<h3>相关参数</h3>
-	<h4><A href="s_edit_renameBtn.html">edit_renameBtn</A> | <A href="s_edit_removeBtn.html">edit_removeBtn</A></h4>
+	<h4><A href="s_edit_renameBtn.html">edit_renameBtn</A> | <A href="s_edit_removeBtn.html">edit_removeBtn</A> | <A href="s_dragCopy.html">dragCopy</A> | <A href="s_dragMove.html">dragMove</A></h4>
 	<h3>相关事件</h3>
 	<h4><A href="e_beforeDrag.html">beforeDrag(treeId, treeNode)</A> | <A href="e_beforeDrop.html">beforeDrop(treeId, treeNode, targetNode, moveType)</A>
 	<br/><A href="e_drag.html">drag(event, treeId, treeNode)</A> | <A href="e_drop.html">drop(event, treeId, treeNode, targetNode, moveType)</A></h4>

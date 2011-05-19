@@ -2121,9 +2121,9 @@
 				return this.setting.curTreeNode;
 			},
 
-			getCheckedNodes : function(selected) {
-				selected = (selected != false);
-				return getTreeCheckedNodes(this.setting, this.setting.root[this.setting.nodesCol], selected);
+			getCheckedNodes : function(checked) {
+				checked = (checked != false);
+				return getTreeCheckedNodes(this.setting, this.setting.root[this.setting.nodesCol], checked);
 			},
 			
 			getChangeCheckedNodes : function() {
@@ -2197,9 +2197,9 @@
 				
 				$.extend(setting, zTreeSetting);
 				
-				zTreeSetting.checkType = tmp_checkType;				
-				zTreeSetting.callback = tmp_callback;				
-				zTreeSetting.root = tmp_root;				
+				zTreeSetting.checkType = tmp_checkType;
+				zTreeSetting.callback = tmp_callback;
+				zTreeSetting.root = tmp_root;
 				
 				//不提供root信息update
 				$.extend(true, setting.checkType, tmp_checkType);
