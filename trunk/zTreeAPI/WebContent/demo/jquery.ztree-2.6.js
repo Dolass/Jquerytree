@@ -1,8 +1,14 @@
 /*
  * JQuery zTree 2.6 beta
  * http://code.google.com/p/jquerytree/
+ *
+ * Copyright (c) 2010 Hunter.z (baby666.cn)
+ *
+ * Licensed same as jquery - under the terms of either the MIT License or the GPL Version 2 License
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ *
  * email: hunter.z@263.net
- * Copyright (c) 2010 Hunter.z
  * Date: 2011-05-20
  */
 
