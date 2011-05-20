@@ -1,11 +1,9 @@
 /*
- * JQuery zTree 2.6
+ * JQuery zTree 2.6 beta
  * http://code.google.com/p/jquerytree/
- *
+ * email: hunter.z@263.net
  * Copyright (c) 2010 Hunter.z
- *
- * Date: 2011-03-08
- *
+ * Date: 2011-05-20
  */
 
 (function($) {
