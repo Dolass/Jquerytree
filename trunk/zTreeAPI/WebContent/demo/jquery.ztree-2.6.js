@@ -401,21 +401,9 @@
 		return html;
 	}
 
-	function findzTreeTarget(setting, curDom, targetExpr) {
-		if (!curDom) return null;
-		while (curDom && curDom.id !== setting.treeObjId) {
-			for (var i=0; curDom.tagName && i<targetExpr.length; i++) {
-				if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
-					return curDom;
-				}
-			}
-			curDom = curDom.parentNode;
-		}
-		return null;
-	}
-
 	function eventProxy(event) {
 		var target = event.target;
+		var relatedTarget = event.relatedTarget;
 		var setting = settings[event.data.treeObjId];
 		var tId = "";
 		var childEventType = "", mainEventType = "";
@@ -426,34 +414,37 @@
 				tId = target.parentNode.id;
 				childEventType = "mouseoverCheck";
 			} else {
-				tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 				if (tmp) {
 					tId = tmp.parentNode.id;
 					childEventType = "hoverOverNode";
-				} else {
-					tId = "remove";
-					childEventType = "hoverOutNode";
 				}
 			}
 		} else if (tools.eqs(event.type, "mouseout")) {
 			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
 				tId = target.parentNode.id;
 				childEventType = "mouseoutCheck";
+			} else {
+				tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+				if (!tmp) {
+					tId = "remove";
+					childEventType = "hoverOutNode";
+				}
 			}
 		} else if (tools.eqs(event.type, "mousedown")) {
 			mainEventType = "mousedown";
-			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 			if (tmp) {
 				tId = tmp.parentNode.id;
 				childEventType = "mousedownNode";
 			}
 		} else if (tools.eqs(event.type, "mouseup")) {
 			mainEventType = "mouseup";
-			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 			if (tmp) {tId = tmp.parentNode.id;}
 		} else if (tools.eqs(event.type, "contextmenu")) {
 			mainEventType = "contextmenu";
-			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 			if (tmp) {tId = tmp.parentNode.id;}
 		} else if (tools.eqs(event.type, "click")) {
 			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Switch) !== null) {
@@ -463,7 +454,7 @@
 				tId = target.parentNode.id;
 				childEventType = "checkNode";
 			} else {
-				tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 				if (tmp) {
 					tId = tmp.parentNode.id;
 					childEventType = "clickNode";
@@ -471,7 +462,7 @@
 			}
 		} else if (tools.eqs(event.type, "dblclick")) {
 			mainEventType = "dblclick";
-			tmp = findzTreeTarget(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 			if (tmp) {
 				tId = tmp.parentNode.id;
 				childEventType = "switchNode";
@@ -544,7 +535,7 @@
 		},
 		noSel: function() {
 			//除掉默认事件，防止文本被选择
-			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){document.selection.empty();}, 10);
 		},
 		inputFocus: function(inputObj) {
 			if (inputObj.get(0)) {
@@ -562,6 +553,18 @@
 			//获取对象的绝对坐标
 			oRect = obj.getBoundingClientRect();
 			return [oRect.left,oRect.top]
+		},
+		getMDom: function (setting, curDom, targetExpr) {
+			if (!curDom) return null;
+			while (curDom && curDom.id !== setting.treeObjId) {
+				for (var i=0; curDom.tagName && i<targetExpr.length; i++) {
+					if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
+						return curDom;
+					}
+				}
+				curDom = curDom.parentNode;
+			}
+			return null;
 		},
 		clone: function (jsonObj) {
 			var buf;
@@ -817,7 +820,6 @@
 								(event.target.id == (targetObj.id + IDMark_A) || $(event.target).parents("#" + targetObj.id + IDMark_A).length > 0)) {
 								tmpTarget = $(targetObj);
 								tmpTargetNodeId = targetObj.id;
-//								$("#" + tmpTargetNodeId + IDMark_A, tmpTarget).addClass(Class_TmpTargetNode);
 							}
 						}
 					}
@@ -1016,6 +1018,7 @@
 			var setting = settings[event.data.treeObjId];
 			if (setting.curHoverTreeNode && setting.curTreeNode != setting.curHoverTreeNode) {
 				removeTreeDom(setting, setting.curHoverTreeNode);
+				setting.curHoverTreeNode = null;
 			}
 		},
 		onZTreeMousedown: function(event) {
