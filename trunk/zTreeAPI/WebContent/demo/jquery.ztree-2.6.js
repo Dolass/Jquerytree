@@ -229,6 +229,7 @@
 		settings[setting.treeObjId] = setting;
 
 		setting.treeObj.empty();
+		zTreeNodeCache[setting.treeObjId] = [];
 		bindTreeNodes(setting, this);
 		if (setting.root[setting.nodesCol] && setting.root[setting.nodesCol].length > 0) {
 			initTreeNodes(setting, 0, setting.root[setting.nodesCol]);
@@ -354,7 +355,7 @@
 			node.check_False_Full = true;
 			node.editNameStatus = false;
 			node.isAjaxing = null;
-			zTreeNodeCache[node.tId] = node;
+			addCache(setting, node);
 			fixParentKeyValue(setting, node);
 
 			var tmpParentNode = (parentNode) ? parentNode: setting.root;
@@ -1878,7 +1879,7 @@
 		if (setting.curEditTreeNode === treeNode) setting.curEditTreeNode = null;
 
 		$("#" + treeNode.tId).remove();
-		delete zTreeNodeCache[treeNode.tId];
+		removeCache(setting, treeNode);
 
 		//进行数据结构修正
 		var tmpSrcIndex = -1;
@@ -1928,7 +1929,13 @@
 
 	//根据 tId 获取 节点的数据对象
 	function getTreeNodeByTId(setting, treeId) {
-		return zTreeNodeCache[treeId];
+		return zTreeNodeCache[setting.treeObjId][treeId];
+	}
+	function addCache(setting, treeNode) {
+		zTreeNodeCache[setting.treeObjId][treeNode.tId] = treeNode;
+	}
+	function removeCache(setting, treeNode) {
+		delete zTreeNodeCache[setting.treeObjId][treeNode.tId];
 	}
 	//根据唯一属性 获取 节点的数据对象
 	function getTreeNodeByParam(setting, treeNodes, key, value) {
@@ -2100,6 +2107,7 @@
 
 			refresh : function() {
 				this.setting.treeObj.empty();
+				zTreeNodeCache[this.setting.treeObjId] = [];
 				this.setting.curTreeNode = null;
 				this.setting.curEditTreeNode = null;
 				this.setting.dragStatus = 0;
