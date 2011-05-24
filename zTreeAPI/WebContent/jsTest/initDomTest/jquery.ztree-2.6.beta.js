@@ -328,7 +328,7 @@
 	}
 
 	function createCallback(setting, treeNodes) {
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
 			tools.apply(setting.addDiyDom, [setting.treeObjId, node]);
 			//触发nodeCreated事件
@@ -342,7 +342,7 @@
 	function appendTreeNodes(setting, level, treeNodes, parentNode) {
 		if (!treeNodes) return [];
 		var html = [];
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			var node = treeNodes[i];
 			node.level = level;
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
@@ -557,7 +557,7 @@
 		getMDom: function (setting, curDom, targetExpr) {
 			if (!curDom) return null;
 			while (curDom && curDom.id !== setting.treeObjId) {
-				for (var i=0, l=targetExpr.length; curDom.tagName && i<l; i++) {
+				for (var i=0; curDom.tagName && i<targetExpr.length; i++) {
 					if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
 						return curDom;
 					}
@@ -1084,7 +1084,7 @@
 		if (showSign) {
 			//显示遮罩
 			var iframeList = $("iframe");
-			for (var i = 0, l = iframeList.length; i < l; i++) {
+			for (var i = 0; i < iframeList.length; i++) {
 				var obj = iframeList.get(i);
 				var r = tools.getAbs(obj);
 				var dragMask = $("<div id='zTreeMask_" + i + "' class='zTreeMask' style='top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>");
@@ -1321,7 +1321,7 @@
 	
 	//设置check后，父子节点联动关系
 	function checkNodeRelation(setting, treeNode) {
-		var pNode, i, l;
+		var pNode, i;
 		if (setting.checkStyle == Check_Style_Radio) {
 			if (treeNode[setting.checkedCol]) {
 				if (setting.checkRadioType == Radio_Type_All) {
@@ -1338,8 +1338,8 @@
 					setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([treeNode]);
 				} else {
 					var parentNode = (treeNode.parentNode) ? treeNode.parentNode : setting.root;
-					for (i = 0, l = parentNode[setting.nodesCol].length; i < l; i++) {
-						pNode = parentNode[setting.nodesCol][i];
+					for (var son = 0; son < parentNode[setting.nodesCol].length; son++) {
+						pNode = parentNode[setting.nodesCol][son];
 						if (pNode[setting.checkedCol] && pNode != treeNode) {
 							pNode[setting.checkedCol] = false;
 							setChkClass(setting, $("#" + pNode.tId + IDMark_Check), pNode);
@@ -1347,7 +1347,7 @@
 					}
 				}
 			} else if (setting.checkRadioType == Radio_Type_All) {
-				for (i = 0, l = setting.checkRadioCheckedList.length; i < l; i++) {
+				for (i = 0; i < setting.checkRadioCheckedList.length; i++) {
 					if (treeNode == setting.checkRadioCheckedList[i]) {
 						setting.checkRadioCheckedList.splice(i, 1);
 						break;
@@ -1379,8 +1379,8 @@
 		if (treeNode.parentNode) {
 			var pSign = true;
 			if (!value) {
-				for (var i = 0, l = treeNode.parentNode[setting.nodesCol].length; i < l; i++) {
-					if (treeNode.parentNode[setting.nodesCol][i][setting.checkedCol]) {
+				for (var son = 0; son < treeNode.parentNode[setting.nodesCol].length; son++) {
+					if (treeNode.parentNode[setting.nodesCol][son][setting.checkedCol]) {
 						pSign = false;
 						break;
 					}
@@ -1405,8 +1405,8 @@
 		}
 
 		if (!treeNode[setting.nodesCol]) return;
-		for (var i = 0, l = treeNode[setting.nodesCol].length; i < l; i++) {
-			if (treeNode[setting.nodesCol][i]) setSonNodeCheckBox(setting, treeNode[setting.nodesCol][i], value);
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son]) setSonNodeCheckBox(setting, treeNode[setting.nodesCol][son], value);
 		}
 	}
 	
@@ -1457,12 +1457,12 @@
 		if (!treeNode) return;
 		var chkFlag = {"trueFlag": true, "falseFlag": true};
 		if (treeNode[setting.nodesCol]) {
-			for (var i = 0, l = treeNode[setting.nodesCol].length; i < l; i++) {
-				if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][i][setting.checkedCol] || !treeNode[setting.nodesCol][i].check_True_Full)) {
+			for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+				if (setting.checkStyle == Check_Style_Radio && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
 					chkFlag.trueFlag = false;
-				} else if (setting.checkStyle != Check_Style_Radio && treeNode[setting.checkedCol] && (!treeNode[setting.nodesCol][i][setting.checkedCol] || !treeNode[setting.nodesCol][i].check_True_Full)) {
+				} else if (setting.checkStyle != Check_Style_Radio && treeNode[setting.checkedCol] && (!treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_True_Full)) {
 					chkFlag.trueFlag = false;
-				} else if (setting.checkStyle != Check_Style_Radio && !treeNode[setting.checkedCol] && (treeNode[setting.nodesCol][i][setting.checkedCol] || !treeNode[setting.nodesCol][i].check_False_Full)) {
+				} else if (setting.checkStyle != Check_Style_Radio && !treeNode[setting.checkedCol] && (treeNode[setting.nodesCol][son][setting.checkedCol] || !treeNode[setting.nodesCol][son].check_False_Full)) {
 					chkFlag.falseFlag = false;
 				}
 				if (!chkFlag.trueFlag || !chkFlag.falseFlag) break;
@@ -1487,7 +1487,7 @@
 	}
 
 	function asyncGetNode(setting, treeNode) {
-		var i, l;
+		var i;
 		if (treeNode && (treeNode.isAjaxing || !treeNode.isParent)) {
 			return;
 		}
@@ -1498,11 +1498,11 @@
 		}
 
 		var tmpParam = "";
-		for (i = 0, l = setting.asyncParam.length; treeNode && i < l; i++) {
+		for (i = 0; treeNode && i < setting.asyncParam.length; i++) {
 			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParam[i] + "=" + treeNode[setting.asyncParam[i]];
 		}
 		if (tools.isArray(setting.asyncParamOther)) {
-			for (i = 0, l = setting.asyncParamOther.length; i < l; i += 2) {
+			for (i = 0; i < setting.asyncParamOther.length; i += 2) {
 				tmpParam += (tmpParam.length > 0 ? "&": "") + setting.asyncParamOther[i] + "=" + setting.asyncParamOther[i + 1];
 			}
 		} else {
@@ -1613,8 +1613,8 @@
 		//针对动画进行优化,一般来说只有在第一层的时候，才进行动画效果
 		var selfAnimateSign = (treeNode) ? false : animateSign;
 		if (treeNodes) {
-			for (var i = 0, l = treeNodes.length; i < l; i++) {
-				if (treeNodes[i]) expandCollapseSonNode(setting, treeNodes[i], expandSign, selfAnimateSign);
+			for (var son = 0; son < treeNodes.length; son++) {
+				if (treeNodes[son]) expandCollapseSonNode(setting, treeNodes[son], expandSign, selfAnimateSign);
 			}
 		}
 		//保证callback只执行一次
@@ -1644,8 +1644,8 @@
 		if (!treeNode) return;
 		treeNode.level = (parentNode)? parentNode.level + 1 : 0;
 		if (!treeNode[setting.nodesCol]) return;
-		for (var i = 0, l = treeNode[setting.nodesCol].length; i < l; i++) {
-			if (treeNode[setting.nodesCol][i]) setSonNodeLevel(setting, treeNode, treeNode[setting.nodesCol][i]);
+		for (var son = 0; son < treeNode[setting.nodesCol].length; son++) {
+			if (treeNode[setting.nodesCol][son]) setSonNodeLevel(setting, treeNode, treeNode[setting.nodesCol][son]);
 		}
 	}
 
@@ -1712,7 +1712,7 @@
 		}
 		
 		//进行数据结构修正
-		var i,l;
+		var i;
 		var tmpSrcIndex = -1;
 		var tmpTargetIndex = 0;
 		var oldNeighbor = null;
@@ -1728,7 +1728,7 @@
 			oldNeighbor = oldParentNode[setting.nodesCol][tmpSrcIndex - 1];
 			oldNeighbor.isLastNode = true;
 		} else {
-			for (i = 0, l = oldParentNode[setting.nodesCol].length; i < l; i++) {
+			for (i = 0; i < oldParentNode[setting.nodesCol].length; i++) {
 				if (oldParentNode[setting.nodesCol][i].tId == treeNode.tId) tmpSrcIndex = i;
 			}
 		}
@@ -1736,7 +1736,7 @@
 			oldParentNode[setting.nodesCol].splice(tmpSrcIndex, 1);
 		}
 		if (moveType != MoveType_Inner) {
-			for (i = 0, l = targetParentNode[setting.nodesCol].length; i < l; i++) {
+			for (i = 0; i < targetParentNode[setting.nodesCol].length; i++) {
 				if (targetParentNode[setting.nodesCol][i].tId == targetNode.tId) tmpTargetIndex = i;
 			}
 		}
@@ -1882,7 +1882,7 @@
 
 		//进行数据结构修正
 		var tmpSrcIndex = -1;
-		for (var i = 0, l = parentNode[setting.nodesCol].length; i < l; i++) {
+		for (var i = 0; i < parentNode[setting.nodesCol].length; i++) {
 			if (parentNode[setting.nodesCol][i].tId == treeNode.tId) tmpSrcIndex = i;
 		}
 		if (tmpSrcIndex >= 0) {
@@ -1933,7 +1933,7 @@
 	//根据唯一属性 获取 节点的数据对象
 	function getTreeNodeByParam(setting, treeNodes, key, value) {
 		if (!treeNodes || !key) return null;
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i][key] == value) {
 				return treeNodes[i];
 			}
@@ -1946,7 +1946,7 @@
 	function getTreeNodesByParam(setting, treeNodes, key, value) {
 		if (!treeNodes || !key) return [];
 		var result = [];
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i][key] == value) {
 				result.push(treeNodes[i]);
 			}
@@ -1958,7 +1958,7 @@
 	function getTreeNodesByParamFuzzy(setting, treeNodes, key, value) {
 		if (!treeNodes || !key) return [];
 		var result = [];
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			if (typeof treeNodes[i][key] == "string" && treeNodes[i][key].indexOf(value)>-1) {
 				result.push(treeNodes[i]);
 			}
@@ -2017,7 +2017,7 @@
 	function getTreeCheckedNodes(setting, treeNodes, checked) {
 		if (!treeNodes) return [];
 		var results = [];
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i][setting.checkedCol] == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
@@ -2031,7 +2031,7 @@
 	function getTreeChangeCheckedNodes(setting, treeNodes) {
 		if (!treeNodes) return [];
 		var results = [];
-		for (var i = 0, l = treeNodes.length; i < l; i++) {
+		for (var i = 0; i < treeNodes.length; i++) {
 			if (treeNodes[i][setting.checkedCol] != treeNodes[i].checkedOld) {
 				results = results.concat([treeNodes[i]]);
 			}
@@ -2043,7 +2043,7 @@
 	
 	//简要数据转换为标准JSON数组
 	function transformTozTreeFormat(setting, simpleTreeNodes) {
-		var i,l;
+		var i;
 		var key = setting.treeNodeKey;
 		var parentKey = setting.treeNodeParentKey;
 		if (!key || key=="" || !simpleTreeNodes) return [];
@@ -2051,10 +2051,10 @@
 		if (tools.isArray(simpleTreeNodes)) {
 			var r = [];
 			var tmpMap = [];
-			for (i=0, l=simpleTreeNodes.length; i<l; i++) {
+			for (i=0; i<simpleTreeNodes.length; i++) {
 				tmpMap[simpleTreeNodes[i][key]] = simpleTreeNodes[i];
 			}
-			for (i=0, l=simpleTreeNodes.length; i<l; i++) {
+			for (i=0; i<simpleTreeNodes.length; i++) {
 				if (tmpMap[simpleTreeNodes[i][parentKey]]) {
 					if (!tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol])
 						tmpMap[simpleTreeNodes[i][parentKey]][setting.nodesCol] = [];
@@ -2074,7 +2074,7 @@
 		if (!treeNodes) return [];
 		var r = [];
 		if (tools.isArray(treeNodes)) {
-			for (var i=0, l=treeNodes.length; i<l; i++) {
+			for (var i=0; i<treeNodes.length; i++) {
 				r.push(treeNodes[i]);
 				if (treeNodes[i][setting.nodesCol])
 					r = r.concat(transformToArrayFormat(setting, treeNodes[i][setting.nodesCol]));
@@ -2158,7 +2158,7 @@
 			getNodeIndex : function(treeNode) {
 				if (!treeNode) return null;
 				var parentNode = (treeNode.parentNode == null) ? this.setting.root : treeNode.parentNode;
-				for (var i=0, l = parentNode[this.setting.nodesCol].length; i < l; i++) {
+				for (var i=0; i<parentNode[this.setting.nodesCol].length; i++) {
 					if (parentNode[this.setting.nodesCol][i] == treeNode) return i;
 				}
 				return -1;
