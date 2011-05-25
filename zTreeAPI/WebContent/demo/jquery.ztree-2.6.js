@@ -605,7 +605,7 @@
 				setting.curTreeNode = null;
 			}
 		},
-		//取消之前编辑节点状态
+		//校验取消之前编辑节点状态
 		checkCancelPreEditNode: function (setting) {
 			if (setting.curEditTreeNode) {
 				var inputObj = setting.curEditInput;
@@ -618,10 +618,10 @@
 			return true;
 		},
 		//取消之前编辑节点状态
-		cancelPreEditNode: function (setting) {
+		cancelPreEditNode: function (setting, newName) {
 			if (setting.curEditTreeNode) {
 				var inputObj = $("#" + setting.curEditTreeNode.tId + IDMark_Input);
-				setting.curEditTreeNode[setting.nameCol] = inputObj.val();
+				setting.curEditTreeNode[setting.nameCol] = newName ? newName:inputObj.val();
 				//触发rename事件
 				setting.treeObj.trigger(ZTREE_RENAME, [setting.treeObjId, setting.curEditTreeNode]);
 
@@ -2313,19 +2313,27 @@
 					editTreeNode(this.setting, treeNode)
 				}
 			},
+			cancelInput: function(newName) {
+				if (!this.setting.curEditTreeNode) return;
+				var treeNode = this.setting.curEditTreeNode;
+				st.cancelPreEditNode(this.setting, newName?newName:treeNode[this.setting.nameCol]);
+				this.selectNode(treeNode);
+			},
 			updateNode : function(treeNode, checkTypeFlag) {
 				if (!treeNode) return;
-				var checkObj = $("#" + treeNode.tId + IDMark_Check);
-				if (this.setting.checkable) {
-					if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
-					setChkClass(this.setting, checkObj, treeNode);
-					repairParentChkClassWithSelf(this.setting, treeNode);
+				if (st.checkEvent(this.setting)) {
+					var checkObj = $("#" + treeNode.tId + IDMark_Check);
+					if (this.setting.checkable) {
+						if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
+						setChkClass(this.setting, checkObj, treeNode);
+						repairParentChkClassWithSelf(this.setting, treeNode);
+					}
+					setNodeName(this.setting, treeNode);
+					setNodeTarget(treeNode);
+					setNodeUrl(this.setting, treeNode);
+					setNodeLineIcos(this.setting, treeNode);
+					setNodeFontCss(this.setting, treeNode);
 				}
-				setNodeName(this.setting, treeNode);
-				setNodeTarget(treeNode);
-				setNodeUrl(this.setting, treeNode);
-				setNodeLineIcos(this.setting, treeNode);
-				setNodeFontCss(this.setting, treeNode);
 			},
 
 			moveNode : function(targetNode, treeNode, moveType) {

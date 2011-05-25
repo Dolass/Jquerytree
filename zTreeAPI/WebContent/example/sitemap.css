@@ -1,0 +1,60 @@
+/* ------------- zTree容器 -----------------  */
+div.zTreeDemoBackground ,
+ul#treeDemo 
+{
+	background: none;
+	height: auto;
+	width: auto;
+	padding: 0px;
+	overflow: auto;
+}
+
+table {
+	width: 100%;
+}
+
+.tree li ,
+.switch_roots_open ,
+.switch_roots_close ,
+.switch_center_open ,
+.switch_center_close ,
+.switch_center_docu ,
+.switch_bottom_open ,
+.switch_bottom_close ,
+.switch_bottom_docu
+{
+	float: left;
+}
+
+.tree li li {
+	float: none;
+}
+
+ul {
+	float: none;
+}
+.tree li>button {
+	float: left;
+	clear: left;
+}
+
+.tree a {
+	display: block;
+	overflow: hidden;
+}
+.tree li a {
+	border: 3px solid #000;
+	float: left;
+	width: 150px;
+	margin: 3px 0px;
+	padding: 5px 0 5px;
+}
+.tree li li a {
+	border: 2px solid #999;
+}
+.tree li li li a {
+	border: 1px solid #ddd;
+}
+.tree li a:hover {
+	text-decoration: none;
+}
