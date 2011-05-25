@@ -196,6 +196,18 @@
 		var newcheckNum = zTree1.getCheckedNodes(checked).length;
 		if (newcheckNum != oldcheckNum) setOperatePool(oldNodes);
 	}
+	function zShowChk(flag) {
+		var srcNode = zTree1.getSelectedNode();
+		if (!srcNode) {
+			alert("请先选中一个节点");
+			return;
+		}
+		if (!srcNode.nocheck === flag) return;
+		var oldNodes = clone(zTree1.getNodes());
+		srcNode.nocheck = !flag;
+		zTree1.updateNode(srcNode);
+		setOperatePool(oldNodes);
+	}
 
 	function getNodeByParam() {
 		var key = $("#searchKey").get(0).value;
@@ -447,6 +459,8 @@
 				<ul class="operate">
 					修改选中节点Check状态：<button class="ico checkNode" onfocus="this.blur();" title="Check节点" onclick="checkTreeNode(true);"></button>
 					<button class="ico unCheckNode" onfocus="this.blur();" title="unCheck节点" onclick="checkTreeNode(false);"></button>
+					[<a id="jHideChk" class="able" onclick="zShowChk(false); return false;">隐藏</a>]
+					[<a id="jShowChk" class="able" onclick="zShowChk(true); return false;">显示</a>]  checkbox
 					<br/>父子关联：<INPUT TYPE="radio" id="connTrue" name="connRadio" onfocus="this.blur();">true;&nbsp;
 					<INPUT TYPE="radio" id="connFalse" name="connRadio" checked onfocus="this.blur();">false
 				</ul>

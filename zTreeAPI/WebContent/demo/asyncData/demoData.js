@@ -1,21 +1,21 @@
 var zNodes =[
 	{ name:"手机", ename:"Mobile", open:true,
 		nodes: [
-			{ name:"诺基亚", ename:"Nokia",
+			{ name:"诺基亚", ename:"Nokia", nocheck:true,
 				nodes: [
 						{ name:"C6(音乐版)", ename:"C6(Music)"},
 						{ name:"X6(导航版)", ename:"X6(GPS)"},
 						{ name:"5230(世博版)", ename:"5230(SB)"},
 						{ name:"N97mini", ename:"N97mini"}
 					]},
-			{ name:"三星", ename:"Samsung",
+			{ name:"三星", ename:"Samsung", nocheck:true,
 				nodes: [
 						{ name:"I9000(联通版)", ename:"I9000(Unicom)"},
 						{ name:"I9000(移动版)", ename:"I9000(China Mobile)"},
 						{ name:"Galaxy Naos", ename:"Galaxy Naos"},
 						{ name:"Fascinate", ename:"Fascinate"}
 					]},
-			{ name:"索爱", ename:"Sony Ericsson",
+			{ name:"索爱", ename:"Sony Ericsson", nocheck:true, 
 				nodes: [
 						{ name:"U1i(Satio)", ename:"U1i(Satio)"},
 						{ name:"U5i(Vivaz)", ename:"U5i(Vivaz)"},

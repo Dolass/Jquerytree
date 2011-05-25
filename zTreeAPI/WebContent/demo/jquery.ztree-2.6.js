@@ -1,5 +1,5 @@
 /*
- * JQuery zTree 2.6 beta
+ * JQuery zTree 2.6
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -348,7 +348,7 @@
 			node.level = level;
 			node.tId = setting.treeObjId + "_" + (++zTreeId);
 			node.parentNode = parentNode;
-			node[setting.checkedCol] = (node[setting.checkedCol] == true);
+			node[setting.checkedCol] = !!node[setting.checkedCol];
 			node.checkedOld = node[setting.checkedCol];
 			node.check_Focus = false;
 			node.check_True_Full = true;
@@ -389,7 +389,7 @@
 				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
 					setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([node]);
 				}
-				html.push("<button type='button' ID='", node.tId, IDMark_Check, "' class='", makeChkClass(setting, node), "' treeNode", IDMark_Check," onfocus='this.blur();' ></button>");
+				html.push("<button type='button' ID='", node.tId, IDMark_Check, "' class='", makeChkClass(setting, node), "' treeNode", IDMark_Check," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
 			}
 			html.push("<a id='", node.tId, IDMark_A, "' treeNode", IDMark_A," onclick=\"", (node.click || ''),
 				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",makeNodeTarget(node),"' style='", fontStyle.join(''), 
@@ -1414,6 +1414,11 @@
 	//设置CheckBox的Class类型，主要用于显示子节点是否全部被选择的样式
 	function setChkClass(setting, obj, treeNode) {
 		if (!obj) return;
+		if (treeNode.nocheck === true) {
+			obj.hide();
+		} else {
+			obj.show();
+		}
 		obj.removeClass();
 		obj.addClass(makeChkClass(setting, treeNode));
 	}
@@ -2025,7 +2030,7 @@
 		if (!treeNodes) return [];
 		var results = [];
 		for (var i = 0, l = treeNodes.length; i < l; i++) {
-			if (treeNodes[i][setting.checkedCol] == checked) {
+			if (treeNodes[i].nocheck !== true && treeNodes[i][setting.checkedCol] == checked) {
 				results = results.concat([treeNodes[i]]);
 			}
 			var tmp = getTreeCheckedNodes(setting, treeNodes[i][setting.nodesCol], checked);
@@ -2039,7 +2044,7 @@
 		if (!treeNodes) return [];
 		var results = [];
 		for (var i = 0, l = treeNodes.length; i < l; i++) {
-			if (treeNodes[i][setting.checkedCol] != treeNodes[i].checkedOld) {
+			if (treeNodes[i].nocheck !== true && treeNodes[i][setting.checkedCol] != treeNodes[i].checkedOld) {
 				results = results.concat([treeNodes[i]]);
 			}
 			var tmp = getTreeChangeCheckedNodes(setting, treeNodes[i][setting.nodesCol]);
