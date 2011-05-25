@@ -688,4 +688,8 @@
 <PARAM NAME="Name" VALUE="nocheck">
 <PARAM NAME="Local" VALUE="s_nocheck.html">
 </OBJECT>
+<LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="cancelInput(newName)">
+<PARAM NAME="Local" VALUE="m_cancelInput.html">
+</OBJECT>
 </UL></BODY></HTML>

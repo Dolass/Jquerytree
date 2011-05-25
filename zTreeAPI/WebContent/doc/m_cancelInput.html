@@ -3,38 +3,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=gb2312" />
-<title>inputNodeName(treeNode)</title>
+<title>cancelInput(newName)</title>
 <link rel="stylesheet" type="text/css" href="style/style.css" />
 <link rel="shortcut icon" href="style/img/favicon.ico" />
 </head>
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>返回值: 无</span>inputNodeName(treeNode)</h2>
+	<h2><span>返回值: 无</span>cancelInput(newName)</h2>
 	<h3><span>目录: [方法] --> [操作]</span>概述</h3>
 	<div class="desc">
 		<p></p>
 		<div class="longdesc">
-			<p>设置某节点进入名称编辑状态。</p>
+			<p>设置节点取消名称编辑状态，可以恢复原有名称，也可以强行赋给新的名称。</p>
 			<p>请通过 zTree 核心函数 <A href="zTree.html">zTree(setting, [zTreeNodes])</A> 运行后，返回的 zTreePlugin 对象执行此方法</p>
-			<p>如果需要用js取消编辑状态，请使用 <A href="m_cancelInput.html">cancelInput(newName)</A> 方法。</p>
 		</div>
 	</div>
 	<h3>参数</h3>
-	<h4><strong>treeNode</strong><span>JSON</span></h4>
-	<p>指定进入名称编辑状态的节点 JSON 数据</p>
+	<h4><strong>newName</strong><span>String</span></h4>
+	<p>指定重新给定的新名称（如果为空，则保持原有名称）</p>
 	<h3>示例</h3>
 	<h4>描述：</h4>
-	<p>将当前被选中的节点设置为名称编辑状态</p>
+	<p>取消当前正在编辑名称的节点的名称编辑状态，恢复原有名称</p>
 	<h5 xmlns="">js 代码:</h5>
 	<pre xmlns=""><code>......
 var zTreeObj = zTree(setting, zTreeNodes);
-zTreeObj.inputNodeName(zTreeObj.getSelectedNode());
+zTreeObj.cancelInput();
+......</code></pre>
+	<h4>描述：</h4>
+	<p>取消当前正在编辑名称的节点的名称编辑状态，并且设置新的名称</p>
+	<h5 xmlns="">js 代码:</h5>
+	<pre xmlns=""><code>......
+var zTreeObj = zTree(setting, zTreeNodes);
+zTreeObj.cancelInput("newName test");
 ......</code></pre>
 	<h3>相关方法</h3>
-	<h4><A href="m_getNodes.html">getNodes()</A> | <A href="m_addNodes.html">addNodes(parentNode, newNodes, isSilent)</A> | <A href="m_updateNode.html">updateNode(treeNode, checkTypeFlag)</A>
-	<br/><A href="m_moveNode.html">moveNode(targetNode, treeNode, moveType)</A> | <A href="m_copyNode.html">copyNode(targetNode, treeNode, moveType)</A>
-	<br/><A href="m_removeNode.html">removeNode(treeNode)</A> | <A href="m_cancelInput.html">cancelInput(newName)</A></h4>
+	<h4><A href="m_inputNodeName.html">inputNodeName(treeNode)</A></h4>
 
 </div>
 </div>

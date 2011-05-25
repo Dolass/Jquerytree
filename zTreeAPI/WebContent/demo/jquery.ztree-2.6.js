@@ -600,7 +600,7 @@
 		cancelPreSelectedNode: function (setting) {
 			if (setting.curTreeNode) {
 				$("#" + setting.curTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode);
-				$("#" + setting.curTreeNode.tId + IDMark_Span).text(setting.curTreeNode[setting.nameCol]);
+				setNodeName(setting, setting.curTreeNode);
 				removeTreeDom(setting, setting.curTreeNode);
 				setting.curTreeNode = null;
 			}
@@ -627,7 +627,7 @@
 
 				$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
 				inputObj.unbind();
-				$("#" + setting.curEditTreeNode.tId + IDMark_Span).text(setting.curEditTreeNode[setting.nameCol]);
+				setNodeName(setting, setting.curEditTreeNode);
 				setting.curEditTreeNode.editNameStatus = false;
 				setting.curEditTreeNode = null;
 				setting.curEditInput = null;

@@ -5,7 +5,7 @@
 
 <font color=#041594>
 *v2.0 - v2.x 计划*
-   * 【修正 v2.6 beta】confirmRename 校验失败返回 false 后，利用 updateNode 恢复节点原先状态异常，无法选中其他节点的 Bug
+   
 
    #【终结】 v2.6 是v2.x系列最后一个正式版本，下一步将全力开发v3.0，并且不会再保证向下兼容。如果发现重大bug会对v2.6进行修正，但不会再对其进行功能增加。
 </font>
@@ -16,7 +16,9 @@
    * 【修正 v2.6 beta】对于zTree大容器进行图层隐藏、显示切换时，IE浏览器下出现 未知的运行时错误。(Line:547)
     已解决，利用 setTimeout 避免了与其他控件产生冲突
    * 【修正 v2.6 beta】zTreeNodeCache 在反复 refresh 的时候会造成内存泄露
+   * 【修正 v2.6 beta】confirmRename 校验失败返回 false 后，利用 updateNode 恢复节点原先状态异常，无法选中其他节点的 Bug
    * 【增加 v2.6 beta】nocheck 属性；实现节点自定义是否显示 checkbox/radio 的功能。
+   * 【增加 v2.6 beta】cancelInput 接口，允许通过 js 取消编辑状态。
 
 *2011.05.20* v2.6 beta
    * 【优化】大数据量一次性加载的效率问题

@@ -39,7 +39,7 @@
 		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
 		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
 
-		setTimeout(function(){ zTree1.cancelInputNodeName("222");}, 1000);
+		setTimeout(function(){ zTree1.cancelInput();}, 1000);
 		return r;
 	}
 	function renameTreeNode() {
