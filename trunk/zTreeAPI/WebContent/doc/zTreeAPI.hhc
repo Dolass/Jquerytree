@@ -346,6 +346,12 @@
 </UL>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
+<PARAM NAME="Name" VALUE="nocheck">
+<PARAM NAME="Local" VALUE="s_nocheck.html">
+</OBJECT>
+</UL>
+<UL>
+<LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="nodes">
 <PARAM NAME="Local" VALUE="s_nodes.html">
 </OBJECT>
@@ -1092,7 +1098,6 @@
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
 <PARAM NAME="Name" VALUE="ÆäËû">
-<PARAM NAME="ImageNumber" value="2">
 </OBJECT>
 <UL>
 <LI><OBJECT TYPE="text/sitemap">
