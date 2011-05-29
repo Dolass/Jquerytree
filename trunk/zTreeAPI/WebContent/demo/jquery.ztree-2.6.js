@@ -9,7 +9,7 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  * email: hunter.z@263.net
- * Date: 2011-05-20
+ * Date: 2011-06-01
  */
 
 (function($) {
