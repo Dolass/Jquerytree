@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>fontCss</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>JSON / Function</span>fontCss</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>设置个性化文字样式，只针对 zTree 在节点上显示的&lt;A&gt;对象。</p>
+			<p>默认值：{}</p>
+			<p>JSON 格式为 JQuery css方法中的 JSON 对象格式，例如：<font style="color:blue;">{color:"#ff0011", background:"blue"}</font></p>
+			<p>function 格式举例：function setzTreeFont(treeId, treeNode) {...}  返回值同上</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>不修改CSS，设置全部节点 name 显示为红色</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;fontCss : {color:"red"},
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h4>描述：</h4>
+	<p>设置 level=0 的节点 name 显示为红色</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>function setFontCss(treeId, treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (treeNode.level == 0) {;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return {color:"red"};
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;return {};
+};
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;fontCss : setFontCss,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+
+</div>
+</div>
+
+</body></html>

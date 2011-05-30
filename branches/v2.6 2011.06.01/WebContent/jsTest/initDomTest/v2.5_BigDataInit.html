@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<HTML>
+	<HEAD>
+		<TITLE>zTree BigData init Test --- v2.5</TITLE>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="../../demo/demoStyle/demo.css" type="text/css">
+		<link rel="stylesheet" href="../../demo/zTreeStyle/zTreeStyle.css" type="text/css">
+		<style type="text/css" >
+			div.content {
+				margin: 20px 0 0 0;
+				border: grey solid 1px;
+				overflow:scroll;
+				width: 800px;
+				height: 400px;
+			}
+			span#resultContent {
+				color: #fb7878;
+			}
+			li {
+				white-space: nowrap;
+			}
+			input {
+				margin-right: 10px;
+			}
+			span.remark {
+				color:red;
+			}
+			table {
+				width: 900px;
+				border-collapse:collapse;
+				border-spacing:0;
+				border-left:1px solid #888;
+				border-top:1px solid #888;
+				background:#efefef;
+				margin: 5px 0;
+			}
+			th,td{
+				border-right:1px solid #888;
+				border-bottom:1px solid #888;
+				padding:5px 15px;
+			}
+			td {
+				height: 20px;
+			}
+			th{
+				font-weight:bold;
+				background:#ccc;
+			}
+		</style>
+		<script type="text/javascript" src="bigData.js"></script>
+		<script type="text/javascript" src="../../demo/jquery-1.4.2.js"></script>
+		<script type="text/javascript" src="jquery.ztree-2.5.js"></script>
+		<SCRIPT type="text/javascript">
+			<!--
+			var zTree1;
+			var setting;
+
+			setting = {
+				isSimpleData: true,
+				treeNodeKey: "id",
+				treeNodeParentKey: "pId",
+				expandSpeed: "",
+				checkable : true
+			};
+
+			var totalTime = 0;
+			function testOperator() {
+				document.getElementById("testBtn").disabled = true;
+				totalTime = 0;
+				var curTimes = 1;
+				var testTimes = document.getElementById("testTimes").value;
+				testTimes = isNaN(testTimes) ? 10 : parseInt(testTimes);
+
+				var testName = "";
+				var radios = document.getElementsByName("testRadio");
+				for (var r = 0; r < radios.length; r++) {
+					if (radios[r].checked) {
+						testName = radios[r].id;
+						break;
+					}
+				}
+				if (testName.length==0) {
+					document.getElementById("testBtn").disabled = false;
+					return;
+				}
+				var nodes = [];
+				switch (testName) {
+					case "r1":
+						nodes = r500;
+						break;
+					case "r2":
+						nodes = r1000;
+						break;
+					case "r3":
+						nodes = r2000;
+						break;
+					case "l1":
+						nodes = l50;
+						break;
+					case "l2":
+						nodes = l100;
+						break;
+					case "l3":
+						nodes = l500;
+						break;
+					case "n1":
+						nodes = n500;
+						break;
+					case "n2":
+						nodes = n1000;
+						break;
+					case "n3":
+						nodes = n2000;
+						break;
+				}
+				var resultContent = document.getElementById(testName + "_result");
+				var resultLog = document.getElementById(testName + "_log");
+				setTimeout(function(){threadTest(curTimes, testTimes, nodes, resultContent, resultLog);}, 10);
+			}
+
+			function threadTest(curTimes, testTimes, nodes, resultContent, resultLog) {				
+				if (curTimes == 1) {
+					resultContent.innerHTML = "testing...";
+					resultLog.innerHTML = "";
+				}
+				testFun.clearDoms();
+				var time = testFun.initTree(nodes);
+				totalTime += time;
+				resultLog.appendChild(document.createTextNode("(" + curTimes + ")  " + time));
+				resultLog.appendChild(document.createElement("br"));
+				
+				if (curTimes >= testTimes) {
+					resultContent.innerHTML = (totalTime/curTimes).toFixed(1) + "";
+					document.getElementById("testBtn").disabled = false;
+				} else {
+					setTimeout(function(){threadTest(curTimes+1, testTimes, nodes, resultContent, resultLog);}, 10);
+				}
+
+			}
+
+			testFun = {
+				/* simple_append_single */
+				initTree : function(nodes) {
+					nodes = clone(nodes);
+					var timeStart = new Date();
+					zTree1 = $("#treeDemo").zTree(setting, nodes);
+					var timeEnd = new Date();
+					return (timeEnd.getTime() - timeStart.getTime());
+				},
+    
+				clearDoms : function () {
+					$("#treeDemo").empty();
+				}
+			}
+			//-->
+		</SCRIPT>
+	</HEAD>
+
+	<BODY>
+		<h1>zTree BigData init Test --- v2.5</h1>
+        <span>Test Times:</span><input type="text" id="testTimes" value="10" size="3" />
+        <input type="button" id="testBtn" onclick="testOperator();"  value="start" />
+        <table>
+            <tbody>
+                <tr><th ><input type="radio" name="testRadio" id="r1" />500 Root Nodes</th>
+					<th ><input type="radio" name="testRadio" id="r2" />1000 Root Nodes</th>
+					<th ><input type="radio" name="testRadio" id="r3" />2000 Root Nodes</th>
+					<th ><input type="radio" name="testRadio" id="l1" />50 Level Nodes</th>
+					<th ><input type="radio" name="testRadio" id="l2" />100 Level Nodes</th>
+					<th ><input type="radio" name="testRadio" id="l3" />500 Level Nodes</th>
+					<th ><input type="radio" name="testRadio" id="n1" />500 Normal Nodes</th>
+					<th ><input type="radio" name="testRadio" id="n2" />1000 Normal Nodes</th>
+					<th ><input type="radio" name="testRadio" id="n3" />2000 Normal Nodes</th>
+				</tr>
+                <tr>
+                    <td id="r1_result"></td><td id="r2_result"></td><td id="r3_result"></td>
+                    <td id="l1_result"></td><td id="l2_result"></td><td id="l3_result"></td>
+                    <td id="n1_result"></td><td id="n2_result"></td><td id="n3_result"></td>
+				</tr>
+                <tr>
+                    <td id="r1_log"></td><td id="r2_log"></td><td id="r3_log"></td>
+                    <td id="l1_log"></td><td id="l2_log"></td><td id="l3_log"></td>
+                    <td id="n1_log"></td><td id="n2_log"></td><td id="n3_log"></td>
+				</tr>
+            </tbody>
+        </table>
+        <div class="zTreeDemoBackground">
+			<ul id="treeDemo" class="tree"></ul>
+		</div>
+
+	</BODY>
+</HTML>
