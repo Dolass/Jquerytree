@@ -1,7 +1,5 @@
-博文中评论的回顾（进行中）：
-http://hi.baidu.com/ztreeapi/blog/item/b3b72b3ab3bcec2b71cf6c14.html
-留言的回顾：
-http://hi.baidu.com/ztreeapi/board/index/5#comment
+博文中评论的回顾（完毕）
+留言的回顾（完毕）
 站内消息的回顾：
 http://hi.baidu.com/msg/index?from=act#
 
@@ -16,11 +14,13 @@ http://hi.baidu.com/msg/index?from=act#
 2、在 Server 端从数据库读出的数据如何生成 JSON 数据？
 3、zTree 的节点数据关系
 4、如何将 zTree 的数据提交给 Server 端？
+5、如何获取当前 zTree 内的总结点数？
 
 二、zTree 展开、折叠
-1、如何实现在一个树形菜单中，同时只有一个顶级树或者二级树能够展开，展开这个则自动收起其他树？
-2、如何异步展开全部节点？
-
+1、怎么初始化父节点展开/折叠状态？
+2、怎么用 js 控制节点展开、折叠？
+3、如何实现在一个树形菜单中，同时只有一个顶级树或者二级树能够展开，展开这个则自动收起其他树？
+4、如何异步展开全部节点？
 
 
 二、zTree 的checkbox / radio
