@@ -53,3 +53,4 @@
 7、asyncParam里指定要传参数的时候最好可以自定义***传递时候***用的参数名。比如，asyncParam: ["ID"]，和服务器通信时传的就是ID=(ID的值)，要是这里可以自定义参数名CustomID=(ID的值)就好了。因为用json加载比较大的树的时候，如果用比较短的字段名，可以节省流量。但是postback的时候，数据一般较少，这时候用有意义的名字可以便于维护。
 8、js 接口操作 zTree 无法触发相应的事件反馈函数，需要认真思考
 9、需要增加 zTree 各个 Dom 组件增加辅助属性的功能，例如增加 title 说明
+10、【bug】在没加open:false时，第一次检查节点的 open 属性时，为 undefined（Line 366 这个if条件有问题，应该增加isParent=true 的判断）
