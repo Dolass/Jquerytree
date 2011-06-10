@@ -27,7 +27,7 @@
 		self: {
 			proxys:[]
 		},
-		init: function() {console.log("init..."); p()},
+		init: function(t) {console.log(t); console.log("init..."); p()},
 		getZTree: function(){
 			console.log("3---" + $.fn.zTree.self.proxys.length);
 			for(var i=0,j=this.self.proxys.length; i<j; i++) {
@@ -66,7 +66,7 @@
 		$(document).ready(function(){
 			t = $("#t"); tDeep = $("#tDeep");
 
-			t.zTree.init();
+			$.fn.zTree.init(t, []);
 			t.zTree.f();
 			t.zTree.ff();
 			t.zTree.getZTree();
