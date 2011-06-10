@@ -15,6 +15,11 @@
 	<script type="text/javascript">
 		var a = {a:{a1:1, a2:2}};
 		var b = {b:function(){alert('b');}};
+		var c = {a:{a3:3}};
+		var d = {};
+		$.extend(true, d, a,b,c);
+		console.log(d);
+		console.log(a);
 		var x, xDeep, z, zDeep, t, tDeep;
 (function($){
 	var p = function () {
@@ -71,7 +76,11 @@
 			t.zTree.ff();
 			t.zTree.getZTree();
 
+			console.log(t[0] === $(t)[0]);
+
 		});
+
+
 	</script>
   </body>
 </html>
