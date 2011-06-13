@@ -8,13 +8,14 @@
 		<link rel="stylesheet" href="zTreeStyle/zTreeIcons.css" type="text/css">
 		<script type="text/javascript" src="jquery-1.4.2.js"></script>
 		<script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+		<script type="text/javascript" src="asyncData/demoData.js"></script>
 		<script type="text/javascript" >
 			<!--
 			$(document).ready(function(){
 				t = $("#treeDemo");
 				var setting = {};
 
-				t.zTree.init(t, setting, []);
+				t.zTree.init(t, setting, zNodes);
 				
 			});
 			//-->
