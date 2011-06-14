@@ -9,13 +9,20 @@
 		<script type="text/javascript" src="jquery-1.4.2.js"></script>
 		<script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
 		<script type="text/javascript" src="asyncData/demoData.js"></script>
+		<script type="text/javascript" src="demoTools.js"></script>
 		<script type="text/javascript" >
 			<!--
+			var t1, t2;
+			var d1 = clone(zNodes, "-t1");
+			var d2 = clone(zNodes, "-t2");
+
 			$(document).ready(function(){
-				t = $("#treeDemo");
+				t1 = $("#treeDemo");
+				t2 = $("#treeDemo2");
 				var setting = {};
 
-				t.zTree.init(t, setting, zNodes);
+				t1.zTree.init(t1, setting, d1);
+				t2.zTree.init(t2, setting, d2);
 				
 			});
 			//-->
@@ -30,6 +37,9 @@
 			<TD width=340px align=center valign=top>
 				<div class="zTreeDemoBackground">
 					<ul id="treeDemo" class="tree"></ul>
+				</div>
+				<div class="zTreeDemoBackground">
+					<ul id="treeDemo2" class="tree"></ul>
 				</div>
 			</TD>
 			<TD width=360px align=left valign=top>
