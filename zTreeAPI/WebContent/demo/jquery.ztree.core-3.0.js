@@ -130,7 +130,7 @@
 		if (!parentNode) {
 			setting.treeObj.append(zTreeHtml.join(''));
 		} else {
-			$("#" + parentNode.tId + IDMark_Ul).append(zTreeHtml.join(''));
+			$("#" + parentNode.tId + zt.consts.id.UL).append(zTreeHtml.join(''));
 		}
 //		repairParentChkClassWithSelf(setting, parentNode);
 //		createCallback(setting, treeNodes);
@@ -140,6 +140,7 @@
 		if (!nodes) return [];
 		var html = [];
 		var childsKey = setting.data.key.childs;
+		var nameKey = setting.data.key.name;
 		for (var i = 0, l = nodes.length; i < l; i++) {
 			var node = nodes[i];
 			var tmpPNode = (parentNode) ? parentNode: getRoot(setting);
@@ -156,14 +157,15 @@
 			for (var f in fontcss) {
 				fontStyle.push(f, ":", fontcss[f], ";");
 			}
-//
-//			var childHtml = [];
-//			if (node[setting.nodesCol] && node[setting.nodesCol].length > 0) {
-//				childHtml = appendTreeNodes(setting, level + 1, node[setting.nodesCol], node);
-//			}
-//			html.push("<li id='", node.tId, "' treenode>",
-//				"<button type='button' id='", node.tId, IDMark_Switch,
-//				"' title='' class='", makeNodeLineClass(setting, node), "' treeNode", IDMark_Switch," onfocus='this.blur();'></button>");
+
+			var childHtml = [];
+			if (node[childsKey] && node[childsKey].length > 0) {
+				childHtml = appendTreeNodes(setting, level + 1, node[childsKey], node);
+			}
+			html.push("<li id='", node.tId, "' treenode>",
+				"<button type='button' id='", node.tId, zt.consts.id.SWITCH,
+				"' title='' class='", makeNodeLineClass(setting, node), "' treeNode", zt.consts.id.SWITCH," onfocus='this.blur();'></button>");
+			//beforeA()
 //			if (setting.checkable) {
 //				makeChkFlag(setting, node);
 //				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
@@ -171,13 +173,13 @@
 //				}
 //				html.push("<button type='button' ID='", node.tId, IDMark_Check, "' class='", makeChkClass(setting, node), "' treeNode", IDMark_Check," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
 //			}
-//			html.push("<a id='", node.tId, IDMark_A, "' treeNode", IDMark_A," onclick=\"", (node.click || ''),
-//				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",makeNodeTarget(node),"' style='", fontStyle.join(''),
-//				"'><button type='button' id='", node.tId, IDMark_Icon,
-//				"' title='' treeNode", IDMark_Icon," onfocus='this.blur();' class='", makeNodeIcoClass(setting, node), "' style='", makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, IDMark_Span,
-//				"'>",node[setting.nameCol].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span></a><ul id='", node.tId, IDMark_Ul, "' class='", makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
-//			html.push(childHtml.join(''));
-//			html.push("</ul></li>");
+			html.push("<a id='", node.tId, zt.consts.id.A, "' treeNode", zt.consts.id.A," onclick=\"", (node.click || ''),
+				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",makeNodeTarget(node),"' style='", fontStyle.join(''),
+				"'><button type='button' id='", node.tId, zt.consts.id.ICON,
+				"' title='' treeNode", zt.consts.id.ICON," onfocus='this.blur();' class='", makeNodeIcoClass(setting, node), "' style='", makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, zt.consts.id.SPAN,
+				"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span></a><ul id='", node.tId, zt.consts.id.UL, "' class='", makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
+			html.push(childHtml.join(''));
+			html.push("</ul></li>");
 		}
 		return html;
 	}
@@ -201,11 +203,161 @@
 		}
 	}
 
-	function makeNodeUrl(setting, treeNode) {
-		return (treeNode.url && setting.view.urlEnable) ? treeNode.url : null;
+	function makeNodeIcoClass(setting, node) {
+		var icoCss = ["ico"];
+		if (!node.isAjaxing) {
+			icoCss[0] = (node.iconSkin ? node.iconSkin : "") + " " + icoCss[0];
+			if (node.isParent) {
+				icoCss.push(node.open ? zt.consts.folder.OPEN : zt.consts.folder.CLOSE);
+			} else {
+				icoCss.push(zt.consts.folder.DOCU);
+			}
+		}
+		return icoCss.join('_');
+	}
+
+	function makeNodeIcoStyle(setting, node) {
+		var icoStyle = [];
+		if (!node.isAjaxing) {
+			var icon = (node.isParent && node.iconOpen && node.iconClose) ? (node.open ? node.iconOpen : node.iconClose) : node.icon;
+			if (icon) icoStyle.push("background:url(", icon, ") 0 0 no-repeat;");
+			if (setting.view.showIcon == false || !zt._z.tools.apply(setting.showIcon, [setting.treeObjId, node], true)) {
+				icoStyle.push("width:0px;height:0px;");
+			}
+		}
+		return icoStyle.join('');
+	}
+
+	function makeNodeLineClass(setting, node) {
+		var lineClass = ["switch"];
+		if (setting.view.showLine) {
+			if (node.level == 0 && node.isFirstNode && node.isLastNode) {
+				lineClass.push(zt.consts.line.ROOT);
+			} else if (node.level == 0 && node.isFirstNode) {
+				lineClass.push(zt.consts.line.ROOTS);
+			} else if (node.isLastNode) {
+				lineClass.push(zt.consts.line.BOTTOM);
+			} else {
+				lineClass.push(zt.consts.line.CENTER);
+			}
+
+		} else {
+			lineClass.push(zt.consts.line.NOLINE);
+		}
+		if (node.isParent) {
+			lineClass.push(node.open ? zt.consts.folder.OPEN : zt.consts.folder.CLOSE);
+		} else {
+			lineClass.push(zt.consts.folder.DOCU);
+		}
+		return lineClass.join('_');
+	}
+
+	function makeNodeTarget(node) {
+		return (node.target || "_blank");
+	}
+	
+	function makeNodeUrl(setting, node) {
+		return (node.url && setting.view.urlEnable) ? node.url : null;
+	}
+
+	function makeUlLineClass(setting, node) {
+		return (setting.view.showLine && !node.isLastNode) ?zt.consts.line.LINE : "";
+	}
+
+	function transformTozTreeFormat(setting, sNodes) {
+		var i,l;
+		var key = setting.data.simpleData.idKey;
+		var parentKey = setting.data.simpleData.pIdKey;
+		var childsKey = setting.data.key.childs;
+		if (!key || key=="" || !sNodes) return [];
+
+		if (zt._z.tools.isArray(sNodes)) {
+			var r = [];
+			var tmpMap = [];
+			for (i=0, l=sNodes.length; i<l; i++) {
+				tmpMap[sNodes[i][key]] = sNodes[i];
+			}
+			for (i=0, l=sNodes.length; i<l; i++) {
+				if (tmpMap[sNodes[i][parentKey]]) {
+					if (!tmpMap[sNodes[i][parentKey]][childsKey])
+						tmpMap[sNodes[i][parentKey]][childsKey] = [];
+					tmpMap[sNodes[i][parentKey]][childsKey].push(sNodes[i]);
+				} else {
+					r.push(sNodes[i]);
+				}
+			}
+			return r;
+		}else {
+			return [sNodes];
+		}
 	}
 	
 	$.fn.zTree = {
+		consts : {
+			event: {
+				NODECREATED: "ztree_nodeCreated",
+				CLICK: "ztree_click",
+				EXPAND: "ztree_expand",
+				COLLAPSE: "ztree_collapse",
+				ASYNC_SUCCESS: "ztree_async_success",
+				ASYNC_ERROR: "ztree_async_error"
+//CHECK: "ztree_check",
+//DRAG: "ztree_drag",
+//DROP: "ztree_drop",
+//EDITNAME: "ztree_editname",
+//REMOVE: "ztree_rename"
+			},
+			id: {
+				A: "_a",
+//				CHECK: "_check",
+//				EDIT: "_edit",
+				ICON: "_ico",
+//				INPUT: "_input",
+//				REMOVE: "_remove",
+				SPAN: "_span",
+				SWITCH: "_switch",
+				UL: "_ul"
+			},
+			line: {
+				ROOT: "root",
+				ROOTS: "roots",
+				CENTER: "center",
+				BOTTOM: "bottom",
+				NOLINE: "noline",
+				LINE: "line"
+			},
+			folder: {
+				OPEN: "open",
+				CLOSE: "close",
+				DOCU: "docu"
+			},
+			node: {
+				CURSELECTED: "curSelectedNode",
+				CURSELECTED_EDIT: "curSelectedNode_Edit",
+				TMPTARGET_TREE: "tmpTargetTree",
+				TMPTARGET_NODE: "tmpTargetNode"
+			}
+//			checkbox: {
+//				STYLE: "checkbox",
+//				DEFAULT: "chk",
+//				FALSE: "false",
+//				TRUE: "true",
+//				FULL: "full",
+//				PART: "part",
+//				FOCUS: "focus"
+//			},
+//			radio: {
+//				STYLE: "radio",
+//				TYPE_ALL: "all",
+//				TYPE_LEVEL: "level"
+//			},
+//			move: {
+//				TYPE_INNER: "inner",
+//				TYPE_BEFORE: "before",
+//				TYPE_AFTER: "after",
+//				MINMOVESIZE: 5
+//			}
+		},
 		_z : {
 			tools: {
 				apply: function(fun, param, defaultValue) {
@@ -326,7 +478,7 @@
 			var root = roots[setting.treeId];
 			zNodes = zNodes ? (zt._z.tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
-//				root.childs = transformTozTreeFormat(setting, zNodes);
+				root[setting.data.key.childs] = transformTozTreeFormat(setting, zNodes);
 			} else {
 				root[setting.data.key.childs] = zNodes;
 			}
@@ -341,9 +493,7 @@
 			obj.zTreeTools ={
 				setting: setting
 			}
-
-		}
-		
+		}		
 	};
 
 	var zt = $.fn.zTree;

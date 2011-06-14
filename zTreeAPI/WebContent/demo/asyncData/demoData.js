@@ -1,22 +1,22 @@
 var zNodes =[
 	{ name:"手机", ename:"Mobile", open:true,
-		nodes: [
+		childs: [
 			{ name:"诺基亚", ename:"Nokia", nocheck:true,
-				nodes: [
+				childs: [
 						{ name:"C6(音乐版)", ename:"C6(Music)"},
 						{ name:"X6(导航版)", ename:"X6(GPS)"},
 						{ name:"5230(世博版)", ename:"5230(SB)"},
 						{ name:"N97mini", ename:"N97mini"}
 					]},
 			{ name:"三星", ename:"Samsung", nocheck:true,
-				nodes: [
+				childs: [
 						{ name:"I9000(联通版)", ename:"I9000(Unicom)"},
 						{ name:"I9000(移动版)", ename:"I9000(China Mobile)"},
 						{ name:"Galaxy Naos", ename:"Galaxy Naos"},
 						{ name:"Fascinate", ename:"Fascinate"}
 					]},
 			{ name:"索爱", ename:"Sony Ericsson", nocheck:true, 
-				nodes: [
+				childs: [
 						{ name:"U1i(Satio)", ename:"U1i(Satio)"},
 						{ name:"U5i(Vivaz)", ename:"U5i(Vivaz)"},
 						{ name:"X10i", ename:"X10i"},
@@ -25,9 +25,9 @@ var zNodes =[
 			{ name:"多普达", ename:"Dopod"}
 		]},
 	{ name:"电脑", ename:"Computer", open:true,
-		nodes: [
+		childs: [
 			{ name:"硬件", ename:"Hardware",
-				nodes: [
+				childs: [
 						{ name:"主板", ename:"Motherboard"},
 						{ name:"显卡", ename:"Graphics"},
 						{ name:"CPU", ename:"CPU"},
@@ -38,7 +38,7 @@ var zNodes =[
 						{ name:"电源", ename:"Power supply"}
 					]},
 			{ name:"整机", ename:"Software",
-				nodes: [
+				childs: [
 						{ name:"联想", ename:"Lenovo"},
 						{ name:"戴尔", ename:"Dell"},
 						{ name:"方正", ename:"Founder"},
@@ -46,17 +46,17 @@ var zNodes =[
 						{ name:"惠普", ename:"Hewlett-Packard"}
 					]},
 			{ name:"网络设备", ename:"Network",
-				nodes: [
+				childs: [
 						{ name:"网卡", ename:"NIC"},
 						{ name:"交换机", ename:"Switch"},
 						{ name:"路由器", ename:"Router"}
 					]}
 		]},
 	{ name:"家电", ename:"Home Appliances", open:true,
-		nodes: [
+		childs: [
 			{ name:"冰箱", ename:"Refrigerator", isParent:true},
 			{ name:"电视", ename:"TV",
-				nodes: [
+				childs: [
 						{ name:"液晶", ename:"Liquid crystal"},
 						{ name:"等离子", ename:"Plasma"},
 						{ name:"3D", ename:"Three-dimensional"}
