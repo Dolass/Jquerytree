@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
 
 
   <SCRIPT LANGUAGE="JavaScript">
@@ -15,15 +15,11 @@
 	var setting;
 
 		setting = {
-			checkable: true,
-			async: true,
-			asyncUrl: "asyncData/node.txt",  //获取节点数据的URL地址
-			asyncParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
-			asyncParamOther: ["test","true"], //其它参数 ( key, value 键值对格式)
-			callback:{
-				beforeAsync: zTreeBeforeAsync,
-				asyncSuccess: zTreeOnAsyncSuccess,
-				asyncError: zTreeOnAsyncError
+			async: {
+				enable : true,
+				url: "asyncData/node.txt",  //获取节点数据的URL地址
+				autoParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
+				otherParam: ["test","true"] //其它参数 ( key, value 键值对格式)
 			}
 		};
 
@@ -85,11 +81,11 @@
 		$("#onAsyncErrorNode").html("<br/>");
 
 		if ($("#php").attr("checked")) {
-			setting.asyncUrl = "asyncData/node.txt";
+			setting.async.url = "asyncData/node.txt";
 		} else if ($("#jsp").attr("checked")) {
-			setting.asyncUrl = "asyncData/node.php";
+			setting.async.url = "asyncData/node.php";
 		} else if ($("#fun").attr("checked")) {
-			setting.asyncUrl = setAsyncUrl;
+			setting.async.url = setAsyncUrl;
 		}		
 		if ((typeof asyncUrl) == "function") {
 			$("#asyncUrlCode").html("setAsyncUrl");
@@ -98,14 +94,16 @@
 		}
 
 		if ($("#filterN").attr("checked")) {
-			setting.asyncDataFilter = null;
+			setting.async.dataFilter = null;
 			$("#asyncDataFilterCode").html("null");
 		} else if ($("#filterY").attr("checked")) {
-			setting.asyncDataFilter = dataFilter;
+			setting.async.dataFilter = dataFilter;
 			$("#asyncDataFilterCode").html("dataFilter");
 		}
 
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		var z = $("#treeDemo");
+
+		z.zTree.init(z, setting, zNodes);
 	}
 
 	function reloadAsync() {
