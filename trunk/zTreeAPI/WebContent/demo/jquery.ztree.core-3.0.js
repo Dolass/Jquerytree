@@ -35,6 +35,10 @@
 				idKey: "id",
 				pIdKey: "pId",
 				rootPid: null
+			},
+			keep: {
+				parent: false,
+				leaf: false
 			}
 		},
 		async: {
@@ -86,6 +90,198 @@
 		c.nodes = [];
 		c.doms = [];
 	},
+	_bindEvent = function(setting) {
+		var o = setting.treeObj;
+		var c = zt.consts.event;
+		o.unbind(c.NODECREATED);
+		o.bind(c.NODECREATED, function (event, treeId, treeNode) {
+			zt._z.tools.apply(setting.callback.nodeCreated, [event, treeId, treeNode]);
+		});
+
+		o.unbind(c.CLICK);
+		o.bind(c.CLICK, function (event, treeId, treeNode) {
+			zt._z.tools.apply(setting.callback.click, [event, treeId, treeNode]);
+		});
+
+//		o.unbind(c.CHECK);
+//		o.bind(c.CHECK, function (event, treeId, treeNode) {
+//			zt._z.tools.apply(setting.callback.change, [event, treeId, treeNode]);
+//		});
+//
+//		o.unbind(c.EDITNAME);
+//		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
+//			zt._z.tools.apply(setting.callback.rename, [event, treeId, treeNode]);
+//		});
+//
+//		o.unbind(c.REMOVE);
+//		o.bind(c.REMOVE, function (event, treeId, treeNode) {
+//			zt._z.tools.apply(setting.callback.remove, [event, treeId, treeNode]);
+//		});
+//
+//		o.unbind(c.DRAG);
+//		o.bind(c.DRAG, function (event, treeId, treeNode) {
+//			zt._z.tools.apply(setting.callback.drag, [event, treeId, treeNode]);
+//		});
+//
+//		o.unbind(c.DROP);
+//		o.bind(c.DROP, function (event, treeId, treeNode, targetNode, moveType) {
+//			zt._z.tools.apply(setting.callback.drop, [event, treeId, treeNode, targetNode, moveType]);
+//		});
+
+		o.unbind(c.EXPAND);
+		o.bind(c.EXPAND, function (event, treeId, treeNode) {
+			zt._z.tools.apply(setting.callback.expand, [event, treeId, treeNode]);
+		});
+
+		o.unbind(c.COLLAPSE);
+		o.bind(c.COLLAPSE, function (event, treeId, treeNode) {
+			zt._z.tools.apply(setting.callback.collapse, [event, treeId, treeNode]);
+		});
+
+		o.unbind(c.ASYNC_SUCCESS);
+		o.bind(c.ASYNC_SUCCESS, function (event, treeId, treeNode, msg) {
+			zt._z.tools.apply(setting.callback.asyncSuccess, [event, treeId, treeNode, msg]);
+		});
+
+		o.unbind(c.ASYNC_ERROR);
+		o.bind(c.ASYNC_ERROR, function (event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+			zt._z.tools.apply(setting.callback.asyncError, [event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown]);
+		});
+	},
+	_eventProxy = function(event) {
+		var target = event.target;
+		var setting = settings[event.data.treeId];
+		var relatedTarget = event.relatedTarget;
+		var tId = "";
+		var nodeEventType = "", treeEventType = "";
+		var nodeEventCallback = null, treeEventCallback = null;
+		var tmp = null;
+		var tools = zt._z.tools;
+		var root = getRoot(setting);
+
+		if (tools.eqs(event.type, "mouseover")) {
+//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
+//				tId = target.parentNode.id;
+//				nodeEventType = "mouseoverCheck";
+//			} else {
+//				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//				if (tmp) {
+//					tId = tmp.parentNode.id;
+//					nodeEventType = "hoverOverNode";
+//				}
+//			}
+		} else if (tools.eqs(event.type, "mouseout")) {
+//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
+//				tId = target.parentNode.id;
+//				nodeEventType = "mouseoutCheck";
+//			} else {
+//				tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//				if (!tmp) {
+//					tId = "remove";
+//					nodeEventType = "hoverOutNode";
+//				}
+//			}
+		} else if (tools.eqs(event.type, "mousedown")) {
+//			treeEventType = "mousedown";
+//			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//			if (tmp) {
+//				tId = tmp.parentNode.id;
+//				nodeEventType = "mousedownNode";
+//			}
+		} else if (tools.eqs(event.type, "mouseup")) {
+//			treeEventType = "mouseup";
+//			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//			if (tmp) {tId = tmp.parentNode.id;}
+		} else if (tools.eqs(event.type, "contextmenu")) {
+//			treeEventType = "contextmenu";
+//			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//			if (tmp) {tId = tmp.parentNode.id;}
+		} else if (tools.eqs(event.type, "click")) {
+			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ zt.consts.id.SWITCH) !== null) {
+				tId = target.parentNode.id;
+				nodeEventType = "switchNode";
+//			} else if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
+//				tId = target.parentNode.id;
+//				nodeEventType = "checkNode";
+			} else {
+				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+ zt.consts.id.A}]);
+				if (tmp) {
+					tId = tmp.parentNode.id;
+					nodeEventType = "clickNode";
+				}
+			}
+		} else if (tools.eqs(event.type, "dblclick")) {
+//			treeEventType = "dblclick";
+//			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
+//			if (tmp) {
+//				tId = tmp.parentNode.id;
+//				nodeEventType = "switchNode";
+//			}
+		}
+
+//		if (tId.length>0 || treeEventType.length>0) {
+//			if (nodeEventType!="hoverOverNode" && nodeEventType != "hoverOutNode"
+//				&& nodeEventType!="mouseoverCheck" && nodeEventType != "mouseoutCheck"
+//				&& target.getAttribute("treeNode"+IDMark_Input) === null
+//				&& !st.checkEvent(setting)) return false;
+//		}
+		if (tId.length>0) {
+//			if (!(root.curTreeNode && setting.curTreeNode.editNameStatus)) {
+//				tools.noSel();
+//			}
+			event.data.treeNode = zt._z.data.getNodeCache(setting, tId);
+			switch (nodeEventType) {
+				case "switchNode" :
+					nodeEventCallback = handler.onSwitchNode;
+					break;
+				case "clickNode" :
+					nodeEventCallback = handler.onClickNode;
+					break;
+//				case "checkNode" :
+//					handler.onCheckNode(event);
+//					break;
+//				case "mouseoverCheck" :
+//					handler.onMouseoverCheck(event);
+//					break;
+//				case "mouseoutCheck" :
+//					handler.onMouseoutCheck(event);
+//					break;
+//				case "mousedownNode" :
+//					handler.onMousedownNode(event);
+//					break;
+//				case "hoverOverNode" :
+//					handler.onHoverOverNode(event);
+//					break;
+//				case "hoverOutNode" :
+//					handler.onHoverOutNode(event);
+//					break;
+			}
+		} else {
+			event.data.treeNode = null;
+		}
+//		switch (treeEventType) {
+//			case "mousedown" :
+//				return handler.onZTreeMousedown(event);
+//				break;
+//			case "mouseup" :
+//				return handler.onZTreeMouseup(event);
+//				break;
+//			case "dblclick" :
+//				return handler.onZTreeDblclick(event);
+//				break;
+//			case "contextmenu" :
+//				return handler.onZTreeContextmenu(event);
+//				break;
+//		}
+		var proxyResult = {
+			stop: false,
+			nodeEventType: nodeEventType,
+			nodeEventCallback: nodeEventCallback,
+			treeEventType: treeEventType,
+			treeEventCallback: treeEventCallback
+		};
+		return proxyResult
+	},
 	_initNode = function(setting, level, n, parentNode, preNode, nextNode) {
 		if (!n) return;
 		var childsKey = setting.data.key.childs;
@@ -107,7 +303,7 @@
 		n.getPreNode = function() {return zt._z.data.getNodeCache(setting, n.preTId);};
 		n.nextTId = nextNode ? nextNode.tId : null;
 		n.getNextNode = function() {return zt._z.data.getNodeCache(setting, n.nextTId);};
-
+		n.isAjaxing = false;
 //		n[setting.checkedCol] = !!node[setting.checkedCol];
 //		n.checkedOld = node[setting.checkedCol];
 //		n.check_Focus = false;
@@ -117,23 +313,78 @@
 //		n.isAjaxing = null;
 	},
 	_init = {
+		bind: [_bindEvent],
 		caches: [_initCache],
 		nodes: [_initNode],
-		proxys: [],
+		proxys: [_eventProxy],
 		roots: [_initRoot]
 	};
-	
-	function createTreeNodes(setting, level, nodes, parentNode) {
-		if (!nodes) return;
 
-		var zTreeHtml = appendTreeNodes(setting, level, nodes, parentNode);
-		if (!parentNode) {
-			setting.treeObj.append(zTreeHtml.join(''));
-		} else {
-			$("#" + parentNode.tId + zt.consts.id.UL).append(zTreeHtml.join(''));
+	var handler = {
+		onSwitchNode: function (event) {
+			var setting = settings[event.data.treeId];
+			var node = event.data.treeNode;
+
+			if (node.open) {
+				if (zt._z.tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false) return;
+				getRoot(setting).expandTriggerFlag = true;
+				switchNode(setting, node);
+			} else {
+				if (zt._z.tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false) return;
+				getRoot(setting).expandTriggerFlag = true;
+				switchNode(setting, node);
+			}
+		},
+		onClickNode: function (event) {
+			var setting = settings[event.data.treeId];
+			var node = event.data.treeNode;
+			if (zt._z.tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return;
+			selectNode(setting, node);
+			setting.treeObj.trigger(zt.consts.event.CLICK, [setting.treeId, node]);
 		}
-//		repairParentChkClassWithSelf(setting, parentNode);
-//		createCallback(setting, treeNodes);
+	};
+
+	function addNodes(setting, parentNode, newNodes, isSilent) {
+		if (setting.data.keep.leaf && parentNode && !parentNode.isParent) {
+			return;
+		}
+		if (setting.data.simpleData.enable) {
+			newNodes = transformTozTreeFormat(setting, newNodes);
+		}
+		if (parentNode) {
+			if (setting.treeObj.find("#" + parentNode.tId).length == 0) return;
+
+			var target_switchObj = $("#" + parentNode.tId + zt.consts.id.SWITCH);
+			var target_icoObj = $("#" + parentNode.tId + zt.consts.id.ICON);
+			var target_ulObj = $("#" + parentNode.tId + zt.consts.id.UL);
+
+			if (!parentNode.open) {
+				replaceSwitchClass(target_switchObj, zt.consts.folder.CLOSE);
+				replaceIcoClass(parentNode, target_icoObj, zt.consts.folder.CLOSE);
+				parentNode.open = false;
+				target_ulObj.css({"display": "none"});
+			}
+
+			addTreeNodesData(setting, parentNode, newNodes);
+			createNodes(setting, parentNode.level + 1, newNodes, parentNode);
+			if (!isSilent) {
+				expandCollapseParentNode(setting, parentNode, true);
+			}
+		} else {
+			addTreeNodesData(setting, getRoot(setting), newNodes);
+			createNodes(setting, 0, newNodes, null);
+		}
+	}
+
+	function addTreeNodesData(setting, parentNode, nodes) {
+		var childsKey = setting.data.key.childs;
+		if (!parentNode[childsKey]) parentNode[childsKey] = [];
+		if (parentNode[childsKey].length > 0) {
+			parentNode[childsKey][parentNode[childsKey].length - 1].isLastNode = false;
+			setNodeLineIcos(setting, parentNode[childsKey][parentNode[childsKey].length - 1]);
+		}
+		parentNode.isParent = true;
+		parentNode[childsKey] = parentNode[childsKey].concat(nodes);
 	}
 
 	function appendTreeNodes(setting, level, nodes, parentNode) {
@@ -184,6 +435,127 @@
 		return html;
 	}
 
+	function asyncGetNode(setting, node) {
+		var i, l;
+		if (node && (node.isAjaxing || !node.isParent)) {
+			return;
+		}
+		if (node) {
+			node.isAjaxing = true;
+			var icoObj = $("#" + node.tId + zt.consts.id.ICON);
+			icoObj.attr("class", "ico_loading");
+		}
+
+		var tmpParam = "";
+		for (i = 0, l = setting.async.autoParam.length; node && i < l; i++) {
+			tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.autoParam[i] + "=" + node[setting.async.autoParam[i]];
+		}
+		if (zt._z.tools.isArray(setting.asyncParamOther)) {
+			for (i = 0, l = setting.asyncParamOther.length; i < l; i += 2) {
+				tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.otherParam[i] + "=" + setting.async.otherParam[i + 1];
+			}
+		} else {
+			for (var p in setting.async.otherParam) {
+				tmpParam += (tmpParam.length > 0 ? "&" : "") + p + "=" + setting.async.otherParam[p];
+			}
+		}
+
+		$.ajax({
+			type: setting.async.method,
+			url: zt._z.tools.apply(setting.async.url, [node], setting.async.url),
+			data: tmpParam,
+			dataType: setting.async.dataType,
+			success: function(msg) {
+				var newNodes = [];
+				try {
+					if (!msg || msg.length == 0) {
+						newNodes = [];
+					} else if (typeof msg == "string") {
+						newNodes = eval("(" + msg + ")");
+					} else {
+						newNodes = msg;
+					}
+				} catch(err) {}
+
+				if (node) node.isAjaxing = null;
+				setNodeLineIcos(setting, node);
+				if (newNodes && newNodes != "") {
+					newNodes = zt._z.tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
+					addNodes(setting, node, newNodes, false);
+				} else {
+					addNodes(setting, node, [], false);
+				}
+				setting.treeObj.trigger(zt.consts.event.ASYNC_SUCCESS, [setting.treeId, node, msg]);
+
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				getRoot(setting).expandTriggerFlag = false;
+				setNodeLineIcos(setting, node);
+				if (node) node.isAjaxing = null;
+				setting.treeObj.trigger(zt.consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
+			}
+		});
+	}
+
+	function bindTree(setting) {
+		var eventParam = {treeId: setting.treeId};
+		var o = setting.treeObj;
+		o.unbind('click', eventProxy);
+		o.bind('click', eventParam, eventProxy);
+		o.unbind('dblclick', eventProxy);
+		o.bind('dblclick', eventParam, eventProxy);
+		o.unbind('mouseover', eventProxy);
+		o.bind('mouseover', eventParam, eventProxy);
+		o.unbind('mouseout', eventProxy);
+		o.bind('mouseout', eventParam, eventProxy);
+		o.unbind('mousedown', eventProxy);
+		o.bind('mousedown', eventParam, eventProxy);
+		o.unbind('mouseup', eventProxy);
+		o.bind('mouseup', eventParam, eventProxy);
+		o.unbind('contextmenu', eventProxy);
+		o.bind('contextmenu', eventParam, eventProxy);
+	}
+
+	function createNodes(setting, level, nodes, parentNode) {
+		if (!nodes) return;
+
+		var zTreeHtml = appendTreeNodes(setting, level, nodes, parentNode);
+		if (!parentNode) {
+			setting.treeObj.append(zTreeHtml.join(''));
+		} else {
+			$("#" + parentNode.tId + zt.consts.id.UL).append(zTreeHtml.join(''));
+		}
+//		repairParentChkClassWithSelf(setting, parentNode);
+		createNodeCallback(setting, nodes);
+	}
+
+	function createNodeCallback(setting, nodes) {
+		var childsKey = setting.data.key.childs;
+		for (var i = 0, l = nodes.length; i < l; i++) {
+			var node = nodes[i];
+			zt._z.tools.apply(setting.view.addDiyDom, [setting.treeId, node]);
+			if (node[childsKey] && node[childsKey].length > 0) {
+				createNodeCallback(setting, node[childsKey], node);
+			}
+		}
+	}
+
+	function eventProxy(event) {
+//		var proxyResult = {
+//			nodeEventType: nodeEventType,
+//			nodeEventCallback: nodeEventCallback,
+//			treeEventType: treeEventType,
+//			treeEventCallback: treeEventCallback
+//		};
+		var results = zt._z.event.proxy(event);
+		for (var i=0, l=results.length; i<l; i++) {
+			var proxyResult = results[i];
+			if (proxyResult.nodeEventCallback) {
+				proxyResult.nodeEventCallback.apply(proxyResult, arguments);
+			}
+		}
+	}
+
 	function fixPIdKeyValue(setting, node) {
 		if (setting.data.simpleData.enable) {
 			node[setting.data.simpleData.pIdKey] = node.parentTId ? node.getParentNode()[setting.data.simpleData.idKey] : setting.data.simpleData.rootPid;
@@ -221,7 +593,7 @@
 		if (!node.isAjaxing) {
 			var icon = (node.isParent && node.iconOpen && node.iconClose) ? (node.open ? node.iconOpen : node.iconClose) : node.icon;
 			if (icon) icoStyle.push("background:url(", icon, ") 0 0 no-repeat;");
-			if (setting.view.showIcon == false || !zt._z.tools.apply(setting.showIcon, [setting.treeObjId, node], true)) {
+			if (setting.view.showIcon == false || !zt._z.tools.apply(setting.view.showIcon, [setting.treeId, node], true)) {
 				icoStyle.push("width:0px;height:0px;");
 			}
 		}
@@ -262,6 +634,25 @@
 
 	function makeUlLineClass(setting, node) {
 		return (setting.view.showLine && !node.isLastNode) ?zt.consts.line.LINE : "";
+	}
+
+	function setNodeLineIcos(setting, node) {
+		if (!node) return;
+		var switchObj = $("#" + node.tId + zt.consts.id.SWITCH);
+		var ulObj = $("#" + node.tId + zt.consts.id.Ul);
+		var icoObj = $("#" + node.tId + zt.consts.id.ICON);
+
+		var ulLine = makeUlLineClass(setting, node);
+		if (ulLine.length==0) {
+			ulObj.removeClass(zt.consts.line.LINE);
+		} else {
+			ulObj.addClass(ulLine);
+		}
+
+		switchObj.attr("class", makeNodeLineClass(setting, node));
+		icoObj.removeAttr("style");
+		icoObj.attr("style", makeNodeIcoStyle(setting, node));
+		icoObj.attr("class", makeNodeIcoClass(setting, node));
 	}
 
 	function transformTozTreeFormat(setting, sNodes) {
@@ -406,14 +797,14 @@
 				},
 				getAbs: function (obj) {
 					//获取对象的绝对坐标
-					oRect = obj.getBoundingClientRect();
+					var oRect = obj.getBoundingClientRect();
 					return [oRect.left,oRect.top]
 				},
 				getMDom: function (setting, curDom, targetExpr) {
 					if (!curDom) return null;
 					while (curDom && curDom.id !== setting.treeId) {
 						for (var i=0, l=targetExpr.length; curDom.tagName && i<l; i++) {
-							if (tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
+							if (zt._z.tools.eqs(curDom.tagName, targetExpr[i].tagName) && curDom.getAttribute(targetExpr[i].attrName) !== null) {
 								return curDom;
 							}
 						}
@@ -432,7 +823,22 @@
 
 			},
 			event: {
-
+				bindEvent: function(setting) {
+					for (var i=0, j=_init.bind.length; i<j; i++) {
+						_init.bind[i].apply(this, arguments);
+					}
+				},
+				proxy: function(event) {
+					var results = [];
+					for (var i=0, j=_init.proxys.length; i<j; i++) {
+						var proxyResult = _init.proxys[i].apply(this, arguments);
+						results.push(proxyResult);
+						if (proxyResult.stop) {
+							break;
+						}
+					}
+					return results;
+				}
 			},
 			data: {
 				addNodeCache: function(setting, node) {
@@ -452,6 +858,7 @@
 						_init.nodes[i].apply(this, arguments);
 					}
 				},
+				
 				initRoot: function(treeId) {
 					for (var i=0, j=_init.roots.length; i<j; i++) {
 						_init.roots[i].apply(this, arguments);
@@ -484,16 +891,17 @@
 			}
 			
 			zt._z.data.initCache(setting.treeId);
-
+			bindTree(setting);
+			zt._z.event.bindEvent(setting);
 			if (root.childs && root.childs.length > 0) {
-				createTreeNodes(setting, 0, root.childs);
-			} else if (setting.async && setting.asyncUrl && setting.asyncUrl.length > 0) {
-//				asyncGetNode(setting);
+				createNodes(setting, 0, root.childs);
+			} else if (setting.async.enable && setting.async.url && setting.async.url !== '') {
+				asyncGetNode(setting);
 			}
 			obj.zTreeTools ={
 				setting: setting
 			}
-		}		
+		}
 	};
 
 	var zt = $.fn.zTree;
