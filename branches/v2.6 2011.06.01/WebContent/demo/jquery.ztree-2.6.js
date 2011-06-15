@@ -1135,7 +1135,8 @@
 			ulObj.addClass(ulLine);
 		}
 		
-		switchObj.attr("class", makeNodeLineClass(setting, treeNode));		
+		switchObj.attr("class", makeNodeLineClass(setting, treeNode));
+		icoObj.removeAttr("style");
 		icoObj.attr("style", makeNodeIcoStyle(setting, treeNode));
 		icoObj.attr("class", makeNodeIcoClass(setting, treeNode));
 	}
