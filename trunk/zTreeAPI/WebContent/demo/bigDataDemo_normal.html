@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,12 +14,18 @@
 	var setting;
 
 	setting = {
-		expandSpeed: "",
-		checkable : true,
-		async: true,
-		asyncUrl: "asyncData/nodeForBigData.php",
-//		asyncUrl: "asyncData/nodeForBigData.jsp",
-		asyncParam: ["prod_id"]
+		view: {
+			expandSpeed: ""
+		},
+		check:{
+			enable: true
+		},
+		async: {
+			enable:true,
+			url: "asyncData/nodeForBigData.php",
+//			asyncUrl: "asyncData/nodeForBigData.jsp",
+			autoParam: ["prod_id"]
+		}
 	};
 
 	$(document).ready(function(){
@@ -31,13 +37,14 @@
 		var nodes = [];
 
 		if ($("#init_2").attr("checked")) {
-			setting.async = false;
+			setting.async.enable = false;
 			nodes = zNodesBig;
 		} else {
-			setting.async = true;
+			setting.async.enable = true;
 			nodes = [];
 		}
-		zTree1 = $("#treeDemo").zTree(setting, nodes);
+		zTree1 = $("#treeDemo");
+		zTree1.zTree.init(zTree1, setting, nodes);
 		
 	}	
 

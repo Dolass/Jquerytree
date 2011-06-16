@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,9 +14,9 @@
 	var setting;
 
 		setting = {
-			editable: true,
-			checkable: true,
-			
+//			editable: true,
+//			checkable: true,
+
 			callback:{
 				beforeClick: zTreeBeforeClick,
 				beforeDblclick: zTreeBeforeDblclick,
@@ -33,21 +33,21 @@
 				beforeCollapse: zTreeBeforeCollapse,
 				confirmDragOpen: zTreeConfirmDragOpen,
 
-				nodeCreated: zTreeOnNodeCreated,
-				click: zTreeOnClick,
-				dblclick: zTreeOnDblclick,
-				rightClick: zTreeRightClick,
-				mouseDown: zTreeMouseDown,
-				mouseUp: zTreeMouseUp,
-				change: zTreeChange,
-				drag: zTreeOnDrag,
-				drop: zTreeOnDrop,
-				rename: zTreeOnRename,
+				onNodeCreated: zTreeOnNodeCreated,
+				onClick: zTreeOnClick,
+				onDblclick: zTreeOnDblclick,
+				onRightClick: zTreeRightClick,
+				onMouseDown: zTreeMouseDown,
+				onMouseUp: zTreeMouseUp,
+				onChange: zTreeChange,
+				onDrag: zTreeOnDrag,
+				onDrop: zTreeOnDrop,
+				onEditname: zTreeOnRename,
 				remove: zTreeOnRemove,
 				expand: zTreeOnExpand,
 				collapse: zTreeOnCollapse
 			}
-			
+
 		};
 
 	$(document).ready(function(){
@@ -59,7 +59,7 @@
 		var hour=now.getHours();
 		var minute=now.getMinutes();
 		var second=now.getSeconds();
-		return (hour+":"+minute+":"+second);	
+		return (hour+":"+minute+":"+second);
 	}
 
 	function zTreeBeforeClick(treeId, treeNode) {
@@ -67,7 +67,7 @@
 		if (!r) alert("beforeClick return false!!");
 		return r;
 	}
-	
+
 	function zTreeBeforeDblclick(treeId, treeNode) {
 		var r = $("#beforeDblclickTrue").attr("checked");
 		if (!r) alert("beforeDblclick return false!!");
@@ -79,19 +79,19 @@
 		if (!r) alert("beforeRightClick return false!!");
 		return r;
 	}
-	
+
 	function zTreeBeforeMouseDown(treeId, treeNode) {
 		var r = $("#beforeMouseDownTrue").attr("checked");
 		if (!r) alert("beforeMouseDown return false!!");
 		return r;
 	}
-	
+
 	function zTreeBeforeMouseUp(treeId, treeNode) {
 		var r = $("#beforeMouseUpTrue").attr("checked");
 		if (!r) alert("beforeMouseUp return false!!");
 		return r;
 	}
-	
+
 	function zTreeBeforeChange(treeId, treeNode) {
 		var r = $("#beforeChangeTrue").attr("checked");
 		if (!r) alert("beforeChange return false!!");
@@ -134,9 +134,9 @@
 	function zTreeOnNodeCreated(event, treeId, treeNode) {
 		createdCount++;
 		$("#onNodeCreated").html( "Created 计数：" + createdCount);
-		
+
 	}
-	
+
 	function zTreeOnClick(event, treeId, treeNode) {
 		$("#onClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
 	}
@@ -160,7 +160,7 @@
 			$("#onRightClickNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp; treeNode is Root." + "<br/>&nbsp;" + mouse);
 		}
 	}
-	
+
 	function zTreeMouseDown(event, treeId, treeNode) {
 		var mouse = getMouse(event);
 		if (treeNode) {
@@ -169,7 +169,7 @@
 			$("#onMouseDownNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp; treeNode is Root." + "<br/>&nbsp;" + mouse);
 		}
 	}
-	
+
 	function zTreeMouseUp(event, treeId, treeNode) {
 		var mouse = getMouse(event);
 		if (treeNode) {
@@ -177,11 +177,11 @@
 		} else {
 			$("#onMouseUpNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp; treeNode is Root." + "<br/>&nbsp;" + mouse);
 		}
-	}	
+	}
 	function zTreeChange(event, treeId, treeNode) {
 		$("#onChangeNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name
 				 + "; <br/>checked=" + treeNode.checked+ "; checkedOld=" + treeNode.checkedOld);
-	}	
+	}
 
 	function zTreeOnDrag(event, treeId, treeNode) {
 		$("#onDragNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
@@ -189,7 +189,7 @@
 
 	function zTreeOnDrop(event, treeId, treeNode, targetNode, moveType) {
 		if (treeNode) {
-				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;Src Name = " + treeNode.name 
+				$("#onDropNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;Src Name = " + treeNode.name
 						+ "; Target Name = " + ((targetNode != null) ? targetNode.name : "root")
 						+ "; moveType=\"" + moveType + "\"" );
 		} else {
@@ -211,7 +211,7 @@
 		return r;
 	}
 
-	function zTreeOnExpand(event, treeId, treeNode) {	
+	function zTreeOnExpand(event, treeId, treeNode) {
 		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
@@ -221,12 +221,13 @@
 		return r;
 	}
 
-	function zTreeOnCollapse(event, treeId, treeNode) {	
+	function zTreeOnCollapse(event, treeId, treeNode) {
 		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
 	function refreshTree() {
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		var t = $("#treeDemo");
+		t.zTree.init(t, setting, zNodes);
 		$("#onClickNode").html("<br/>");
 		$("#onDblclickNode").html("<br/>");
 		$("#onRightClickNode").html("<br/>");
@@ -249,7 +250,7 @@
 		<TD width=340px align=center valign=top>
 		<div class="zTreeDemoBackground">
 			<ul id="treeDemo" class="tree"></ul>
-		</div>		
+		</div>
 		</TD>
 		<TD width=360px align=left valign=top>
 		<div class="demoContent">
@@ -404,8 +405,8 @@
 				onCollapse 事件:&nbsp;&nbsp;<a id="onCollapseNode"></a><br/>
 				</ul>
 			</li>
-				
-		</div>	
+
+		</div>
 		</TD>
 	</TR>
 </TABLE>
