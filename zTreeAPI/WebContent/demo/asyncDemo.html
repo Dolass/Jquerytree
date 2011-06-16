@@ -20,6 +20,11 @@
 				url: "asyncData/node.txt",  //获取节点数据的URL地址
 				autoParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
 				otherParam: ["test","true"] //其它参数 ( key, value 键值对格式)
+			},
+			callback:{
+				beforeAsync: zTreeBeforeAsync,
+				onAsyncSuccess: zTreeOnAsyncSuccess,
+				onAsyncError: zTreeOnAsyncError
 			}
 		};
 
@@ -101,18 +106,20 @@
 			$("#asyncDataFilterCode").html("dataFilter");
 		}
 
-		var z = $("#treeDemo");
+		zTree1 = $("#treeDemo");
 
-		z.zTree.init(z, setting, zNodes);
+		zTree1.zTree.init(zTree1, setting, zNodes);
 	}
 
 	function reloadAsync() {
-		var treeNode = zTree1.getSelectedNode();
-		if (!treeNode) {
+		var treeNode = zTree1.zTreeTools.getSelectedNodes();
+		if (treeNode.length == 0) {
 			alert("请先选中一个节点");
 			return;
 		}
-		zTree1.reAsyncChildNodes(treeNode, $("#refreshType").attr("checked") ? "refresh" : "add")
+		for(var i=0, j=treeNode.length; i<j; i++) {
+			zTree1.zTreeTools.reAsyncChildNodes(treeNode[i], $("#refreshType").attr("checked") ? "refresh" : "add")
+		}
 	}
 	
 	function getNow() {
