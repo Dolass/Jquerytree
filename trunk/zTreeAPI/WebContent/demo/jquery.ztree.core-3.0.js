@@ -721,6 +721,45 @@
 		}
 	}
 
+	function getNodeByParam(setting, nodes, key, value) {
+		if (!nodes || !key) return null;
+		var childsKey = setting.data.key.childs;
+		for (var i = 0, l = nodes.length; i < l; i++) {
+			if (nodes[i][key] == value) {
+				return nodes[i];
+			}
+			var tmp = getNodeByParam(setting, nodes[i][childsKey], key, value);
+			if (tmp) return tmp;
+		}
+		return null;
+	}
+
+	function getNodesByParam(setting, nodes, key, value) {
+		if (!nodes || !key) return [];
+		var childsKey = setting.data.key.childs;
+		var result = [];
+		for (var i = 0, l = nodes.length; i < l; i++) {
+			if (nodes[i][key] == value) {
+				result.push(nodes[i]);
+			}
+			result = result.concat(getNodesByParam(setting, nodes[i][childsKey], key, value));
+		}
+		return result;
+	}
+
+	function getNodesByParamFuzzy(setting, nodes, key, value) {
+		if (!nodes || !key) return [];
+		var childsKey = setting.data.key.childs;
+		var result = [];
+		for (var i = 0, l = nodes.length; i < l; i++) {
+			if (typeof nodes[i][key] == "string" && nodes[i][key].indexOf(value)>-1) {
+				result.push(nodes[i]);
+			}
+			result = result.concat(getNodesByParamFuzzy(setting, nodes[i][childsKey], key, value));
+		}
+		return result;
+	}
+
 	function getRoot(setting) {
 		return roots[setting.treeId];
 	}
@@ -1139,8 +1178,12 @@
 					caches[setting.treeId].nodes[node.tId] = node;
 				},
 				getNodeCache: function(setting, tId) {
+					if (!tId) return null;
 					var n = caches[setting.treeId].nodes[tId];
 					return n ? n : null;
+				},
+				getNodes: function(setting) {
+					return getRoot(this.setting)[this.setting.data.key.childs];
 				},
 				initCache: function(treeId) {
 					for (var i=0, j=_init.caches.length; i<j; i++) {
@@ -1195,8 +1238,31 @@
 			obj.zTreeTools ={
 				setting: setting,
 				getNodes : function() {
-					return getRoot(this.setting)[this.setting.data.key.childs];
+					return data.getNodes(this.setting);
 				},
+				getNodeByParam : function(key, value, parentNode) {
+					if (!key) return null;
+					return getNodeByParam(this.setting, parentNode?parentNode[this.setting.data.key.childs]:data.getNodes(this.setting), key, value);
+				},
+				getNodeByTId : function(tId) {
+					return data.getNodeCache(this.setting, tId);
+				},
+				getNodesByParam : function(key, value, parentNode) {
+					if (!key) return null;
+					return getNodesByParam(this.setting, parentNode?parentNode[this.setting.data.key.childs]:data.getNodes(this.setting), key, value);
+				},
+				getNodesByParamFuzzy : function(key, value, parentNode) {
+					if (!key) return null;
+					return getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.childs]:data.getNodes(this.setting), key, value);
+				},
+//				getNodeIndex : function(node) {
+//					if (!node) return null;
+//					var parentNode = (node.parentNode == null) ? this.setting.root : node.parentNode;
+//					for (var i=0, l = parentNode[this.setting.nodesCol].length; i < l; i++) {
+//						if (parentNode[this.setting.nodesCol][i] == node) return i;
+//					}
+//					return -1;
+//				},
 				getSelectedNodes : function() {
 					return getRoot(this.setting).curSelectedList
 				},
