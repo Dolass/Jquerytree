@@ -1255,14 +1255,16 @@
 					if (!key) return null;
 					return getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.childs]:data.getNodes(this.setting), key, value);
 				},
-//				getNodeIndex : function(node) {
-//					if (!node) return null;
-//					var parentNode = (node.parentNode == null) ? this.setting.root : node.parentNode;
-//					for (var i=0, l = parentNode[this.setting.nodesCol].length; i < l; i++) {
-//						if (parentNode[this.setting.nodesCol][i] == node) return i;
-//					}
-//					return -1;
-//				},
+				getNodeIndex : function(node) {
+					if (!node) return null;
+					var childsKey = setting.data.key.childs;
+					var parentNode = node.getParentNode();
+					parentNode = (parentNode== null) ? getRoot(this.setting) : parentNode;
+					for (var i=0, l = parentNode[childsKey].length; i < l; i++) {
+						if (parentNode[childsKey][i] == node) return i;
+					}
+					return -1;
+				},
 				getSelectedNodes : function() {
 					return getRoot(this.setting).curSelectedList
 				},
