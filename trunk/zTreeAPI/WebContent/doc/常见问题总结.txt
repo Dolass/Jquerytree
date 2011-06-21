@@ -54,3 +54,4 @@
 8、js 接口操作 zTree 无法触发相应的事件反馈函数，需要认真思考
 9、需要增加 zTree 各个 Dom 组件增加辅助属性的功能，例如增加 title 说明
 10、【bug】在没加open:false时，第一次检查节点的 open 属性时，为 undefined（Line 366 这个if条件有问题，应该增加isParent=true 的判断）
+11、当初始化传给zTree的是一个对象时，zTree不能正常显示
