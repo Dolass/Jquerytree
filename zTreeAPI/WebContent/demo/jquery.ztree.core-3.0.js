@@ -71,11 +71,11 @@
 			onCollapse:null
 		}
 	},
-	_initRoot = function (treeId) {
-		var r = roots[treeId];
+	_initRoot = function (setting) {
+		var r = data.getRoot(setting);
 		if (!r) {
 			r = {};
-			roots[treeId] = r;
+			data.setRoot(setting, r);
 		}
 		r.childs = [];
 		r.expandTriggerFlag = false;
@@ -224,8 +224,9 @@
 //				&& target.getAttribute("treeNode"+IDMark_Input) === null
 //				&& !st.checkEvent(setting)) return false;
 //		}
+		var stop = false;
 		if (tId.length>0) {
-
+			stop = true;
 			event.data.treeNode = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
@@ -271,7 +272,7 @@
 				break;
 		}
 		var proxyResult = {
-			stop: false,
+			stop: stop,
 			nodeEventType: nodeEventType,
 			nodeEventCallback: nodeEventCallback,
 			treeEventType: treeEventType,
@@ -307,8 +308,6 @@
 //		n.check_Focus = false;
 //		n.check_True_Full = true;
 //		n.check_False_Full = true;
-//		n.editNameStatus = false;
-//		n.isAjaxing = null;
 	},
 	_init = {
 		bind: [_bindEvent],
@@ -322,6 +321,21 @@
 		addNodeCache: function(setting, node) {
 			caches[setting.treeId].nodes[node.tId] = node;
 		},
+		addInitBind: function(bindEvent) {
+			_init.bind.push(bindEvent);
+		},
+		addInitCache: function(initCache) {
+			_init.caches.push(initCache);
+		},
+		addInitNode: function(initNode) {
+			_init.nodes.push(initNode);
+		},
+		addInitProxy: function(initProxy) {
+			_init.proxys.push(initProxy);
+		},
+		addInitRoot: function(initRoot) {
+			_init.roots.push(initRoot);
+		},
 		addNodesData: function(setting, parentNode, nodes) {
 			var childsKey = setting.data.key.childs;
 			if (!parentNode[childsKey]) parentNode[childsKey] = [];
@@ -331,6 +345,9 @@
 			}
 			parentNode.isParent = true;
 			parentNode[childsKey] = parentNode[childsKey].concat(nodes);
+		},
+		exSetting: function(s) {
+			$.extend(true, _setting, s);
 		},
 		fixPIdKeyValue: function(setting, node) {
 			if (setting.data.simpleData.enable) {
@@ -384,6 +401,9 @@
 		getRoot: function(setting) {
 			return roots[setting.treeId];
 		},
+		getSetting: function(treeId) {
+			return settings[treeId];
+		},
 		initCache: function(treeId) {
 			for (var i=0, j=_init.caches.length; i<j; i++) {
 				_init.caches[i].apply(this, arguments);
@@ -394,10 +414,13 @@
 				_init.nodes[i].apply(this, arguments);
 			}
 		},
-		initRoot: function(treeId) {
+		initRoot: function(setting) {
 			for (var i=0, j=_init.roots.length; i<j; i++) {
 				_init.roots[i].apply(this, arguments);
 			}
+		},
+		setRoot: function(setting, root) {
+			roots[setting.treeId] = root;
 		},
 		transformToArrayFormat: function (setting, nodes) {
 			if (!nodes) return [];
@@ -522,6 +545,7 @@
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return;
 			view.selectNode(setting, node, event.ctrlKey);
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
+			console.log(node);
 		},
 		onZTreeMousedown: function(event) {
 			var setting = settings[event.data.treeId];
@@ -635,9 +659,6 @@
 		},
 		eqs: function(str1, str2) {
 			return str1.toLowerCase() === str2.toLowerCase();
-		},
-		exSetting: function(s) {
-			$.extend(true, _setting, s);
 		},
 		inputFocus: function(inputObj) {
 			if (inputObj.get(0)) {
@@ -1224,8 +1245,8 @@
 			setting.treeObj.empty();
 			settings[setting.treeId] = setting;
 
-			data.initRoot(setting.treeId);
-			var root = roots[setting.treeId];
+			data.initRoot(setting);
+			var root = data.getRoot(setting);
 			zNodes = zNodes ? (tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
 				root[setting.data.key.childs] = data.transformTozTreeFormat(setting, zNodes);

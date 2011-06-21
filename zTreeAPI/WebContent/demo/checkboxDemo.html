@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -15,9 +16,11 @@
 	var setting;
 
 		setting = {
-			checkable: true,
+			chk: {
+				enable: true
+			},
 			callback: {
-				change:	zTreeOnChange
+				onCheck: zTreeOnChange
 			}
 		};
 
@@ -43,21 +46,22 @@
 	function refreshTree() {
 		var checkType = getCheckBoxType();
 		setting.checkType = checkType;
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
+		zTree1 = $("#treeDemo");
+		zTree1.zTree.init(zTree1, setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
 		getCheckedNodesLength();
 	}
 
 	function getCheckedNodesLength() {
-		var tmp = zTree1.getCheckedNodes();
-		$("#checkedNum").html(tmp.length);
-		tmp = zTree1.getChangeCheckedNodes();
-		$("#checkedChangeNum").html(tmp.length);
-		if ($("#changeYes").attr("checked")) {
-			for (var i=0; i<tmp.length; i++) {
-				tmp[i].checkedOld = tmp[i].checked;
-			}
-		}
+//		var tmp = zTree1.getCheckedNodes();
+//		$("#checkedNum").html(tmp.length);
+//		tmp = zTree1.getChangeCheckedNodes();
+//		$("#checkedChangeNum").html(tmp.length);
+//		if ($("#changeYes").attr("checked")) {
+//			for (var i=0; i<tmp.length; i++) {
+//				tmp[i].checkedOld = tmp[i].checked;
+//			}
+//		}
 	}
 
   //-->
