@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.0
+ * JQuery zTree excheck 3.0
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -13,62 +13,23 @@
 (function($){
 	var settings = [], roots = [], caches = [], zId = 0,
 	_setting = {
-		treeId: "",
-		treeObj: null,
-		view: {
-			showLine: true,
-			showIcon: true,
-			urlEnable: true,
-			expandSpeed: "fast",
-			hoverDomFlag: true,
-//			addHoverDom: null,
-//			removeHoverDom: null,
-			addDiyDom: null,
-			fontCss: {}
+		chk: {
+			enable: true,
+			chkStyle: consts.checkbox.STYLE,
+			radioType: consts.radio.TYPE_LEVEL,
+			chkboxType: {
+				"Y": "ps",
+				"N": "ps"
+			}
 		},
 		data: {
 			key: {
-				name: "name",
-				childs: "childs"
-			},
-			simpleData: {
-				enable: false,
-				idKey: "id",
-				pIdKey: "pId",
-				rootPid: null
-			},
-			keep: {
-				parent: false,
-				leaf: false
+				checked: "checked"
 			}
 		},
-		async: {
-			enable: false,
-			method: "post",
-			dataType: "text",
-			url: "",
-			autoParam: [],
-			otherParam: [],
-			dataFilter: null
-		},
 		callback: {
-			beforeAsync:null,
-			beforeClick:null,
-			beforeRightClick:null,
-			beforeMouseDown:null,
-			beforeMouseUp:null,
-			beforeExpand:null,
-			beforeCollapse:null,
-
-			onAsyncError:null,
-			onAsyncSuccess:null,
-			onNodeCreated:null,
-			onClick:null,
-			onRightClick:null,
-			onMouseDown:null,
-			onMouseUp:null,
-			onExpand:null,
-			onCollapse:null
+			beforeCheck:null,
+			onCheck:null
 		}
 	},
 	_initRoot = function (treeId) {
@@ -77,198 +38,58 @@
 			r = {};
 			roots[treeId] = r;
 		}
-		r.childs = [];
-		r.expandTriggerFlag = false;
-		r.curSelectedList = [];
-		r.curEditNode = null;
+		r.checkedList = [];
 	},
-	_initCache = function(treeId) {
-		var c = caches[treeId];
-		if (!c) {
-			c = {};
-			caches[treeId] = c;
-		}
-		c.nodes = [];
-		c.doms = [];
-	},
+	_initCache = function(treeId) {},
 	_bindEvent = function(setting) {
 		var o = setting.treeObj;
 		var c = consts.event;
-		o.unbind(c.NODECREATED);
-		o.bind(c.NODECREATED, function (event, treeId, node) {
-			tools.apply(setting.callback.onNodeCreated, [event, treeId, node]);
-		});
-
-		o.unbind(c.CLICK);
-		o.bind(c.CLICK, function (event, treeId, node) {
-			tools.apply(setting.callback.onClick, [event, treeId, node]);
-		});
-
-//		o.unbind(c.CHECK);
-//		o.bind(c.CHECK, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onCheck, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.EDITNAME);
-//		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onEditName, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.REMOVE);
-//		o.bind(c.REMOVE, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onRemove, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.DRAG);
-//		o.bind(c.DRAG, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onDrag, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.DROP);
-//		o.bind(c.DROP, function (event, treeId, treeNode, targetNode, moveType) {
-//			tools.apply(setting.callback.onDrop, [event, treeId, treeNode, targetNode, moveType]);
-//		});
-
-		o.unbind(c.EXPAND);
-		o.bind(c.EXPAND, function (event, treeId, node) {
-			tools.apply(setting.callback.onExpand, [event, treeId, node]);
-		});
-
-		o.unbind(c.COLLAPSE);
-		o.bind(c.COLLAPSE, function (event, treeId, node) {
-			tools.apply(setting.callback.onCollapse, [event, treeId, node]);
-		});
-
-		o.unbind(c.ASYNC_SUCCESS);
-		o.bind(c.ASYNC_SUCCESS, function (event, treeId, node, msg) {
-			tools.apply(setting.callback.onAsyncSuccess, [event, treeId, node, msg]);
-		});
-
-		o.unbind(c.ASYNC_ERROR);
-		o.bind(c.ASYNC_ERROR, function (event, treeId, node, XMLHttpRequest, textStatus, errorThrown) {
-			tools.apply(setting.callback.onAsyncError, [event, treeId, node, XMLHttpRequest, textStatus, errorThrown]);
+		o.unbind(c.CHECK);
+		o.bind(c.CHECK, function (event, treeId, node) {
+			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
 	},
-	_eventProxy = function(event) {
-		var target = event.target;
-		var setting = settings[event.data.treeId];
-		var relatedTarget = event.relatedTarget;
+	_eventProxy = function(e) {
+		var target = e.target;
+		var setting = settings[e.data.treeId];
+		var relatedTarget = e.relatedTarget;
 		var tId = "";
 		var nodeEventType = "", treeEventType = "";
 		var nodeEventCallback = null, treeEventCallback = null;
 		var tmp = null;
 
-		if (tools.eqs(event.type, "mouseover")) {
-//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "mouseoverCheck";
-//			} else {
-//				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
-//				if (tmp) {
-//					tId = tmp.parentNode.id;
-//					nodeEventType = "hoverOverNode";
-//				}
-//			}
-		} else if (tools.eqs(event.type, "mouseout")) {
-//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "mouseoutCheck";
-//			} else {
-//				tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
-//				if (!tmp) {
-//					tId = "remove";
-//					nodeEventType = "hoverOutNode";
-//				}
-//			}
-		} else if (tools.eqs(event.type, "mousedown")) {
-			treeEventType = "mousedown";
-//			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
-//			if (tmp) {
-//				tId = tmp.parentNode.id;
-//				nodeEventType = "mousedownNode";
-//			}
-		} else if (tools.eqs(event.type, "mouseup")) {
-			treeEventType = "mouseup";
-		} else if (tools.eqs(event.type, "contextmenu")) {
-			treeEventType = "contextmenu";
-		} else if (tools.eqs(event.type, "click")) {
-			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
+		if (tools.eqs(e.type, "mouseover")) {
+			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
-				nodeEventType = "switchNode";
-//			} else if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "checkNode";
-			} else {
-				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-				if (tmp) {
-					tId = tmp.parentNode.id;
-					nodeEventType = "clickNode";
-				}
+				nodeEventType = "mouseoverCheck";
 			}
-		} else if (tools.eqs(event.type, "dblclick")) {
-			treeEventType = "dblclick";
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (tmp) {
-				tId = tmp.parentNode.id;
-				nodeEventType = "switchNode";
+		} else if (tools.eqs(e.type, "mouseout")) {
+			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+				tId = target.parentNode.id;
+				nodeEventType = "mouseoutCheck";
 			}
-		}
-		if (treeEventType.length > 0 && tId.length == 0) {
-			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (tmp) {tId = tmp.parentNode.id;}
+		} else if (tools.eqs(e.type, "click")) {
+			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+				tId = target.parentNode.id;
+				nodeEventType = "checkNode";
+			}
 		}
 
-//		if (tId.length>0 || treeEventType.length>0) {
-//			if (nodeEventType!="hoverOverNode" && nodeEventType != "hoverOutNode"
-//				&& nodeEventType!="mouseoverCheck" && nodeEventType != "mouseoutCheck"
-//				&& target.getAttribute("treeNode"+IDMark_Input) === null
-//				&& !st.checkEvent(setting)) return false;
-//		}
 		if (tId.length>0) {
-
-			event.data.treeNode = data.getNodeCache(setting, tId);
+			e.data.treeNode = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
-				case "switchNode" :
-					nodeEventCallback = handler.onSwitchNode;
+				case "checkNode" :
+					nodeEventCallback = handler.onCheckNode;
 					break;
-				case "clickNode" :
-					nodeEventCallback = handler.onClickNode;
+				case "mouseoverCheck" :
+					nodeEventCallback = handler.onMouseoverCheck;
 					break;
-//				case "checkNode" :
-//					handler.onCheckNode(event);
-//					break;
-//				case "mouseoverCheck" :
-//					handler.onMouseoverCheck(event);
-//					break;
-//				case "mouseoutCheck" :
-//					handler.onMouseoutCheck(event);
-//					break;
-//				case "mousedownNode" :
-//					handler.onMousedownNode(event);
-//					break;
-//				case "hoverOverNode" :
-//					nodeEventCallback = handler.onHoverOverNode(event);
-//					break;
-//				case "hoverOutNode" :
-//					nodeEventCallback = handler.onHoverOutNode(event);
-//					break;
+				case "mouseoutCheck" :
+					nodeEventCallback = handler.onMouseoutCheck;
+					break;
 			}
 		} else {
-			event.data.treeNode = null;
-		}
-		switch (treeEventType) {
-			case "mousedown" :
-				treeEventCallback = handler.onZTreeMousedown;
-				break;
-			case "mouseup" :
-				treeEventCallback = handler.onZTreeMouseup;
-				break;
-			case "dblclick" :
-				treeEventCallback = handler.onZTreeDblclick;
-				break;
-			case "contextmenu" :
-				treeEventCallback = handler.onZTreeContextmenu;
-				break;
+			e.data.treeNode = null;
 		}
 		var proxyResult = {
 			stop: false,
@@ -1139,84 +960,41 @@
 			}
 		}
 	};
-	
+
+	var _consts = {
+		event: {
+			CHECK: "ztree_check"
+		},
+		id: {
+			CHECK: "_check"
+		},
+		checkbox: {
+			STYLE: "checkbox",
+			DEFAULT: "chk",
+			FALSE: "false",
+			TRUE: "true",
+			FULL: "full",
+			PART: "part",
+			FOCUS: "focus"
+		},
+		radio: {
+			STYLE: "radio",
+			TYPE_ALL: "all",
+			TYPE_LEVEL: "level"
+		}
+	}
+	$.extend(true, $.fn.zTree.consts, _consts);
+
+	var _z = {
+		tools: tools,
+		view: view,
+		event: event,
+		data: data
+	};
+	$.extend(true, $.fn.zTree._z, _z);
+
 	$.fn.zTree = {
-		consts : {
-			event: {
-				NODECREATED: "ztree_nodeCreated",
-				CLICK: "ztree_click",
-				EXPAND: "ztree_expand",
-				COLLAPSE: "ztree_collapse",
-				ASYNC_SUCCESS: "ztree_async_success",
-				ASYNC_ERROR: "ztree_async_error"
-//CHECK: "ztree_check",
-//DRAG: "ztree_drag",
-//DROP: "ztree_drop",
-//EDITNAME: "ztree_editname",
-//REMOVE: "ztree_rename"
-			},
-			id: {
-				A: "_a",
-//				CHECK: "_check",
-//				EDIT: "_edit",
-				ICON: "_ico",
-//				INPUT: "_input",
-//				REMOVE: "_remove",
-				SPAN: "_span",
-				SWITCH: "_switch",
-				UL: "_ul"
-			},
-			line: {
-				ROOT: "root",
-				ROOTS: "roots",
-				CENTER: "center",
-				BOTTOM: "bottom",
-				NOLINE: "noline",
-				LINE: "line"
-			},
-			folder: {
-				OPEN: "open",
-				CLOSE: "close",
-				DOCU: "docu"
-			},
-			node: {
-				CURSELECTED: "curSelectedNode",
-				CURSELECTED_EDIT: "curSelectedNode_Edit",
-				TMPTARGET_TREE: "tmpTargetTree",
-				TMPTARGET_NODE: "tmpTargetNode"
-			}
-//			checkbox: {
-//				STYLE: "checkbox",
-//				DEFAULT: "chk",
-//				FALSE: "false",
-//				TRUE: "true",
-//				FULL: "full",
-//				PART: "part",
-//				FOCUS: "focus"
-//			},
-//			radio: {
-//				STYLE: "radio",
-//				TYPE_ALL: "all",
-//				TYPE_LEVEL: "level"
-//			},
-//			move: {
-//				TYPE_INNER: "inner",
-//				TYPE_BEFORE: "before",
-//				TYPE_AFTER: "after",
-//				MINMOVESIZE: 5
-//			}
-		},
-		_z : {
-			tools: tools,
-			view: view,
-			event: event,
-			data: data
-		},
-		getZTreeObj: function(treeId) {
-			var o = settings[treeId];
-			return o ? o.treeObj : null;
-		},
-		init: function(obj, zSetting, zNodes) {
+		init0: function(obj, zSetting, zNodes) {
 			var setting = tools.clone(_setting);
 			$.extend(true, setting, zSetting);
 			setting.treeId = obj.attr("id");
