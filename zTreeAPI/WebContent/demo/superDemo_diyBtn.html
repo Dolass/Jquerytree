@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
   .test {
@@ -33,14 +33,16 @@
 
 	
 	var setting= {
+		view:{
 			addHoverDom: addHoverDom,
 			removeHoverDom: removeHoverDom,
 			addDiyDom: addDiyDom
-		};
+		}
+	};
 
 	var zNodes =[
 	 	{id:1, name:"hover事件显示控件", open:true,
-		 	nodes:[
+		 	childs:[
 		 	       {id:11, name:"按钮1"},
 		 	       {id:12, name:"按钮2"},
 		 	       {id:13, name:"下拉框"},
@@ -50,7 +52,7 @@
 		 	       
 			]},
 	 	{id:2, name:"始终显示控件", open:true, 
-	 		nodes:[
+	 		childs:[
 		 	       {id:21, name:"按钮1"},
 		 	       {id:22, name:"按钮2"},
 		 	       {id:23, name:"下拉框"},
@@ -65,7 +67,7 @@
 	});
 
 	function addHoverDom(treeId, treeNode) {
-		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
+		if (treeNode.getParentNode() && treeNode.getParentNode().id!=1) return;
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.id == 11) {
 			if ($("#diyBtn_"+treeNode.id).length>0) return;
@@ -103,7 +105,7 @@
 	}
 	
 	function removeHoverDom(treeId, treeNode) {
-		if (treeNode.parentNode && treeNode.parentNode.id!=1) return;
+		if (treeNode.getParentNode() && treeNode.getParentNode().id!=1) return;
 		if (treeNode.id == 15) {
 			$("#diyBtn1_"+treeNode.id).unbind().remove();
 			$("#diyBtn2_"+treeNode.id).unbind().remove();
@@ -114,7 +116,7 @@
 	}
 	
 	function addDiyDom(treeId, treeNode) {
-		if (treeNode.parentNode && treeNode.parentNode.id!=2) return;
+		if (treeNode.getParentNode() && treeNode.getParentNode().id!=2) return;
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.id == 21) {
 			var editStr = "<button type='button' class='diyBtn1' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
@@ -142,7 +144,8 @@
 	}
 	
 	function reloadTree() {
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
+		zTree1 = $("#treeDemo");
+		zTree1.zTree.init(zTree1, setting, clone(zNodes, ""));
 	}
 
   //-->
