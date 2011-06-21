@@ -378,11 +378,13 @@
 //		checkEvent: function(setting) {
 //			return st.checkCancelPreEditNode(setting);
 //		},
-		cancelPreSelectedNode: function (setting) {
+		cancelPreSelectedNode: function (setting, node) {
 			var root = getRoot(setting);
 			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
-				$("#" + root.curSelectedList[i].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
-				setNodeName(setting, root.curSelectedList[i]);
+				if (!node || node === root.curSelectedList[i]) {
+					$("#" + root.curSelectedList[i].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
+					setNodeName(setting, root.curSelectedList[i]);
+				}
 //				removeTreeDom(setting, root.curSelectedList[i]);
 			}
 			root.curSelectedList = [];
@@ -626,7 +628,7 @@
 		}
 	}
 
-	function expandAndCollapseNode(setting, node, expandSign, animateSign, callback) {
+	function expandCollapseNode(setting, node, expandSign, animateSign, callback) {
 		var root = getRoot(setting);
 		var childsKey = setting.data.key.childs;
 		if (!node || node.open == expandSign) {
@@ -685,15 +687,28 @@
 
 	function expandCollapseParentNode(setting, node, expandSign, animateSign, callback) {
 		if (!node) return;
-		if (!node.parentNode) {
-			expandAndCollapseNode(setting, node, expandSign, animateSign, callback);
+		if (!node.parentTId) {
+			expandCollapseNode(setting, node, expandSign, animateSign, callback);
 			return ;
 		} else {
-			expandAndCollapseNode(setting, node, expandSign, animateSign);
+			expandCollapseNode(setting, node, expandSign, animateSign);
 		}
-		if (node.parentNode) {
-			expandCollapseParentNode(setting, node.parentNode, expandSign, animateSign, callback);
+		if (node.parentTId) {
+			expandCollapseParentNode(setting, node.getParentNode(), expandSign, animateSign, callback);
 		}
+	}
+
+	function expandCollapseSonNode(setting, node, expandSign, animateSign, callback) {
+		var root = getRoot(setting);
+		var childsKey = setting.data.key.childs;
+		var treeNodes = (node) ? node[childsKey]: root[childsKey];
+		var selfAnimateSign = (node) ? false : animateSign;
+		if (treeNodes) {
+			for (var i = 0, l = treeNodes.length; i < l; i++) {
+				if (treeNodes[i]) expandCollapseSonNode(setting, treeNodes[i], expandSign, selfAnimateSign);
+			}
+		}
+		expandCollapseNode(setting, node, expandSign, animateSign, callback );
 	}
 
 	function eventProxy(event) {
@@ -919,6 +934,14 @@
 		view.addSelectedNode(setting, node);
 	}
 
+	function setNodeFontCss(setting, treeNode) {
+		var aObj = $("#" + treeNode.tId + consts.id.A);
+		var fontCss = makeNodeFontCss(setting, treeNode);
+		if (fontCss) {
+			aObj.css(fontCss);
+		}
+	}
+
 	function setNodeLineIcos(setting, node) {
 		if (!node) return;
 		var switchObj = $("#" + node.tId + consts.id.SWITCH);
@@ -939,23 +962,39 @@
 	}
 
 	function setNodeName(setting, node) {
-		var childsKey = setting.data.key.childs;
+		var nameKey = setting.data.key.name;
 		var nObj = $("#" + node.tId + consts.id.SPAN);
-		nObj.text(node[childsKey]);
+		nObj.empty();
+		nObj.text(node[nameKey]);
+	}
+
+	function setNodeTarget(node) {
+		var aObj = $("#" + node.tId + consts.id.A);
+		aObj.attr("target", makeNodeTarget(node));
+	}
+
+	function setNodeUrl(setting, node) {
+		var aObj = $("#" + node.tId + consts.id.A);
+		var url = makeNodeUrl(setting, node);
+		if (url == null || url.length == 0) {
+			aObj.removeAttr("href");
+		} else {
+			aObj.attr("href", url);
+		}
 	}
 
 	function switchNode(setting, node) {
 		var childsKey = setting.data.key.childs;
 		if (node.open || (node && node[childsKey] && node[childsKey].length > 0)) {
-			expandAndCollapseNode(setting, node, !node.open);
+			expandCollapseNode(setting, node, !node.open);
 		} else if (setting.async.enable) {
 			if (tools.apply(setting.callback.beforeAsync, [setting.treeId, node], true) == false) {
-				expandAndCollapseNode(setting, node, !node.open);
+				expandCollapseNode(setting, node, !node.open);
 				return;
 			}
 			asyncGetNode(setting, node);
 		} else if (node) {
-			expandAndCollapseNode(setting, node, !node.open);
+			expandCollapseNode(setting, node, !node.open);
 		}
 	}
 
@@ -1237,6 +1276,27 @@
 			}
 			obj.zTreeTools ={
 				setting: setting,
+				cancelSelectedNode : function(node) {
+					st.cancelPreSelectedNode(this.setting, node);
+				},
+				expandAll : function(expandSign) {
+					expandCollapseSonNode(this.setting, null, expandSign, true);
+				},
+				expandNode : function(node, expandSign, sonSign, focus) {
+					if (!node) return;
+
+					if (expandSign) {
+						if (node.parentTId) expandCollapseParentNode(this.setting, node.getParentNode(), expandSign, false);
+					}
+					if (sonSign) {
+						expandCollapseSonNode(this.setting, node, expandSign, false, function() {
+							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
+						});
+					} else if (node.open != expandSign) {
+						switchNode(this.setting, node);
+						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
+					}
+				},
 				getNodes : function() {
 					return data.getNodes(this.setting);
 				},
@@ -1285,11 +1345,40 @@
 					}
 					asyncGetNode(this.setting, isRoot? null:parentNode);
 				},
+				selectNode : function(node, addFlag) {
+					if (!node) return;
+//					if (st.checkEvent(this.setting)) {
+						selectNode(this.setting, node, addFlag);
+						if (node.parentTId) {
+							expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
+								$("#" + node.tId + consts.id.ICON).focus().blur();
+							});
+						} else {
+							$("#" + node.tId + consts.id.ICON).focus().blur();
+						}
+//					}
+				},
 				transformTozTreeNodes : function(simpleNodes) {
 					return transformTozTreeFormat(this.setting, simpleNodes);
 				},
 				transformToArray : function(nodes) {
 					return transformToArrayFormat(this.setting, nodes);
+				},
+				updateNode : function(node, checkTypeFlag) {
+					if (!node) return;
+//					if (st.checkEvent(this.setting)) {
+//						var checkObj = $("#" + node.tId + consts.id.CHECK);
+//						if (this.setting.checkable) {
+//							if (checkTypeFlag == true) checkNodeRelation(this.setting, node);
+//							setChkClass(this.setting, checkObj, node);
+//							repairParentChkClassWithSelf(this.setting, node);
+//						}
+						setNodeName(this.setting, node);
+						setNodeTarget(node);
+						setNodeUrl(this.setting, node);
+						setNodeLineIcos(this.setting, node);
+						setNodeFontCss(this.setting, node);
+//					}
 				}
 			}
 		}

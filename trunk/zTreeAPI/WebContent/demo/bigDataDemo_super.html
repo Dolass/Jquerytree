@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -20,13 +20,17 @@
 	];
 
 	setting = {
-		expandSpeed: "",
-		async: true,
-		asyncUrl: getUrl,
+		view: {
+			expandSpeed: ""
+		},
+		async: {
+			enable:true,
+			url: getUrl
+		},
 		callback: {
 			beforeExpand: zTreeBeforeExpand,
-			asyncSuccess: zTreeAjaxSuccess,
-			asyncError: zTreeAjaxError
+			onAsyncSuccess: zTreeAjaxSuccess,
+			onAsyncError: zTreeAjaxError
 		}
 	};
 
@@ -59,34 +63,34 @@
 			return;
 		}
 		var totalCount = treeNode.count;
-			var ajaxInfo = "treeNode:" + treeNode.name;
-			if (treeNode.nodes.length < totalCount) {
-				var percent = treeNode.nodes.length*100/totalCount + "%";
-				ajaxInfo += ("<br/>进度：" + percent);
-				setTimeout(function() {ajaxGetNodes(treeNode);}, perTime);
-			} else {
-				endTime = new Date();
-				var usedTime = (endTime.getTime() - startTime.getTime())/1000;
-				ajaxInfo += ("<br/>加载完毕，共"+treeNode.nodes.length+"个子节点, 耗时："+ usedTime + "秒");
-				treeNode.icon = "";
-				zTree1.updateNode(treeNode);
-				zTree1.selectNode(treeNode.nodes[0]);
-			}
-			$("#onAsync").html(ajaxInfo);
+		var ajaxInfo = "treeNode:" + treeNode.name;
+		if (treeNode.childs.length < totalCount) {
+			var percent = treeNode.childs.length*100/totalCount + "%";
+			ajaxInfo += ("<br/>进度：" + percent);
+			setTimeout(function() {ajaxGetNodes(treeNode);}, perTime);
+		} else {
+			endTime = new Date();
+			var usedTime = (endTime.getTime() - startTime.getTime())/1000;
+			ajaxInfo += ("<br/>加载完毕，共"+treeNode.childs.length+"个子节点, 耗时："+ usedTime + "秒");
+			treeNode.icon = "";
+			zTree1.zTreeTools.updateNode(treeNode);
+			zTree1.zTreeTools.selectNode(treeNode.childs[0]);
+		}
+		$("#onAsync").html(ajaxInfo);
 	}
 
 	function zTreeAjaxError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
 		alert("异步获取数据出现异常。");
 		treeNode.icon = "";
-		zTree1.updateNode(treeNode);
+		zTree1.zTreeTools.updateNode(treeNode);
 	}
 
 	function ajaxGetNodes(treeNode, reloadType) {
 		if (reloadType == "refresh") {
 			treeNode.icon = "zTreeStyle/img/loading.gif";
-			zTree1.updateNode(treeNode);
+			zTree1.zTreeTools.updateNode(treeNode);
 		}
-		zTree1.reAsyncChildNodes(treeNode, reloadType);
+		zTree1.zTreeTools.reAsyncChildNodes(treeNode, reloadType);
 	}
 
 	var perCount = 50;
@@ -111,7 +115,8 @@
 	}
 	
 	function reloadTree() {
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
+		zTree1 = $("#treeDemo");
+		zTree1.zTree.init(zTree1, setting, clone(zNodes, ""));
 		$("#onAsync").html("<br/>");
 	}
 
