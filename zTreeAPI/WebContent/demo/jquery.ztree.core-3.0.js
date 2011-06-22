@@ -20,17 +20,10 @@
 			COLLAPSE: "ztree_collapse",
 			ASYNC_SUCCESS: "ztree_async_success",
 			ASYNC_ERROR: "ztree_async_error"
-//DRAG: "ztree_drag",
-//DROP: "ztree_drop",
-//EDITNAME: "ztree_editname",
-//REMOVE: "ztree_rename"
 		},
 		id: {
 			A: "_a",
-//				EDIT: "_edit",
 			ICON: "_ico",
-//				INPUT: "_input",
-//				REMOVE: "_remove",
 			SPAN: "_span",
 			SWITCH: "_switch",
 			UL: "_ul"
@@ -54,12 +47,6 @@
 			TMPTARGET_TREE: "tmpTargetTree",
 			TMPTARGET_NODE: "tmpTargetNode"
 		}
-//			move: {
-//				TYPE_INNER: "inner",
-//				TYPE_BEFORE: "before",
-//				TYPE_AFTER: "after",
-//				MINMOVESIZE: 5
-//			}
 	},
 	_setting = {
 		treeId: "",
@@ -152,12 +139,6 @@
 		o.bind(c.CLICK, function (event, treeId, node) {
 			tools.apply(setting.callback.onClick, [event, treeId, node]);
 		});
-
-//		o.unbind(c.CHECK);
-//		o.bind(c.CHECK, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onCheck, [event, treeId, treeNode]);
-//		});
-//
 //		o.unbind(c.EDITNAME);
 //		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
 //			tools.apply(setting.callback.onEditName, [event, treeId, treeNode]);
@@ -208,27 +189,17 @@
 		var tmp = null;
 
 		if (tools.eqs(event.type, "mouseover")) {
-//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "mouseoverCheck";
-//			} else {
 //				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 //				if (tmp) {
 //					tId = tmp.parentNode.id;
 //					nodeEventType = "hoverOverNode";
 //				}
-//			}
 		} else if (tools.eqs(event.type, "mouseout")) {
-//			if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "mouseoutCheck";
-//			} else {
 //				tmp = tools.getMDom(setting, relatedTarget, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
 //				if (!tmp) {
 //					tId = "remove";
 //					nodeEventType = "hoverOutNode";
 //				}
-//			}
 		} else if (tools.eqs(event.type, "mousedown")) {
 			treeEventType = "mousedown";
 //			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+IDMark_A}]);
@@ -244,9 +215,6 @@
 			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "switchNode";
-//			} else if (setting.checkable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+IDMark_Check) !== null) {
-//				tId = target.parentNode.id;
-//				nodeEventType = "checkNode";
 			} else {
 				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 				if (tmp) {
@@ -283,15 +251,6 @@
 				case "clickNode" :
 					nodeEventCallback = handler.onClickNode;
 					break;
-//				case "checkNode" :
-//					handler.onCheckNode(event);
-//					break;
-//				case "mouseoverCheck" :
-//					handler.onMouseoverCheck(event);
-//					break;
-//				case "mouseoutCheck" :
-//					handler.onMouseoutCheck(event);
-//					break;
 //				case "mousedownNode" :
 //					handler.onMousedownNode(event);
 //					break;
@@ -352,11 +311,6 @@
 		n.getNextNode = function() {return data.getNodeCache(setting, n.nextTId);};
 		n.isAjaxing = false;
 		n.editNameStatus = false;
-//		n[setting.checkedCol] = !!node[setting.checkedCol];
-//		n.checkedOld = node[setting.checkedCol];
-//		n.check_Focus = false;
-//		n.check_True_Full = true;
-//		n.check_False_Full = true;
 	},
 	_init = {
 		bind: [_bindEvent],
@@ -786,7 +740,7 @@
 		},
 		noSel: function() {
 			window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
-				document.selection.empty();
+				try{document.selection.empty();} catch(e){};
 			}, 10);
 		}
 	};
@@ -871,13 +825,6 @@
 					"<button type='button' id='", node.tId, consts.id.SWITCH,
 					"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH," onfocus='this.blur();'></button>");
 				data.getBeforeA(setting, node, html);
-				//			if (setting.checkable) {
-				//				makeChkFlag(setting, node);
-				//				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
-				//					setting.checkRadioCheckedList = setting.checkRadioCheckedList.concat([node]);
-				//				}
-				//				html.push("<button type='button' ID='", node.tId, IDMark_Check, "' class='", makeChkClass(setting, node), "' treeNode", IDMark_Check," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
-				//			}
 				html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 					"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 					"'>");
