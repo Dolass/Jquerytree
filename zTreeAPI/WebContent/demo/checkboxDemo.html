@@ -20,7 +20,7 @@
 				enable: true
 			},
 			callback: {
-				onCheck: zTreeOnChange
+				onCheck: zTreeOnCheck
 			}
 		};
 
@@ -29,7 +29,7 @@
 
 	});
 
-	function zTreeOnChange(event, treeId, treeNode) {
+	function zTreeOnCheck(event, treeId, treeNode) {
 		getCheckedNodesLength();
 	}
 
@@ -45,7 +45,7 @@
 
 	function refreshTree() {
 		var checkType = getCheckBoxType();
-		setting.checkType = checkType;
+		setting.chk.chkboxType = checkType;
 		zTree1 = $("#treeDemo");
 		zTree1.zTree.init(zTree1, setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
@@ -53,15 +53,15 @@
 	}
 
 	function getCheckedNodesLength() {
-//		var tmp = zTree1.getCheckedNodes();
-//		$("#checkedNum").html(tmp.length);
-//		tmp = zTree1.getChangeCheckedNodes();
-//		$("#checkedChangeNum").html(tmp.length);
-//		if ($("#changeYes").attr("checked")) {
-//			for (var i=0; i<tmp.length; i++) {
-//				tmp[i].checkedOld = tmp[i].checked;
-//			}
-//		}
+		var tmp = zTree1.zTreeTools.getCheckedNodes();
+		$("#checkedNum").html(tmp.length);
+		tmp = zTree1.zTreeTools.getChangeCheckedNodes();
+		$("#checkedChangeNum").html(tmp.length);
+		if ($("#changeYes").attr("checked")) {
+			for (var i=0; i<tmp.length; i++) {
+				tmp[i].checkedOld = tmp[i].checked;
+			}
+		}
 	}
 
   //-->
