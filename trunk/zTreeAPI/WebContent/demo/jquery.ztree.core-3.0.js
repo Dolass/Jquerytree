@@ -12,6 +12,55 @@
  */
 (function($){
 	var settings = [], roots = [], caches = [], zId = 0,
+	_consts = {
+		event: {
+			NODECREATED: "ztree_nodeCreated",
+			CLICK: "ztree_click",
+			EXPAND: "ztree_expand",
+			COLLAPSE: "ztree_collapse",
+			ASYNC_SUCCESS: "ztree_async_success",
+			ASYNC_ERROR: "ztree_async_error"
+//DRAG: "ztree_drag",
+//DROP: "ztree_drop",
+//EDITNAME: "ztree_editname",
+//REMOVE: "ztree_rename"
+		},
+		id: {
+			A: "_a",
+//				EDIT: "_edit",
+			ICON: "_ico",
+//				INPUT: "_input",
+//				REMOVE: "_remove",
+			SPAN: "_span",
+			SWITCH: "_switch",
+			UL: "_ul"
+		},
+		line: {
+			ROOT: "root",
+			ROOTS: "roots",
+			CENTER: "center",
+			BOTTOM: "bottom",
+			NOLINE: "noline",
+			LINE: "line"
+		},
+		folder: {
+			OPEN: "open",
+			CLOSE: "close",
+			DOCU: "docu"
+		},
+		node: {
+			CURSELECTED: "curSelectedNode",
+			CURSELECTED_EDIT: "curSelectedNode_Edit",
+			TMPTARGET_TREE: "tmpTargetTree",
+			TMPTARGET_NODE: "tmpTargetNode"
+		}
+//			move: {
+//				TYPE_INNER: "inner",
+//				TYPE_BEFORE: "before",
+//				TYPE_AFTER: "after",
+//				MINMOVESIZE: 5
+//			}
+	},
 	_setting = {
 		treeId: "",
 		treeObj: null,
@@ -82,11 +131,11 @@
 		r.curSelectedList = [];
 		r.curEditNode = null;
 	},
-	_initCache = function(treeId) {
-		var c = caches[treeId];
+	_initCache = function(setting) {
+		var c = data.getCache(setting);
 		if (!c) {
 			c = {};
-			caches[treeId] = c;
+			data.setCache(setting, c);
 		}
 		c.nodes = [];
 		c.doms = [];
@@ -226,7 +275,6 @@
 //		}
 		var stop = false;
 		if (tId.length>0) {
-			stop = true;
 			event.data.treeNode = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
@@ -254,6 +302,7 @@
 //					nodeEventCallback = handler.onHoverOutNode(event);
 //					break;
 			}
+			stop = !!nodeEventCallback;
 		} else {
 			event.data.treeNode = null;
 		}
@@ -314,12 +363,29 @@
 		caches: [_initCache],
 		nodes: [_initNode],
 		proxys: [_eventProxy],
-		roots: [_initRoot]
+		roots: [_initRoot],
+		beforeA: [],
+		afterA: [],
+		innerBeforeA: [],
+		innerAfterA: [],
+		zTreeTools: []
 	};
 
 	var data = {
 		addNodeCache: function(setting, node) {
-			caches[setting.treeId].nodes[node.tId] = node;
+			data.getCache(setting).nodes[node.tId] = node;
+		},
+		addAfterA: function(afterA) {
+			_init.afterA.push(afterA);
+		},
+		addBeforeA: function(beforeA) {
+			_init.beforeA.push(beforeA);
+		},
+		addInnerAfterA: function(innerAfterA) {
+			_init.innerAfterA.push(innerAfterA);
+		},
+		addInnerBeforeA: function(innerBeforeA) {
+			_init.innerBeforeA.push(innerBeforeA);
 		},
 		addInitBind: function(bindEvent) {
 			_init.bind.push(bindEvent);
@@ -346,6 +412,9 @@
 			parentNode.isParent = true;
 			parentNode[childsKey] = parentNode[childsKey].concat(nodes);
 		},
+		addZTreeTools: function(zTreeTools) {
+			_init.zTreeTools.push(zTreeTools);
+		},
 		exSetting: function(s) {
 			$.extend(true, _setting, s);
 		},
@@ -353,6 +422,29 @@
 			if (setting.data.simpleData.enable) {
 				node[setting.data.simpleData.pIdKey] = node.parentTId ? node.getParentNode()[setting.data.simpleData.idKey] : setting.data.simpleData.rootPid;
 			}
+		},
+		getAfterA: function(setting, node, array) {
+			for (var i=0, j=_init.afterA.length; i<j; i++) {
+				_init.afterA[i].apply(this, arguments);
+			}
+		},
+		getBeforeA: function(setting, node, array) {
+			for (var i=0, j=_init.beforeA.length; i<j; i++) {
+				_init.beforeA[i].apply(this, arguments);
+			}
+		},
+		getInnerAfterA: function(setting, node, array) {
+			for (var i=0, j=_init.innerAfterA.length; i<j; i++) {
+				_init.innerAfterA[i].apply(this, arguments);
+			}
+		},
+		getInnerBeforeA: function(setting, node, array) {
+			for (var i=0, j=_init.innerBeforeA.length; i<j; i++) {
+				_init.innerBeforeA[i].apply(this, arguments);
+			}
+		},
+		getCache: function(setting) {
+			return caches[setting.treeId];
 		},
 		getNodeByParam: function(setting, nodes, key, value) {
 			if (!nodes || !key) return null;
@@ -404,7 +496,12 @@
 		getSetting: function(treeId) {
 			return settings[treeId];
 		},
-		initCache: function(treeId) {
+		getZTreeTools: function(setting, obj) {
+			for (var i=0, j=_init.zTreeTools.length; i<j; i++) {
+				_init.zTreeTools[i].apply(this, arguments);
+			}
+		},
+		initCache: function(setting) {
 			for (var i=0, j=_init.caches.length; i<j; i++) {
 				_init.caches[i].apply(this, arguments);
 			}
@@ -418,6 +515,9 @@
 			for (var i=0, j=_init.roots.length; i<j; i++) {
 				_init.roots[i].apply(this, arguments);
 			}
+		},
+		setCache: function(setting, cache) {
+			caches[setting.treeId] = cache;
 		},
 		setRoot: function(setting, root) {
 			roots[setting.treeId] = root;
@@ -545,7 +645,6 @@
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return;
 			view.selectNode(setting, node, event.ctrlKey);
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
-			console.log(node);
 		},
 		onZTreeMousedown: function(event) {
 			var setting = settings[event.data.treeId];
@@ -771,7 +870,7 @@
 				html.push("<li id='", node.tId, "' treenode>",
 					"<button type='button' id='", node.tId, consts.id.SWITCH,
 					"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH," onfocus='this.blur();'></button>");
-				//beforeA()
+				data.getBeforeA(setting, node, html);
 				//			if (setting.checkable) {
 				//				makeChkFlag(setting, node);
 				//				if (setting.checkStyle == Check_Style_Radio && setting.checkRadioType == Radio_Type_All && node[setting.checkedCol] ) {
@@ -781,9 +880,15 @@
 				//			}
 				html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 					"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
-					"'><button type='button' id='", node.tId, consts.id.ICON,
+					"'>");
+				data.getInnerBeforeA(setting, node, html);
+				html.push("<button type='button' id='", node.tId, consts.id.ICON,
 					"' title='' treeNode", consts.id.ICON," onfocus='this.blur();' class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
-					"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span></a><ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
+					"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
+				data.getInnerAfterA(setting, node, html);
+				html.push("</a>");
+				data.getAfterA(setting, node, html);
+				html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
 				html.push(childHtml.join(''));
 				html.push("</ul></li>");
 			}
@@ -1162,71 +1267,7 @@
 	};
 	
 	$.fn.zTree = {
-		consts : {
-			event: {
-				NODECREATED: "ztree_nodeCreated",
-				CLICK: "ztree_click",
-				EXPAND: "ztree_expand",
-				COLLAPSE: "ztree_collapse",
-				ASYNC_SUCCESS: "ztree_async_success",
-				ASYNC_ERROR: "ztree_async_error"
-//CHECK: "ztree_check",
-//DRAG: "ztree_drag",
-//DROP: "ztree_drop",
-//EDITNAME: "ztree_editname",
-//REMOVE: "ztree_rename"
-			},
-			id: {
-				A: "_a",
-//				CHECK: "_check",
-//				EDIT: "_edit",
-				ICON: "_ico",
-//				INPUT: "_input",
-//				REMOVE: "_remove",
-				SPAN: "_span",
-				SWITCH: "_switch",
-				UL: "_ul"
-			},
-			line: {
-				ROOT: "root",
-				ROOTS: "roots",
-				CENTER: "center",
-				BOTTOM: "bottom",
-				NOLINE: "noline",
-				LINE: "line"
-			},
-			folder: {
-				OPEN: "open",
-				CLOSE: "close",
-				DOCU: "docu"
-			},
-			node: {
-				CURSELECTED: "curSelectedNode",
-				CURSELECTED_EDIT: "curSelectedNode_Edit",
-				TMPTARGET_TREE: "tmpTargetTree",
-				TMPTARGET_NODE: "tmpTargetNode"
-			}
-//			checkbox: {
-//				STYLE: "checkbox",
-//				DEFAULT: "chk",
-//				FALSE: "false",
-//				TRUE: "true",
-//				FULL: "full",
-//				PART: "part",
-//				FOCUS: "focus"
-//			},
-//			radio: {
-//				STYLE: "radio",
-//				TYPE_ALL: "all",
-//				TYPE_LEVEL: "level"
-//			},
-//			move: {
-//				TYPE_INNER: "inner",
-//				TYPE_BEFORE: "before",
-//				TYPE_AFTER: "after",
-//				MINMOVESIZE: 5
-//			}
-		},
+		consts : _consts,
 		_z : {
 			tools: tools,
 			view: view,
@@ -1254,7 +1295,7 @@
 				root[setting.data.key.childs] = zNodes;
 			}
 			
-			data.initCache(setting.treeId);
+			data.initCache(setting);
 			event.bindTree(setting);
 			event.bindEvent(setting);
 			if (root.childs && root.childs.length > 0) {
@@ -1355,12 +1396,6 @@
 				updateNode : function(node, checkTypeFlag) {
 					if (!node) return;
 //					if (st.checkEvent(this.setting)) {
-//						var checkObj = $("#" + node.tId + consts.id.CHECK);
-//						if (this.setting.checkable) {
-//							if (checkTypeFlag == true) checkNodeRelation(this.setting, node);
-//							setChkClass(this.setting, checkObj, node);
-//							repairParentChkClassWithSelf(this.setting, node);
-//						}
 						view.setNodeName(this.setting, node);
 						view.setNodeTarget(node);
 						view.setNodeUrl(this.setting, node);
@@ -1369,6 +1404,7 @@
 //					}
 				}
 			}
+			data.getZTreeTools(setting, obj);
 		}
 	};
 
