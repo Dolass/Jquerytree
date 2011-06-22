@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
 
 
   <SCRIPT LANGUAGE="JavaScript">
@@ -20,6 +21,9 @@
 				url: "asyncData/node.txt",  //获取节点数据的URL地址
 				autoParam: ["name", "id"],  //获取节点数据时，必须的数据名称，例如：id、name
 				otherParam: ["test","true"] //其它参数 ( key, value 键值对格式)
+			},
+			chk: {
+				enable : true
 			},
 			callback:{
 				beforeAsync: zTreeBeforeAsync,

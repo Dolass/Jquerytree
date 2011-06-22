@@ -160,7 +160,6 @@
 						view.repairParentChkClassWithSelf(this.setting, node);
 					}
 //				}
-
 		}
 	};
 	
@@ -391,7 +390,7 @@
 	var _z = {
 		tools: _tools,
 		view: _view,
-		event: event,
+		event: _event,
 		data: _data
 	};
 	$.extend(true, $.fn.zTree.consts, _consts);
@@ -412,5 +411,12 @@
 	data.addInitRoot(_initRoot);
 	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
+
+	var _createNodes = view.createNodes;
+	view.createNodes = function(setting, level, nodes, parentNode) {
+		if (_createNodes) _createNodes.apply(view, arguments);
+		if (!nodes) return;
+		view.repairParentChkClassWithSelf(setting, parentNode);
+	}
 
 })(jQuery);
