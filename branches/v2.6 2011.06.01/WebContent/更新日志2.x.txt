@@ -13,6 +13,7 @@
 
 *2011.06.15* v2.6.01
    * 【修正】先设置 treeNode.icon ；updateNode后如果设置 treeNode.icon为空的时候，在IE下原图标无法消失的 Bug
+   * 【修正】getNodesByParam 方法，没有接受 parentNode 的 Bug
    * 【修正】API文档中 edit_removeBtn / edit_renameBtn 的说明
 
 *2011.06.01* v2.6

@@ -2160,9 +2160,9 @@
 				if (!key) return null;
 				return getTreeNodeByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
 			},
-			getNodesByParam : function(key, value) {
+			getNodesByParam : function(key, value, parentNode) {
 				if (!key) return null;
-				return getTreeNodesByParam(this.setting, this.setting.root[this.setting.nodesCol], key, value);
+				return getTreeNodesByParam(this.setting, parentNode?parentNode[this.setting.nodesCol]:this.setting.root[this.setting.nodesCol], key, value);
 			},
 			getNodesByParamFuzzy : function(key, value, parentNode) {
 				if (!key) return null;
