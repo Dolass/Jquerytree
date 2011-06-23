@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,13 +16,37 @@
 	var setting;
 
 		setting = {
-			editable: true,
-			keepParent: false,
-			keepLeaf: false,
-			dragCopy: true,
-			dragMove: true,
+			data: {
+				keep: {
+					parent: false,
+					leaf: false
+				}
+			},
+			edit: {
+				enable: true,
+				showRemoveBtn: true,
+				showRenameBtn: true,
+				showHoverDom: true,
+				drag: {
+					isCopy: true,
+					isMove: true
+				}
+			},
+			view: {
+				addHoverDom: null,
+				removeHoverDom: null
+			},
 			callback: {
-				confirmRename: zTreeConfirmRename
+				beforeDrag:null,
+				beforeDragOpen:null,
+				beforeDrop:null,
+				beforeEditName:null,
+				beforeRemove:null,
+				beforeRename: zTreeConfirmRename,
+				onDrag:null,
+				onDrop:null,
+				onEditName:null,
+				onRemove:null
 			}
 		};
 
@@ -73,20 +99,21 @@
 	function refreshTree() {
 		$("#editableCode").html("true");
 		if ($("#ebfun").attr("checked")) {
-			setting.edit_renameBtn = setRenameBtn;
+			setting.edit.showRenameBtn = setRenameBtn;
 			$("#renameBtnCode").html("setRenameBtn");
 		} else {
-			setting.edit_renameBtn = $("#ebTrue").attr("checked");
+			setting.edit.showRenameBtn = $("#ebTrue").attr("checked");
 			$("#renameBtnCode").html("" + setting.edit_renameBtn);
 		}
 		if ($("#dbfun").attr("checked")) {
-			setting.edit_removeBtn = setRemoveBtn;
+			setting.edit.showRemoveBtn = setRemoveBtn;
 			$("#removeBtnCode").html("setRemoveBtn");
 		} else {
 			setting.edit_removeBtn = $("#dbTrue").attr("checked");
-			$("#removeBtnCode").html("" + setting.edit_removeBtn);
+			$("#removeBtnCode").html("" + setting.edit.showRemoveBtn);
 		}
-		zTree1 = $("#treeDemo").zTree(setting, zNodes);
+		zTree1 = $("#treeDemo");
+		zTree1.zTree.init(zTree1,setting, zNodes);
 	}
 
   //-->

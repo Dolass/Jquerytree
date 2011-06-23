@@ -35,7 +35,7 @@
 	},
 	_setting = {
 		chk: {
-			enable: true,
+			enable: false,
 			chkStyle: _consts.checkbox.STYLE,
 			radioType: _consts.radio.TYPE_LEVEL,
 			chkboxType: {
@@ -69,11 +69,9 @@
 	_eventProxy = function(e) {
 		var target = e.target;
 		var setting = data.getSetting(e.data.treeId);
-		var relatedTarget = e.relatedTarget;
-		var tId = "";
+		var tId = "", node = null;
 		var nodeEventType = "", treeEventType = "";
 		var nodeEventCallback = null, treeEventCallback = null;
-		var tmp = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
 			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
@@ -92,7 +90,7 @@
 			}
 		}
 		if (tId.length>0) {
-			e.data.treeNode = data.getNodeCache(setting, tId);
+			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "checkNode" :
 					nodeEventCallback = _handler.onCheckNode;
@@ -104,11 +102,10 @@
 					nodeEventCallback = _handler.onMouseoutCheck;
 					break;
 			}
-		} else {
-			e.data.treeNode = null;
 		}
 		var proxyResult = {
 			stop: false,
+			node: node,
 			nodeEventType: nodeEventType,
 			nodeEventCallback: nodeEventCallback,
 			treeEventType: treeEventType,
@@ -217,33 +214,31 @@
 	};
 
 	var _handler = {
-		onCheckNode: function (event) {
+		onCheckNode: function (event, node) {
 			var setting = data.getSetting(event.data.treeId);
 			var checkedKey = setting.data.key.checked;
-			var node = event.data.treeNode;
-			if (tools.apply(setting.callback.beforeCheck, [setting.treeId, node], true) == false) return;
-
+			if (tools.apply(setting.callback.beforeCheck, [setting.treeId, node], true) == false) return true;
 			node[checkedKey] = !node[checkedKey];
 			view.checkNodeRelation(setting, node);
 			var checkObj = $("#" + node.tId + consts.id.CHECK);
 			view.setChkClass(setting, checkObj, node);
 			view.repairParentChkClassWithSelf(setting, node);
-
 			setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+			return true;
 		},
-		onMouseoverCheck: function(event) {
+		onMouseoverCheck: function(event, node) {
 			var setting = data.getSetting(event.data.treeId);
-			var node = event.data.treeNode;
 			var checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.checkboxFocus = true;
 			view.setChkClass(setting, checkObj, node);
+			return true;
 		},
-		onMouseoutCheck: function(event) {
+		onMouseoutCheck: function(event, node) {
 			var setting = data.getSetting(event.data.treeId);
-			var node = event.data.treeNode;
 			var checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.checkboxFocus = false;
 			view.setChkClass(setting, checkObj, node);
+			return true;
 		}
 	};
 
