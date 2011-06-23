@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
   .test {
@@ -33,6 +35,12 @@
 
 	
 	var setting= {
+		chk: {
+			enable: true
+		},
+		edit: {
+			enable: true
+		},
 		view:{
 			addHoverDom: addHoverDom,
 			removeHoverDom: removeHoverDom,
@@ -60,7 +68,6 @@
 		 	       {id:25, name:"超链接"}		 	       
 			]}
 	 	];
-
 
 	$(document).ready(function(){
 		reloadTree();

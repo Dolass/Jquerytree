@@ -42,10 +42,7 @@
 			DOCU: "docu"
 		},
 		node: {
-			CURSELECTED: "curSelectedNode",
-			CURSELECTED_EDIT: "curSelectedNode_Edit",
-			TMPTARGET_TREE: "tmpTargetTree",
-			TMPTARGET_NODE: "tmpTargetNode"
+			CURSELECTED: "curSelectedNode"
 		}
 	},
 	_setting = {
@@ -57,8 +54,6 @@
 			urlEnable: true,
 			expandSpeed: "fast",
 			hoverDomFlag: true,
-//			addHoverDom: null,
-//			removeHoverDom: null,
 			addDiyDom: null,
 			fontCss: {}
 		},
@@ -139,25 +134,6 @@
 		o.bind(c.CLICK, function (event, treeId, node) {
 			tools.apply(setting.callback.onClick, [event, treeId, node]);
 		});
-//		o.unbind(c.EDITNAME);
-//		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onEditName, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.REMOVE);
-//		o.bind(c.REMOVE, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onRemove, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.DRAG);
-//		o.bind(c.DRAG, function (event, treeId, treeNode) {
-//			tools.apply(setting.callback.onDrag, [event, treeId, treeNode]);
-//		});
-//
-//		o.unbind(c.DROP);
-//		o.bind(c.DROP, function (event, treeId, treeNode, targetNode, moveType) {
-//			tools.apply(setting.callback.onDrop, [event, treeId, treeNode, targetNode, moveType]);
-//		});
 
 		o.unbind(c.EXPAND);
 		o.bind(c.EXPAND, function (event, treeId, node) {
@@ -182,8 +158,7 @@
 	_eventProxy = function(event) {
 		var target = event.target;
 		var setting = settings[event.data.treeId];
-		var relatedTarget = event.relatedTarget;
-		var tId = "";
+		var tId = "", node = null;
 		var nodeEventType = "", treeEventType = "";
 		var nodeEventCallback = null, treeEventCallback = null;
 		var tmp = null;
@@ -241,9 +216,8 @@
 //				&& target.getAttribute("treeNode"+IDMark_Input) === null
 //				&& !st.checkEvent(setting)) return false;
 //		}
-		var stop = false;
 		if (tId.length>0) {
-			event.data.treeNode = data.getNodeCache(setting, tId);
+			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
 					nodeEventCallback = handler.onSwitchNode;
@@ -261,9 +235,6 @@
 //					nodeEventCallback = handler.onHoverOutNode(event);
 //					break;
 			}
-			stop = !!nodeEventCallback;
-		} else {
-			event.data.treeNode = null;
 		}
 		switch (treeEventType) {
 			case "mousedown" :
@@ -280,7 +251,8 @@
 				break;
 		}
 		var proxyResult = {
-			stop: stop,
+			stop: false,
+			node: node,
 			nodeEventType: nodeEventType,
 			nodeEventCallback: nodeEventCallback,
 			treeEventType: treeEventType,
@@ -310,7 +282,6 @@
 		n.nextTId = nextNode ? nextNode.tId : null;
 		n.getNextNode = function() {return data.getNodeCache(setting, n.nextTId);};
 		n.isAjaxing = false;
-		n.editNameStatus = false;
 	},
 	_init = {
 		bind: [_bindEvent],
@@ -568,10 +539,10 @@
 			for (var i=0, l=results.length; i<l; i++) {
 				var proxyResult = results[i];
 				if (proxyResult.nodeEventCallback) {
-					r = r && proxyResult.nodeEventCallback.apply(proxyResult, arguments);
+					r = proxyResult.nodeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 				if (proxyResult.treeEventCallback) {
-					r = r && proxyResult.treeEventCallback.apply(proxyResult, arguments);
+					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
 			return r;
@@ -579,54 +550,49 @@
 	};
 
 	var handler = {
-		onSwitchNode: function (event) {
+		onSwitchNode: function (event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
-
 			if (node.open) {
-				if (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false) return;
+				if (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false) return true;
 				data.getRoot(setting).expandTriggerFlag = true;
 				view.switchNode(setting, node);
 			} else {
-				if (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false) return;
+				if (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false) return true;
 				data.getRoot(setting).expandTriggerFlag = true;
 				view.switchNode(setting, node);
 			}
+			return true;
 		},
-		onClickNode: function (event) {
+		onClickNode: function (event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
-			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return;
+			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return true;
 			view.selectNode(setting, node, event.ctrlKey);
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
+			return true;
 		},
-		onZTreeMousedown: function(event) {
+		onZTreeMousedown: function(event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
 			if (tools.apply(setting.callback.beforeMouseDown, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onMouseDown, [event, setting.treeId, node]);
 			}
 			return true;
 		},
-		onZTreeMouseup: function(event) {
+		onZTreeMouseup: function(event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
 			if (tools.apply(setting.callback.beforeMouseUp, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onMouseUp, [event, setting.treeId, node]);
 			}
 			return true;
 		},
-		onZTreeDblclick: function(event) {
+		onZTreeDblclick: function(event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
 			if (tools.apply(setting.callback.beforeDblclick, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onDblclick, [event, setting.treeId, node]);
 			}
 			return true;
 		},
-		onZTreeContextmenu: function(event) {
+		onZTreeContextmenu: function(event, node) {
 			var setting = settings[event.data.treeId];
-			var node = event.data.treeNode;
 			if (tools.apply(setting.callback.beforeRightClick, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onRightClick, [event, setting.treeId, node]);
 			}
@@ -635,9 +601,9 @@
 	};
 
 	var st = {
-//		checkEvent: function(setting) {
+		checkEvent: function(setting) {
 //			return st.checkCancelPreEditNode(setting);
-//		},
+		},
 		cancelPreSelectedNode: function (setting, node) {
 			var root = data.getRoot(setting);
 			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
@@ -713,12 +679,6 @@
 		eqs: function(str1, str2) {
 			return str1.toLowerCase() === str2.toLowerCase();
 		},
-		inputFocus: function(inputObj) {
-			if (inputObj.get(0)) {
-				inputObj.focus();
-				setCursorPosition(inputObj.get(0), inputObj.val().length);
-			}
-		},
 		isArray: function(arr) {
 			return Object.prototype.toString.apply(arr) === "[object Array]";
 		},
@@ -746,16 +706,6 @@
 	};
 
 	var view = {
-//		addHoverDom: function(setting, node) {
-//			if (setting.view.hoverDomFlag) {
-//				node.isHover = true;
-//				if (setting.edit.enable) {
-//					addEditBtn(setting, node);
-//					addRemoveBtn(setting, node);
-//				}
-//				tools.apply(setting.view.addHoverDom, [setting.treeId, node]);
-//			}
-//		},
 		addNodes: function(setting, parentNode, newNodes, isSilent) {
 			if (setting.data.keep.leaf && parentNode && !parentNode.isParent) {
 				return;
@@ -1107,13 +1057,12 @@
 		},
 		selectNode: function(setting, node, addFlag) {
 			var root = data.getRoot(setting);
-			if (view.isSelectedNode(setting, node) && ((root.curEditNode == node && node.editNameStatus))) {
-				return;
-			}
-//			st.cancelPreEditNode(setting);
 			if (!addFlag) {
 				st.cancelPreSelectedNode(setting);
 			}
+			$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED);
+			view.addSelectedNode(setting, node);
+//			st.cancelPreEditNode(setting);
 
 //			if (setting.edit.enable && node.editNameStatus) {
 //				$("#" + node.tId + consts.id.SPAN).html("<input type=text class='rename' id='" + node.tId + consts.id.INPUT + "' treeNode" + consts.id.INPUT + " >");
@@ -1149,10 +1098,10 @@
 //				$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED_EDIT);
 //				setting.curEditTreeNode = node;
 //			} else {
-				$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED);
+//				$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED);
 //			}
 //			addHoverDom(setting, node);
-			view.addSelectedNode(setting, node);
+
 		},
 		setNodeFontCss: function(setting, treeNode) {
 			var aObj = $("#" + treeNode.tId + consts.id.A);
