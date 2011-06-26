@@ -226,7 +226,7 @@
 				range.moveStart('character', pos);
 				range.select();
 			}
-		},
+		}
 	};
 
 	var _view = {
@@ -280,7 +280,7 @@
 					view.addEditBtn(setting, node);
 					view.addRemoveBtn(setting, node);
 				}
-				tools.apply(setting.view.addHoverDom, [setting.treeId, node]);
+				tools.apply(setting.view.addHoverDom, [setting, node]);
 			}
 		},
 		editTreeNode: function(setting, node) {
@@ -327,12 +327,25 @@
 //	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 
-	var _createNodes = view.createNodes;
+	view.cancelPreSelectedNode = function (setting, node) {
+		var root = data.getRoot(setting);
+		for (var i=0, j=root.curSelectedList.length; i<j; i++) {
+			if (!node || node === root.curSelectedList[i]) {
+				$("#" + root.curSelectedList[i].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
+				view.setNodeName(setting, root.curSelectedList[i]);
+			}
+			view.removeTreeDom(setting, root.curSelectedList[i]);
+		}
+		root.curSelectedList = [];
+	}
+
+var _createNodes = view.createNodes;
 	view.createNodes = function(setting, level, nodes, parentNode) {
 		if (_createNodes) _createNodes.apply(view, arguments);
 		if (!nodes) return;
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
+
 
 	var _selectNode = view.selectNode;
 	view.selectNode = function(setting, node, addFlag) {
@@ -353,23 +366,22 @@
 
 			//拦截A的click dblclick监听
 			inputObj.bind('blur', function(event) {
-				if (st.checkEvent(setting)) {
+//				if (st.checkEvent(setting)) {
 					node.editNameStatus = false;
 					view.selectNode(setting, node);
-				}
+//				}
 			}).bind('keyup', function(event) {
 				if (event.keyCode=="13") {
-					if (st.checkEvent(setting)) {
+//					if (st.checkEvent(setting)) {
 						node.editNameStatus = false;
 						view.selectNode(setting, node);
-					}
+//					}
 				} else if (event.keyCode=="27") {
 					inputObj.attr("value", node[setting.nameCol]);
 					node.editNameStatus = false;
 					view.selectNode(setting, node);
 				}
 			}).bind('click', function(event) {
-				console.log("click...");
 				return false;
 			}).bind('dblclick', function(event) {
 				return false;
