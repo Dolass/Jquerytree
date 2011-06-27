@@ -65,9 +65,9 @@
 	},
 	_initRoot = function (setting) {
 		var r = data.getRoot(setting);
-		r.curEditTreeNode = null;
+		r.curEditNode = null;
 		r.curEditInput = null;
-		r.curHoverTreeNode = null;
+		r.curHoverNode = null;
 		r.dragStatus = 0;
 	},
 	_initCache = function(treeId) {},
@@ -127,6 +127,7 @@
 			switch (nodeEventType) {
 				case "mousedownNode" :
 					nodeEventCallback = _handler.onMousedownNode;
+					tools.noSel();
 					break;
 				case "hoverOverNode" :
 					nodeEventCallback = _handler.onHoverOverNode;
@@ -191,19 +192,19 @@
 		onHoverOverNode: function(event, node) {
 			var setting = data.getSetting(event.data.treeId),
 			root = data.getRoot(setting);
-			if (root.curHoverTreeNode != node) {
-//				event.data.treeNode = root.curHoverTreeNode;
+			if (root.curHoverNode != node) {
+//				event.data.treeNode = root.curHoverNode;
 				_handler.onHoverOutNode(event);
 			}
-			root.curHoverTreeNode = node;
+			root.curHoverNode = node;
 			view.addHoverDom(setting, node);
 		},
 		onHoverOutNode: function(event, node) {
 			var setting = data.getSetting(event.data.treeId),
 			root = data.getRoot(setting);
-			if (root.curHoverTreeNode && !view.isSelectedNode(setting, root.curHoverTreeNode)) {
-				view.removeTreeDom(setting, root.curHoverTreeNode);
-				root.curHoverTreeNode = null;
+			if (root.curHoverNode && !view.isSelectedNode(setting, root.curHoverNode)) {
+				view.removeTreeDom(setting, root.curHoverNode);
+				root.curHoverNode = null;
 			}
 		}
 	};
@@ -244,7 +245,7 @@
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
 					if (tools.apply(setting.callback.beforeRename, [setting.treeId, node], true) == false) return true;
-					view.editTreeNode(setting, node);
+					view.editNode(setting, node);
 					return false;
 				}
 				).show();
@@ -263,7 +264,7 @@
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
 				function() {
 					if (tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return true;
-					view.removeTreeNode(setting, node);
+					view.removeNode(setting, node);
 					setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 					return false;
 				}
@@ -283,7 +284,7 @@
 				tools.apply(setting.view.addHoverDom, [setting, node]);
 			}
 		},
-		editTreeNode: function(setting, node) {
+		editNode: function(setting, node) {
 			node.editNameStatus = true;
 			view.removeTreeDom(setting, node);
 			view.selectNode(setting, node);
@@ -339,21 +340,22 @@
 		root.curSelectedList = [];
 	}
 
-var _createNodes = view.createNodes;
+	var _createNodes = view.createNodes;
 	view.createNodes = function(setting, level, nodes, parentNode) {
 		if (_createNodes) _createNodes.apply(view, arguments);
 		if (!nodes) return;
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
 
-
 	var _selectNode = view.selectNode;
 	view.selectNode = function(setting, node, addFlag) {
 		var nameKey = setting.data.key.name;
 		var root = data.getRoot(setting);
 		if (view.isSelectedNode(setting, node) && ((root.curEditNode == node && node.editNameStatus))) {
+			console.log(1111);
 			return;
 		}
+		console.log(2222 + "," + view.isSelectedNode(setting, node) + "," + (root.curEditNode == node) + "," + node.editNameStatus);
 //		st.cancelPreEditNode(setting);
 
 		if (setting.edit.enable && node.editNameStatus) {
@@ -367,8 +369,8 @@ var _createNodes = view.createNodes;
 			//拦截A的click dblclick监听
 			inputObj.bind('blur', function(event) {
 //				if (st.checkEvent(setting)) {
-					node.editNameStatus = false;
-					view.selectNode(setting, node);
+//					node.editNameStatus = false;
+//					view.selectNode(setting, node);
 //				}
 			}).bind('keyup', function(event) {
 				if (event.keyCode=="13") {
@@ -388,7 +390,7 @@ var _createNodes = view.createNodes;
 			});
 
 			$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED_EDIT);
-			root.curEditTreeNode = node;
+			root.curEditNode = node;
 			view.addSelectedNode(setting, node);
 		} else {
 			if (_selectNode) _selectNode.apply(view, arguments);
