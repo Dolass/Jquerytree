@@ -94,7 +94,7 @@
 			switch (nodeEventType) {
 				case "checkNode" :
 					nodeEventCallback = _handler.onCheckNode;
-					tools.noSel();
+//					tools.noSel(setting);
 					break;
 				case "mouseoverCheck" :
 					nodeEventCallback = _handler.onMouseoverCheck;
