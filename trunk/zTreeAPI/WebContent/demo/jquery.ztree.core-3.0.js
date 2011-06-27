@@ -204,24 +204,30 @@
 			switch (nodeEventType) {
 				case "switchNode" :
 					nodeEventCallback = handler.onSwitchNode;
+					tools.noSel();
 					break;
 				case "clickNode" :
 					nodeEventCallback = handler.onClickNode;
+					tools.noSel();
 					break;
 			}
 		}
 		switch (treeEventType) {
 			case "mousedown" :
 				treeEventCallback = handler.onZTreeMousedown;
+				tools.noSel();
 				break;
 			case "mouseup" :
 				treeEventCallback = handler.onZTreeMouseup;
+				tools.noSel();
 				break;
 			case "dblclick" :
 				treeEventCallback = handler.onZTreeDblclick;
+				tools.noSel();
 				break;
 			case "contextmenu" :
 				treeEventCallback = handler.onZTreeContextmenu;
+				tools.noSel();
 				break;
 		}
 		var proxyResult = {
@@ -505,21 +511,31 @@
 			return results;
 		},
 		proxy: function(e) {
-			var results = event.doProxy(e);
-			if (!(tools.eqs(e.target.tagName, "input"))) {
-				tools.noSel();
-			}
+			var results = event.doProxy(e);			
 			var r = true;
+//			var x = false;
 			for (var i=0, l=results.length; i<l; i++) {
 				var proxyResult = results[i];
 				if (proxyResult.nodeEventCallback) {
+//					x = true;
+console.log(proxyResult.nodeEventType);
 					r = proxyResult.nodeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 				if (proxyResult.treeEventCallback) {
+//					x = true;
+console.log(proxyResult.treeEventType);
 					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
-			return r;
+//			if (x) {
+//				if (!((e.target && tools.eqs(e.target.tagName, "input") && tools.eqs(e.target.type, "text"))
+//				|| (e.relatedTarget && tools.eqs(e.relatedTarget.tagName, "input") && tools.eqs(e.relatedTarget.type, "text")))) {
+////					console.log(e.target.tagName + "," + e.target.type);
+////					if (e.relatedTarget) console.log(e.relatedTarget.tagName + "," + e.relatedTarget.type);
+//
+//				}
+//			}
+//			return r;
 		}
 	};
 
@@ -664,7 +680,7 @@
 		},
 		noSel: function() {
 			window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
-				try{document.selection.empty();} catch(e){};
+				try{document.selection.empty();} catch(e){}
 			}, 10);
 		}
 	};
