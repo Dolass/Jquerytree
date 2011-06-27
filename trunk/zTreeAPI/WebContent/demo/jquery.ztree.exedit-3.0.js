@@ -127,7 +127,6 @@
 			switch (nodeEventType) {
 				case "mousedownNode" :
 					nodeEventCallback = _handler.onMousedownNode;
-					tools.noSel();
 					break;
 				case "hoverOverNode" :
 					nodeEventCallback = _handler.onHoverOverNode;
@@ -137,6 +136,9 @@
 					break;
 			}
 		}
+//		if (nodeEventType || treeEventType) {
+//			tools.noSel(setting);
+//		}
 		var proxyResult = {
 			stop: false,
 			node: node,
@@ -251,7 +253,7 @@
 				).show();
 		},
 		addRemoveBtn: function(setting, node) {
-			if (!setting.edit_removeBtn || $("#" + node.tId + consts.id.REMOVE).length > 0) {
+			if (node.editNameStatus || $("#" + node.tId + consts.id.REMOVE).length > 0) {
 				return;
 			}
 			if (!tools.apply(setting.edit_removeBtn, [node], setting.edit_removeBtn)) {
@@ -283,6 +285,24 @@
 				}
 				tools.apply(setting.view.addHoverDom, [setting, node]);
 			}
+		},
+		cancelPreEditNode: function (setting, newName) {
+			var root = data.getRoot(setting);
+			var nameKey = setting.data.key.name;
+			if (root.curEditNode) {
+				var inputObj = $("#" + root.curEditNode.tId + consts.id.INPUT);
+				root.curEditNode[nameKey] = newName ? newName:inputObj.val();
+				//触发rename事件
+				setting.treeObj.trigger(consts.event.EDITNAME, [setting.treeId, root.curEditNode]);
+
+				$("#" + root.curEditNode.tId + consts.id.A).removeClass(consts.node.CURSELECTED_EDIT);
+				inputObj.unbind();
+				view.setNodeName(setting, root.curEditNode);
+				root.curEditNode.editNameStatus = false;
+				root.curEditNode = null;
+				root.curEditInput = null;
+			}
+			return true;
 		},
 		editNode: function(setting, node) {
 			node.editNameStatus = true;
@@ -351,26 +371,26 @@
 	view.selectNode = function(setting, node, addFlag) {
 		var nameKey = setting.data.key.name;
 		var root = data.getRoot(setting);
-		if (view.isSelectedNode(setting, node) && ((root.curEditNode == node && node.editNameStatus))) {
-			console.log(1111);
-			return;
+		if (view.isSelectedNode(setting, node) && root.curEditNode == node && node.editNameStatus) {
+			console.log("selectNode return....");
+			return false;
 		}
-		console.log(2222 + "," + view.isSelectedNode(setting, node) + "," + (root.curEditNode == node) + "," + node.editNameStatus);
-//		st.cancelPreEditNode(setting);
+		console.log("selectNode ....");
+		view.cancelPreEditNode(setting);
 
 		if (setting.edit.enable && node.editNameStatus) {
+			view.cancelPreSelectedNode(setting);
 			$("#" + node.tId + consts.id.SPAN).html("<input type=text class='rename' id='" + node.tId + consts.id.INPUT + "' treeNode" + consts.id.INPUT + " >");
 
 			var inputObj = $("#" + node.tId + consts.id.INPUT);
-			root.curEditInput = inputObj;
 			inputObj.attr("value", node[nameKey]);
 			tools.inputFocus(inputObj);
 
 			//拦截A的click dblclick监听
 			inputObj.bind('blur', function(event) {
 //				if (st.checkEvent(setting)) {
-//					node.editNameStatus = false;
-//					view.selectNode(setting, node);
+					node.editNameStatus = false;
+					view.selectNode(setting, node);
 //				}
 			}).bind('keyup', function(event) {
 				if (event.keyCode=="13") {
@@ -390,12 +410,15 @@
 			});
 
 			$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED_EDIT);
+			root.curEditInput = inputObj;
+			root.noSelection = false;
 			root.curEditNode = node;
 			view.addSelectedNode(setting, node);
 		} else {
 			if (_selectNode) _selectNode.apply(view, arguments);
 		}
 		view.addHoverDom(setting, node);
+		return true;
 	}
 
 })(jQuery);

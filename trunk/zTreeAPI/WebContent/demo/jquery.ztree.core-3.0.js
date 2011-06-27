@@ -111,7 +111,7 @@
 		r.childs = [];
 		r.expandTriggerFlag = false;
 		r.curSelectedList = [];
-		r.curEditNode = null;
+		r.noSelection = true;
 	},
 	_initCache = function(setting) {
 		var c = data.getCache(setting);
@@ -204,32 +204,29 @@
 			switch (nodeEventType) {
 				case "switchNode" :
 					nodeEventCallback = handler.onSwitchNode;
-					tools.noSel();
 					break;
 				case "clickNode" :
 					nodeEventCallback = handler.onClickNode;
-					tools.noSel();
 					break;
 			}
 		}
 		switch (treeEventType) {
 			case "mousedown" :
 				treeEventCallback = handler.onZTreeMousedown;
-				tools.noSel();
 				break;
 			case "mouseup" :
 				treeEventCallback = handler.onZTreeMouseup;
-				tools.noSel();
 				break;
 			case "dblclick" :
 				treeEventCallback = handler.onZTreeDblclick;
-				tools.noSel();
 				break;
 			case "contextmenu" :
 				treeEventCallback = handler.onZTreeContextmenu;
-				tools.noSel();
 				break;
 		}
+//		if (nodeEventType || treeEventType) {
+//			tools.noSel(setting);
+//		}
 		var proxyResult = {
 			stop: false,
 			node: node,
@@ -511,31 +508,27 @@
 			return results;
 		},
 		proxy: function(e) {
-			var results = event.doProxy(e);			
+			var results = event.doProxy(e);
+			var setting = data.getSetting(e.data.treeId);
 			var r = true;
-//			var x = false;
+			var x = false;
 			for (var i=0, l=results.length; i<l; i++) {
 				var proxyResult = results[i];
 				if (proxyResult.nodeEventCallback) {
-//					x = true;
-console.log(proxyResult.nodeEventType);
+					x = true;
+//console.log(proxyResult.nodeEventType);
 					r = proxyResult.nodeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 				if (proxyResult.treeEventCallback) {
-//					x = true;
-console.log(proxyResult.treeEventType);
+					x = true;
+//console.log(proxyResult.treeEventType);
 					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
-//			if (x) {
-//				if (!((e.target && tools.eqs(e.target.tagName, "input") && tools.eqs(e.target.type, "text"))
-//				|| (e.relatedTarget && tools.eqs(e.relatedTarget.tagName, "input") && tools.eqs(e.relatedTarget.type, "text")))) {
-////					console.log(e.target.tagName + "," + e.target.type);
-////					if (e.relatedTarget) console.log(e.relatedTarget.tagName + "," + e.relatedTarget.type);
-//
-//				}
-//			}
-//			return r;
+			if (x) {
+				tools.noSel(setting);
+			}
+			return r;
 		}
 	};
 
@@ -556,9 +549,9 @@ console.log(proxyResult.treeEventType);
 		onClickNode: function (event, node) {
 			var setting = settings[event.data.treeId];
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return true;
-			view.selectNode(setting, node, event.ctrlKey);
+			var result = view.selectNode(setting, node, event.ctrlKey);
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
-			return true;
+			return result;
 		},
 		onZTreeMousedown: function(event, node) {
 			var setting = settings[event.data.treeId];
@@ -593,7 +586,7 @@ console.log(proxyResult.treeEventType);
 	var st = {
 		checkEvent: function(setting) {
 //			return st.checkCancelPreEditNode(setting);
-		},
+		}
 		
 //		checkCancelPreEditNode: function (setting) {
 //			var root = getRoot(setting);
@@ -607,23 +600,7 @@ console.log(proxyResult.treeEventType);
 //			}
 //			return true;
 //		},
-		cancelPreEditNode: function (setting, newName) {
-//			var root = getRoot(setting);
-//			if (setting.curEditTreeNode) {
-//				var inputObj = $("#" + setting.curEditTreeNode.tId + IDMark_Input);
-//				setting.curEditTreeNode[setting.nameCol] = newName ? newName:inputObj.val();
-//				//触发rename事件
-//				setting.treeObj.trigger(ZTREE_RENAME, [setting.treeId, setting.curEditTreeNode]);
-//
-//				$("#" + setting.curEditTreeNode.tId + IDMark_A).removeClass(Class_CurSelectedNode_Edit);
-//				inputObj.unbind();
-//				setNodeName(setting, setting.curEditTreeNode);
-//				setting.curEditTreeNode.editNameStatus = false;
-//				setting.curEditTreeNode = null;
-//				setting.curEditInput = null;
-//			}
-//			return true;
-		}
+		
 	};
 
 	var tools = {
@@ -678,10 +655,14 @@ console.log(proxyResult.treeEventType);
 			}
 			return null;
 		},
-		noSel: function() {
-			window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
-				try{document.selection.empty();} catch(e){}
-			}, 10);
+		noSel: function(setting) {
+			var r = data.getRoot(setting);
+			if (r.noSelection) {
+				console.log("noSel....");
+				window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
+					try{document.selection.empty();} catch(e){}
+				}, 10);
+			}
 		}
 	};
 
