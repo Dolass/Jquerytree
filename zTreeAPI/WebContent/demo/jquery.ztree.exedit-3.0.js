@@ -158,30 +158,58 @@
 	},
 //	_beforeA = function(setting, node, html) {},
 	_zTreeTools = function(setting, obj) {
-//		obj.zTreeTools.getCheckedNodes = function(checked) {
-//			var childsKey = this.setting.data.key.childs;
-//			checked = (checked != false);
-//			return data.getTreeCheckedNodes(this.setting, data.getRoot(setting)[childsKey], checked);
-//		}
-//
-//		obj.zTreeTools.getChangeCheckedNodes = function() {
-//			var childsKey = this.setting.data.key.childs;
-//			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childsKey]);
-//		}
-//
-//		var updateNode = obj.zTreeTools.updateNode;
-//		obj.zTreeTools.updateNode = function(node, checkTypeFlag) {
-//			if (updateNode) updateNode.apply(obj.zTreeTools, arguments);
-//			if (!node) return;
-////				if (st.checkEvent(this.setting)) {
-//					var checkObj = $("#" + node.tId + consts.id.CHECK);
-//					if (this.setting.chk.enable) {
-//						if (checkTypeFlag == true) view.checkNodeRelation(this.setting, node);
-//						view.setChkClass(this.setting, checkObj, node);
-//						view.repairParentChkClassWithSelf(this.setting, node);
-//					}
-////				}
-//		}
+		obj.zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
+			if (!newNodes) return;
+			if (!parentNode) parentNode = null;
+			var xNewNodes = tools.isArray(newNodes)? newNodes: [newNodes];
+			view.addNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
+		}
+		obj.zTreeTools.cancelEditName = function(newName) {
+			var root = data.getRoot(this.setting);
+			var nameKey = this.setting.data.key.name;
+			if (!root.curEditNode) return;
+			var node = root.curEditNode;
+			view.cancelCurEditNode(this.setting, newName?newName:node[nameKey]);
+		}
+		obj.zTreeTools.copyNode = function(targetNode, node, moveType) {
+			if (!node) return null;
+			var newNode = tools.clone(node);
+			if (!targetNode) {
+				targetNode = null;
+				moveType = consts.move.TYPE_INNER;
+			}
+			if (moveType == consts.move.TYPE_INNER) {
+				view.addNodes(this.setting, targetNode, [newNode]);
+			} else {
+				view.addNodes(this.setting, targetNode.parentNode, [newNode]);
+				view.moveNode(this.setting, targetNode, newNode, moveType, false);
+			}
+			return newNode;
+		}
+		obj.zTreeTools.editName = function(node) {
+			if (!node) return;
+//			if (st.checkEvent(this.setting)) {
+				view.editNode(this.setting, node)
+//			}
+		}
+		obj.zTreeTools.moveNode = function(targetNode, node, moveType) {
+			if (!node) return;
+			if (targetNode && ((node.parentTId == targetNode.tId && moveType == consts.move.TYPE_INNER) || $("#" + node.tId).find("#" + targetNode.tId).length > 0)) {
+				return;
+			} else if (!targetNode) {
+				targetNode = null;
+			}
+			view.moveNode(this.setting, targetNode, node, moveType, false);
+		}
+		obj.zTreeTools.removeNode = function(node) {
+			if (!node) return;
+			view.removeNode(this.setting, node);
+		}
+		obj.zTreeTools.setEditable = function(editable) {
+			this.setting.edit.enable = editable;
+			return this.refresh();
+		}
+
 	};
 	
 	var _data = {
@@ -223,11 +251,11 @@
 			var setting = data.getSetting(eventMouseDown.data.treeId),
 			root = data.getRoot(setting);
 			//右键、禁用拖拽功能 不能拖拽
-			if (eventMouseDown.button == 2 || !setting.edit.enable || (!setting.edit.drag.isCopy && !setting.edit.drag.isMove)) return;
+			if (eventMouseDown.button == 2 || !setting.edit.enable || (!setting.edit.drag.isCopy && !setting.edit.drag.isMove)) return true;
 			//编辑输入框内不能拖拽节点
 			var target = eventMouseDown.target;
 			if (node.editNameFlag && tools.eqs(target.tagName, "input") && target.getAttribute("treeNode"+consts.id.INPUT) !== null) {
-				return;
+				return true;
 			}
 
 			var doc = $(document);
@@ -305,7 +333,7 @@
 					targetSetting = setting;
 					var settings = data.getSettings();
 					for (var s in settings) {
-						if (settings[s].editable && settings[s].treeId != setting.treeId
+						if (settings[s].edit.enable && settings[s].treeId != setting.treeId
 							&& (event.target.id == settings[s].treeId || $(event.target).parents("#" + settings[s].treeId).length>0)) {
 							isOtherTree = true;
 							targetSetting = settings[s];
@@ -499,12 +527,12 @@
 
 					var newNode = isCopy ? tools.clone(node) : node;
 					if (isOtherTree) {
-						if (!isCopy) {removeTreeNode(setting, node);}
+						if (!isCopy) {view.removeNode(setting, node);}
 						if (moveType == consts.move.TYPE_INNER) {
 							view.addNodes(targetSetting, dragTargetNode, [newNode]);
 						} else {
 							view.addNodes(targetSetting, dragTargetNode.getParentNode(), [newNode]);
-							moveTreeNode(targetSetting, dragTargetNode, newNode, moveType, false);
+							view.moveNode(targetSetting, dragTargetNode, newNode, moveType, false);
 						}
 					}else {
 						if (isCopy) {
@@ -512,10 +540,10 @@
 								view.addNodes(targetSetting, dragTargetNode, [newNode]);
 							} else {
 								view.addNodes(targetSetting, dragTargetNode.getParentNode(), [newNode]);
-								view.moveTreeNode(targetSetting, dragTargetNode, newNode, moveType, false);
+								view.moveNode(targetSetting, dragTargetNode, newNode, moveType, false);
 							}
 						} else {
-							view.moveTreeNode(targetSetting, dragTargetNode, newNode, moveType);
+							view.moveNode(targetSetting, dragTargetNode, newNode, moveType);
 						}
 					}
 					view.selectNode(targetSetting, newNode);
@@ -693,7 +721,7 @@
 			root.noSelection = false;
 			root.curEditNode = node;
 		},
-		moveTreeNode: function(setting, targetNode, node, moveType, animateFlag) {
+		moveNode: function(setting, targetNode, node, moveType, animateFlag) {
 			var root = data.getRoot(setting);
 			var childsKey = setting.data.key.childs;
 			if (targetNode == node) return;
@@ -810,9 +838,7 @@
 				view.replaceSwitchClass(target_switchObj, consts.folder.OPEN);
 				view.replaceIcoClass(targetNode, target_icoObj, consts.folder.OPEN);
 				targetNode.open = true;
-				target_ulObj.css({
-					"display":"block"
-				});
+				target_ulObj.css({"display":"block"});
 				target_ulObj.append($("#" + node.tId).remove(null, true));
 			} else if (moveType == consts.move.TYPE_BEFORE) {
 				targetObj.before($("#" + node.tId).remove(null, true));
@@ -825,7 +851,7 @@
 			view.setNodeLineIcos(setting, node);
 
 			//处理原节点的父节点
-			if (!setting.keepParent && oldParentNode[childsKey].length < 1) {
+			if (!setting.data.keep.parent && oldParentNode[childsKey].length < 1) {
 				//原所在父节点无子节点
 				oldParentNode.isParent = false;
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL);

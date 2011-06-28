@@ -1056,7 +1056,7 @@
 		setNodeLineIcos: function(setting, node) {
 			if (!node) return;
 			var switchObj = $("#" + node.tId + consts.id.SWITCH);
-			var ulObj = $("#" + node.tId + consts.id.Ul);
+			var ulObj = $("#" + node.tId + consts.id.UL);
 			var icoObj = $("#" + node.tId + consts.id.ICON);
 
 			var ulLine = view.makeUlLineClass(setting, node);
@@ -1212,6 +1212,16 @@
 						}
 					}
 					view.asyncNode(this.setting, isRoot? null:parentNode);
+				},
+				refresh : function() {
+//					this.setting.treeObj.empty();
+//					zTreeNodeCache[this.setting.treeObjId] = [];
+//					this.setting.curTreeNode = null;
+//					this.setting.curEditTreeNode = null;
+//					this.setting.dragStatus = 0;
+//					this.setting.dragNodeShowBefore = false;
+//					this.setting.checkRadioCheckedList = [];
+//					initTreeNodes(this.setting, 0, this.setting.root[this.setting.nodesCol]);
 				},
 				selectNode : function(node, addFlag) {
 					if (!node) return;
