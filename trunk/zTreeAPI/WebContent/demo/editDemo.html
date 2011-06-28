@@ -66,12 +66,15 @@
 		return r;
 	}
 	function renameTreeNode() {
-		var srcNode = zTree1.getSelectedNode();
-		if (!srcNode) {
+		var srcNode = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNode.length == 0) {
 			alert("请先选中一个节点");
 			return;
+		} else if (srcNode.length > 1) {
+			alert("只能选中一个节点");
+			return;
 		}
-		zTree1.inputNodeName(srcNode);
+		zTree1.zTreeTools.editName(srcNode[0]);
 	}
 
 	function updateSetting() {
@@ -109,7 +112,7 @@
 			setting.edit.showRemoveBtn = setRemoveBtn;
 			$("#removeBtnCode").html("setRemoveBtn");
 		} else {
-			setting.edit_removeBtn = $("#dbTrue").attr("checked");
+			setting.edit.showRemoveBtn = $("#dbTrue").attr("checked");
 			$("#removeBtnCode").html("" + setting.edit.showRemoveBtn);
 		}
 		zTree1 = $("#treeDemo");
