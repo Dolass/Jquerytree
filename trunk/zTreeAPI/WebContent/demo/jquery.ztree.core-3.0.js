@@ -314,6 +314,12 @@
 			parentNode.isParent = true;
 			parentNode[childsKey] = parentNode[childsKey].concat(nodes);
 		},
+		addSelectedNode: function(setting, node) {
+			var root = data.getRoot(setting);
+			if (!data.isSelectedNode(setting, node)) {
+				root.curSelectedList.push(node);
+			}
+		},
 		addZTreeTools: function(zTreeTools) {
 			_init.zTreeTools.push(zTreeTools);
 		},
@@ -398,6 +404,9 @@
 		getSetting: function(treeId) {
 			return settings[treeId];
 		},
+		getSettings: function() {
+			return settings;
+		},
 		getZTreeTools: function(setting, obj) {
 			for (var i=0, j=_init.zTreeTools.length; i<j; i++) {
 				_init.zTreeTools[i].apply(this, arguments);
@@ -416,6 +425,25 @@
 		initRoot: function(setting) {
 			for (var i=0, j=_init.roots.length; i<j; i++) {
 				_init.roots[i].apply(this, arguments);
+			}
+		},
+		isSelectedNode: function(setting, node) {
+			var root = data.getRoot(setting);
+			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
+				if(node === root.curSelectedList[i]) return true;
+			}
+			return false;
+		},
+		removeNodeCache: function(setting, node) {			
+			delete data.getCache(setting).nodes[node.tId];
+		},
+		removeSelectedNode: function(setting, node) {
+			var root = data.getRoot(setting);
+			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
+				if(node === root.curSelectedList[i]) {
+					root.curSelectedList.splice(i, 1);
+					break;
+				}
 			}
 		},
 		setCache: function(setting, cache) {
@@ -658,7 +686,6 @@
 		noSel: function(setting) {
 			var r = data.getRoot(setting);
 			if (r.noSelection) {
-				console.log("noSel....");
 				window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
 					try{document.selection.empty();} catch(e){}
 				}, 10);
@@ -699,13 +726,7 @@
 				data.addNodesData(setting, data.getRoot(setting), newNodes);
 				view.createNodes(setting, 0, newNodes, null);
 			}
-		},
-		addSelectedNode: function(setting, node) {
-			var root = data.getRoot(setting);
-			if (!view.isSelectedNode(setting, node)) {
-				root.curSelectedList.push(node);
-			}
-		},
+		},		
 		appendNodes: function(setting, level, nodes, parentNode) {
 			if (!nodes) return [];
 			var html = [];
@@ -844,10 +865,10 @@
 			}
 			view.createNodeCallback(setting, nodes);
 		},
-		expandCollapseNode: function(setting, node, expandSign, animateSign, callback) {
+		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting);
 			var childsKey = setting.data.key.childs;
-			if (!node || node.open == expandSign) {
+			if (!node || node.open == expandFlag) {
 				tools.apply(callback, []);
 				return;
 			}
@@ -875,7 +896,7 @@
 				if (node.open) {
 					view.replaceSwitchClass(switchObj, consts.folder.OPEN);
 					view.replaceIcoClass(node, icoObj, consts.folder.OPEN);
-					if (animateSign == false || setting.view.expandSpeed == "") {
+					if (animateFlag == false || setting.view.expandSpeed == "") {
 						ulObj.show();
 						tools.apply(callback, []);
 					} else {
@@ -889,7 +910,7 @@
 				} else {
 					view.replaceSwitchClass(switchObj, consts.folder.CLOSE);
 					view.replaceIcoClass(node, icoObj, consts.folder.CLOSE);
-					if (animateSign == false || setting.view.expandSpeed == "") {
+					if (animateFlag == false || setting.view.expandSpeed == "") {
 						ulObj.hide();
 						tools.apply(callback, []);
 					} else {
@@ -900,36 +921,29 @@
 				tools.apply(callback, []);
 			}
 		},
-		expandCollapseParentNode: function(setting, node, expandSign, animateSign, callback) {
+		expandCollapseParentNode: function(setting, node, expandFlag, animateFlag, callback) {
 			if (!node) return;
 			if (!node.parentTId) {
-				view.expandCollapseNode(setting, node, expandSign, animateSign, callback);
+				view.expandCollapseNode(setting, node, expandFlag, animateFlag, callback);
 				return ;
 			} else {
-				view.expandCollapseNode(setting, node, expandSign, animateSign);
+				view.expandCollapseNode(setting, node, expandFlag, animateFlag);
 			}
 			if (node.parentTId) {
-				view.expandCollapseParentNode(setting, node.getParentNode(), expandSign, animateSign, callback);
+				view.expandCollapseParentNode(setting, node.getParentNode(), expandFlag, animateFlag, callback);
 			}
 		},
-		expandCollapseSonNode: function(setting, node, expandSign, animateSign, callback) {
+		expandCollapseSonNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting);
 			var childsKey = setting.data.key.childs;
 			var treeNodes = (node) ? node[childsKey]: root[childsKey];
-			var selfAnimateSign = (node) ? false : animateSign;
+			var selfAnimateSign = (node) ? false : animateFlag;
 			if (treeNodes) {
 				for (var i = 0, l = treeNodes.length; i < l; i++) {
-					if (treeNodes[i]) view.expandCollapseSonNode(setting, treeNodes[i], expandSign, selfAnimateSign);
+					if (treeNodes[i]) view.expandCollapseSonNode(setting, treeNodes[i], expandFlag, selfAnimateSign);
 				}
 			}
-			view.expandCollapseNode(setting, node, expandSign, animateSign, callback );
-		},
-		isSelectedNode: function(setting, node) {
-			var root = data.getRoot(setting);
-			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
-				if(node === root.curSelectedList[i]) return true;
-			}
-			return false;
+			view.expandCollapseNode(setting, node, expandFlag, animateFlag, callback );
 		},
 		makeNodeFontCss: function(setting, node) {
 			var fontCss = tools.apply(setting.view.fontCss, [setting.treeId, node], setting.view.fontCss);
@@ -1026,12 +1040,11 @@
 			obj.attr("class", tmpList.join("_"));
 		},
 		selectNode: function(setting, node, addFlag) {
-			var root = data.getRoot(setting);
 			if (!addFlag) {
 				view.cancelPreSelectedNode(setting);
 			}
 			$("#" + node.tId + consts.id.A).addClass(consts.node.CURSELECTED);
-			view.addSelectedNode(setting, node);
+			data.addSelectedNode(setting, node);
 		},
 		setNodeFontCss: function(setting, treeNode) {
 			var aObj = $("#" + treeNode.tId + consts.id.A);
@@ -1134,20 +1147,20 @@
 				cancelSelectedNode : function(node) {
 					view.cancelPreSelectedNode(this.setting, node);
 				},
-				expandAll : function(expandSign) {
-					view.expandCollapseSonNode(this.setting, null, expandSign, true);
+				expandAll : function(expandFlag) {
+					view.expandCollapseSonNode(this.setting, null, expandFlag, true);
 				},
-				expandNode : function(node, expandSign, sonSign, focus) {
+				expandNode : function(node, expandFlag, sonSign, focus) {
 					if (!node) return;
 
-					if (expandSign) {
-						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandSign, false);
+					if (expandFlag) {
+						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
 					if (sonSign) {
-						view.expandCollapseSonNode(this.setting, node, expandSign, false, function() {
+						view.expandCollapseSonNode(this.setting, node, expandFlag, false, function() {
 							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 						});
-					} else if (node.open != expandSign) {
+					} else if (node.open != expandFlag) {
 						view.switchNode(this.setting, node);
 						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 					}
@@ -1235,9 +1248,5 @@
 	};
 
 	var zt = $.fn.zTree;
-//	var tools = zt._z.tools;
 	var consts = zt.consts;
-//	var view = zt._z.view;
-//	var data = zt._z.data;
-//	var zEvent = zt._z.event;
 })(jQuery);

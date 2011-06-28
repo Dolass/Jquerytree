@@ -75,21 +75,21 @@
 	}
 
 	function updateSetting() {
-		var s = zTree1.getSetting();
-		s.keepParent = $("#parentTrue").attr("checked");
-		s.keepLeaf = $("#leafTrue").attr("checked");
-		s.dragCopy = $("#cpTrue").attr("checked");
-		s.dragMove = $("#mvTrue").attr("checked");
-		zTree1.updateSetting(s);
-		$("#keepParentCode").html(s.keepParent + "");
-		$("#keepLeafCode").html(s.keepLeaf + "");
-		$("#cpCode").html("" + s.dragCopy);
-		$("#mvCode").html("" + s.dragMove);
-		if (s.dragCopy && s.dragMove) {
+		var s = zTree1.zTreeTools.setting;
+		s.data.keep.parent = $("#parentTrue").attr("checked");
+		s.data.keep.leaf = $("#leafTrue").attr("checked");
+		s.edit.drag.isCopy = $("#cpTrue").attr("checked");
+		s.edit.drag.isMove = $("#mvTrue").attr("checked");
+//		zTree1.updateSetting(s);
+		$("#keepParentCode").html(s.data.keep.parent + "");
+		$("#keepLeafCode").html(s.data.keep.leaf + "");
+		$("#cpCode").html("" + s.edit.drag.isCopy);
+		$("#mvCode").html("" + s.edit.drag.isMove);
+		if (s.edit.drag.isCopy && s.edit.drag.isMove) {
 			$("#cp_mvCode").html("按下 Ctrl 键拖拽进行 Copy，否则为 Move");
-		} else if (s.dragCopy) {
+		} else if (s.edit.drag.isCopy) {
 			$("#cp_mvCode").html("所有拖拽都是 Copy");
-		} else if (s.dragMove) {
+		} else if (s.edit.drag.isMove) {
 			$("#cp_mvCode").html("所有拖拽都是 Move");
 		} else {
 			$("#cp_mvCode").html("禁止拖拽");
