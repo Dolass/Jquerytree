@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,8 +16,12 @@
 	var setting;
 
 		setting = {
-//			editable: true,
-//			checkable: true,
+			edit : {
+				enable: true
+			},
+			chk : {
+				enable: true
+			},
 
 			callback:{
 				beforeClick: zTreeBeforeClick,
@@ -23,15 +29,15 @@
 				beforeRightClick: zTreeBeforeRightClick,
 				beforeMouseDown: zTreeBeforeMouseDown,
 				beforeMouseUp: zTreeBeforeMouseUp,
-				beforeChange: zTreeBeforeChange,
+				beforeCheck: zTreeBeforeCheck,
 				beforeDrag: zTreeBeforeDrag,
 				beforeDrop: zTreeBeforeDrop,
+				beforeEditName: zTreeBeforeEditName,
 				beforeRename: zTreeBeforeRename,
-				confirmRename: zTreeConfirmRename,
 				beforeRemove: zTreeBeforeRemove,
 				beforeExpand: zTreeBeforeExpand,
 				beforeCollapse: zTreeBeforeCollapse,
-				confirmDragOpen: zTreeConfirmDragOpen,
+				beforeDragOpen: zTreeBeforeDragOpen,
 
 				onNodeCreated: zTreeOnNodeCreated,
 				onClick: zTreeOnClick,
@@ -39,10 +45,10 @@
 				onRightClick: zTreeRightClick,
 				onMouseDown: zTreeMouseDown,
 				onMouseUp: zTreeMouseUp,
-				onChange: zTreeChange,
+				onCheck: zTreeCheck,
 				onDrag: zTreeOnDrag,
 				onDrop: zTreeOnDrop,
-				onEditname: zTreeOnRename,
+				onEditName: zTreeOnEditName,
 				onRemove: zTreeOnRemove,
 				onExpand: zTreeOnExpand,
 				onCollapse: zTreeOnCollapse
@@ -92,9 +98,9 @@
 		return r;
 	}
 
-	function zTreeBeforeChange(treeId, treeNode) {
-		var r = $("#beforeChangeTrue").attr("checked");
-		if (!r) alert("beforeChange return false!!");
+	function zTreeBeforeCheck(treeId, treeNode) {
+		var r = $("#beforeCheckTrue").attr("checked");
+		if (!r) alert("beforeCheck return false!!");
 		return r;
 	}
 
@@ -110,18 +116,18 @@
 		return r;
 	}
 
-	function zTreeBeforeRename(treeId, treeNode) {
-		var r = $("#beforeRenameTrue").attr("checked");
-		if (!r) alert("beforeRename return false!!");
+	function zTreeBeforeEditName(treeId, treeNode) {
+		var r = $("#beforeEditNameTrue").attr("checked");
+		if (!r) alert("beforeEditName return false!!");
 		return r;
 	}
-	function zTreeConfirmRename(treeId, treeNode, newName) {
-		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
-		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.\n\n由于不同浏览器对事件处理机制不同，因此建议实际开发中校验失败请不要使用alert方式弹出提示信息，有可能导致一次弹出多个alert");
+	function zTreeBeforeRename(treeId, treeNode, newName) {
+		var r = $("#beforeRenameTrue").attr("checked") || treeNode.name === newName;
+		if (!r) alert("beforeRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.\n\n由于不同浏览器对事件处理机制不同，因此建议实际开发中校验失败请不要使用alert方式弹出提示信息，有可能导致一次弹出多个alert");
 		return r;
 	}
-	function zTreeConfirmDragOpen(treeId, treeNode) {
-		return $("#confirmDragOpenTrue").attr("checked");
+	function zTreeBeforeDragOpen(treeId, treeNode) {
+		return $("#beforeDragOpenTrue").attr("checked");
 	}
 
 	function zTreeBeforeRemove(treeId, treeNode) {
@@ -178,8 +184,8 @@
 			$("#onMouseUpNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp; treeNode is Root." + "<br/>&nbsp;" + mouse);
 		}
 	}
-	function zTreeChange(event, treeId, treeNode) {
-		$("#onChangeNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name
+	function zTreeCheck(event, treeId, treeNode) {
+		$("#onCheckNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name
 				 + "; <br/>checked=" + treeNode.checked+ "; checkedOld=" + treeNode.checkedOld);
 	}
 
@@ -197,8 +203,8 @@
 		}
 	}
 
-	function zTreeOnRename(event, treeId, treeNode) {
-		$("#onRenameNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
+	function zTreeOnEditName(event, treeId, treeNode) {
+		$("#onEditNameNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name);
 	}
 
 	function zTreeOnRemove(event, treeId, treeNode) {
@@ -300,10 +306,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td align=right>beforeChange&nbsp;事件 return: </td>
+						<td align=right>beforeCheck&nbsp;事件 return: </td>
 						<td>
-							<INPUT TYPE="radio" id="beforeChangeTrue" name="beforeChangeRadio" checked onfocus="this.blur();">true;&nbsp;
-							<INPUT TYPE="radio" id="beforeChangeFalse" name="beforeChangeRadio" onfocus="this.blur();">false
+							<INPUT TYPE="radio" id="beforeCheckTrue" name="beforeCheckRadio" checked onfocus="this.blur();">true;&nbsp;
+							<INPUT TYPE="radio" id="beforeCheckFalse" name="beforeCheckRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
@@ -314,10 +320,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td align=right>confirmDragOpen&nbsp;事件 return: </td>
+						<td align=right>beforeDragOpen&nbsp;事件 return: </td>
 						<td>
-							<INPUT TYPE="radio" id="confirmDragOpenTrue" name="confirmDragOpenRadio" checked onfocus="this.blur();">true;&nbsp;
-							<INPUT TYPE="radio" id="confirmDragOpenFalse" name="confirmDragOpenRadio" onfocus="this.blur();">false
+							<INPUT TYPE="radio" id="beforeDragOpenTrue" name="beforeDragOpenRadio" checked onfocus="this.blur();">true;&nbsp;
+							<INPUT TYPE="radio" id="beforeDragOpenFalse" name="beforeDragOpenRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
@@ -328,17 +334,17 @@
 						</td>
 					</tr>
 					<tr>
+						<td align=right>beforeEditName&nbsp;事件 return: </td>
+						<td>
+							<INPUT TYPE="radio" id="beforeEditNameTrue" name="beforeEditNameRadio" checked onfocus="this.blur();">true;&nbsp;
+							<INPUT TYPE="radio" id="beforeEditNameFalse" name="beforeEditNameRadio" onfocus="this.blur();">false
+						</td>
+					</tr>
+					<tr>
 						<td align=right>beforeRename&nbsp;事件 return: </td>
 						<td>
 							<INPUT TYPE="radio" id="beforeRenameTrue" name="beforeRenameRadio" checked onfocus="this.blur();">true;&nbsp;
 							<INPUT TYPE="radio" id="beforeRenameFalse" name="beforeRenameRadio" onfocus="this.blur();">false
-						</td>
-					</tr>
-					<tr>
-						<td align=right>confirmRename&nbsp;事件 return: </td>
-						<td>
-							<INPUT TYPE="radio" id="confirmRenameTrue" name="confirmRenameRadio" checked onfocus="this.blur();">true;&nbsp;
-							<INPUT TYPE="radio" id="confirmRenameFalse" name="confirmRenameRadio" onfocus="this.blur();">false
 						</td>
 					</tr>
 					<tr>
@@ -384,7 +390,7 @@
 				&nbsp;&nbsp;&nbsp;onMouseUp 事件:&nbsp;&nbsp;<a id="onMouseUpNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;&nbsp;onChange 事件:&nbsp;&nbsp;<a id="onChangeNode"><br/></a><br/>
+				&nbsp;&nbsp;&nbsp;onCheck 事件:&nbsp;&nbsp;<a id="onCheckNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
 				&nbsp;&nbsp;&nbsp;&nbsp;onDrag 事件:&nbsp;&nbsp;<a id="onDragNode"><br/></a><br/>
@@ -393,7 +399,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;onDrop 事件:&nbsp;&nbsp;<a id="onDropNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
-				&nbsp;&nbsp;onRename 事件:&nbsp;&nbsp;<a id="onRenameNode"><br/></a><br/>
+				&nbsp;&nbsp;onEditName 事件:&nbsp;&nbsp;<a id="onEditNameNode"><br/></a><br/>
 				</ul>
 				<ul class="event">
 				&nbsp;&nbsp;onRemove 事件:&nbsp;&nbsp;<a id="onRemoveNode"><br/></a><br/>

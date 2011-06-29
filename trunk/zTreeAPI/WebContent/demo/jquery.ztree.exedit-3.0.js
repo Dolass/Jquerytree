@@ -468,7 +468,7 @@
 									if (moveType != consts.move.TYPE_INNER) return;
 									var targetNode = data.getNodeCache(targetSetting, tmpTargetNodeId);
 									if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
-										&& tools.apply(targetSetting.callback.confirmDragOpen, [targetSetting.treeId, targetNode], true)) {
+										&& tools.apply(targetSetting.callback.beforeDragOpen, [targetSetting.treeId, targetNode], true)) {
 										view.switchNode(targetSetting, targetNode);
 									}
 								}, 600);
@@ -568,6 +568,10 @@
 	};
 
 	var _tools = {
+		getAbs: function (obj) {
+			var oRect = obj.getBoundingClientRect();
+			return [oRect.left,oRect.top]
+		},
 		inputFocus: function(inputObj) {
 			if (inputObj.get(0)) {
 				inputObj.focus();
@@ -599,7 +603,7 @@
 				for (var i = 0, l = iframeList.length; i < l; i++) {
 					var obj = iframeList.get(i);
 					var r = tools.getAbs(obj);
-					var dragMask = $("<div id='zTreeMask_" + i + "' class='zTreeMask' style='top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>");
+					var dragMask = $("<div id='zTreeMask_" + i + "' class='zTreeMask' style='background-color:yellow;opacity: 0.3;filter: alpha(opacity=30);    top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>");
 					dragMask.appendTo("body");
 					root.dragMaskList.push(dragMask);
 				}
@@ -621,7 +625,7 @@
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
-					if (tools.apply(setting.callback.beforeRename, [setting.treeId, node], true) == false) return true;
+					if (tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
 					view.editNode(setting, node);
 					return false;
 				}
@@ -668,10 +672,8 @@
 			if (node) {
 				var inputObj = root.curEditInput;
 				newName = newName ? newName:inputObj.val();
-				console.log("cancel editName");
 				if (newName !== node[nameKey]) {
 					node[nameKey] = newName ? newName:inputObj.val();
-					console.log("trigger... editName");
 					setting.treeObj.trigger(consts.event.EDITNAME, [setting.treeId, node]);
 				}
 				var aObj = $("#" + node.tId + consts.id.A);
@@ -975,16 +977,16 @@
 //	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 
+	var _cancelPreSelectedNode = view.cancelPreSelectedNode;
 	view.cancelPreSelectedNode = function (setting, node) {
-		var root = data.getRoot(setting);
-		for (var i=0, j=root.curSelectedList.length; i<j; i++) {
-			if (!node || node === root.curSelectedList[i]) {
-				$("#" + root.curSelectedList[i].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
-				view.setNodeName(setting, root.curSelectedList[i]);
+		var list = data.getRoot(setting).curSelectedList;
+		for (var i=0, j=list.length; i<j; i++) {
+			if (!node || node === list[i]) {
+				view.removeTreeDom(setting, list[i]);
+				if (node) break;
 			}
-			view.removeTreeDom(setting, root.curSelectedList[i]);
 		}
-		root.curSelectedList = [];
+		if (_cancelPreSelectedNode) _cancelPreSelectedNode.apply(view, arguments);
 	}
 
 	var _createNodes = view.createNodes;

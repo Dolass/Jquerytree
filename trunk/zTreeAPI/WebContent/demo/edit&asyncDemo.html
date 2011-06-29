@@ -6,20 +6,30 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
 	var zTree1;
 	var setting;
 
 	setting = {
-		editable: true,
-		keepParent: true,
-		keepLeaf: true,
-		async: true,
-//		asyncUrl: "asyncData/node.jsp",
-		asyncUrl: "asyncData/node.php",  
-		asyncParam: ["name", "id"],
+		edit: {
+			enable: true
+		},
+		data : {
+			keep: {
+				parent: true,
+				leaf: true
+			}
+		},
+		async: {
+			enable: true,
+//			url: "asyncData/node.jsp",
+			url: "asyncData/node.php",
+			autoParam: ["name", "id"]
+		},
 		callback: {
 			beforeAsync: beforeAsync
 		}
@@ -37,7 +47,8 @@
 	}
 
 	function refreshTree() {
-		zTree1 = $("#treeDemo").zTree(setting);
+		zTree1 = $("#treeDemo");
+		$.fn.zTree.init(zTree1, setting);
 	}
 
   //-->

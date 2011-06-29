@@ -150,14 +150,14 @@
 		obj.zTreeTools.updateNode = function(node, checkTypeFlag) {
 			if (updateNode) updateNode.apply(obj.zTreeTools, arguments);
 			if (!node) return;
-//				if (st.checkEvent(this.setting)) {
-					var checkObj = $("#" + node.tId + consts.id.CHECK);
-					if (this.setting.chk.enable) {
-						if (checkTypeFlag == true) view.checkNodeRelation(this.setting, node);
-						view.setChkClass(this.setting, checkObj, node);
-						view.repairParentChkClassWithSelf(this.setting, node);
-					}
-//				}
+//			if (st.checkEvent(this.setting)) {
+				var checkObj = $("#" + node.tId + consts.id.CHECK);
+				if (this.setting.chk.enable) {
+					if (checkTypeFlag == true && node.nocheck !== true) view.checkNodeRelation(this.setting, node);
+					view.setChkClass(this.setting, checkObj, node);
+					view.repairParentChkClassWithSelf(this.setting, node);
+				}
+//			}
 		}
 	};
 	
@@ -195,6 +195,7 @@
 			var chkFlag = {"trueFlag": true, "falseFlag": true};
 			if (node[childsKey]) {
 				for (var i = 0, l = node[childsKey].length; i < l; i++) {
+					if (node[childsKey][i].nocheck === true) continue;
 					if (setting.chk.chkStyle == consts.radio.STYLE && (node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
 						chkFlag.trueFlag = false;
 					} else if (setting.chk.chkStyle != consts.radio.STYLE && node[checkedKey] && (!node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
@@ -255,7 +256,6 @@
 			var r = consts.radio;
 			if (setting.chk.chkStyle == r.STYLE) {
 				var radioCheckedList = data.getRoot(setting).radioCheckedList;
-				console.log(radioCheckedList.length);
 				if (node[checkedKey]) {
 					if (setting.chk.radioType == r.TYPE_ALL) {
 						for (i = radioCheckedList.length-1; i >= 0; i--) {
@@ -414,5 +414,4 @@
 		if (!nodes) return;
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
-
 })(jQuery);
