@@ -12,7 +12,7 @@
    * 【修正】先设置 treeNode.icon ；updateNode后如果设置 treeNode.icon为空的时候，在IE下原图标无法消失的 Bug
    * 【修正】InputNodeName 后再回调 confirmRename 函数中验证处理然后返回true,但过会会触发一个异常"未知的运行时错误", 异常代码段为:setTimeout(function(){document.selection.empty()}",且不断触发该异常.再Chrome中未发现该异常,IE8也没有,只有IE9有这情况.(文本渲染模式为IE8，浏览器模式为IE9).   
    * 【修正】getNodesByParam 方法，没有接受 parentNode 的 Bug
-   * 【修正】API文档中 edit_removeBtn / edit_renameBtn 的说明
+   * 【修正】API文档中 edit_removeBtn / edit_renameBtn 的说明，补充了 对 function 支持的内容
 
 *2011.06.01* v2.6
    * 【修正 v2.6 beta】使用 addHoverDom/removeHoverDom 方法添加自定义控件以后，会出现节点失去焦点，但自定义控件没有移除的 Bug
