@@ -1,5 +1,5 @@
 /*
- * JQuery zTree 2.6
+ * JQuery zTree 2.6.01
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -9,7 +9,7 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  * email: hunter.z@263.net
- * Date: 2011-06-01
+ * Date: 2011-06-29
  */
 
 (function($) {
