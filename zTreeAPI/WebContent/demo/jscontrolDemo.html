@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -15,12 +17,16 @@
 	var setting;
 
 	setting = {
-		checkable : true,
-		expandSpeed : false,
+		chk: {
+			enable : true
+		},
+		view: {
+			expandSpeed : false
+		},
 		callback: {
 			beforeClick: zTreeBeforeClick,
-			click:	zTreeOnClick,
-			change: zTreeOnChange
+			onClick:	zTreeOnClick,
+			onChange: zTreeOnChange
 		}
 	};
 
@@ -43,9 +49,9 @@
 		showPaste(treeNode);
 	}
 	function zTreeBeforeClick(treeId, treeNode) {
-		var canClick = (treeNode!=zTree1.getSelectedNode());
+		var canClick = !zTree1.zTreeTools.isSelectedNode(treeNode);
 		if (!canClick) {
-			zTree1.cancelSelectedNode();
+			zTree1.zTreeTools.cancelSelectedNode(treeNode);
 			initSrcNode();
 		}
 		return canClick;
@@ -56,38 +62,44 @@
 	}
 	
 	function expandAll(expandSign) {
-		zTree1.expandAll(expandSign);
+		zTree1.zTreeTools.expandAll(expandSign);
 	}
 
 	function expandNode(expandSign) {
-		var srcNode = zTree1.getSelectedNode();
-		if (srcNode) {
-			zTree1.expandNode(srcNode, expandSign, $("#sonChk").attr("checked"));
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		for (var i=0, l=srcNodes.length; i<l; i++) {
+			zTree1.zTreeTools.expandNode(srcNodes[i], expandSign, $("#sonChk").attr("checked"));
 		}
 	}
 
 	var addCount = 1;
 	function addNode(type) {
 		setOperatePool();
-		var srcNode = zTree1.getSelectedNode();
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNodes.length != 1) {
+			alert('只能选中一个节点');
+			return;
+		}
+		var srcNode = srcNodes[0];
 		var newNode = [{ name:"增加" + (addCount++)}];
 		if (type=="p") newNode[0].isParent = true;
-		zTree1.addNodes(srcNode, newNode);
+		zTree1.zTreeTools.addNodes(srcNode, newNode);
 		getNodes();
 	}
 	function removeTreeNode() {
-		var srcNode = zTree1.getSelectedNode();
-		if (srcNode) {
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		for (var i=0, l=srcNodes.length; i<l; i++) {
+			var srcNode = srcNodes[i];
 			if (srcNode.nodes && srcNode.nodes.length > 0) {
 				var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
 				if (confirm(msg)==true){
 					setOperatePool();
-					zTree1.removeNode(srcNode);
+					zTree1.zTreeTools.removeNode(srcNode);
 					initSrcNode();
 				}
 			} else {
 				setOperatePool();
-				zTree1.removeNode(srcNode);
+				zTree1.zTreeTools.removeNode(srcNode);
 				initSrcNode();
 			}
 		}	
@@ -96,7 +108,7 @@
 
 	function getPreTreeNode(treeNode) {
 		if (treeNode.isFirstNode) return null;
-		var nodes = treeNode.parentNode ? treeNode.parentNode.nodes : zTree1.getNodes();
+		var nodes = treeNode.parentTId ? treeNode.getParentNode().nodes : zTree1.zTreeTools.getNodes();
 		var preNode;
 		for (var i=0; i<nodes.length; i++) {
 			if (nodes[i] == treeNode) {
@@ -107,7 +119,7 @@
 	}
 	function getNextTreeNode(treeNode) {
 		if (treeNode.isLastNode) return null;
-		var nodes = treeNode.parentNode ? treeNode.parentNode.nodes : zTree1.getNodes();
+		var nodes = treeNode.parentTId ? treeNode.getParentNode().nodes : zTree1.zTreeTools.getNodes();
 		for (var i=0; i<nodes.length; i++) {
 			if (nodes[i] == treeNode) {
 				return nodes[i+1];
@@ -116,11 +128,12 @@
 	}
 	
 	function moveTreeNode(move) {
-		var srcNode = zTree1.getSelectedNode();
-		if (!srcNode) {
-			alert("请先选中一个节点");
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNodes.length != 1) {
+			alert("必须选中一个节点");
 			return;
 		}
+		var srcNode = srcNodes[0];
 		var moveType = "inner";
 		var targetNode = "";
 		if (move == "up") {
@@ -138,16 +151,16 @@
 		}
 		if (srcNode && targetNode) {
 			setOperatePool();
-			zTree1.moveNode(targetNode, srcNode, moveType);
+			zTree1.zTreeTools.moveNode(targetNode, srcNode, moveType);
 		}	
 		getNodes();
-		zTree1.selectNode(srcNode);
+		zTree1.zTreeTools.selectNode(srcNode);
 	}
 
 	function getNodes() {
-		var a = zTree1.transformToArray(zTree1.getNodes());
+		var a = zTree1.zTreeTools.transformToArray(zTree1.zTreeTools.getNodes());
 		$("#allNum").html(a.length);
-		a = zTree1.getCheckedNodes();
+		a = zTree1.zTreeTools.getCheckedNodes();
 		$("#allCheckNum").html(a.length);
 		
 	}
@@ -161,58 +174,66 @@
 	}
 
 	function renameTreeNode(txtObj) {
-		var srcNode = zTree1.getSelectedNode();
-		if (!srcNode) {
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNodes.length != 1) {
 			alert("请先选中一个节点");
 			$("#renameTxt").attr("value", "");
 			return;
 		}
+		var srcNode = srcNodes[0];
 		if (srcNode.name != txtObj.value) {
 			setOperatePool();
 			srcNode.name = txtObj.value;
-			zTree1.updateNode(srcNode);
-			zTree1.selectNode(srcNode);
+			zTree1.zTreeTools.updateNode(srcNode);
+			zTree1.zTreeTools.selectNode(srcNode);
 		}
 		
 	}
 	function checkTreeNode(checked) {
-		var srcNode = zTree1.getSelectedNode();
-		if (!srcNode) {
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNodes.length<1) {
 			alert("请先选中一个节点");
 			return;
 		}
-		var oldNodes = clone(zTree1.getNodes());
-		var oldcheckNum = zTree1.getCheckedNodes(checked).length;
-		var connFlag = $("#connTrue").attr("checked");
-		srcNode.checked = checked;
-		zTree1.updateNode(srcNode, connFlag);
-		var newcheckNum = zTree1.getCheckedNodes(checked).length;
-		if (newcheckNum != oldcheckNum) setOperatePool(oldNodes);
+		for (var i=0,l=srcNodes.length; i<l; i++) {
+			var srcNode = srcNodes[i];
+			var oldNodes = clone(zTree1.zTreeTools.getNodes());
+			var oldcheckNum = zTree1.zTreeTools.getCheckedNodes(checked).length;
+			var connFlag = $("#connTrue").attr("checked");
+			srcNode.checked = checked;
+			zTree1.zTreeTools.updateNode(srcNode, connFlag);
+			var newcheckNum = zTree1.zTreeTools.getCheckedNodes(checked).length;
+			if (newcheckNum != oldcheckNum) setOperatePool(oldNodes);
+		}
 	}
 	function checkAllTreeNode(checked) {
-		var oldNodes = clone(zTree1.getNodes());
-		var oldcheckNum = zTree1.getCheckedNodes(checked).length;
-		zTree1.checkAllNodes(checked);
-		var newcheckNum = zTree1.getCheckedNodes(checked).length;
+		var oldNodes = clone(zTree1.zTreeTools.getNodes());
+		var oldcheckNum = zTree1.zTreeTools.getCheckedNodes(checked).length;
+		zTree1.zTreeTools.checkAllNodes(checked);
+		var newcheckNum = zTree1.zTreeTools.getCheckedNodes(checked).length;
 		if (newcheckNum != oldcheckNum) setOperatePool(oldNodes);
 	}
 	function zShowChk(flag) {
-		var srcNode = zTree1.getSelectedNode();
-		if (!srcNode) {
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if (srcNodes.length<1) {
 			alert("请先选中一个节点");
 			return;
 		}
-		if (!srcNode.nocheck === flag) return;
-		var oldNodes = clone(zTree1.getNodes());
-		srcNode.nocheck = !flag;
-		zTree1.updateNode(srcNode);
-		setOperatePool(oldNodes);
+		for (var i=0,l=srcNodes.length; i<l; i++) {
+			var srcNode = srcNodes[i];
+			if (!srcNode.nocheck === flag) return;
+			var oldNodes = clone(zTree1.zTreeTools.getNodes());
+			srcNode.nocheck = !flag;
+			zTree1.zTreeTools.updateNode(srcNode);
+			setOperatePool(oldNodes);
+		}
+
 	}
 
 	function getNodeByParam() {
 		var key = $("#searchKey").get(0).value;
 		if (key.length > 0) {
-			var treeNode = zTree1.getNodeByParam("name", key);
+			var treeNode = zTree1.zTreeTools.getNodeByParam("name", key);
 			if (treeNode) {
 				alert("找到节点信息: \ntId=" + treeNode.tId + ", name=" + treeNode.name + ", level=" + treeNode.level);
 			} else {
@@ -223,7 +244,7 @@
 	function getNodesByParamFuzzy() {
 		var key = $("#searchKeyFuzzy").get(0).value;
 		if (key.length > 0) {
-			var treeNodes = zTree1.getNodesByParamFuzzy("name", key);
+			var treeNodes = zTree1.zTreeTools.getNodesByParamFuzzy("name", key);
 			if (treeNodes && treeNodes.length>0) {
 				var msg = "找到节点信息: ";
 				for (var i=0; i<treeNodes.length; i++) {
@@ -243,7 +264,7 @@
 			return; 
 		}
 		key = parseInt(key);
-		var treeNodes = zTree1.getNodesByParam("level", key);
+		var treeNodes = zTree1.zTreeTools.getNodesByParam("level", key);
 		if (treeNodes && treeNodes.length>0) {
 			var msg = "找到节点信息: ";
 			for (var i=0; i<treeNodes.length; i++) {
@@ -256,7 +277,8 @@
 	}
 
 	function reloadTree(node) {
-		zTree1 = $("#treeDemo").zTree(setting, node?node:clone(zNodes));
+		zTree1 = $("#treeDemo");
+		$.fn.zTree.init(zTree1, setting, node?node:clone(zNodes));
 		$("#renameTxt").attr("value", "");
 		$("#curNodePath").html("[Root]");
 		getNodes();
@@ -332,31 +354,33 @@
 	}
 	var clipboard = {};
 	function zCopy(type) {
-		var treeNode = zTree1.getSelectedNode();
-		if ($("#jCopy").attr("class") == "disabled" || !treeNode) {
-			alert("请先选择需要" + (type=="copy"?"复制":"剪切") + "节点..");
-		} else if (treeNode) {
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
+		if ($("#jCopy").attr("class") == "disabled" || srcNodes.length!=1) {
+			alert("请先选择, 且只能选择一个需要" + (type=="copy"?"复制":"剪切") + "节点..");
+		} else if (srcNodes.length == 1) {
 			clipboard.type = type;
-			clipboard.srcNode = treeNode;
-			$("#jClip").text("......[" + treeNode.name + "] 被" + (type=="copy"?"复制":"剪切"));
+			clipboard.srcNode = srcNodes[0];
+			$("#jClip").text("......[" + srcNodes[0].name + "] 被" + (type=="copy"?"复制":"剪切"));
 		}
 	}
 	function zPaste() {
-		var treeNode = zTree1.getSelectedNode();
+		var srcNodes = zTree1.zTreeTools.getSelectedNodes();
 		if (!clipboard.srcNode) {
 			alert("请先 复制 或 剪切 节点..");
 		} else if ($("#jPaste").attr("class") == "disabled") {
 			alert("无法粘贴..");
+		} else if (srcNodes.length>1) {
+			alert("最多只能选择一个目标节点");
 		} else {
 			if (clipboard.type=="copy") {
 				setOperatePool();
-				var newNode = zTree1.copyNode(treeNode, clipboard.srcNode, "inner");
-				zTree1.selectNode(newNode);
+				var newNode = zTree1.zTreeTools.copyNode(srcNodes[0], clipboard.srcNode, "inner");
+				zTree1.zTreeTools.selectNode(newNode);
 			} else if (clipboard.type=="cut") {
 				setOperatePool();
-				zTree1.removeNode(clipboard.srcNode);
-				zTree1.addNodes(treeNode, clipboard.srcNode, false);
-				zTree1.selectNode(clipboard.srcNode);
+				zTree1.zTreeTools.removeNode(clipboard.srcNode);
+				zTree1.zTreeTools.addNodes(treeNode, clipboard.srcNode, false);
+				zTree1.zTreeTools.selectNode(clipboard.srcNode);
 				showCopy(clipboard.srcNode);
 				clipboard.type==null;
 				clipboard.srcNode = null;
@@ -371,7 +395,7 @@
 	var poolMax = 20;
 	function setOperatePool(nodes) {
 		
-		var n = nodes ? nodes : clone(zTree1.getNodes());
+		var n = nodes ? nodes : clone(zTree1.zTreeTools.getNodes());
 		opreatePool.splice(poolCursor+1, (opreatePool.length-poolCursor-1), n);
 		if (opreatePool.length>poolMax) {
 			opreatePool.splice(0,1);
@@ -383,7 +407,7 @@
 	function operateRollback() {		
 		if (poolCursor>=0) {
 			if (!lastNode) {
-				lastNode = zTree1.getNodes();
+				lastNode = zTree1.zTreeTools.getNodes();
 			}
 			var n = clone(opreatePool[poolCursor]);
 			reloadTree(n);

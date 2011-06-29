@@ -51,6 +51,7 @@
 		view: {
 			showLine: true,
 			showIcon: true,
+			selectedMulti: true,
 			urlEnable: true,
 			expandSpeed: "fast",
 			hoverDomFlag: true,
@@ -577,7 +578,7 @@
 		onClickNode: function (event, node) {
 			var setting = settings[event.data.treeId];
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return true;
-			var result = view.selectNode(setting, node, event.ctrlKey);
+			var result = view.selectNode(setting, node, setting.view.selectedMulti && event.ctrlKey);
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
 			return result;
 		},
@@ -667,10 +668,6 @@
 		isArray: function(arr) {
 			return Object.prototype.toString.apply(arr) === "[object Array]";
 		},
-		getAbs: function (obj) {
-			var oRect = obj.getBoundingClientRect();
-			return [oRect.left,oRect.top]
-		},
 		getMDom: function (setting, curDom, targetExpr) {
 			if (!curDom) return null;
 			while (curDom && curDom.id !== setting.treeId) {
@@ -686,9 +683,9 @@
 		noSel: function(setting) {
 			var r = data.getRoot(setting);
 			if (r.noSelection) {
-				window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){
-					try{document.selection.empty();} catch(e){}
-				}, 10);
+				try {
+					window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+				} catch(e){}
 			}
 		}
 	};
@@ -697,6 +694,9 @@
 		addNodes: function(setting, parentNode, newNodes, isSilent) {
 			if (setting.data.keep.leaf && parentNode && !parentNode.isParent) {
 				return;
+			}
+			if (!tools.isArray(newNodes)) {
+				newNodes = [newNodes];
 			}
 			if (setting.data.simpleData.enable) {
 				newNodes = data.transformTozTreeFormat(setting, newNodes);
@@ -835,14 +835,18 @@
 			});
 		},
 		cancelPreSelectedNode: function (setting, node) {
-			var root = data.getRoot(setting);
-			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
-				if (!node || node === root.curSelectedList[i]) {
-					$("#" + root.curSelectedList[i].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
-					view.setNodeName(setting, root.curSelectedList[i]);
+			var list = data.getRoot(setting).curSelectedList;
+			for (var i=0, j=list.length-1; j>=i; j--) {
+				if (!node || node === list[j]) {
+					$("#" + list[j].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
+					view.setNodeName(setting, list[j]);
+					if (node) {
+						data.removeSelectedNode(setting, node);
+						break;
+					}
 				}
 			}
-			root.curSelectedList = [];
+			if (!node) list = [];
 		},
 		createNodeCallback: function(setting, nodes) {
 			var childsKey = setting.data.key.childs;
@@ -1194,7 +1198,14 @@
 					return -1;
 				},
 				getSelectedNodes : function() {
-					return data.getRoot(this.setting).curSelectedList
+					var r = [], list = data.getRoot(this.setting).curSelectedList;
+					for (var i=0, l=list.length; i<l; i++) {
+						r.push(list[i]);
+					}
+					return r;
+				},
+				isSelectedNode : function(node) {
+					return data.isSelectedNode(this.setting, node);
 				},
 				reAsyncChildNodes : function(parentNode, reloadType) {
 					if (!this.setting.async.enable) return;

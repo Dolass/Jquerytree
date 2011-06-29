@@ -8,6 +8,7 @@
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
   <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
   <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="asyncData/demoData.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
@@ -47,7 +48,7 @@
 		var checkType = getCheckBoxType();
 		setting.chk.chkboxType = checkType;
 		zTree1 = $("#treeDemo");
-		zTree1.zTree.init(zTree1, setting, clone(zNodes));
+		$.fn.zTree.init(zTree1, setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
 		getCheckedNodesLength();
 	}
