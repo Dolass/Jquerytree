@@ -536,7 +536,9 @@
 		},
 		noSel: function() {
 			//除掉默认事件，防止文本被选择
-			window.getSelection ? window.getSelection().removeAllRanges() : setTimeout(function(){document.selection.empty();}, 10);
+			try {
+				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+			} catch(e){}
 		},
 		inputFocus: function(inputObj) {
 			if (inputObj.get(0)) {

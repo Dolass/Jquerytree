@@ -10,7 +10,7 @@
 <body id="split">
 <div id="content">
 <div rel="bugAndUpdate">
-	<h2><span>Boolean</span>edit_removeBtn</h2>
+	<h2><span>Boolean / Function</span>edit_removeBtn</h2>
 	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
 	<div class="desc">
 		<p></p>
@@ -19,6 +19,8 @@
 			<p>当点击某节点的删除按钮时：</p>
 			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、首先触发 <A href="e_beforeRemove.html">beforeRemove</A> 回调函数，用户可利用此回调函数进行删除确认等自定义操作。</p>
 			<p>默认值：true</p>
+			<p style="color:red">v2.2版扩展此参数功能，允许接收 function 的引用，以便于用户根据节点动态控制是否显示删除按钮。</p>
+			<p>function 格式举例：function setRemoveBtn(treeNode) {...} </p>
 		</div>
 	</div>
 	<h3>示例</h3>
@@ -28,6 +30,16 @@
 	<pre xmlns=""><code>var setting = {
 &nbsp;&nbsp;&nbsp;&nbsp;editable : true,
 &nbsp;&nbsp;&nbsp;&nbsp;edit_removeBtn : false,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<p>对于父节点不显示删除按钮</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>function setRemoveBtn(treeNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;return !treeNode.isParent;
+}
+var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;editable : true,
+&nbsp;&nbsp;&nbsp;&nbsp;edit_removeBtn : setRemoveBtn,
 &nbsp;&nbsp;&nbsp;&nbsp;......
 };</code></pre>
 	<h3>相关参数</h3>
