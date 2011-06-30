@@ -27,7 +27,9 @@
 			TYPE_INNER: "inner",
 			TYPE_BEFORE: "before",
 			TYPE_AFTER: "after",
-			MINMOVESIZE: 5
+			MINMOVESIZE: 5,
+			BORDERMAX: 10,
+			BORDERMIN: -5
 		},
 		node: {
 			CURSELECTED_EDIT: "curSelectedNode_Edit",
@@ -188,9 +190,9 @@
 		}
 		obj.zTreeTools.editName = function(node) {
 			if (!node) return;
-//			if (st.checkEvent(this.setting)) {
+			if (tools.uCanDo(this.setting)) {
 				view.editNode(this.setting, node)
-//			}
+			}
 		}
 		obj.zTreeTools.moveNode = function(targetNode, node, moveType) {
 			if (!node) return;
@@ -233,7 +235,6 @@
 			var setting = data.getSetting(event.data.treeId),
 			root = data.getRoot(setting);
 			if (root.curHoverNode != node) {
-//				event.data.treeNode = root.curHoverNode;
 				_handler.onHoverOutNode(event);
 			}
 			root.curHoverNode = node;
@@ -272,7 +273,8 @@
 			var mouseDownY = eventMouseDown.clientY;
 			var startTime = (new Date()).getTime();
 
-			doc.mousemove(function(event) {
+			doc.bind("mousemove", _docMouseMove);
+			function _docMouseMove(event) {
 				tools.noSel(setting);
 
 				//避免鼠标误操作，对于第一次移动小于consts.move.MINMOVESIZE时，不开启拖拽功能
@@ -280,7 +282,6 @@
 					&& Math.abs(mouseDownY - event.clientY) < consts.move.MINMOVESIZE) {
 					return true;
 				}
-
 				$("body").css("cursor", "pointer");
 
 				if (root.dragFlag == 0 && node.isParent && node.open) {
@@ -349,10 +350,11 @@
 					var dBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop);
 					var dLeft = (event.clientX + docScrollLeft - treeOffset.left);
 					var dRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft);
-					var isTop = (dTop < 10 && dTop > -5);
-					var isBottom = (dBottom < 10 && dBottom > -5);
-					var isLeft = (dLeft < 10 && dLeft > -5);
-					var isRight = (dRight < 10 && dRight > -5);
+					var isTop = (dTop < consts.move.BORDERMAX && dTop > consts.move.BORDERMIN);
+					var isBottom = (dBottom < consts.move.BORDERMAX && dBottom > consts.move.BORDERMIN);
+					var isLeft = (dLeft < consts.move.BORDERMAX && dLeft > consts.move.BORDERMIN);
+					var isRight = (dRight < consts.move.BORDERMAX && dRight > consts.move.BORDERMIN);
+					var isTreeInner = dTop > consts.move.BORDERMIN && dBottom > consts.move.BORDERMIN && dLeft > consts.move.BORDERMIN && dRight > consts.move.BORDERMIN;
 					var isTreeTop = (isTop && targetSetting.treeObj.scrollTop() <= 0);
 					var isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight);
 					var isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0);
@@ -384,7 +386,7 @@
 					}
 
 					//确保鼠标在zTree内部
-					if (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length>0) {
+					if (isTreeInner && (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length>0)) {
 						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
 						if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && node.parentTId))) {
 							tmpTarget = targetSetting.treeObj;
@@ -487,16 +489,18 @@
 					preTmpMoveType = moveType;
 				}
 				return false;
-			});
+			}
 
-			doc.mouseup(function(event) {
+			doc.bind("mouseup", _docMouseUp);
+			function _docMouseUp(event) {
 				if (window.zTreeMoveTimer) {
 					clearTimeout(window.zTreeMoveTimer);
 				}
 				preTmpTargetNodeId = null;
 				preTmpMoveType = null;
-				doc.unbind("mousemove");
-				doc.unbind("mouseup");
+				doc.unbind("mousemove", _docMouseMove);
+				doc.unbind("mouseup", _docMouseUp);
+				doc.unbind("selectstart", _docSelect);
 				$("body").css("cursor", "auto");
 				if (tmpTarget) {
 					tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
@@ -556,14 +560,13 @@
 					//触发 DROP 拖拽事件，返回null
 					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null]);
 				}
-			});
+			}
 
-			//阻止默认事件专门用于处理 FireFox 的Bug，
-			//该 Bug 导致如果 zTree Div CSS 中存在 overflow 设置，则拖拽节点移出 zTree 时，无法得到正确的event.target
-			return false;
-//			if(eventMouseDown.preventDefault) {
-//				eventMouseDown.preventDefault();
-//			}
+			doc.bind("selectstart", _docSelect);
+			function _docSelect() {
+				return false;
+			}
+			return true;
 		}
 	};
 
@@ -672,7 +675,11 @@
 			if (node) {
 				var inputObj = root.curEditInput;
 				newName = newName ? newName:inputObj.val();
-				if (newName !== node[nameKey]) {
+				if ( tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+					node.editNameStatus = true;
+					tools.inputFocus(inputObj);
+					return false;
+				} else if (newName !== node[nameKey]) {
 					node[nameKey] = newName ? newName:inputObj.val();
 					setting.treeObj.trigger(consts.event.EDITNAME, [setting.treeId, node]);
 				}
@@ -1006,5 +1013,12 @@
 		view.addHoverDom(setting, node);
 		return true;
 	}
+
+	var _uCanDo = tools.uCanDo;
+	tools.uCanDo = function(setting) {
+		var root = data.getRoot(setting);
+		return (!root.curEditNode) && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
+	}
+
 
 })(jQuery);

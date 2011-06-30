@@ -71,17 +71,18 @@
 	}
 	
 	function moveTreeNode(srcTree, targetTree) {
-		var srcNode = srcTree.zTreeTools.getSelectedNodes();
-		if (srcNode.length==0) {
+		var srcNodes = srcTree.zTreeTools.getSelectedNodes();
+		if (srcNodes.length!==1) {
 			alert("请先选择需要移动的节点！");
 			return;
 		}
+		var srcNode = srcNodes[0];
 		var targetNode = targetTree.zTreeTools.getSelectedNodes()[0];
 		srcTree.zTreeTools.removeNode(srcNode);
 		targetTree.zTreeTools.addNodes(targetNode, [srcNode]);
 		targetTree.zTreeTools.selectNode(srcNode);
 	}
-
+	
 	function reloadTree() {
 		zTree1 = $("#treeDemo");
 		$.fn.zTree.init(zTree1, setting, clone(zNodes, "-t1"));

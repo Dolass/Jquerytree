@@ -34,7 +34,7 @@
 		}
 	},
 	_setting = {
-		chk: {
+		check: {
 			enable: false,
 			chkStyle: _consts.checkbox.STYLE,
 			radioType: _consts.radio.TYPE_LEVEL,
@@ -74,17 +74,17 @@
 		var nodeEventCallback = null, treeEventCallback = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
-			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoverCheck";
 			}
 		} else if (tools.eqs(e.type, "mouseout")) {
-			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoutCheck";
 			}
 		} else if (tools.eqs(e.type, "click")) {
-			if (setting.chk.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "checkNode";
 			}
@@ -125,9 +125,9 @@
 	},
 	_beforeA = function(setting, node, html) {
 		var checkedKey = setting.data.key.checked;
-		if (setting.chk.enable) {
+		if (setting.check.enable) {
 			data.makeChkFlag(setting, node);
-			if (setting.chk.chkStyle == consts.radio.STYLE && setting.chk.radioType == consts.radio.TYPE_ALL && node[checkedKey] ) {
+			if (setting.check.chkStyle == consts.radio.STYLE && setting.check.radioType == consts.radio.TYPE_ALL && node[checkedKey] ) {
 				var r = data.getRoot(setting);
 				r.radioCheckedList.push(node);
 			}
@@ -150,14 +150,14 @@
 		obj.zTreeTools.updateNode = function(node, checkTypeFlag) {
 			if (updateNode) updateNode.apply(obj.zTreeTools, arguments);
 			if (!node) return;
-//			if (st.checkEvent(this.setting)) {
+			if (tools.uCanDo(this.setting)) {
 				var checkObj = $("#" + node.tId + consts.id.CHECK);
-				if (this.setting.chk.enable) {
+				if (this.setting.check.enable) {
 					if (checkTypeFlag == true && node.nocheck !== true) view.checkNodeRelation(this.setting, node);
 					view.setChkClass(this.setting, checkObj, node);
 					view.repairParentChkClassWithSelf(this.setting, node);
 				}
-//			}
+			}
 		}
 	};
 	
@@ -196,11 +196,11 @@
 			if (node[childsKey]) {
 				for (var i = 0, l = node[childsKey].length; i < l; i++) {
 					if (node[childsKey][i].nocheck === true) continue;
-					if (setting.chk.chkStyle == consts.radio.STYLE && (node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
+					if (setting.check.chkStyle == consts.radio.STYLE && (node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
 						chkFlag.trueFlag = false;
-					} else if (setting.chk.chkStyle != consts.radio.STYLE && node[checkedKey] && (!node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
+					} else if (setting.check.chkStyle != consts.radio.STYLE && node[checkedKey] && (!node[childsKey][i][checkedKey] || !node[childsKey][i].check_True_Full)) {
 						chkFlag.trueFlag = false;
-					} else if (setting.chk.chkStyle != consts.radio.STYLE && !node[checkedKey] && (node[childsKey][i][checkedKey] || !node[childsKey][i].check_False_Full)) {
+					} else if (setting.check.chkStyle != consts.radio.STYLE && !node[checkedKey] && (node[childsKey][i][checkedKey] || !node[childsKey][i].check_False_Full)) {
 						chkFlag.falseFlag = false;
 					}
 					if (!chkFlag.trueFlag || !chkFlag.falseFlag) break;
@@ -254,10 +254,10 @@
 			var childsKey = setting.data.key.childs,
 			checkedKey = setting.data.key.checked;
 			var r = consts.radio;
-			if (setting.chk.chkStyle == r.STYLE) {
+			if (setting.check.chkStyle == r.STYLE) {
 				var radioCheckedList = data.getRoot(setting).radioCheckedList;
 				if (node[checkedKey]) {
-					if (setting.chk.radioType == r.TYPE_ALL) {
+					if (setting.check.radioType == r.TYPE_ALL) {
 						for (i = radioCheckedList.length-1; i >= 0; i--) {
 							pNode = radioCheckedList[i];
 							pNode[checkedKey] = false;
@@ -279,7 +279,7 @@
 							}
 						}
 					}
-				} else if (setting.chk.radioType == r.TYPE_ALL) {
+				} else if (setting.check.radioType == r.TYPE_ALL) {
 					for (i = 0, l = radioCheckedList.length; i < l; i++) {
 						if (node == radioCheckedList[i]) {
 							radioCheckedList.splice(i, 1);
@@ -289,16 +289,16 @@
 				}
 
 			} else {
-				if (node[checkedKey] && setting.chk.chkboxType.Y.indexOf("s") > -1) {
+				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("s") > -1) {
 					view.setSonNodeCheckBox(setting, node, true);
 				}
-				if (node[checkedKey] && setting.chk.chkboxType.Y.indexOf("p") > -1) {
+				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("p") > -1) {
 					view.setParentNodeCheckBox(setting, node, true);
 				}
-				if (!node[checkedKey] && setting.chk.chkboxType.N.indexOf("s") > -1) {
+				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("s") > -1) {
 					view.setSonNodeCheckBox(setting, node, false);
 				}
-				if (!node[checkedKey] && setting.chk.chkboxType.N.indexOf("p") > -1) {
+				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("p") > -1) {
 					view.setParentNodeCheckBox(setting, node, false);
 				}
 			}
@@ -306,8 +306,8 @@
 		makeChkClass: function(setting, node) {
 			var checkedKey = setting.data.key.checked;
 			var c = consts.checkbox, r = consts.radio;
-			var chkName = setting.chk.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
-			+ "_" + ((node[checkedKey] || setting.chk.chkStyle == r.STYLE) ? (node.check_True_Full? c.FULL:c.PART) : (node.check_False_Full? c.FULL:c.PART) );
+			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
+			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? (node.check_True_Full? c.FULL:c.PART) : (node.check_False_Full? c.FULL:c.PART) );
 			chkName = node.checkboxFocus ? chkName + "_" + c.FOCUS : chkName;
 			return c.DEFAULT + " " + chkName;
 		},

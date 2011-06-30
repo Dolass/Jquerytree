@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <style type="text/css">
   .test {
@@ -27,36 +29,38 @@
 	var IDMark_A = "_a";
 	
 	var setting= {
-		//expandSpeed:"",
-		fontCss: setFontCss,
-		addDiyDom: addDiyDom,
+		view :{
+			expandSpeed:"",
+			fontCss: setFontCss,
+			addDiyDom: addDiyDom
+		},
 		callback: {
 			beforeClick: zTreeOnBeforeClick,
 			beforeExpand: zTreeOnBeforeExpand,
-			expand: zTreeOnExpand
+			onExpand: zTreeOnExpand
 		}
 	};
 
 	var zNodes =[
 	 	{id:1, name:"CPU",
-		 	nodes:[
+		 	childs:[
 		 	       {id:11, name:"Intel",
-				   nodes: [{id:111, name:"i5"},{id:112, name:"i6"}]},
+				   childs: [{id:111, name:"i5"},{id:112, name:"i6"}]},
 		 	       {id:12, name:"AMD",
-				   nodes: [{id:121, name:"a5"},{id:122, name:"a6"}]}
+				   childs: [{id:121, name:"a5"},{id:122, name:"a6"}]}
 			]},
 	 	{id:2, name:"主板",
-	 		nodes:[
+	 		childs:[
 		 	       {id:21, name:"华硕",
-				   nodes: [{id:211, name:"x5"},{id:212, name:"x6"}]},
+				   childs: [{id:211, name:"x5"},{id:212, name:"x6"}]},
 		 	       {id:22, name:"技嘉",
-				   nodes: [{id:221, name:"y5"},{id:222, name:"y6"}]},
+				   childs: [{id:221, name:"y5"},{id:222, name:"y6"}]},
 		 	       {id:23, name:"微星"},
 		 	       {id:24, name:"七彩虹"},
 		 	       {id:25, name:"映泰"}
 			]},
 		{id:3, name:"显卡",
-	 		nodes:[
+	 		childs:[
 		 	       {id:31, name:"华硕"},
 		 	       {id:32, name:"索泰"},
 		 	       {id:33, name:"微星"},
@@ -64,7 +68,7 @@
 		 	       {id:35, name:"七彩虹"}
 			]},
 		{id:4, name:"内存",
-	 		nodes:[
+	 		childs:[
 		 	       {id:41, name:"金士顿"},
 		 	       {id:42, name:"威刚"},
 		 	       {id:43, name:"宇瞻"},
@@ -72,7 +76,7 @@
 		 	       {id:45, name:"现代"}
 			]},
 		{id:5, name:"硬盘",
-	 		nodes:[
+	 		childs:[
 		 	       {id:51, name:"希捷"},
 		 	       {id:52, name:"西部数据"},
 		 	       {id:53, name:"日立"},
@@ -81,7 +85,6 @@
 		 	       {id:56, name:"富士通"}
 			]}
 	 	];
-
 
 	$(document).ready(function(){
 		reloadTree();
@@ -101,9 +104,9 @@
 	function zTreeOnBeforeClick(treeId, treeNode) {
 		if (treeNode.level == 0 && !treeNode.open) {
 			singlePath(treeNode);
-			zTree1.expandNode(treeNode, true);
+			zTree1.zTreeTools.expandNode(treeNode, true);
 		} else if (treeNode.level == 1) {
-			var btn = $("#radio_" + treeNode.id).attr("checked", true);
+			var btn = $("#radio_" + treeNode.tId).attr("checked", true);
 			checkBrand(treeNode, btn);
 		}
 		return false;
@@ -114,12 +117,12 @@
 	function singlePath(newNode) {
 		if (newNode === curExpandNode) return;
 		if (curExpandNode && curExpandNode.open==true) {
-			if (newNode.parentNode === curExpandNode.parentNode) {
-				zTree1.expandNode(curExpandNode, false, true);
+			if (newNode.parentTId === curExpandNode.parentTId) {
+				zTree1.zTreeTools.expandNode(curExpandNode, false, true);
 			} else {
 				var newParents = [];
 				while (newNode) {
-					newNode = newNode.parentNode;
+					newNode = newNode.getParentNode();
 					if (newNode === curExpandNode) {
 						newParents = null;
 						break;
@@ -131,14 +134,14 @@
 					var oldNode = curExpandNode;
 					var oldParents = [];
 					while (oldNode) {
-						oldNode = oldNode.parentNode;
+						oldNode = oldNode.getParentNode();
 						if (oldNode) {
 							oldParents.push(oldNode);
 						}
 					}
 					for (var i = (newParents.length<oldParents.length ? newParents.length : oldParents.length); i>=0; i--) {
 						if (newParents[i] !== oldParents[i]) {
-							zTree1.expandNode(oldParents[i], false, true);
+							zTree1.zTreeTools.expandNode(oldParents[i], false, true);
 							break;
 						}
 					}
@@ -155,23 +158,23 @@
 	function addDiyDom(treeId, treeNode) {
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.level == 0) {
-			var editStr = "<input type='checkbox' class='checkboxBtn' id='checkbox_" +treeNode.id+ "' onfocus='this.blur();'></input>";
+			var editStr = "<input type='checkbox' class='checkboxBtn' id='checkbox_" +treeNode.tId+ "' onfocus='this.blur();'></input>";
 			aObj.before(editStr);
-			var btn = $("#checkbox_"+treeNode.id);
+			var btn = $("#checkbox_"+treeNode.tId);
 			if (btn) btn.bind("change", function() {checkAccessories(treeNode, btn);});
 		} else if (treeNode.level == 1) {
-			var editStr = "<input type='radio' class='radioBtn' id='radio_" +treeNode.id+ "' name='radio_"+treeNode.parentNode.id+"' onfocus='this.blur();'></input>";
+			var editStr = "<input type='radio' class='radioBtn' id='radio_" +treeNode.tId+ "' name='radio_"+treeNode.parentTId+"' onfocus='this.blur();'></input>";
 			aObj.before(editStr);
-			var btn = $("#radio_"+treeNode.id);
+			var btn = $("#radio_"+treeNode.tId);
 			if (btn) btn.bind("click", function() {checkBrand(treeNode, btn);});
 		}
 	}
 
 	function checkAccessories(treeNode, btn) {
-		var checkedRadio = getCheckedRadio("radio_"+treeNode.id);
+		var checkedRadio = getCheckedRadio("radio_"+treeNode.tId);
 		if (btn.attr("checked")) {
 			if (!checkedRadio) {
-				$("#radio_" + treeNode.nodes[0].id).attr("checked", true);
+				$("#radio_" + treeNode.childs[0].tId).attr("checked", true);
 			}
 		} else {
 			checkedRadio.attr("checked", false);
@@ -181,11 +184,11 @@
 
 	function checkBrand(treeNode, btn) {
 		if (btn.attr("checked")) {
-			var pObj = $("#checkbox_" + treeNode.parentNode.id);
+			var pObj = $("#checkbox_" + treeNode.parentTId);
 			if (!pObj.attr("checked")) {
 				pObj.attr("checked", true);
 			}
-			addBrandName(treeNode.parentNode);
+			addBrandName(treeNode.getParentNode());
 		}
 	}
 	
@@ -194,13 +197,13 @@
 			treeNode.oldName = treeNode.name;
 		}
 		var brandName = "";
-		if ($("#checkbox_" + treeNode.id).attr("checked")) {
-			var checkedBrand = getCheckedRadio("radio_"+treeNode.id);
-			var brandNode = zTree1.getNodeByParam("id", parseInt(checkedBrand.attr("id").replace("radio_", "")));
+		if ($("#checkbox_" + treeNode.tId).attr("checked")) {
+			var checkedBrand = getCheckedRadio("radio_"+treeNode.tId);
+			var brandNode = zTree1.zTreeTools.getNodeByParam("tId", checkedBrand.attr("id").replace("radio_", ""));
 			if (brandNode) brandName = " - " + brandNode.name;
 		}
 		treeNode.name = treeNode.oldName + brandName;
-		zTree1.updateNode(treeNode);
+		zTree1.zTreeTools.updateNode(treeNode);
 	}
 
 	function getCheckedRadio(radioName) {  
@@ -210,11 +213,12 @@
 				return $(r[i]); 
 			} 
 		}         
-	    return null;       
-	}   
+	    return null;
+	}
 
 	function reloadTree() {
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes, ""));
+		zTree1 = $("#treeDemo");
+		$.fn.zTree.init(zTree1, setting, clone(zNodes, ""));
 	}
 	
 

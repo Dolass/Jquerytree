@@ -42,7 +42,7 @@
 				beforeDrop:null,
 				beforeEditName:null,
 				beforeRemove:null,
-				beforeRename: zTreeConfirmRename,
+				beforeRename: zTreeBeforeRename,
 				onDrag:null,
 				onDrop:null,
 				onEditName:null,
@@ -60,9 +60,9 @@
 	function setRemoveBtn(treeNode) {
 		return (!treeNode.isParent);
 	}
-	function zTreeConfirmRename(treeId, treeNode, newName) {
-		var r = $("#confirmRenameTrue").attr("checked") || treeNode.name === newName;
-		if (!r) alert("confirmRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
+	function zTreeBeforeRename(treeId, treeNode, newName) {
+		var r = $("#beforeRenameTrue").attr("checked") || treeNode.name === newName;
+		if (!r) alert("beforeRename return false!! \n\nYou can't rename. Press 'ESC' can reset this value.");
 		return r;
 	}
 	function renameTreeNode() {
@@ -180,11 +180,11 @@
 					<li>&nbsp;setting.edit_removeBtn = <a id="removeBtnCode">true</a>;</li>
 				</ul>
 				<ul>
-					callback.confirmRename return：<INPUT TYPE="radio" id="confirmRenameTrue" name="confirmRenameRadio" checked onfocus="this.blur();">true;&nbsp;
-					<INPUT TYPE="radio" id="confirmRenameFalse" name="confirmRenameRadio" onfocus="this.blur();">false
+					callback.beforeRename return：<INPUT TYPE="radio" id="beforeRenameTrue" name="beforeRenameRadio" checked onfocus="this.blur();">true;&nbsp;
+					<INPUT TYPE="radio" id="beforeRenameFalse" name="beforeRenameRadio" onfocus="this.blur();">false
 				</ul>
 				<ul class="event">
-					<li>&nbsp;setting.callback.confirmRename = <a id="confirmRenameCode">zTreeConfirmRename</a>;</li>
+					<li>&nbsp;setting.callback.beforeRename = <a id="beforeRenameCode">zTreeBeforeRename</a>;</li>
 				</ul>
 				<ul>
 					<INPUT TYPE="button" id="renameBtn" value="进入名称编辑状态" onclick="renameTreeNode();">
