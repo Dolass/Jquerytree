@@ -194,12 +194,6 @@
 			if (tmp) {tId = tmp.parentNode.id;}
 		}
 
-//		if (tId.length>0 || treeEventType.length>0) {
-//			if (nodeEventType!="hoverOverNode" && nodeEventType != "hoverOutNode"
-//				&& nodeEventType!="mouseoverCheck" && nodeEventType != "mouseoutCheck"
-//				&& target.getAttribute("treeNode"+IDMark_Input) === null
-//				&& !st.checkEvent(setting)) return false;
-//		}
 		if (tId.length>0) {
 			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
@@ -225,9 +219,6 @@
 				treeEventCallback = handler.onZTreeContextmenu;
 				break;
 		}
-//		if (nodeEventType || treeEventType) {
-//			tools.noSel(setting);
-//		}
 		var proxyResult = {
 			stop: false,
 			node: node,
@@ -537,20 +528,19 @@
 			return results;
 		},
 		proxy: function(e) {
-			var results = event.doProxy(e);
 			var setting = data.getSetting(e.data.treeId);
+			if (!tools.uCanDo(setting)) return true;
+			var results = event.doProxy(e);
 			var r = true;
 			var x = false;
 			for (var i=0, l=results.length; i<l; i++) {
 				var proxyResult = results[i];
 				if (proxyResult.nodeEventCallback) {
 					x = true;
-//console.log(proxyResult.nodeEventType);
 					r = proxyResult.nodeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 				if (proxyResult.treeEventCallback) {
 					x = true;
-//console.log(proxyResult.treeEventType);
 					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
@@ -612,26 +602,6 @@
 		}
 	};
 
-	var st = {
-		checkEvent: function(setting) {
-//			return st.checkCancelPreEditNode(setting);
-		}
-		
-//		checkCancelPreEditNode: function (setting) {
-//			var root = getRoot(setting);
-//			if (setting.curEditTreeNode) {
-//				var inputObj = setting.curEditInput;
-//				if ( tools.apply(setting.callback.confirmRename, [setting.treeId, setting.curEditTreeNode, inputObj.val()], true) === false) {
-//					setting.curEditTreeNode.editNameStatus = true;
-//					tools.inputFocus(inputObj);
-//					return false;
-//				}
-//			}
-//			return true;
-//		},
-		
-	};
-
 	var tools = {
 		apply: function(fun, param, defaultValue) {
 			if ((typeof fun) == "function") {
@@ -687,6 +657,9 @@
 					window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
 				} catch(e){}
 			}
+		},
+		uCanDo: function(setting) {
+			return true;
 		}
 	};
 
@@ -846,7 +819,7 @@
 					}
 				}
 			}
-			if (!node) list = [];
+			if (!node) data.getRoot(setting).curSelectedList = [];
 		},
 		createNodeCallback: function(setting, nodes) {
 			var childsKey = setting.data.key.childs;
@@ -1131,18 +1104,19 @@
 
 			data.initRoot(setting);
 			var root = data.getRoot(setting);
+			var childsKey = setting.data.key.childs;
 			zNodes = zNodes ? (tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
-				root[setting.data.key.childs] = data.transformTozTreeFormat(setting, zNodes);
+				root[childsKey] = data.transformTozTreeFormat(setting, zNodes);
 			} else {
-				root[setting.data.key.childs] = zNodes;
+				root[childsKey] = zNodes;
 			}
 			
 			data.initCache(setting);
 			event.bindTree(setting);
 			event.bindEvent(setting);
-			if (root.childs && root.childs.length > 0) {
-				view.createNodes(setting, 0, root.childs);
+			if (root[childsKey] && root[childsKey].length > 0) {
+				view.createNodes(setting, 0, root[childsKey]);
 			} else if (setting.async.enable && setting.async.url && setting.async.url !== '') {
 				view.asyncNode(setting);
 			}
@@ -1225,18 +1199,17 @@
 					view.asyncNode(this.setting, isRoot? null:parentNode);
 				},
 				refresh : function() {
-//					this.setting.treeObj.empty();
-//					zTreeNodeCache[this.setting.treeObjId] = [];
-//					this.setting.curTreeNode = null;
-//					this.setting.curEditTreeNode = null;
-//					this.setting.dragStatus = 0;
-//					this.setting.dragNodeShowBefore = false;
-//					this.setting.checkRadioCheckedList = [];
-//					initTreeNodes(this.setting, 0, this.setting.root[this.setting.nodesCol]);
+					this.setting.treeObj.empty();
+					var root = data.getRoot(this.setting);
+					var nodes = root[this.setting.data.key.childs]
+					data.initRoot(this.setting);
+					root[this.setting.data.key.childs] = nodes
+					data.initCache(this.setting);
+					view.createNodes(this.setting, 0, root[this.setting.data.key.childs]);
 				},
 				selectNode : function(node, addFlag) {
 					if (!node) return;
-//					if (st.checkEvent(this.setting)) {
+					if (tools.uCanDo(this.setting)) {
 						view.selectNode(this.setting, node, addFlag);
 						if (node.parentTId) {
 							view.expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
@@ -1245,7 +1218,7 @@
 						} else {
 							$("#" + node.tId + consts.id.ICON).focus().blur();
 						}
-//					}
+					}
 				},
 				transformTozTreeNodes : function(simpleNodes) {
 					return data.transformTozTreeFormat(this.setting, simpleNodes);
@@ -1255,13 +1228,13 @@
 				},
 				updateNode : function(node, checkTypeFlag) {
 					if (!node) return;
-//					if (st.checkEvent(this.setting)) {
+					if (tools.uCanDo(this.setting)) {
 						view.setNodeName(this.setting, node);
 						view.setNodeTarget(node);
 						view.setNodeUrl(this.setting, node);
 						view.setNodeLineIcos(this.setting, node);
 						view.setNodeFontCss(this.setting, node);
-//					}
+					}
 				}
 			}
 			data.getZTreeTools(setting, obj);

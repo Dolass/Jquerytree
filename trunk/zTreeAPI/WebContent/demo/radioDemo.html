@@ -16,7 +16,7 @@
 	var setting;
 
 		setting = {
-			chk: {
+			check: {
 				enable: true,
 				chkStyle: "radio",
 				radioType: "level"
@@ -43,10 +43,10 @@
 	}
 	
 	function refreshTree() {
-		setting.chk.radioType = getRadioType();
+		setting.check.radioType = getRadioType();
 		zTree1 = $("#treeDemo");
 		zTree1.zTree.init(zTree1, setting, zNodes);
-		$("#checkRadioTypeCode").html(setting.chk.radioType);
+		$("#checkRadioTypeCode").html(setting.check.radioType);
 		getCheckedNodesLength();
 	}
 

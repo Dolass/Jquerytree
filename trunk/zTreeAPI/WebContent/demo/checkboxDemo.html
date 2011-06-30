@@ -17,7 +17,7 @@
 	var setting;
 
 		setting = {
-			chk: {
+			check: {
 				enable: true
 			},
 			callback: {
@@ -46,7 +46,7 @@
 
 	function refreshTree() {
 		var checkType = getCheckBoxType();
-		setting.chk.chkboxType = checkType;
+		setting.check.chkboxType = checkType;
 		zTree1 = $("#treeDemo");
 		$.fn.zTree.init(zTree1, setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
