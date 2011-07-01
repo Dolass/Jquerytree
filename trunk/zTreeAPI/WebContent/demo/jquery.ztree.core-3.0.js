@@ -52,9 +52,7 @@
 			showLine: true,
 			showIcon: true,
 			selectedMulti: true,
-			urlEnable: true,
 			expandSpeed: "fast",
-			hoverDomFlag: true,
 			addDiyDom: null,
 			fontCss: {}
 		},
@@ -67,7 +65,7 @@
 				enable: false,
 				idKey: "id",
 				pIdKey: "pId",
-				rootPid: null
+				rootPId: null
 			},
 			keep: {
 				parent: false,
@@ -320,7 +318,7 @@
 		},
 		fixPIdKeyValue: function(setting, node) {
 			if (setting.data.simpleData.enable) {
-				node[setting.data.simpleData.pIdKey] = node.parentTId ? node.getParentNode()[setting.data.simpleData.idKey] : setting.data.simpleData.rootPid;
+				node[setting.data.simpleData.pIdKey] = node.parentTId ? node.getParentNode()[setting.data.simpleData.idKey] : setting.data.simpleData.rootPId;
 			}
 		},
 		getAfterA: function(setting, node, array) {
@@ -976,7 +974,7 @@
 			return (node.target || "_blank");
 		},
 		makeNodeUrl: function(setting, node) {
-			return (node.url && setting.view.urlEnable) ? node.url : null;
+			return node.url ? node.url : null;
 		},
 		makeUlLineClass: function(setting, node) {
 			return (setting.view.showLine && !node.isLastNode) ?consts.line.LINE : "";

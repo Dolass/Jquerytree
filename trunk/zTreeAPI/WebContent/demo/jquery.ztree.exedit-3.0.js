@@ -1003,6 +1003,10 @@
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
 
+	view.makeNodeUrl = function(setting, node) {
+		return (node.url && !setting.edit.enable) ? node.url : null;
+	}
+
 	var _selectNode = view.selectNode;
 	view.selectNode = function(setting, node, addFlag) {
 		var root = data.getRoot(setting);
