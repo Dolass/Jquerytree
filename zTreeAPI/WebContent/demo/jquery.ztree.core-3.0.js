@@ -407,7 +407,7 @@
 				_init.caches[i].apply(this, arguments);
 			}
 		},
-		initNode: function(setting, level, node, parentNode) {
+		initNode: function(setting, level, node, parentNode, preNode, nextNode) {
 			for (var i=0, j=_init.nodes.length; i<j; i++) {
 				_init.nodes[i].apply(this, arguments);
 			}

@@ -22,6 +22,9 @@
 			check : {
 				enable: true
 			},
+			view : {
+				expandSpeed: "slow"
+			},
 
 			callback:{
 				beforeClick: zTreeBeforeClick,
@@ -218,6 +221,7 @@
 	}
 
 	function zTreeOnExpand(event, treeId, treeNode) {
+		console.log(treeNode.name);
 		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.zTreeTools.getNodeIndex(treeNode) + ")");
 	}
 

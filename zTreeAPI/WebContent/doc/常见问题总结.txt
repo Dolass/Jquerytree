@@ -55,3 +55,6 @@
 9、需要增加 zTree 各个 Dom 组件增加辅助属性的功能，例如增加 title 说明
 10、（搞定）【bug】在没加open:false时，第一次检查节点的 open 属性时，为 undefined（Line 366 这个if条件有问题，应该增加isParent=true 的判断）
 11、（搞定）当初始化传给zTree的是一个对象时，zTree不能正常显示
+12、数据初始化 & 节点显示优化问题
+13、节点初始化时 preNode、nextNode 属性在节点操作后更新。
+
