@@ -94,7 +94,6 @@
 			switch (nodeEventType) {
 				case "checkNode" :
 					nodeEventCallback = _handler.onCheckNode;
-//					tools.noSel(setting);
 					break;
 				case "mouseoverCheck" :
 					nodeEventCallback = _handler.onMouseoverCheck;
@@ -119,6 +118,7 @@
 		var checkedKey = setting.data.key.checked;
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
+		n.nocheck = !!n.nocheck;
 		n.check_Focus = false;
 		n.check_True_Full = true;
 		n.check_False_Full = true;
@@ -135,6 +135,19 @@
 		}
 	},
 	_zTreeTools = function(setting, obj) {
+		obj.zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
+			var checkedKey = this.setting.data.key.checked;
+			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true &&
+				(node[checkedKey] !== !!checked || checkTypeFlag == true)) {
+				node[checkedKey] = !!checked;
+				var checkObj = $("#" + node.tId + consts.id.CHECK);
+				if (checkTypeFlag) view.checkNodeRelation(this.setting, node);
+				view.setChkClass(this.setting, checkObj, node);
+				view.repairParentChkClassWithSelf(this.setting, node);
+				setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+			}
+		}
+
 		obj.zTreeTools.getCheckedNodes = function(checked) {
 			var childsKey = this.setting.data.key.childs;
 			checked = (checked != false);
@@ -144,20 +157,6 @@
 		obj.zTreeTools.getChangeCheckedNodes = function() {
 			var childsKey = this.setting.data.key.childs;
 			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childsKey]);
-		}
-
-		var updateNode = obj.zTreeTools.updateNode;
-		obj.zTreeTools.updateNode = function(node, checkTypeFlag) {
-			if (updateNode) updateNode.apply(obj.zTreeTools, arguments);
-			if (!node) return;
-			if (tools.uCanDo(this.setting)) {
-				var checkObj = $("#" + node.tId + consts.id.CHECK);
-				if (this.setting.check.enable) {
-					if (checkTypeFlag == true && node.nocheck !== true) view.checkNodeRelation(this.setting, node);
-					view.setChkClass(this.setting, checkObj, node);
-					view.repairParentChkClassWithSelf(this.setting, node);
-				}
-			}
 		}
 	};
 	
