@@ -137,8 +137,7 @@
 	_zTreeTools = function(setting, obj) {
 		obj.zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
 			var checkedKey = this.setting.data.key.checked;
-			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true &&
-				(node[checkedKey] !== !!checked || checkTypeFlag == true)) {
+			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true) {
 				node[checkedKey] = !!checked;
 				var checkObj = $("#" + node.tId + consts.id.CHECK);
 				if (checkTypeFlag) view.checkNodeRelation(this.setting, node);

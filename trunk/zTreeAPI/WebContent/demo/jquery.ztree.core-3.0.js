@@ -798,7 +798,7 @@
 
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					data.getRoot(setting).expandTriggerFlag = false;
+//					data.getRoot(setting).expandTriggerFlag = false;
 					view.setNodeLineIcos(setting, node);
 					if (node) node.isAjaxing = null;
 					setting.treeObj.trigger(consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
@@ -843,12 +843,14 @@
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting);
 			var childsKey = setting.data.key.childs;
-			if (!node || node.open == expandFlag) {
+			if (!node) {
 				tools.apply(callback, []);
 				return;
 			}
 			if (root.expandTriggerFlag) {
+				var _callback = callback;
 				callback = function(){
+					if (_callback) _callback();
 					if (node.open) {
 						setting.treeObj.trigger(consts.event.EXPAND, [setting.treeId, node]);
 					} else {
@@ -856,6 +858,10 @@
 					}
 				};
 				root.expandTriggerFlag = false;
+			}
+			if (node.open == expandFlag) {
+				tools.apply(callback, []);
+				return;
 			}
 
 			var switchObj = $("#" + node.tId + consts.id.SWITCH);
@@ -913,11 +919,14 @@
 			var childsKey = setting.data.key.childs;
 			var treeNodes = (node) ? node[childsKey]: root[childsKey];
 			var selfAnimateSign = (node) ? false : animateFlag;
+			var expandTriggerFlag = data.getRoot(setting).expandTriggerFlag;
+			data.getRoot(setting).expandTriggerFlag = false;
 			if (treeNodes) {
 				for (var i = 0, l = treeNodes.length; i < l; i++) {
 					if (treeNodes[i]) view.expandCollapseSonNode(setting, treeNodes[i], expandFlag, selfAnimateSign);
 				}
 			}
+			data.getRoot(setting).expandTriggerFlag = expandTriggerFlag;
 			view.expandCollapseNode(setting, node, expandFlag, animateFlag, callback );
 		},
 		makeNodeFontCss: function(setting, node) {
@@ -1133,10 +1142,13 @@
 						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
 					if (sonSign) {
-						view.expandCollapseSonNode(this.setting, node, expandFlag, false, function() {
+						data.getRoot(setting).expandTriggerFlag = true;
+						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
 							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 						});
-					} else if (node.open != expandFlag) {
+					} else {
+						data.getRoot(setting).expandTriggerFlag = true;
+						node.open = !expandFlag;
 						view.switchNode(this.setting, node);
 						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 					}
