@@ -51,6 +51,7 @@
 		view: {
 			showLine: true,
 			showIcon: true,
+			showTitle: true,
 			selectedMulti: true,
 			expandSpeed: "fast",
 			addDiyDom: null,
@@ -59,7 +60,8 @@
 		data: {
 			key: {
 				name: "name",
-				childs: "childs"
+				childs: "childs",
+				title: "name"
 			},
 			simpleData: {
 				enable: false,
@@ -735,6 +737,7 @@
 			var html = [];
 			var childsKey = setting.data.key.childs;
 			var nameKey = setting.data.key.name;
+			var titleKey = setting.data.key.title;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				var node = nodes[i];
 				var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting);
@@ -762,7 +765,9 @@
 				data.getBeforeA(setting, node, html);
 				html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 					"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
-					"'>");
+					"'");
+				if (setting.view.showTitle) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
+				html.push(">");
 				data.getInnerBeforeA(setting, node, html);
 				html.push("<button type='button' id='", node.tId, consts.id.ICON,
 					"' title='' treeNode", consts.id.ICON," onfocus='this.blur();' class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
@@ -789,7 +794,12 @@
 
 			var tmpParam = "";
 			for (i = 0, l = setting.async.autoParam.length; node && i < l; i++) {
-				tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.autoParam[i] + "=" + node[setting.async.autoParam[i]];
+				var pKey = setting.async.autoParam[i].split("="), spKey = pKey;
+				if (pKey.length>1) {
+					spKey = pKey[1];
+					pKey = pKey[0];
+				}
+				tmpParam += (tmpParam.length > 0 ? "&": "") + spKey + "=" + node[pKey];
 			}
 			if (tools.isArray(setting.asyncParamOther)) {
 				for (i = 0, l = setting.asyncParamOther.length; i < l; i += 2) {
@@ -1088,9 +1098,14 @@
 		},
 		setNodeName: function(setting, node) {
 			var nameKey = setting.data.key.name;
+			var titleKey = setting.data.key.title;
 			var nObj = $("#" + node.tId + consts.id.SPAN);
 			nObj.empty();
 			nObj.text(node[nameKey]);
+			if (setting.view.showTitle) {
+				var aObj = $("#" + node.tId + consts.id.A);
+				aObj.attr("title", node[titleKey]);
+			}
 		},
 		setNodeTarget: function(node) {
 			var aObj = $("#" + node.tId + consts.id.A);

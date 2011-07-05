@@ -159,8 +159,8 @@
 
 		curLi.addClass("focus");
 		curType = type;
-		var t = $("#treeDemo");
-		t.zTree.init(t, setting1, zNodes1);
+		zTree1 = $("#treeDemo");
+		$.fn.zTree.init(zTree1, setting1, zNodes1);
 		$("#nameCode").html(setting1.nameCol);
 		$("#expandSpeedCode").html(setting1.expandSpeed);
 		$("#fontCssCode").html($("#font_1").attr("checked") ? "setFont" : "{}");
