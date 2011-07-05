@@ -47,14 +47,13 @@
 1、cookie 的支持问题
 2、设置多选中状态(多选中的拖拽问题！)
 3、节点拖拽的个性化控制属性 noPrev/noNext/noInner 的思考
-4、通过接口操作节点时是否需要触发各种事件的思考(checkNode可以触发check事件；expandNode可以触发expand/collapse事件)
+4、（搞定）通过接口操作节点时是否需要触发各种事件的思考(checkNode可以触发check事件；expandNode可以触发expand/collapse事件; removeNode可以出发click事件)
 5、如何判定 checkbox 的勾选状态、半勾选状态？
 6、（搞定）async的时候，最好可以指定是get还是post.
 7、asyncParam里指定要传参数的时候最好可以自定义***传递时候***用的参数名。比如，asyncParam: ["ID"]，和服务器通信时传的就是ID=(ID的值)，要是这里可以自定义参数名CustomID=(ID的值)就好了。因为用json加载比较大的树的时候，如果用比较短的字段名，可以节省流量。但是postback的时候，数据一般较少，这时候用有意义的名字可以便于维护。
-8、js 接口操作 zTree 无法触发相应的事件反馈函数，需要认真思考
-9、需要增加 zTree 各个 Dom 组件增加辅助属性的功能，例如增加 title 说明
-10、（搞定）【bug】在没加open:false时，第一次检查节点的 open 属性时，为 undefined（Line 366 这个if条件有问题，应该增加isParent=true 的判断）
-11、（搞定）当初始化传给zTree的是一个对象时，zTree不能正常显示
-12、数据初始化 & 节点显示优化问题
-13、节点初始化时 preNode、nextNode 属性在节点操作后更新。
+8、需要增加 zTree 各个 Dom 组件增加辅助属性的功能，例如增加 title 说明
+9、（搞定）【bug】在没加open:false时，第一次检查节点的 open 属性时，为 undefined（Line 366 这个if条件有问题，应该增加isParent=true 的判断）
+10、（搞定）当初始化传给zTree的是一个对象时，zTree不能正常显示
+11、数据初始化 & 节点显示优化问题
+12、节点初始化时 preNode、nextNode 属性在节点操作后更新。
 

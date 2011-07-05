@@ -206,6 +206,7 @@
 		obj.zTreeTools.removeNode = function(node) {
 			if (!node) return;
 			view.removeNode(this.setting, node);
+			this.setting.treeObj.trigger(consts.event.REMOVE, [this.setting.treeId, node]);
 		}
 		obj.zTreeTools.setEditable = function(editable) {
 			this.setting.edit.enable = editable;
