@@ -244,10 +244,8 @@
 		}
 		n.isFirstNode = (!preNode);
 		n.isLastNode = (!nextNode);
-		n.preTId = preNode ? preNode.tId : null;
-		n.getPreNode = function() {return data.getNodeCache(setting, n.preTId);};
-		n.nextTId = nextNode ? nextNode.tId : null;
-		n.getNextNode = function() {return data.getNodeCache(setting, n.nextTId);};
+		n.getPreNode = function() {return data.getPreNode(setting, n);};
+		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
 	},
 	_init = {
@@ -344,6 +342,23 @@
 		getCache: function(setting) {
 			return caches[setting.treeId];
 		},
+		getNextNode: function(setting, node) {
+			if (!node) return null;
+			var childsKey = setting.data.key.childs;
+			var p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
+			if (node.isLastNode) {
+				return null;
+			} else if (node.isFirstNode) {
+				return p[childsKey][1];
+			} else {
+				for (var i=1, l=p[childsKey].length-1; i<l; i++) {
+					if (p[childsKey][i] === node) {
+						return p[childsKey][i+1];
+					}
+				}
+			}
+			return null;
+		},
 		getNodeByParam: function(setting, nodes, key, value) {
 			if (!nodes || !key) return null;
 			var childsKey = setting.data.key.childs;
@@ -387,6 +402,23 @@
 				result = result.concat(data.getNodesByParamFuzzy(setting, nodes[i][childsKey], key, value));
 			}
 			return result;
+		},
+		getPreNode: function(setting, node) {
+			if (!node) return null;
+			var childsKey = setting.data.key.childs;
+			var p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
+			if (node.isFirstNode) {
+				return null;
+			} else if (node.isLastNode) {
+				return p[childsKey][p[childsKey].length-2];
+			} else {
+				for (var i=1, l=p[childsKey].length-1; i<l; i++) {
+					if (p[childsKey][i] === node) {
+						return p[childsKey][i-1];
+					}
+				}
+			}
+			return null;
 		},
 		getRoot: function(setting) {
 			return roots[setting.treeId];
