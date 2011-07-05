@@ -56,4 +56,5 @@
 10、（搞定）当初始化传给zTree的是一个对象时，zTree不能正常显示
 11、数据初始化 & 节点显示优化问题
 12、（搞定）增加 getPreNode、getNextNode 方法
+13、（搞定）修正expandAll方法，当无参数时，进行toggle操作
 
