@@ -1180,7 +1180,13 @@
 					view.cancelPreSelectedNode(this.setting, node);
 				},
 				expandAll : function(expandFlag) {
+					if (expandFlag !== true && expandFlag !== false) {
+						var n = data.getNodes(this.setting)[0];
+						if (!n) return null;
+						expandFlag = !n.open;
+					}
 					view.expandCollapseSonNode(this.setting, null, expandFlag, true);
+					return expandFlag;
 				},
 				expandNode : function(node, expandFlag, sonSign, focus) {
 					if (!node) return;
