@@ -214,7 +214,7 @@
 		}
 
 	};
-	
+
 	var _data = {
 		setSonNodeLevel: function(setting, parentNode, node) {
 			if (!node) return;
