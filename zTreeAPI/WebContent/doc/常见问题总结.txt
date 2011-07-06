@@ -48,7 +48,7 @@
 2、设置多选中状态(多选中的拖拽问题！)
 3、节点拖拽的个性化控制属性 noPrev/noNext/noInner 的思考
 4、（搞定）通过接口操作节点时是否需要触发各种事件的思考(checkNode可以触发check事件；expandNode可以触发expand/collapse事件; removeNode可以出发click事件)
-5、如何判定 checkbox 的勾选状态、半勾选状态？
+5、（搞定）增加 node.getCheckStatus 方法简单获取节点 checkbox/radio 的勾选、半勾选状态？
 6、（搞定）async的时候，最好可以指定是get还是post.
 7、（搞定）autoParam里指定要传参数的时候最好可以自定义***传递时候***用的参数名。比如，autoParam: ["ID"]，和服务器通信时传的就是ID=(ID的值)，要是这里可以自定义参数名CustomID=(ID的值)就好了。因为用json加载比较大的树的时候，如果用比较短的字段名，可以节省流量。但是postback的时候，数据一般较少，这时候用有意义的名字可以便于维护。
 8、（搞定）增加 title 设置，对于其他个性化属性，可以利用zTree的 Dom 命名规则自行制作

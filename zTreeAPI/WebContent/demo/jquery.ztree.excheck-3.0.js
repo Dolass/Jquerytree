@@ -122,6 +122,7 @@
 		n.check_Focus = false;
 		n.check_True_Full = true;
 		n.check_False_Full = true;
+		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
 	},
 	_beforeA = function(setting, node, html) {
 		var checkedKey = setting.data.key.checked;
@@ -158,8 +159,17 @@
 			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childsKey]);
 		}
 	};
-	
+
 	var _data = {
+		getCheckStatus: function(setting, node) {
+			if (!setting.check.enable || node.nocheck) return null;
+			var checkedKey = setting.data.key.checked,
+			r = {
+				checked: node[checkedKey],
+				half: ((node[checkedKey] || setting.check.chkStyle == consts.radio.STYLE) ? (!node.check_True_Full) : (!node.check_False_Full) )
+			};
+			return r;
+		},
 		getTreeCheckedNodes: function(setting, nodes, checked, results) {
 			if (!nodes) return [];
 			var childsKey = setting.data.key.childs,
