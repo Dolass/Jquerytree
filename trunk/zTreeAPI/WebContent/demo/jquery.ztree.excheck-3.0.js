@@ -59,19 +59,19 @@
 	},
 	_initCache = function(treeId) {},
 	_bindEvent = function(setting) {
-		var o = setting.treeObj;
-		var c = consts.event;
+		var o = setting.treeObj,
+		c = consts.event;
 		o.unbind(c.CHECK);
 		o.bind(c.CHECK, function (event, treeId, node) {
 			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
 	},
 	_eventProxy = function(e) {
-		var target = e.target;
-		var setting = data.getSetting(e.data.treeId);
-		var tId = "", node = null;
-		var nodeEventType = "", treeEventType = "";
-		var nodeEventCallback = null, treeEventCallback = null;
+		var target = e.target,
+		setting = data.getSetting(e.data.treeId),
+		tId = "", node = null,
+		nodeEventType = "", treeEventType = "",
+		nodeEventCallback = null, treeEventCallback = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
 			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
@@ -158,9 +158,9 @@
 			var childsKey = this.setting.data.key.childs;
 			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childsKey]);
 		}
-	};
+	},
 
-	var _data = {
+	_data = {
 		getCheckStatus: function(setting, node) {
 			if (!setting.check.enable || node.nocheck) return null;
 			var checkedKey = setting.data.key.checked,
@@ -199,8 +199,8 @@
 		makeChkFlag: function(setting, node) {
 			if (!node) return;
 			var childsKey = setting.data.key.childs,
-			checkedKey = setting.data.key.checked;
-			var chkFlag = {"trueFlag": true, "falseFlag": true};
+			checkedKey = setting.data.key.checked,
+			chkFlag = {"trueFlag": true, "falseFlag": true};
 			if (node[childsKey]) {
 				for (var i = 0, l = node[childsKey].length; i < l; i++) {
 					if (node[childsKey][i].nocheck === true) continue;
@@ -217,16 +217,16 @@
 			node.check_True_Full = chkFlag.trueFlag;
 			node.check_False_Full = chkFlag.falseFlag;
 		}
-	};
+	},
 
-	var _event = {
+	_event = {
 
-	};
+	},
 
-	var _handler = {
+	_handler = {
 		onCheckNode: function (event, node) {
-			var setting = data.getSetting(event.data.treeId);
-			var checkedKey = setting.data.key.checked;
+			var setting = data.getSetting(event.data.treeId),
+			checkedKey = setting.data.key.checked;
 			if (tools.apply(setting.callback.beforeCheck, [setting.treeId, node], true) == false) return true;
 			node[checkedKey] = !node[checkedKey];
 			view.checkNodeRelation(setting, node);
@@ -237,31 +237,31 @@
 			return true;
 		},
 		onMouseoverCheck: function(event, node) {
-			var setting = data.getSetting(event.data.treeId);
-			var checkObj = $("#" + node.tId + consts.id.CHECK);
+			var setting = data.getSetting(event.data.treeId),
+			checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.checkboxFocus = true;
 			view.setChkClass(setting, checkObj, node);
 			return true;
 		},
 		onMouseoutCheck: function(event, node) {
-			var setting = data.getSetting(event.data.treeId);
-			var checkObj = $("#" + node.tId + consts.id.CHECK);
+			var setting = data.getSetting(event.data.treeId),
+			checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.checkboxFocus = false;
 			view.setChkClass(setting, checkObj, node);
 			return true;
 		}
-	};
+	},
 
-	var _tools = {
+	_tools = {
 
-	};
+	},
 
-	var _view = {
+	_view = {
 		checkNodeRelation: function(setting, node) {
-			var pNode, i, l;
-			var childsKey = setting.data.key.childs,
-			checkedKey = setting.data.key.checked;
-			var r = consts.radio;
+			var pNode, i, l,
+			childsKey = setting.data.key.childs,
+			checkedKey = setting.data.key.checked,
+			r = consts.radio;
 			if (setting.check.chkStyle == r.STYLE) {
 				var radioCheckedList = data.getRoot(setting).radioCheckedList;
 				if (node[checkedKey]) {
@@ -312,9 +312,9 @@
 			}
 		},
 		makeChkClass: function(setting, node) {
-			var checkedKey = setting.data.key.checked;
-			var c = consts.checkbox, r = consts.radio;
-			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
+			var checkedKey = setting.data.key.checked,
+			c = consts.checkbox, r = consts.radio,
+			chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
 			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? (node.check_True_Full? c.FULL:c.PART) : (node.check_False_Full? c.FULL:c.PART) );
 			chkName = node.checkboxFocus ? chkName + "_" + c.FOCUS : chkName;
 			return c.DEFAULT + " " + chkName;
@@ -352,8 +352,8 @@
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
 			var childsKey = setting.data.key.childs,
-			checkedKey = setting.data.key.checked;
-			var checkObj = $("#" + node.tId + consts.id.CHECK);
+			checkedKey = setting.data.key.checked,
+			checkObj = $("#" + node.tId + consts.id.CHECK);
 			node[checkedKey] = value;
 			view.setChkClass(setting, checkObj, node);
 			if (node.parentTId) {
@@ -374,8 +374,8 @@
 		setSonNodeCheckBox: function(setting, node, value) {
 			if (!node) return;
 			var childsKey = setting.data.key.childs,
-			checkedKey = setting.data.key.checked;
-			var checkObj = $("#" + node.tId + consts.id.CHECK);
+			checkedKey = setting.data.key.checked,
+			checkObj = $("#" + node.tId + consts.id.CHECK);
 
 			if (node != data.getRoot(setting)) {
 				node[checkedKey] = value;
@@ -389,9 +389,9 @@
 				if (node[childsKey][i]) view.setSonNodeCheckBox(setting, node[childsKey][i], value);
 			}
 		}
-	};
+	},
 
-	var _z = {
+	_z = {
 		tools: _tools,
 		view: _view,
 		event: _event,
@@ -400,12 +400,12 @@
 	$.extend(true, $.fn.zTree.consts, _consts);
 	$.extend(true, $.fn.zTree._z, _z);
 
-	var zt = $.fn.zTree;
-	var tools = zt._z.tools;
-	var consts = zt.consts;
-	var view = zt._z.view;
-	var data = zt._z.data;
-	var event = zt._z.event;
+	var zt = $.fn.zTree,
+	tools = zt._z.tools,
+	consts = zt.consts,
+	view = zt._z.view,
+	data = zt._z.data,
+	event = zt._z.event;
 
 	data.exSetting(_setting);
 	data.addInitBind(_bindEvent);
