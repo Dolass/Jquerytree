@@ -236,7 +236,7 @@
 		if (!n) return;
 		var childsKey = setting.data.key.childs;
 		n.level = level;
-		n.tId = setting.treeId + "_" + (++zId);
+		n.tId = setting.treeId + "_" + ((++zId).toString(16));
 		n.parentTId = parentNode ? parentNode.tId : null;
 		n.getParentNode = function() {return data.getNodeCache(setting, n.parentTId);};
 		data.fixPIdKeyValue(setting, n);
@@ -755,6 +755,7 @@
 				for (var f in fontcss) {
 					fontStyle.push(f, ":", fontcss[f], ";");
 				}
+				
 				html.push("<li id='", node.tId, "' treenode>",
 					"<button type='button' id='", node.tId, consts.id.SWITCH,
 					"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
@@ -780,9 +781,6 @@
 					html.push("</ul>");
 				}
 				html.push("</li>");
-//				html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
-//				html.push(childHtml.join(''));
-//				html.push("</ul></li>");
 			}
 			return html;
 		},
@@ -880,14 +878,20 @@
 		createNodes: function(setting, level, nodes, parentNode) {
 			if (!nodes) return;
 			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode);
+setTimer("createNode.makeHtml");
+			var h = zTreeHtml.join('');
+setTimer("joinHtml");
 			if (!parentNode) {
-				setting.treeObj.append(zTreeHtml.join(''));
+				setting.treeObj.append(h);
+//				setting.treeObj.get(0).innerHTML = (h);
 			} else {
-				$("#" + parentNode.tId + consts.id.UL).append(zTreeHtml.join(''));
+				$("#" + parentNode.tId + consts.id.UL).append(h);
 			}
+setTimer("createNode.appendHtml");
 			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
 				view.createNodeCallback(setting, nodes);
 			}
+setTimer("createNode.createNodeCallback");
 		},
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
@@ -1155,13 +1159,15 @@
 			return o ? o.treeObj : null;
 		},
 		init: function(obj, zSetting, zNodes) {
+clearTimer();
+setTimer("start");
 			var setting = tools.clone(_setting);
 			$.extend(true, setting, zSetting);
 			setting.treeId = obj.attr("id");
 			setting.treeObj = obj;
 			setting.treeObj.empty();
 			settings[setting.treeId] = setting;
-
+setTimer("setting");
 			data.initRoot(setting);
 			var root = data.getRoot(setting);
 			var childsKey = setting.data.key.childs;
@@ -1171,15 +1177,19 @@
 			} else {
 				root[childsKey] = zNodes;
 			}
-
+setTimer("root");
 			data.initCache(setting);
+setTimer("initCache");
 			event.bindTree(setting);
+setTimer("bindTree");
 			event.bindEvent(setting);
+setTimer("bindEvent");
 			if (root[childsKey] && root[childsKey].length > 0) {
 				view.createNodes(setting, 0, root[childsKey]);
 			} else if (setting.async.enable && setting.async.url && setting.async.url !== '') {
 				view.asyncNode(setting);
 			}
+setTimer("createNodes");
 			obj.zTreeTools = {
 				setting: setting,
 				cancelSelectedNode : function(node) {
@@ -1304,10 +1314,29 @@
 					}
 				}
 			}
+setTimer("var obj.zTreeTools");
 			data.getZTreeTools(setting, obj);
+setTimer("setZTreeTools");
+showTimer();
 		}
 	};
 
 	var zt = $.fn.zTree,
 	consts = zt.consts;
+
+var timer = [];
+function clearTimer() {
+	timer = [];
+}
+function setTimer(name) {
+	timer.push({n:name, t:(new Date()).getTime()});
+}
+function showTimer() {
+	var r = [];
+	for (var i=1, l = timer.length; i<l; i++) {
+		var t1 = timer[i], t0 = timer[i-1];
+		r.push((t1.t - t0.t) + "  (" + t1.n + ")")
+	}
+	$("#timer").html(r.join("<br/>"));
+}
 })(jQuery);
