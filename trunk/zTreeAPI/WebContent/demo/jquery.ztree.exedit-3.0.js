@@ -45,7 +45,10 @@
 			showHoverDom: true,
 			drag: {
 				isCopy: true,
-				isMove: true
+				isMove: true,
+				prev: true,
+				next: true,
+				inner: true
 			}
 		},
 		view: {
@@ -416,9 +419,10 @@
 						isPrev = (tmpNodeObj.prev().attr("id") == tmpTargetNodeId),
 						isNext = (tmpNodeObj.next().attr("id") == tmpTargetNodeId),
 						isInner = (node.parentTId && node.parentTId == tmpTargetNodeId),
-						canPrev = !isNext,
-						canNext = !isPrev,
-						canInner = !isInner && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent);
+						canPrev = !isNext && tools.apply(targetSetting.edit.drag.prev, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.prev),
+						canNext = !isPrev && tools.apply(targetSetting.edit.drag.next, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.next),
+						canInner = !isInner && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent) && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner);
+						
 						if (!canPrev && !canNext && !canInner) {
 							tmpTarget = null;
 							tmpTargetNodeId = "";
@@ -829,6 +833,13 @@
 				target_switchObj = $("#" + targetNode.tId + consts.id.SWITCH);
 				target_icoObj = $("#" + targetNode.tId + consts.id.ICON);
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
+				if (!target_ulObj.get(0)) {
+					var target_liObj = $("#" + targetNode.tId),
+					ul = [];
+					view.makeUlHtml(setting, targetNode, ul, '');
+					target_liObj.append(ul.join(''));
+					target_ulObj = $("#" + targetNode.tId + consts.id.UL);
+				}
 			}
 
 			//处理目标节点

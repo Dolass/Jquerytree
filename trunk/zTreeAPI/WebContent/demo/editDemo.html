@@ -29,7 +29,10 @@
 				showHoverDom: true,
 				drag: {
 					isCopy: true,
-					isMove: true
+					isMove: true,
+					prev: setPre,
+					next: setNext,
+					inner: setInner
 				}
 			},
 			view: {
@@ -53,6 +56,16 @@
 	$(document).ready(function(){
 		refreshTree();
 	});
+
+	function setPre (treeId, node) {
+		return node.level > 0 && node.level != 3;
+	}
+	function setNext (treeId, node) {
+		return node.level != 1 && node.level != 3;
+	}
+	function setInner (treeId, node) {
+		return node.isParent && node.level != 3;
+	}
 
 	function setRenameBtn(treeNode) {
 		return !(treeNode.level == 1 && treeNode.isParent);

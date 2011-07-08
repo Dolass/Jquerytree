@@ -46,7 +46,7 @@
 【v3.x 需要解决的常见问题】
 1、cookie 的支持问题
 2、设置多选中状态(多选中的拖拽问题！)
-3、节点拖拽的个性化控制属性 noPrev/noNext/noInner 的思考
+3、（搞定）提供 setting.edit.drag.prev/next/inner 设置可以随意设置全部节点拖拽的状态，也可以设置function引用，针对节点自行控制拖拽定义
 4、（搞定）通过接口操作节点时是否需要触发各种事件的思考(checkNode可以触发check事件；expandNode可以触发expand/collapse事件; removeNode可以出发click事件)
 5、（搞定）增加 node.getCheckStatus 方法简单获取节点 checkbox/radio 的勾选、半勾选状态？
 6、（搞定）async的时候，最好可以指定是get还是post.
