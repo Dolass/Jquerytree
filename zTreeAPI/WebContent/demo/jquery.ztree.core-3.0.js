@@ -755,6 +755,10 @@
 				for (var f in fontcss) {
 					fontStyle.push(f, ":", fontcss[f], ";");
 				}
+				if (node[childsKey] && node[childsKey].length > 0) {
+					//必须先初始化子节点，否则父节点check状态有问题
+					childHtml = view.appendNodes(setting, level + 1, node[childsKey], node);
+				}
 				html.push("<li id='", node.tId, "' treenode>",
 					"<button type='button' id='", node.tId, consts.id.SWITCH,
 					"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
@@ -772,17 +776,9 @@
 				html.push("</a>");
 				data.getAfterA(setting, node, html);
 				if (node.isParent) {
-					if (node[childsKey] && node[childsKey].length > 0) {
-						childHtml = view.appendNodes(setting, level + 1, node[childsKey], node);
-					}
-					html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
-					html.push(childHtml.join(''));
-					html.push("</ul>");
+					view.makeUlHtml(setting, node, html, childHtml.join(''));
 				}
 				html.push("</li>");
-//				html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
-//				html.push(childHtml.join(''));
-//				html.push("</ul></li>");
 			}
 			return html;
 		},
@@ -883,7 +879,15 @@
 			if (!parentNode) {
 				setting.treeObj.append(zTreeHtml.join(''));
 			} else {
-				$("#" + parentNode.tId + consts.id.UL).append(zTreeHtml.join(''));
+				var ulObj = $("#" + parentNode.tId + consts.id.UL);
+				if (ulObj.get(0)) {
+					ulObj.append(zTreeHtml.join(''));
+				} else {
+					var liObj = $("#" + parentNode.tId),
+					ul = [];
+					view.makeUlHtml(setting, parentNode, ul, zTreeHtml.join(''));
+					liObj.append(ul.join(''));
+				}
 			}
 			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
 				view.createNodeCallback(setting, nodes);
@@ -1032,6 +1036,11 @@
 		},
 		makeNodeUrl: function(setting, node) {
 			return node.url ? node.url : null;
+		},
+		makeUlHtml: function(setting, node, html, content) {
+			html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
+			html.push(content);
+			html.push("</ul>");
 		},
 		makeUlLineClass: function(setting, node) {
 			return (setting.view.showLine && !node.isLastNode) ?consts.line.LINE : "";

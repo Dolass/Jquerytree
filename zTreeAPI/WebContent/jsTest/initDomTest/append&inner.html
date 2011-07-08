@@ -159,10 +159,16 @@ testFun = {
         (function(){
             for (var i = 0; i<count; i++) {
 //                htmlstr.push("<li id='treeDemo_1' treenode><button type='button' id='treeDemo_1_switch' title='' class='switch_roots_docu' treeNode_switch onfocus='this.blur();'></button><a id='treeDemo_1_a' treeNode_a onclick=\"\"  target='_blank' style=''title='z1'><button type='button' id='treeDemo_1_ico' title='' treeNode_ico onfocus='this.blur();' class=' ico_docu' style=''></button><span id='treeDemo_1_span'>z1</span></a><ul id='treeDemo_1_ul' class='line' style='display:none'></ul></li>");
-                htmlstr.push("<li id='treeDemo_1' treenode><button type='button' id='treeDemo_1_switch' title='' class='switch_roots_docu' treeNode_switch ></button><a id='treeDemo_1_a' treeNode_a onclick=\"\"  target='_blank' style=''title='z1'><button type='button' id='treeDemo_1_ico' title='' treeNode_ico class=' ico_docu' style=''></button><span id='treeDemo_1_span'>z1</span></a></li>");
+                htmlstr.push("<li id='treeDemo_1' treenode><button type='button' id='treeDemo_1_switch' title='' class='switch_roots_docu' style='' treeNode_switch ></button><a id='treeDemo_1_a' treeNode_a onclick=\"\"  target='_blank' style=''title='z1'><button type='button' id='treeDemo_1_ico' title='' treeNode_ico class=' ico_docu' style=''></button><span id='treeDemo_1_span'>z1</span></a></li>");
+//				htmlstr.push("<li id='treeDemo_1' treenode><button type='button' id='treeDemo_1_switch' title='' class='chk checkbox_false_full' style='' treeNode_switch ></button><a id='treeDemo_1_a' treeNode_a onclick=\"\"  target='_blank' style=''title='z1'><button type='button' id='treeDemo_1_ico' title='' treeNode_ico class='chk checkbox_true_full' style=''></button><span id='treeDemo_1_span'>z1</span></a></li>");
             }
         })();
+//		var tmpClass = treeDemo.className;
+//		treeDemo.className = "";
+//		treeDemo.style.visibility = "hidden";
 //        newRootLi.firstChild.innerHTML = htmlstr.join("");
+//		treeDemo.className = tmpClass;
+//		treeDemo.style.visibility = "visible";
         $(newRootLi.firstChild).append(htmlstr.join(""));
         var timeEnd = new Date();
         return (timeEnd.getTime() - timeStart.getTime());
