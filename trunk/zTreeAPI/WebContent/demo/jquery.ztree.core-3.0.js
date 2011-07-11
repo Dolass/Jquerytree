@@ -232,26 +232,26 @@
 		};
 		return proxyResult
 	},
-	_initNode = function(setting, level, n, parentNode, preNode, nextNode) {
+	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		var childsKey = setting.data.key.childs;
 		n.level = level;
 		n.tId = setting.treeId + "_" + (++zId);
 		n.parentTId = parentNode ? parentNode.tId : null;
-		n.getParentNode = function() {return data.getNodeCache(setting, n.parentTId);};
-		data.fixPIdKeyValue(setting, n);
 		if (n[childsKey] && n[childsKey].length > 0) {
-			n.open = !!n.open;
+			n.open = openFlag && !!n.open;
 			n.isParent = true;
 		} else {
 			n.open = false;
 			n.isParent = !!n.isParent;
 		}
-		n.isFirstNode = (!preNode);
-		n.isLastNode = (!nextNode);
+		n.isFirstNode = isFirstNode;
+		n.isLastNode = isLastNode;
+		n.getParentNode = function() {return data.getNodeCache(setting, n.parentTId);};
 		n.getPreNode = function() {return data.getPreNode(setting, n);};
 		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
+		data.fixPIdKeyValue(setting, n);
 	},
 	_init = {
 		bind: [_bindEvent],
@@ -732,7 +732,7 @@
 				view.createNodes(setting, 0, newNodes, null);
 			}
 		},
-		appendNodes: function(setting, level, nodes, parentNode) {
+		appendNodes: function(setting, level, nodes, parentNode, initFlag, openFlag) {
 			if (!nodes) return [];
 			var html = [],
 			childsKey = setting.data.key.childs,
@@ -742,45 +742,60 @@
 				var node = nodes[i],
 				tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
 				tmpPChilds = tmpPNode[childsKey],
-				preNode = ((tmpPChilds.length == nodes.length) && (i == 0)) ? null : ((i == 0)? tmpPChilds[tmpPChilds.length - nodes.length - 1] : nodes[i-1]),
-				nextNode = (i == (nodes.length - 1)) ? null : nodes[i+1];
-
-				data.initNode(setting, level, node, parentNode, preNode, nextNode);
-				data.addNodeCache(setting, node);
-
-				var url = view.makeNodeUrl(setting, node),
-				fontcss = view.makeNodeFontCss(setting, node),
-				fontStyle = [], childHtml = [];
-
-				for (var f in fontcss) {
-					fontStyle.push(f, ":", fontcss[f], ";");
+				isFirstNode = ((tmpPChilds.length == nodes.length) && (i == 0)),
+				isLastNode = (i == (nodes.length - 1));
+				if (initFlag) {
+					data.initNode(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag);
+					data.addNodeCache(setting, node);
 				}
+
+				var childHtml = [];
 				if (node[childsKey] && node[childsKey].length > 0) {
 					//必须先初始化子节点，否则父节点check状态有问题
-					childHtml = view.appendNodes(setting, level + 1, node[childsKey], node);
+					childHtml = view.appendNodes(setting, level + 1, node[childsKey], node, initFlag, openFlag && node.open);
 				}
-				html.push("<li id='", node.tId, "' treenode>",
-					"<button type='button' id='", node.tId, consts.id.SWITCH,
-					"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
-				data.getBeforeA(setting, node, html);
-				html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
-					"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
-					"'");
-				if (setting.view.showTitle) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
-				html.push(">");
-				data.getInnerBeforeA(setting, node, html);
-				html.push("<button type='button' id='", node.tId, consts.id.ICON,
-					"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
-					"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
-				data.getInnerAfterA(setting, node, html);
-				html.push("</a>");
-				data.getAfterA(setting, node, html);
-				if (node.isParent) {
-					view.makeUlHtml(setting, node, html, childHtml.join(''));
+				if (openFlag) {
+					var url = view.makeNodeUrl(setting, node),
+					fontcss = view.makeNodeFontCss(setting, node),
+					fontStyle = [];
+					for (var f in fontcss) {
+						fontStyle.push(f, ":", fontcss[f], ";");
+					}
+					html.push("<li id='", node.tId, "' treenode>",
+						"<button type='button' id='", node.tId, consts.id.SWITCH,
+						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
+					data.getBeforeA(setting, node, html);
+					html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
+						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
+						"'");
+					if (setting.view.showTitle) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
+					html.push(">");
+					data.getInnerBeforeA(setting, node, html);
+					html.push("<button type='button' id='", node.tId, consts.id.ICON,
+						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
+						"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
+					data.getInnerAfterA(setting, node, html);
+					html.push("</a>");
+					data.getAfterA(setting, node, html);
+					if (node.isParent && node.open) {
+						view.makeUlHtml(setting, node, html, childHtml.join(''));
+					}
+					html.push("</li>");
 				}
-				html.push("</li>");
 			}
 			return html;
+		},
+		appendParentULDom: function(setting, node) {
+			var html = [],
+			nObj = $("#" + node.tId),
+			childsKey = setting.data.key.childs,
+			childHtml = view.appendNodes(setting, node.level+1, node[childsKey], node, false, true);
+			view.makeUlHtml(setting, node, html, childHtml.join(''));
+			if (!nObj.get(0) && !!node.parentTId) {
+				view.appendParentULDom(setting, node.getParentNode());
+				nObj = $("#" + node.tId);
+			}
+			nObj.append(html.join(''));
 		},
 		asyncNode: function(setting, node) {
 			var i, l;
@@ -875,7 +890,7 @@
 		},
 		createNodes: function(setting, level, nodes, parentNode) {
 			if (!nodes) return;
-			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode);
+			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode, true, (!parentNode || !!parentNode.open));
 			if (!parentNode) {
 				setting.treeObj.append(zTreeHtml.join(''));
 			} else {
@@ -917,9 +932,13 @@
 				return;
 			}
 
+			var ulObj = $("#" + node.tId + consts.id.UL);
+			if (!ulObj.get(0) && !node.open) {
+				view.appendParentULDom(setting, node);
+				ulObj = $("#" + node.tId + consts.id.UL);
+			}
 			var switchObj = $("#" + node.tId + consts.id.SWITCH),
-			icoObj = $("#" + node.tId + consts.id.ICON),
-			ulObj = $("#" + node.tId + consts.id.UL);
+			icoObj = $("#" + node.tId + consts.id.ICON);		
 
 			if (node.isParent) {
 				node.open = !node.open;
@@ -1286,7 +1305,6 @@
 				selectNode : function(node, addFlag) {
 					if (!node) return;
 					if (tools.uCanDo(this.setting)) {
-						view.selectNode(this.setting, node, addFlag);
 						if (node.parentTId) {
 							view.expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
 								$("#" + node.tId + consts.id.ICON).focus().blur();
@@ -1294,6 +1312,7 @@
 						} else {
 							$("#" + node.tId + consts.id.ICON).focus().blur();
 						}
+						view.selectNode(this.setting, node, addFlag);
 					}
 				},
 				transformTozTreeNodes : function(simpleNodes) {
