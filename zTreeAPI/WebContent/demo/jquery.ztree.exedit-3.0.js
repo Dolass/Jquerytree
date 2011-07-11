@@ -153,7 +153,7 @@
 		};
 		return proxyResult
 	},
-	_initNode = function(setting, level, n, parentNode, preNode, nextNode) {
+	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		n.isHover = false;
 		n.editNameFlag = false;

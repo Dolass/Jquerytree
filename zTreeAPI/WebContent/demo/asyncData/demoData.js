@@ -1,5 +1,5 @@
 var zNodes =[
-	{ name:"手机", ename:"Mobile", open:true,
+	{ name:"手机", ename:"Mobile", open:false,
 		childs: [
 			{ name:"诺基亚", ename:"Nokia", nocheck:true,
 				childs: [

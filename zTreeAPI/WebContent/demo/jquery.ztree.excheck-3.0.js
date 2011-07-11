@@ -113,7 +113,7 @@
 		};
 		return proxyResult
 	},
-	_initNode = function(setting, level, n, parentNode, preNode, nextNode) {
+	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		var checkedKey = setting.data.key.checked;
 		n[checkedKey] = !!n[checkedKey];
