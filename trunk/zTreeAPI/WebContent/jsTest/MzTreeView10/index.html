@@ -1,0 +1,148 @@
+<html>
+  <head>
+    <script language=javascript>var t1 = new Date().getTime();</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <meta content="F.R.Huang(meizz梅花雪)//www.meizz.com" name="author">
+    <script language="JavaScript" src="MzTreeView10.js"></script>
+    <title>梅花雪中文网 - WEB版块管理界面</title>
+    <style type="text/css">
+    body, td
+    {
+      font-family: 宋体;
+      font-size: 12px;
+    }
+    A:LINK, A:VISITED, A:ACTIVE, A:HOVER
+    {
+      color: #800080;
+      font-size: 13px;
+      padding-left: 3px;
+      TEXT-DECORATION: NONE;
+    }
+    </style>
+    <SCRIPT LANGUAGE="JavaScript">
+    function getQuery(name)
+    {
+      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r!=null) return unescape(r[2]); return null;
+    }
+    function getObjectById(id)
+    {
+      if (typeof(id) != "string" || id == "") return null;
+      if (document.all) return document.all(id);
+      if (document.getElementById) return document.getElementById(id);
+      try {return eval(id);} catch(e){ return null;}
+    }
+    function reRun()
+    {
+      var url = "demo.htm";
+      url += "\?total="+ document.forms[0].total.value;
+      url += "&childNodes="+ document.forms[0].childNodes.value;
+      window.location.href = url;
+    }
+    window.onload = function()
+    {
+      getObjectById("focusId").value = tot-1;
+      getObjectById("msgNode").innerHTML  = "树的总节点数："+ tot +"<br>单节点下的子节点数："+ cns;
+      getObjectById("TimeShow").innerHTML = "加载本页耗时 "+ (new Date().getTime()-t1) +" 毫秒";
+    }
+    </SCRIPT>
+  </head>
+
+  <body>
+    <h3>梅花雪ＷＥＢ脚本控件集 - MzTreeView 1.0 树 - 测试页面</h3>
+    <form method="get" style="padding: 3; background-color: #B8D1F8; margin-bottom: 0">
+      <fieldset>
+        <legend>输入树节点参数信息</legend>
+        树的总节点数：<input name="total" size='8' maxlength='8' value="1024">
+        每节点的子节点数：<input name="childNodes" size='3' maxlength='3' value="10">
+        <input type="submit" value="确定">
+      </fieldset>
+    </form>
+    <table width="100%" border=0 cellspacing=3 bgcolor="#B8D1F8">
+      <tr>
+        <td bgcolor=white valign=top>
+          <div id=treeviewarea style="background-color: "></div>
+          <SCRIPT LANGUAGE="JavaScript">
+          <!--
+          var tree = new MzTreeView("tree");
+          tree.setIconPath("./");
+          tree.nodes['0_1'] = 'text:节点 1';
+          tree.nodes['1_2'] = 'text:节点 2';
+          tree.nodes['1_3'] = 'text:节点 3';
+          tree.nodes['1_4'] = 'text:节点 4';
+          tree.nodes['1_5'] = 'text:节点 5';
+          tree.nodes['1_6'] = 'text:节点 6';
+          tree.nodes['1_7'] = 'text:节点 7';
+          tree.nodes['1_8'] = 'text:节点 8';
+          tree.nodes['1_9'] = 'text:节点 9';
+          tree.nodes['1_10'] = 'text:节点 10';
+          var tot = getQuery("total");      tot = !tot || isNaN(tot) ? 1024 : tot;
+          var cns = getQuery("childNodes"); cns = !cns || isNaN(cns) ? 10 : cns;
+          with(document.forms[0])
+          {
+            total.value = tot;
+            childNodes.value = cns;
+          }
+          for (i=11; i<tot; i++)
+            tree.nodes[Math.floor(Math.random()*(tot/cns))+2 +"_"+ i] = 'text:节点 '+ i;
+
+
+
+          document.getElementById('treeviewarea').innerHTML = tree.toString();
+
+          
+          
+          if(typeof(Function.prototype.apply)!="function")
+          {
+            Function.prototype.apply = function(obj, argu){var s; if(obj){obj.constructor.prototype._caller=this; s = "obj._caller";} else s = "this"; var a=[]; for(var i=0; i<argu.length; i++) a[i] = "argu["+ i +"]"; return eval(s +"("+ a.join(",") +");");};
+            Function.prototype.call  = function(obj){var a=[]; for(var i=1; i<arguments.length; i++) a[i-1]=arguments[i]; return this.apply(obj, a);}; 
+          }
+          tree.buildNode = function(id)
+          {
+            var d = new Date().getTime();
+
+            MzTreeView.prototype.buildNode.call(this, id);
+
+            try{
+            getObjectById("TimeNode").innerHTML = "<u><b>"+ this.node[id].text +"</b></u> 有 "+
+              this.node[id].childNodes.length +" 个子节点<br>加载耗时："+ (new Date().getTime()-d) +" 毫秒！";
+            }catch(e){}
+          }
+          tree.expandAll = function()
+          {
+            var d = new Date().getTime();
+            MzTreeView.prototype.expandAll.call(this);
+            alert("全部展开耗时 = "+ (new Date().getTime()-d) +
+            " 毫秒！\r\n有效节点总数 = "+ (this.index+1));
+          }
+          //-->
+          </SCRIPT>
+        </td><td width="230" valign=top>
+        ·<u><a href="http://www.meizz.com/Web/Article.asp?id=436" target="_blank">使用说明</a></u><br>
+        ·<u><a href="http://www.meizz.com/Web/Download/MzTreeView10.rar" target="_blank">下载 MzTreeVew V1.0</a></u><br><br>
+        聚焦到<input id=focusId size=5>节点<input type=button value="聚集" onclick="tree.focus(getObjectById('focusId').value)"><br>
+        <input type=button value="父层节点←" onclick="tree.upperNode()"><input type=button value="子层节点→" onclick="tree.lowerNode()"><br>
+        <input type=button value="上一节点↑" onclick="tree.pervNode()"><input type=button value="下一节点↓" onclick="tree.nextNode()"><br>
+        <input type=button value=展开所有节点 onclick="tree.expandAll()"><br>
+        <br><ul style="line-height: 14pt">
+        <li id=msgNode >1024 个节点的树！
+        <li id="TimeShow" style="color: #0000D0">在这里可以看到每个节点加载的耗时
+        <li id="TimeNode">
+        </ul></td>
+      </tr>
+    </table>
+	<!--
+   ┏━━━━━━━━━━━━━━━━━━━━━┓
+   ┃             源 码 爱 好 者               ┃
+   ┣━━━━━━━━━━━━━━━━━━━━━┫
+   ┃                                          ┃
+   ┃           提供源码发布与下载             ┃
+   ┃                                          ┃
+   ┃        http://www.jb51.net           ┃
+   ┃                                          ┃
+   ┃            互助、分享、提高              ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━┛
+-->
+  </body>
+</html>
