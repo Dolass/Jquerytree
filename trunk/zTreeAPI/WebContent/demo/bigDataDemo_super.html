@@ -75,8 +75,8 @@
 			var usedTime = (endTime.getTime() - startTime.getTime())/1000;
 			ajaxInfo += ("<br/>加载完毕，共"+treeNode.childs.length+"个子节点, 耗时："+ usedTime + "秒");
 			treeNode.icon = "";
-			zTree1.zTreeTools.updateNode(treeNode);
-			zTree1.zTreeTools.selectNode(treeNode.childs[0]);
+			zTree1.updateNode(treeNode);
+			zTree1.selectNode(treeNode.childs[0]);
 		}
 		$("#onAsync").html(ajaxInfo);
 	}
@@ -84,15 +84,15 @@
 	function zTreeAjaxError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
 		alert("异步获取数据出现异常。");
 		treeNode.icon = "";
-		zTree1.zTreeTools.updateNode(treeNode);
+		zTree1.updateNode(treeNode);
 	}
 
 	function ajaxGetNodes(treeNode, reloadType) {
 		if (reloadType == "refresh") {
 			treeNode.icon = "zTreeStyle/img/loading.gif";
-			zTree1.zTreeTools.updateNode(treeNode);
+			zTree1.updateNode(treeNode);
 		}
-		zTree1.zTreeTools.reAsyncChildNodes(treeNode, reloadType);
+		zTree1.reAsyncChildNodes(treeNode, reloadType);
 	}
 
 	var perCount = 50;
@@ -117,8 +117,7 @@
 	}
 	
 	function reloadTree() {
-		zTree1 = $("#treeDemo");
-		zTree1.zTree.init(zTree1, setting, clone(zNodes, ""));
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, clone(zNodes, ""));
 		$("#onAsync").html("<br/>");
 	}
 

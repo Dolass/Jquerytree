@@ -23,7 +23,7 @@
 				enable: true
 			},
 			view : {
-				expandSpeed: "slow"
+				expandSpeed: "fast"
 			},
 
 			callback:{
@@ -221,7 +221,7 @@
 	}
 
 	function zTreeOnExpand(event, treeId, treeNode) {
-		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.zTreeTools.getNodeIndex(treeNode) + ")");
+		$("#onExpandNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
 	function zTreeBeforeCollapse(treeId, treeNode) {
@@ -231,12 +231,11 @@
 	}
 
 	function zTreeOnCollapse(event, treeId, treeNode) {
-		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.zTreeTools.getNodeIndex(treeNode) + ")");
+		$("#onCollapseNode").html( "[" + getTime() + "]  treeId=" + treeId + ";<br/>&nbsp;tId=" + treeNode.tId + "; Name=" + treeNode.name + " (节点Index = " + zTree1.getNodeIndex(treeNode) + ")");
 	}
 
 	function refreshTree() {
-		zTree1 = $("#treeDemo");
-		zTree1.zTree.init(zTree1, setting, zNodes);
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		$("#onClickNode").html("<br/>");
 		$("#onDblclickNode").html("<br/>");
 		$("#onRightClickNode").html("<br/>");

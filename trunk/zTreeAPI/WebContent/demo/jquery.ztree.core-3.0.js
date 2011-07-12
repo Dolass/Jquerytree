@@ -113,6 +113,7 @@
 		r.expandTriggerFlag = false;
 		r.curSelectedList = [];
 		r.noSelection = true;
+		r.createdNodes = [];
 	},
 	_initCache = function(setting) {
 		var c = data.getCache(setting);
@@ -313,6 +314,12 @@
 				root.curSelectedList.push(node);
 			}
 		},
+		addCreatedNode: function(setting, node) {
+			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
+				var root = data.getRoot(setting);
+				root.createdNodes.push(node);
+			}
+		},
 		addZTreeTools: function(zTreeTools) {
 			_init.zTreeTools.push(zTreeTools);
 		},
@@ -434,7 +441,7 @@
 		getSettings: function() {
 			return settings;
 		},
-		getZTreeTools: function(setting, obj) {
+		getZTreeTools: function(setting, zTreeTools) {
 			for (var i=0, j=_init.zTreeTools.length; i<j; i++) {
 				_init.zTreeTools[i].apply(this, arguments);
 			}
@@ -779,6 +786,7 @@
 						view.makeUlHtml(setting, node, html, childHtml.join(''));
 					}
 					html.push("</li>");
+					data.addCreatedNode(setting, node);
 				}
 			}
 			return html;
@@ -794,6 +802,7 @@
 				nObj = $("#" + node.tId);
 			}
 			nObj.append(html.join(''));
+			view.createNodeCallback(setting);
 		},
 		asyncNode: function(setting, node, isSilent) {
 			var i, l;
@@ -873,23 +882,29 @@
 			}
 			if (!node) data.getRoot(setting).curSelectedList = [];
 		},
-		createNodeCallback: function(setting, nodes) {
-			var childsKey = setting.data.key.childs;
-			for (var i = 0, l = nodes.length; i < l; i++) {
-				var node = nodes[i];
-				tools.apply(setting.view.addDiyDom, [setting.treeId, node]);
-				if (!!setting.callback.onNodeCreated) {
-					setting.treeObj.trigger(consts.event.NODECREATED, [setting.treeId, node]);
+		createNodeCallback: function(setting) {
+			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
+				var root = data.getRoot(setting);
+	//			childsKey = setting.data.key.childs,
+				while (root.createdNodes.length>0) {
+					var node = root.createdNodes.shift();
+					tools.apply(setting.view.addDiyDom, [setting.treeId, node]);
+					if (!!setting.callback.onNodeCreated) {
+						setting.treeObj.trigger(consts.event.NODECREATED, [setting.treeId, node]);
+					}
+	//				if (node[childsKey] && node[childsKey].length > 0) {
+	//					view.createNodeCallback(setting, node[childsKey], node);
+	//				}
 				}
-				if (node[childsKey] && node[childsKey].length > 0) {
-					view.createNodeCallback(setting, node[childsKey], node);
-				}
+
 			}
 		},
 		createNodes: function(setting, level, nodes, parentNode) {
 			if (!nodes || nodes.length == 0) return;
-			var childsKey = setting.data.key.childs,
-			openFlag = !parentNode || !$("#" + parentNode[childsKey][0].tId).get(0);
+			var root = data.getRoot(setting),
+			childsKey = setting.data.key.childs,
+			openFlag = !parentNode || parentNode.open || !!$("#" + parentNode[childsKey][0].tId).get(0);
+			root.createdNodes = [];
 			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode, true, openFlag);
 			if (!parentNode) {
 				setting.treeObj.append(zTreeHtml.join(''));
@@ -899,9 +914,7 @@
 					ulObj.append(zTreeHtml.join(''));
 				}
 			}
-			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
-				view.createNodeCallback(setting, nodes);
-			}
+			view.createNodeCallback(setting);
 		},
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
@@ -928,7 +941,7 @@
 			}
 
 			if (!node.open && node[childsKey] && node[childsKey].length>0 && !$("#" + node[childsKey][0].tId).get(0)) {
-				view.appendParentULDom(setting, node[childsKey][0]);
+				view.appendParentULDom(setting, node);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
 			switchObj = $("#" + node.tId + consts.id.SWITCH),
@@ -1171,9 +1184,9 @@
 			event: event,
 			data: data
 		},
-		getZTreeObj: function(treeId) {
+		getZTreeTools: function(treeId) {
 			var o = settings[treeId];
-			return o ? o.treeObj : null;
+			return o ? o.treeTools : null;
 		},
 		init: function(obj, zSetting, zNodes) {
 			var setting = tools.clone(_setting);
@@ -1184,8 +1197,8 @@
 			settings[setting.treeId] = setting;
 
 			data.initRoot(setting);
-			var root = data.getRoot(setting);
-			var childsKey = setting.data.key.childs;
+			var root = data.getRoot(setting),
+			childsKey = setting.data.key.childs;
 			zNodes = zNodes ? (tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
 				root[childsKey] = data.transformTozTreeFormat(setting, zNodes);
@@ -1201,7 +1214,7 @@
 			} else if (setting.async.enable && setting.async.url && setting.async.url !== '') {
 				view.asyncNode(setting);
 			}
-			obj.zTreeTools = {
+			var zTreeTools = {
 				setting: setting,
 				cancelSelectedNode : function(node) {
 					view.cancelPreSelectedNode(this.setting, node);
@@ -1326,7 +1339,9 @@
 					}
 				}
 			}
-			data.getZTreeTools(setting, obj);
+			root.treeTools = zTreeTools;
+			data.getZTreeTools(setting, zTreeTools);
+			return zTreeTools;
 		}
 	};
 

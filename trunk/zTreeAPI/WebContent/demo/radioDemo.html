@@ -44,14 +44,13 @@
 	
 	function refreshTree() {
 		setting.check.radioType = getRadioType();
-		zTree1 = $("#treeDemo");
-		zTree1.zTree.init(zTree1, setting, zNodes);
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		$("#checkRadioTypeCode").html(setting.check.radioType);
 		getCheckedNodesLength();
 	}
 
 	function getCheckedNodesLength() {
-		var tmp = zTree1.zTreeTools.getCheckedNodes(true);
+		var tmp = zTree1.getCheckedNodes(true);
 		$("#checkedNum").html(tmp.length);
 	}
 
