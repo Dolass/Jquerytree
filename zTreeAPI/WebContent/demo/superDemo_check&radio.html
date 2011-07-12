@@ -104,7 +104,7 @@
 	function zTreeOnBeforeClick(treeId, treeNode) {
 		if (treeNode.level == 0 && !treeNode.open) {
 			singlePath(treeNode);
-			zTree1.zTreeTools.expandNode(treeNode, true);
+			zTree1.expandNode(treeNode, true);
 		} else if (treeNode.level == 1) {
 			var btn = $("#radio_" + treeNode.tId).attr("checked", true);
 			checkBrand(treeNode, btn);
@@ -118,7 +118,7 @@
 		if (newNode === curExpandNode) return;
 		if (curExpandNode && curExpandNode.open==true) {
 			if (newNode.parentTId === curExpandNode.parentTId) {
-				zTree1.zTreeTools.expandNode(curExpandNode, false, true);
+				zTree1.expandNode(curExpandNode, false, true);
 			} else {
 				var newParents = [];
 				while (newNode) {
@@ -141,7 +141,7 @@
 					}
 					for (var i = (newParents.length<oldParents.length ? newParents.length : oldParents.length); i>=0; i--) {
 						if (newParents[i] !== oldParents[i]) {
-							zTree1.zTreeTools.expandNode(oldParents[i], false, true);
+							zTree1.expandNode(oldParents[i], false, true);
 							break;
 						}
 					}
@@ -156,6 +156,7 @@
 	}
 
 	function addDiyDom(treeId, treeNode) {
+		console.log(treeNode.name);
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		if (treeNode.level == 0) {
 			var editStr = "<input type='checkbox' class='checkboxBtn' id='checkbox_" +treeNode.tId+ "' onfocus='this.blur();'></input>";
@@ -199,11 +200,11 @@
 		var brandName = "";
 		if ($("#checkbox_" + treeNode.tId).attr("checked")) {
 			var checkedBrand = getCheckedRadio("radio_"+treeNode.tId);
-			var brandNode = zTree1.zTreeTools.getNodeByParam("tId", checkedBrand.attr("id").replace("radio_", ""));
+			var brandNode = zTree1.getNodeByParam("tId", checkedBrand.attr("id").replace("radio_", ""));
 			if (brandNode) brandName = " - " + brandNode.name;
 		}
 		treeNode.name = treeNode.oldName + brandName;
-		zTree1.zTreeTools.updateNode(treeNode);
+		zTree1.updateNode(treeNode);
 	}
 
 	function getCheckedRadio(radioName) {  
@@ -217,8 +218,7 @@
 	}
 
 	function reloadTree() {
-		zTree1 = $("#treeDemo");
-		$.fn.zTree.init(zTree1, setting, clone(zNodes, ""));
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, clone(zNodes, ""));
 	}
 	
 

@@ -72,10 +72,7 @@
 
 	$(document).ready(function(){
 		var t = $("#tree");
-		t.zTree.init(t, setting, zNodes);
-//		var nodes = t.zTreeTools.getNodes();
-//		t.zTreeTools.selectNode(nodes[2].nodes[0].nodes[0]);
-//
+		t = $.fn.zTree.init(t, setting, zNodes);
 		demoIframe = $("#testIframe");
 	
 	});

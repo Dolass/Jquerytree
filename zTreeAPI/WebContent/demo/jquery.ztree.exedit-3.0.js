@@ -158,21 +158,21 @@
 		n.isHover = false;
 		n.editNameFlag = false;
 	},
-	_zTreeTools = function(setting, obj) {
-		obj.zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
+	_zTreeTools = function(setting, zTreeTools) {
+		zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
 			if (!newNodes) return;
 			if (!parentNode) parentNode = null;
 			var xNewNodes = tools.isArray(newNodes)? newNodes: [newNodes];
 			view.addNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
 		}
-		obj.zTreeTools.cancelEditName = function(newName) {
+		zTreeTools.cancelEditName = function(newName) {
 			var root = data.getRoot(this.setting),
 			nameKey = this.setting.data.key.name,
 			node = root.curEditNode;
 			if (!root.curEditNode) return;
 			view.cancelCurEditNode(this.setting, newName?newName:node[nameKey]);
 		}
-		obj.zTreeTools.copyNode = function(targetNode, node, moveType) {
+		zTreeTools.copyNode = function(targetNode, node, moveType) {
 			if (!node) return null;
 			var newNode = tools.clone(node);
 			if (!targetNode) {
@@ -187,14 +187,14 @@
 			}
 			return newNode;
 		}
-		obj.zTreeTools.editName = function(node) {
+		zTreeTools.editName = function(node) {
 			if (!node) return;
 			if (tools.uCanDo(this.setting)) {
 				view.expandCollapseParentNode(setting, node, true);
 				view.editNode(this.setting, node)
 			}
 		}
-		obj.zTreeTools.moveNode = function(targetNode, node, moveType) {
+		zTreeTools.moveNode = function(targetNode, node, moveType) {
 			if (!node) return;
 			if (targetNode && ((node.parentTId == targetNode.tId && moveType == consts.move.TYPE_INNER) || $("#" + node.tId).find("#" + targetNode.tId).length > 0)) {
 				return;
@@ -203,12 +203,12 @@
 			}
 			view.moveNode(this.setting, targetNode, node, moveType, false);
 		}
-		obj.zTreeTools.removeNode = function(node) {
+		zTreeTools.removeNode = function(node) {
 			if (!node) return;
 			view.removeNode(this.setting, node);
 			this.setting.treeObj.trigger(consts.event.REMOVE, [this.setting.treeId, node]);
 		}
-		obj.zTreeTools.setEditable = function(editable) {
+		zTreeTools.setEditable = function(editable) {
 			this.setting.edit.enable = editable;
 			return this.refresh();
 		}

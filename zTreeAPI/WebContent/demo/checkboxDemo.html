@@ -47,16 +47,15 @@
 	function refreshTree() {
 		var checkType = getCheckBoxType();
 		setting.check.chkboxType = checkType;
-		zTree1 = $("#treeDemo");
-		$.fn.zTree.init(zTree1, setting, clone(zNodes));
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, clone(zNodes));
 		$("#checkTypeCode").html("{\"Y\":" + checkType.Y + ", \"N\":" + checkType.N + "}");
 		getCheckedNodesLength();
 	}
 
 	function getCheckedNodesLength() {
-		var tmp = zTree1.zTreeTools.getCheckedNodes();
+		var tmp = zTree1.getCheckedNodes();
 		$("#checkedNum").html(tmp.length);
-		tmp = zTree1.zTreeTools.getChangeCheckedNodes();
+		tmp = zTree1.getChangeCheckedNodes();
 		$("#checkedChangeNum").html(tmp.length);
 		if ($("#changeYes").attr("checked")) {
 			for (var i=0; i<tmp.length; i++) {

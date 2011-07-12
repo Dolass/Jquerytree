@@ -111,19 +111,17 @@
 			$("#asyncDataFilterCode").html("dataFilter");
 		}
 
-		zTree1 = $("#treeDemo");
-
-		zTree1.zTree.init(zTree1, setting, zNodes);
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	}
 
 	function reloadAsync() {
-		var treeNode = zTree1.zTreeTools.getSelectedNodes();
+		var treeNode = zTree1.getSelectedNodes();
 		if (treeNode.length == 0) {
 			alert("请先选中一个节点");
 			return;
 		}
 		for(var i=0, j=treeNode.length; i<j; i++) {
-			zTree1.zTreeTools.reAsyncChildNodes(treeNode[i], $("#refreshType").attr("checked") ? "refresh" : "add")
+			zTree1.reAsyncChildNodes(treeNode[i], $("#refreshType").attr("checked") ? "refresh" : "add")
 		}
 	}
 	

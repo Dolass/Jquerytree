@@ -58,13 +58,13 @@
 	});
 
 	function setPre (treeId, node) {
-		return node.level > 0 && node.level != 3;
+		return true || node.level > 0 && node.level != 3;
 	}
 	function setNext (treeId, node) {
-		return node.level != 1 && node.level != 3;
+		return true || node.level != 1 && node.level != 3;
 	}
 	function setInner (treeId, node) {
-		return node.isParent && node.level != 3;
+		return true || node.isParent && node.level != 3;
 	}
 
 	function setRenameBtn(treeNode) {
@@ -79,7 +79,7 @@
 		return r;
 	}
 	function renameTreeNode() {
-		var srcNode = zTree1.zTreeTools.getSelectedNodes();
+		var srcNode = zTree1.getSelectedNodes();
 		if (srcNode.length == 0) {
 			alert("请先选中一个节点");
 			return;
@@ -87,11 +87,11 @@
 			alert("只能选中一个节点");
 			return;
 		}
-		zTree1.zTreeTools.editName(srcNode[0]);
+		zTree1.editName(srcNode[0]);
 	}
 
 	function updateSetting() {
-		var s = zTree1.zTreeTools.setting;
+		var s = zTree1.setting;
 		s.data.keep.parent = $("#parentTrue").attr("checked");
 		s.data.keep.leaf = $("#leafTrue").attr("checked");
 		s.edit.drag.isCopy = $("#cpTrue").attr("checked");
@@ -128,8 +128,7 @@
 			setting.edit.showRemoveBtn = $("#dbTrue").attr("checked");
 			$("#removeBtnCode").html("" + setting.edit.showRemoveBtn);
 		}
-		zTree1 = $("#treeDemo");
-		zTree1.zTree.init(zTree1,setting, zNodes);
+		zTree1 = $.fn.zTree.init($("#treeDemo"),setting, zNodes);
 	}
 
   //-->
