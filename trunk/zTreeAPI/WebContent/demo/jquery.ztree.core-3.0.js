@@ -707,8 +707,6 @@
 				newNodes = data.transformTozTreeFormat(setting, newNodes);
 			}
 			if (parentNode) {
-				if (setting.treeObj.find("#" + parentNode.tId).length == 0) return;
-
 				var target_switchObj = $("#" + parentNode.tId + consts.id.SWITCH),
 				target_icoObj = $("#" + parentNode.tId + consts.id.ICON),
 				target_ulObj = $("#" + parentNode.tId + consts.id.UL);
@@ -797,7 +795,7 @@
 			}
 			nObj.append(html.join(''));
 		},
-		asyncNode: function(setting, node) {
+		asyncNode: function(setting, node, isSilent) {
 			var i, l;
 			if (node && (node.isAjaxing || !node.isParent)) {
 				return;
@@ -848,9 +846,9 @@
 					view.setNodeLineIcos(setting, node);
 					if (newNodes && newNodes != "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
-						view.addNodes(setting, node, newNodes, false);
+						view.addNodes(setting, node, newNodes, !!isSilent);
 					} else {
-						view.addNodes(setting, node, [], false);
+						view.addNodes(setting, node, [], !!isSilent);
 					}
 					setting.treeObj.trigger(consts.event.ASYNC_SUCCESS, [setting.treeId, node, msg]);
 				},
@@ -889,19 +887,16 @@
 			}
 		},
 		createNodes: function(setting, level, nodes, parentNode) {
-			if (!nodes) return;
-			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode, true, (!parentNode || !!parentNode.open));
+			if (!nodes || nodes.length == 0) return;
+			var childsKey = setting.data.key.childs,
+			openFlag = !parentNode || !$("#" + parentNode[childsKey][0].tId).get(0);
+			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode, true, openFlag);
 			if (!parentNode) {
 				setting.treeObj.append(zTreeHtml.join(''));
 			} else {
 				var ulObj = $("#" + parentNode.tId + consts.id.UL);
 				if (ulObj.get(0)) {
 					ulObj.append(zTreeHtml.join(''));
-				} else {
-					var liObj = $("#" + parentNode.tId),
-					ul = [];
-					view.makeUlHtml(setting, parentNode, ul, zTreeHtml.join(''));
-					liObj.append(ul.join(''));
 				}
 			}
 			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
@@ -932,12 +927,11 @@
 				return;
 			}
 
-			var ulObj = $("#" + node.tId + consts.id.UL);
-			if (!ulObj.get(0) && !node.open) {
-				view.appendParentULDom(setting, node);
-				ulObj = $("#" + node.tId + consts.id.UL);
+			if (!node.open && node[childsKey] && node[childsKey].length>0 && !$("#" + node[childsKey][0].tId).get(0)) {
+				view.appendParentULDom(setting, node[childsKey][0]);
 			}
-			var switchObj = $("#" + node.tId + consts.id.SWITCH),
+			var ulObj = $("#" + node.tId + consts.id.UL),
+			switchObj = $("#" + node.tId + consts.id.SWITCH),
 			icoObj = $("#" + node.tId + consts.id.ICON);		
 
 			if (node.isParent) {
@@ -1117,9 +1111,8 @@
 			if (!node) return;
 			var switchObj = $("#" + node.tId + consts.id.SWITCH),
 			ulObj = $("#" + node.tId + consts.id.UL),
-			icoObj = $("#" + node.tId + consts.id.ICON);
-
-			var ulLine = view.makeUlLineClass(setting, node);
+			icoObj = $("#" + node.tId + consts.id.ICON),
+			ulLine = view.makeUlLineClass(setting, node);
 			if (ulLine.length==0) {
 				ulObj.removeClass(consts.line.LINE);
 			} else {
@@ -1276,7 +1269,7 @@
 				isSelectedNode : function(node) {
 					return data.isSelectedNode(this.setting, node);
 				},
-				reAsyncChildNodes : function(parentNode, reloadType) {
+				reAsyncChildNodes : function(parentNode, reloadType, isSilent) {
 					if (!this.setting.async.enable) return;
 					var isRoot = !parentNode;
 					if (isRoot) {
@@ -1291,7 +1284,7 @@
 							ulObj.empty();
 						}
 					}
-					view.asyncNode(this.setting, isRoot? null:parentNode);
+					view.asyncNode(this.setting, isRoot? null:parentNode, !!isSilent);
 				},
 				refresh : function() {
 					this.setting.treeObj.empty();
@@ -1323,7 +1316,8 @@
 				},
 				updateNode : function(node, checkTypeFlag) {
 					if (!node) return;
-					if (tools.uCanDo(this.setting)) {
+					var nObj = $("#" + node.tId);
+					if (nObj.get(0) && tools.uCanDo(this.setting)) {
 						view.setNodeName(this.setting, node);
 						view.setNodeTarget(node);
 						view.setNodeUrl(this.setting, node);

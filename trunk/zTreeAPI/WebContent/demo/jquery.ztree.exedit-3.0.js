@@ -190,6 +190,7 @@
 		obj.zTreeTools.editName = function(node) {
 			if (!node) return;
 			if (tools.uCanDo(this.setting)) {
+				view.expandCollapseParentNode(setting, node, true);
 				view.editNode(this.setting, node)
 			}
 		}
