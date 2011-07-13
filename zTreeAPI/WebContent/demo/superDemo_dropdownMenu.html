@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,15 +16,21 @@
 	var setting;
 
 	setting = {
-		isSimpleData: true,
-		treeNodeKey: "id",
-		treeNodeParentKey: "pId",
-		fontCss: setFont,
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "pId"
+			}
+		},
+		view: {
+			fontCss: setFont
+		},
 		callback: {
 			beforeExpand: function(){return false;},
 			beforeCollapse: function(){return false;},
 			beforeClick: zTreeOnBeforeClick,
-			click: zTreeOnClick
+			onClick: zTreeOnClick
 		}
 		
 	};
@@ -95,7 +103,7 @@
 
 	function reloadTree() {
 		hideMenu();
-		zTree1 = $("#dropdownMenu").zTree(setting, clone(zNodes));
+		zTree1 = $.fn.zTree.init($("#dropdownMenu"), setting, clone(zNodes));
 	}	
 
   //-->

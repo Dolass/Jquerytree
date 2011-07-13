@@ -6,7 +6,9 @@
   <link rel="stylesheet" href="demoStyle/demo.css" type="text/css">
   <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
   <script type="text/javascript" src="jquery-1.4.2.js"></script>
-  <script type="text/javascript" src="jquery.ztree-2.6.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.excheck-3.0.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.0.js"></script>
   <script type="text/javascript" src="demoTools.js"></script>
   <SCRIPT LANGUAGE="JavaScript">
   <!--
@@ -14,27 +16,29 @@
 	var setting;
 
 	setting = {
-		checkable : true,
+		check: {
+			enable : true
+		},
 		callback: {
-			rightClick: zTreeOnRightClick
+			onRightClick: zTreeOnRightClick
 		}
 		
 	};
 
 	var zNodes =[
   	 	{id:1, name:"此类节点不响应右键菜单", open:true, noR:true,
-  		 	nodes:[
+  		 	childs:[
   		 	       {id:11, name:"节点1", noR:true},
   		 	       {id:12, name:"节点2", noR:true}
   		 	       
   			]},
   	 	{id:2, name:"使用默认的 treeNode", open:true, 
-  	 		nodes:[
+  	 		childs:[
   		 	       {id:21, name:"节点1"},
   		 	       {id:22, name:"节点2"}
   			]},
   	 	{id:3, name:"重新修正的 treeNode", open:true, newrole:true,
-  	 		nodes:[
+  	 		childs:[
   		 	       {id:31, name:"节点1", newrole:true},
   		 	       {id:32, name:"节点2", newrole:true}
   			]}
@@ -87,7 +91,7 @@
 		hideRMenu();
 		var node = zTree1.getSelectedNode();
 		if (node) {
-			if (node.nodes && node.nodes.length > 0) {
+			if (node.childs && node.childs.length > 0) {
 				var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
 				if (confirm(msg)==true){
 					zTree1.removeNode(node);
@@ -109,7 +113,7 @@
 
 	function reloadTree() {
 		hideRMenu();
-		zTree1 = $("#treeDemo").zTree(setting, clone(zNodes));
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting, clone(zNodes));
 	}	
 
   //-->
