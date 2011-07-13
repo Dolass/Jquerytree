@@ -24,16 +24,21 @@ website:	http://code.google.com/p/jquerytree/
 	white-space:nowrap;
 	}
 
-.tree li ul{ margin:0; padding:0 0 0 18px;}
+.tree li ul{ margin:11px 0; padding:0 0 0 18px;}
 .tree li ul.line{ background:url(./img/line_conn.gif) 0 0 repeat-y;}
 
+.tree li div {
+	text-align: left; display:inline-block; *display:inline;vertical-align: middle; height:18px;*height:19px;border:1px black solid;
+}
 .tree li a {
-	padding:0; margin:0 10px 0 0; 
+	padding:0; margin:-1px 10px 0 0;
 	cursor:pointer; 
 	color:#333; 
 	text-decoration:none;
 	height: 18px;
-	display: inline;
+	line-height: 18px;
+	display: inline-block;
+	*display: inline;
 	}
 .tree li a:hover {text-decoration:underline;}
 .tree li a.curSelectedNode {
@@ -41,6 +46,8 @@ website:	http://code.google.com/p/jquerytree/
 	color:black;
 	border:1px #FFB951 solid; 
 	opacity:0.8; filter:alpha(opacity=80);
+	height: 16px;
+	line-height: 16px;
 	}
 .tree li a.curSelectedNode_Edit {
 	line-height: 18px;
@@ -57,8 +64,11 @@ website:	http://code.google.com/p/jquerytree/
 	}
 .tree li a input.rename {height:13px; width:80px; padding:0; margin:0; font-size:12px;}	
 .tree li span {
+	margin-right: 2px;
 	padding: 2px 0;
-	vertical-align:middle;
+	*vertical-align:middle;
+	height: 16px;
+	line-height: 16px;
 }
 .tree li button {
 	width:18px; height:18px; 
@@ -120,9 +130,10 @@ website:	http://code.google.com/p/jquerytree/
 .tree li button.switch_noLine_docu{ background:none;}
 
 .tree li button.ico_loading{ background:url(./img/loading.gif) no-repeat scroll 1px 1px transparent;}
-.tree li button.ico_open{ background:url(./img/folder_Open.gif);}
-.tree li button.ico_close{ width:16px; height:16px; background:url(./img/folder_Close2.png);}
-.tree li button.ico_docu{ background:url(./img/page.gif);}
+.tree li button.ico_open{ vertical-align:top;background:url(./img/folder_Open.gif);}
+/*.tree li button.ico_close{ vertical-align:top;width:16px; height:16px; background:url(./img/folder_Close2.png);}*/
+.tree li button.ico_close{ vertical-align:top;background:url(./img/folder_Close.gif);}
+.tree li button.ico_docu{ vertical-align:top;background:url(./img/page.gif);}
 
 .tree INPUT.checkbox {
 	padding:0; margin:0 2px 0 0; 
