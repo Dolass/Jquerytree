@@ -176,12 +176,12 @@
 				target.blur();
 			}
 			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
-				tId = target.parentNode.id;
+				tId = target.parentNode.parentNode.id;
 				nodeEventType = "switchNode";
 			} else {
 				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 				if (tmp) {
-					tId = tmp.parentNode.id;
+					tId = tmp.parentNode.parentNode.id;
 					nodeEventType = "clickNode";
 				}
 			}
@@ -189,13 +189,13 @@
 			treeEventType = "dblclick";
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 			if (tmp) {
-				tId = tmp.parentNode.id;
+				tId = tmp.parentNode.parentNode.id;
 				nodeEventType = "switchNode";
 			}
 		}
 		if (treeEventType.length > 0 && tId.length == 0) {
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (tmp) {tId = tmp.parentNode.id;}
+			if (tmp) {tId = tmp.parentNode.parentNode.id;}
 		}
 
 		if (tId.length>0) {
@@ -766,7 +766,7 @@
 					for (var f in fontcss) {
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
-					html.push("<li id='", node.tId, "' treenode>",
+					html.push("<li id='", node.tId, "' treenode><div>",
 						"<button type='button' id='", node.tId, consts.id.SWITCH,
 						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
 					data.getBeforeA(setting, node, html);
@@ -780,7 +780,7 @@
 						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
 						"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
 					data.getInnerAfterA(setting, node, html);
-					html.push("</a>");
+					html.push("</a></div>");
 					data.getAfterA(setting, node, html);
 					if (node.isParent && node.open) {
 						view.makeUlHtml(setting, node, html, childHtml.join(''));
