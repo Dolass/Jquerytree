@@ -620,9 +620,9 @@
 			if (!tools.apply(setting.edit.showRenameBtn, [node], setting.edit.showRenameBtn)) {
 				return;
 			}
-			var nObj = $("#" + node.tId + consts.id.SPAN),
+			var aObj = $("#" + node.tId + consts.id.A),
 			editStr = "<button type='button' class='edit' id='" + node.tId + consts.id.EDIT + "' title='' treeNode"+consts.id.EDIT+" onfocus='this.blur();' style='display:none;'></button>";
-			nObj.after(editStr);
+			aObj.append(editStr);
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {

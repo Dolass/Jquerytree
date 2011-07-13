@@ -885,18 +885,13 @@
 		createNodeCallback: function(setting) {
 			if (!!setting.callback.onNodeCreated || !!setting.view.addDiyDom) {
 				var root = data.getRoot(setting);
-	//			childsKey = setting.data.key.childs,
 				while (root.createdNodes.length>0) {
 					var node = root.createdNodes.shift();
 					tools.apply(setting.view.addDiyDom, [setting.treeId, node]);
 					if (!!setting.callback.onNodeCreated) {
 						setting.treeObj.trigger(consts.event.NODECREATED, [setting.treeId, node]);
 					}
-	//				if (node[childsKey] && node[childsKey].length > 0) {
-	//					view.createNodeCallback(setting, node[childsKey], node);
-	//				}
 				}
-
 			}
 		},
 		createNodes: function(setting, level, nodes, parentNode) {

@@ -19,7 +19,7 @@ website:	http://code.google.com/p/jquerytree/
 .tree li{
 	padding:0; margin:0; 
 	list-style:none;
-	line-height:18px; 
+/*	line-height:18px; */
 	text-align:left; 
 	white-space:nowrap;
 	}
@@ -32,6 +32,8 @@ website:	http://code.google.com/p/jquerytree/
 	cursor:pointer; 
 	color:#333; 
 	text-decoration:none;
+	height: 18px;
+	display: inline;
 	}
 .tree li a:hover {text-decoration:underline;}
 .tree li a.curSelectedNode {
@@ -54,7 +56,10 @@ website:	http://code.google.com/p/jquerytree/
 	opacity:0.8; filter:alpha(opacity=80);
 	}
 .tree li a input.rename {height:13px; width:80px; padding:0; margin:0; font-size:12px;}	
-
+.tree li span {
+	padding: 2px 0;
+	vertical-align:middle;
+}
 .tree li button {
 	width:18px; height:18px; 
 	padding:0; margin:0; 
@@ -116,7 +121,7 @@ website:	http://code.google.com/p/jquerytree/
 
 .tree li button.ico_loading{ background:url(./img/loading.gif) no-repeat scroll 1px 1px transparent;}
 .tree li button.ico_open{ background:url(./img/folder_Open.gif);}
-.tree li button.ico_close{ background:url(./img/folder_Close.gif);}
+.tree li button.ico_close{ width:16px; height:16px; background:url(./img/folder_Close2.png);}
 .tree li button.ico_docu{ background:url(./img/page.gif);}
 
 .tree INPUT.checkbox {
