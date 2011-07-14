@@ -1020,8 +1020,11 @@
 	}
 
 	var _uCanDo = tools.uCanDo;
-	tools.uCanDo = function(setting) {
+	tools.uCanDo = function(setting, e) {
 		var root = data.getRoot(setting);
+		if (e && (tools.eqs(e.type, "mouseover") || tools.eqs(e.type, "mouseout"))) {
+			return true;
+		}
 		return (!root.curEditNode) && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
 	}
 })(jQuery);
