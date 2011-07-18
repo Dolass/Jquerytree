@@ -558,6 +558,7 @@
 					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNode, dragTargetNode, moveType]);
 
 				} else {
+					view.selectNode(setting, node);
 					//触发 DROP 拖拽事件，返回null
 					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null]);
 				}

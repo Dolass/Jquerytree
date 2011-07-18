@@ -56,6 +56,7 @@ website:	http://code.google.com/p/jquerytree/
 	opacity:0.8; filter:alpha(opacity=80);
 	}
 .tree li a.tmpTargetNode {
+	padding-top: 0px;
 	background-color:#316AC5; 
 	color:white;
 	border:1px #316AC5 solid; 
