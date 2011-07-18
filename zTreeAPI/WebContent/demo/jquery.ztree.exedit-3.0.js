@@ -273,13 +273,16 @@
 
 			doc.bind("mousemove", _docMouseMove);
 			function _docMouseMove(event) {
-				tools.noSel(setting);
+				if (!tools.uCanDo(setting)) {
+					return true;
+				}
 
 				//避免鼠标误操作，对于第一次移动小于consts.move.MINMOVESIZE时，不开启拖拽功能
 				if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < consts.move.MINMOVESIZE
 					&& Math.abs(mouseDownY - event.clientY) < consts.move.MINMOVESIZE) {
 					return true;
 				}
+				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
 				if (root.dragFlag == 0 && node.isParent && node.open) {
@@ -743,6 +746,28 @@
 				moveType = consts.move.TYPE_INNER;
 			}
 
+			//移动节点Dom
+			var targetObj, target_ulObj;
+			if (targetNodeIsRoot) {
+				targetObj = setting.treeObj;
+				target_ulObj = targetObj;
+			} else {
+				if (moveType == consts.move.TYPE_INNER) {
+					view.expandCollapseNode(setting, targetNode, true, false);
+				} else {
+					view.expandCollapseNode(setting, targetNode.getParentNode(), true, false);
+				}
+				targetObj = $("#" + targetNode.tId);
+				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
+			}
+			if (moveType == consts.move.TYPE_INNER) {
+				target_ulObj.append($("#" + node.tId).remove(null, true));
+			} else if (moveType == consts.move.TYPE_BEFORE) {
+				targetObj.before($("#" + node.tId).remove(null, true));
+			} else if (moveType == consts.move.TYPE_AFTER) {
+				targetObj.after($("#" + node.tId).remove(null, true));
+			}
+
 			//进行数据结构修正
 			var i,l,
 			tmpSrcIndex = -1,
@@ -822,41 +847,6 @@
 			data.setSonNodeLevel(setting, node.getParentNode(), node);
 
 			//进行HTML结构修正
-			var targetObj, target_switchObj, target_icoObj, target_ulObj;
-
-			if (targetNodeIsRoot) {
-				//转移到根节点
-				targetObj = setting.treeObj;
-				target_ulObj = targetObj;
-			} else {
-				//转移到子节点
-				targetObj = $("#" + targetNode.tId);
-				target_switchObj = $("#" + targetNode.tId + consts.id.SWITCH);
-				target_icoObj = $("#" + targetNode.tId + consts.id.ICON);
-				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
-				if (!target_ulObj.get(0)) {
-					var target_liObj = $("#" + targetNode.tId),
-					ul = [];
-					view.makeUlHtml(setting, targetNode, ul, '');
-					target_liObj.append(ul.join(''));
-					target_ulObj = $("#" + targetNode.tId + consts.id.UL);
-				}
-			}
-
-			//处理目标节点
-			if (moveType == consts.move.TYPE_INNER) {
-				view.replaceSwitchClass(target_switchObj, consts.folder.OPEN);
-				view.replaceIcoClass(targetNode, target_icoObj, consts.folder.OPEN);
-				targetNode.open = true;
-				target_ulObj.css({"display":"block"});
-				target_ulObj.append($("#" + node.tId).remove(null, true));
-			} else if (moveType == consts.move.TYPE_BEFORE) {
-				targetObj.before($("#" + node.tId).remove(null, true));
-
-			} else if (moveType == consts.move.TYPE_AFTER) {
-				targetObj.after($("#" + node.tId).remove(null, true));
-			}
-
 			//处理被移动的节点
 			view.setNodeLineIcos(setting, node);
 
@@ -1022,7 +1012,7 @@
 	var _uCanDo = tools.uCanDo;
 	tools.uCanDo = function(setting, e) {
 		var root = data.getRoot(setting);
-		if (e && (tools.eqs(e.type, "mouseover") || tools.eqs(e.type, "mouseout"))) {
+		if (e && (tools.eqs(e.type, "mouseover") || tools.eqs(e.type, "mouseout") || tools.eqs(e.type, "mousedown") || tools.eqs(e.type, "mouseup"))) {
 			return true;
 		}
 		return (!root.curEditNode) && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
