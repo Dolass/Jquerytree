@@ -295,7 +295,8 @@
 					&& Math.abs(mouseDownY - event.clientY) < consts.move.MINMOVESIZE) {
 					return true;
 				}
-				var tmpNode, tmpDom;
+				var tmpNode, tmpDom, tmpNodes,
+				childsKey = setting.data.key.childs;;
 				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
@@ -315,6 +316,17 @@
 					root.dragFlag = 1;
 					setting.edit.showHoverDom = false;
 					tools.showIfameMask(setting, true);
+
+					//sort
+					if (nodes.length>1) {
+						tmpNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childsKey] : data.getNodes(setting);
+						for (i=0, l=tmpNodes.length; i<l; i++) {
+
+						}
+
+					} else {
+
+					}
 
 					//设置节点为选中状态
 					curNode = $("<ul class='zTreeDragUL'></ul>");
