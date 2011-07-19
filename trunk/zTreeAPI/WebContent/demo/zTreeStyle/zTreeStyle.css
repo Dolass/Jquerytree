@@ -83,6 +83,7 @@ website:	http://code.google.com/p/jquerytree/
 	background-position: 0 0;
 	cursor: pointer;
 	}
+
 .tree li button.ico {
 	padding:0; margin:0 2px 0 0; 
 	}
@@ -188,3 +189,11 @@ button.tmpzTreeMove_arrow {
 	 position:absolute;
 }
 
+/* level 等级样式*/
+/*.tree li button.level0 {
+	display:none;
+}
+.tree li ul.level0 {
+	padding:0;
+	background:none;
+}*/
