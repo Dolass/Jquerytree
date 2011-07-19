@@ -45,7 +45,7 @@
 
 【v3.x 需要解决的常见问题】
 1、cookie 的支持问题
-2、设置多选中状态(多选中的拖拽问题！)
+2、（搞定）设置多选中状态、多节点同时拖拽
 3、（搞定）提供 setting.edit.drag.prev/next/inner 设置可以随意设置全部节点拖拽的状态，也可以设置function引用，针对节点自行控制拖拽定义
 4、（搞定）通过接口操作节点时是否需要触发各种事件的思考(checkNode可以触发check事件；expandNode可以触发expand/collapse事件; removeNode可以出发click事件)
 5、（搞定）增加 node.getCheckStatus 方法简单获取节点 checkbox/radio 的勾选、半勾选状态？
@@ -60,5 +60,8 @@
 14、（搞定）修正reAsyncChildNodes方法增加 isSilent 参数
 15、（搞定）1像素的css问题搞定
 16、css 重新调整 以及 img 制作
-17、checkbox & radio 共存原生支持
-18、初始化数据是否进行 clone 操作？
+17、(放弃了) checkbox & radio 共存原生支持
+18、（搞定）初始化数据自动进行 clone 操作避免用户反复初始化造成数据重复
+19、（搞定）对li、a、ul 增加 level class，可以利用 css 控制某一级节点样式（包括：隐藏+ -号、节点布局等）
+20、（搞定）beforeClick、onClick事件回调函数增加 clickFlag参数，表明是选中还是取消选中
+21、（搞定）如果是ie6，自动取消动画设置

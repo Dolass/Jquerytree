@@ -607,11 +607,16 @@
 			return true;
 		},
 		onClickNode: function (event, node) {
-			var setting = settings[event.data.treeId];
-			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node], true) == false) return true;
-			var result = view.selectNode(setting, node, setting.view.selectedMulti && event.ctrlKey);
-			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node]);
-			return result;
+			var setting = settings[event.data.treeId],
+			clickFlag = !(event.ctrlKey && data.isSelectedNode(setting, node));
+			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node, clickFlag], true) == false) return true;
+			if (!clickFlag) {
+				view.cancelPreSelectedNode(setting, node);
+			} else {
+				view.selectNode(setting, node, setting.view.selectedMulti && event.ctrlKey);
+			}
+			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node, clickFlag]);
+			return true;
 		},
 		onZTreeMousedown: function(event, node) {
 			var setting = settings[event.data.treeId];
@@ -766,11 +771,11 @@
 					for (var f in fontcss) {
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
-					html.push("<li id='", node.tId, "' treenode>",
+					html.push("<li id='", node.tId, "' class='level", node.level,"' treenode>",
 						"<button type='button' id='", node.tId, consts.id.SWITCH,
 						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
 					data.getBeforeA(setting, node, html);
-					html.push("<a id='", node.tId, consts.id.A, "' treeNode", consts.id.A," onclick=\"", (node.click || ''),
+					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 						"'");
 					if (setting.view.showTitle) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
@@ -855,7 +860,7 @@
 					view.setNodeLineIcos(setting, node);
 					if (newNodes && newNodes != "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
-						view.addNodes(setting, node, newNodes, !!isSilent);
+						view.addNodes(setting, node, tools.clone(newNodes), !!isSilent);
 					} else {
 						view.addNodes(setting, node, [], !!isSilent);
 					}
@@ -1050,7 +1055,7 @@
 			} else {
 				lineClass.push(consts.folder.DOCU);
 			}
-			return lineClass.join('_');
+			return "level" + node.level + " " + lineClass.join('_');
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
@@ -1059,12 +1064,12 @@
 			return node.url ? node.url : null;
 		},
 		makeUlHtml: function(setting, node, html, content) {
-			html.push("<ul id='", node.tId, consts.id.UL, "' class='", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
+			html.push("<ul id='", node.tId, consts.id.UL, "' class='level", node.level, " ", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
 			html.push(content);
 			html.push("</ul>");
 		},
 		makeUlLineClass: function(setting, node) {
-			return (setting.view.showLine && !node.isLastNode) ?consts.line.LINE : "";
+			return ((setting.view.showLine && !node.isLastNode) ? consts.line.LINE : "");
 		},
 		replaceIcoClass: function(node, obj, newName) {
 			if (!obj || node.isAjaxing) return;
@@ -1190,11 +1195,14 @@
 			setting.treeObj = obj;
 			setting.treeObj.empty();
 			settings[setting.treeId] = setting;
+			if ($.browser.msie && parseInt($.browser.version)<7) {
+				setting.view.expandSpeed = "";
+			}
 
 			data.initRoot(setting);
 			var root = data.getRoot(setting),
 			childsKey = setting.data.key.childs;
-			zNodes = zNodes ? (tools.isArray(zNodes)? zNodes : [zNodes]) : [];
+			zNodes = zNodes ? tools.clone(tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
 				root[childsKey] = data.transformTozTreeFormat(setting, zNodes);
 			} else {

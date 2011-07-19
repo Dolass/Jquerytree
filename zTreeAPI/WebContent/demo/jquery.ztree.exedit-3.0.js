@@ -26,10 +26,7 @@
 		move: {
 			TYPE_INNER: "inner",
 			TYPE_BEFORE: "before",
-			TYPE_AFTER: "after",
-			MINMOVESIZE: 5,
-			BORDERMAX: 10,
-			BORDERMIN: -5
+			TYPE_AFTER: "after"
 		},
 		node: {
 			CURSELECTED_EDIT: "curSelectedNode_Edit",
@@ -48,7 +45,11 @@
 				isMove: true,
 				prev: true,
 				next: true,
-				inner: true
+				inner: true,
+				minMoveSize: 5,
+				borderMax: 10,
+				borderMin: -5,
+				maxShowNodeNum: 5
 			}
 		},
 		view: {
@@ -162,7 +163,7 @@
 		zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
 			if (!newNodes) return;
 			if (!parentNode) parentNode = null;
-			var xNewNodes = tools.isArray(newNodes)? newNodes: [newNodes];
+			var xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			view.addNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
 		}
 		zTreeTools.cancelEditName = function(newName) {
@@ -277,6 +278,7 @@
 			var doc = $(document), curNode, tmpArrow, tmpTarget,
 			isOtherTree = false,
 			targetSetting = setting,
+			preNode, nextNode,
 			preTmpTargetNodeId = null,
 			preTmpMoveType = null,
 			tmpTargetNodeId = null,
@@ -291,20 +293,25 @@
 					return true;
 				}
 				//避免鼠标误操作，对于第一次移动小于consts.move.MINMOVESIZE时，不开启拖拽功能
-				if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < consts.move.MINMOVESIZE
-					&& Math.abs(mouseDownY - event.clientY) < consts.move.MINMOVESIZE) {
+				if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < setting.edit.drag.minMoveSize
+					&& Math.abs(mouseDownY - event.clientY) < setting.edit.drag.minMoveSize) {
 					return true;
 				}
-				var tmpNode, tmpDom, tmpNodes,
-				childsKey = setting.data.key.childs;;
+				var i, l, tmpNode, tmpDom, tmpNodes,
+				childsKey = setting.data.key.childs;
 				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
-
-				for (i=0, l=nodes.length; i<l; i++) {
+				
+				for (i=0, l=nodes.length; root.dragFlag == 0 && i<l; i++) {
+					if (i==0) {
+						root.dragNodeShowBefore = [];
+					}
 					tmpNode = nodes[i];
-					if (root.dragFlag == 0 && tmpNode.isParent && tmpNode.open) {
+					if (tmpNode.isParent && tmpNode.open) {
 						view.expandCollapseNode(setting, tmpNode, !tmpNode.open);
 						root.dragNodeShowBefore[tmpNode.tId] = true;
+					} else {
+						root.dragNodeShowBefore[tmpNode.tId] = false;
 					}
 				}
 
@@ -318,14 +325,27 @@
 					tools.showIfameMask(setting, true);
 
 					//sort
-					if (nodes.length>1) {
-						tmpNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childsKey] : data.getNodes(setting);
-						for (i=0, l=tmpNodes.length; i<l; i++) {
-
+					var isOrder = true, lastIndex = -1;
+					if (nodes.length>1) {						
+						var pNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childsKey] : data.getNodes(setting);
+						tmpNodes = [];
+						for (i=0, l=pNodes.length; i<l; i++) {
+							if (root.dragNodeShowBefore[pNodes[i].tId] !== undefined) {
+								if (isOrder && lastIndex > -1 && (lastIndex+1) !== i) {
+									isOrder = false;
+								}
+								tmpNodes.push(pNodes[i]);
+								lastIndex = i;
+							}
+							if (nodes.length === tmpNodes.length) {
+								nodes = tmpNodes;
+								break;
+							}
 						}
-
-					} else {
-
+					}
+					if (isOrder) {
+						preNode = nodes[0].getPreNode();
+						nextNode = nodes[nodes.length-1].getNextNode();
 					}
 
 					//设置节点为选中状态
@@ -341,6 +361,11 @@
 						tmpDom.css("padding", "0");
 						tmpDom.children("#" + tmpNode.tId + consts.id.A).removeClass(consts.node.CURSELECTED);
 						curNode.append(tmpDom);
+						if (i == setting.edit.drag.maxShowNodeNum-1) {
+							tmpDom = $("<li id='"+ tmpNode.tId +"_moretmp'><a>  ...  </a></li>");
+							curNode.append(tmpDom);
+							break;
+						}
 					}					
 					curNode.attr("id", nodes[0].tId + consts.id.UL + "_tmp");
 					curNode.addClass(setting.treeObj.attr("class"));
@@ -383,11 +408,11 @@
 					dBottom = (targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop),
 					dLeft = (event.clientX + docScrollLeft - treeOffset.left),
 					dRight = (targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft),
-					isTop = (dTop < consts.move.BORDERMAX && dTop > consts.move.BORDERMIN),
-					isBottom = (dBottom < consts.move.BORDERMAX && dBottom > consts.move.BORDERMIN),
-					isLeft = (dLeft < consts.move.BORDERMAX && dLeft > consts.move.BORDERMIN),
-					isRight = (dRight < consts.move.BORDERMAX && dRight > consts.move.BORDERMIN),
-					isTreeInner = dTop > consts.move.BORDERMIN && dBottom > consts.move.BORDERMIN && dLeft > consts.move.BORDERMIN && dRight > consts.move.BORDERMIN,
+					isTop = (dTop < setting.edit.drag.borderMax && dTop > setting.edit.drag.borderMin),
+					isBottom = (dBottom < setting.edit.drag.borderMax && dBottom > setting.edit.drag.borderMin),
+					isLeft = (dLeft < setting.edit.drag.borderMax && dLeft > setting.edit.drag.borderMin),
+					isRight = (dRight < setting.edit.drag.borderMax && dRight > setting.edit.drag.borderMin),
+					isTreeInner = dTop > setting.edit.drag.borderMin && dBottom > setting.edit.drag.borderMin && dLeft > setting.edit.drag.borderMin && dRight > setting.edit.drag.borderMin,
 					isTreeTop = (isTop && targetSetting.treeObj.scrollTop() <= 0),
 					isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight),
 					isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0),
@@ -455,14 +480,13 @@
 					var dY = 0;
 					if (tmpTarget && tmpTarget.attr("id")!=targetSetting.treeId) {
 						var tmpTargetNode = tmpTargetNodeId == null ? null: data.getNodeCache(targetSetting, tmpTargetNodeId),
-						tmpNodeObj = $("#" + tmpNode.tId),
-						isPrev = (tmpNodeObj.prev().attr("id") == tmpTargetNodeId),
-						isNext = (tmpNodeObj.next().attr("id") == tmpTargetNodeId),
+						isCopy = (event.ctrlKey && setting.edit.drag.isMove && setting.edit.drag.isCopy) || (!setting.edit.drag.isMove && setting.edit.drag.isCopy),
+						isPrev = !!(preNode && tmpTargetNodeId === preNode.tId),
+						isNext = !!(nextNode && tmpTargetNodeId === nextNode.tId),
 						isInner = (tmpNode.parentTId && tmpNode.parentTId == tmpTargetNodeId),
-						canPrev = !isNext && tools.apply(targetSetting.edit.drag.prev, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.prev),
-						canNext = !isPrev && tools.apply(targetSetting.edit.drag.next, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.next),
-						canInner = !isInner && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent) && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner);
-						console.log("canPrev = " + canPrev + "," + "canNext = " + canNext + "," + "canInner = " + canInner + ",");
+						canPrev = (isCopy || !isNext) && tools.apply(targetSetting.edit.drag.prev, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.prev),
+						canNext = (isCopy || !isPrev) && tools.apply(targetSetting.edit.drag.next, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.next),
+						canInner = (isCopy || !isInner) && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent) && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner);
 						if (!canPrev && !canNext && !canInner) {
 							tmpTarget = null;
 							tmpTargetNodeId = "";
@@ -549,52 +573,73 @@
 				if (root.dragFlag == 0) return;
 				root.dragFlag = 0;
 
-				if (node.isParent && root.dragNodeShowBefore && !node.open) {
-					view.expandCollapseNode(setting, node, !node.open);
-					root.dragNodeShowBefore = false;
+				var i, l, tmpNode;
+				for (i=0, l=nodes.length; i<l; i++) {
+					tmpNode = nodes[i];
+					if (tmpNode.isParent && root.dragNodeShowBefore[tmpNode.tId] && !tmpNode.open) {
+						view.expandCollapseNode(setting, tmpNode, !tmpNode.open);
+						delete root.dragNodeShowBefore[tmpNode.tId];
+					}
 				}
 
 				if (curNode) curNode.remove();
 				if (tmpArrow) tmpArrow.remove();
 
 				//显示树上 移动后的节点
-				if (tmpTarget && tmpTargetNodeId && node.parentTId && tmpTargetNodeId==node.parentTId && moveType == consts.move.TYPE_INNER) {
+				var isCopy = (event.ctrlKey && setting.edit.drag.isMove && setting.edit.drag.isCopy) || (!setting.edit.drag.isMove && setting.edit.drag.isCopy);
+				if (!isCopy && tmpTarget && tmpTargetNodeId && nodes[0].parentTId && tmpTargetNodeId==nodes[0].parentTId && moveType == consts.move.TYPE_INNER) {
 					tmpTarget = null;
 				}
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: data.getNodeCache(targetSetting, tmpTargetNodeId);
-					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, node, dragTargetNode, moveType], true) == false) return;
-					var isCopy = (event.ctrlKey && setting.edit.drag.isMove && setting.edit.drag.isCopy) || (!setting.edit.drag.isMove && setting.edit.drag.isCopy);
-
-					var newNode = isCopy ? tools.clone(node) : node;
+					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, nodes, dragTargetNode, moveType], true) == false) return;
+					var newNodes = isCopy ? tools.clone(nodes) : nodes;
 					if (isOtherTree) {
-						if (!isCopy) {view.removeNode(setting, node);}
+						if (!isCopy) {view.removeNode(setting, nodes);}
 						if (moveType == consts.move.TYPE_INNER) {
-							view.addNodes(targetSetting, dragTargetNode, [newNode]);
+							view.addNodes(targetSetting, dragTargetNode, newNodes);
 						} else {
-							view.addNodes(targetSetting, dragTargetNode.getParentNode(), [newNode]);
-							view.moveNode(targetSetting, dragTargetNode, newNode, moveType, false);
-						}
-					}else {
-						if (isCopy) {
-							if (moveType == consts.move.TYPE_INNER) {
-								view.addNodes(targetSetting, dragTargetNode, [newNode]);
+							view.addNodes(targetSetting, dragTargetNode.getParentNode(), newNodes);
+							if (moveType == consts.move.TYPE_BEFORE) {
+								for (i=0, l=newNodes.length; i<l; i++) {
+									view.moveNode(targetSetting, dragTargetNode, newNodes[i], moveType, false);
+								}
 							} else {
-								view.addNodes(targetSetting, dragTargetNode.getParentNode(), [newNode]);
-								view.moveNode(targetSetting, dragTargetNode, newNode, moveType, false);
+								for (i=-1, l=newNodes.length-1; i<l; l--) {
+									view.moveNode(targetSetting, dragTargetNode, newNodes[l], moveType, false);
+								}
 							}
+						}
+					} else {
+						if (isCopy && moveType == consts.move.TYPE_INNER) {
+							view.addNodes(targetSetting, dragTargetNode, newNodes);
 						} else {
-							view.moveNode(targetSetting, dragTargetNode, newNode, moveType);
+							if (isCopy) {
+								view.addNodes(targetSetting, dragTargetNode.getParentNode(), newNodes);
+							}
+							if (moveType == consts.move.TYPE_BEFORE) {
+								for (i=0, l=newNodes.length; i<l; i++) {
+									view.moveNode(targetSetting, dragTargetNode, newNodes[i], moveType, false);
+								}
+							} else {
+								for (i=-1, l=newNodes.length-1; i<l; l--) {
+									view.moveNode(targetSetting, dragTargetNode, newNodes[l], moveType, false);
+								}
+							}
 						}
 					}
-					view.selectNode(targetSetting, newNode);
-					$("#" + newNode.tId + consts.id.ICON).focus().blur();
+					for (i=0, l=newNodes.length; i<l; i++) {
+						view.selectNode(targetSetting, newNodes[i], i>0);
+					}
+					$("#" + newNodes[0].tId + consts.id.ICON).focus().blur();
 
 					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
-					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNode, dragTargetNode, moveType]);
+					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNodes, dragTargetNode, moveType]);
 
 				} else {
-					view.selectNode(setting, node);
+					for (i=0, l=nodes.length; i<l; i++) {
+						view.selectNode(targetSetting, nodes[i], i>0);
+					}
 					//触发 DROP 拖拽事件，返回null
 					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null]);
 				}
@@ -810,7 +855,8 @@
 			tmpSrcIndex = -1,
 			tmpTargetIndex = 0,
 			oldNeighbor = null,
-			newNeighbor = null;
+			newNeighbor = null,
+			oldLevel = node.level;
 			if (node.isFirstNode) {
 				tmpSrcIndex = 0;
 				if (oldParentNode[childsKey].length > 1 ) {
@@ -886,6 +932,7 @@
 			//进行HTML结构修正
 			//处理被移动的节点
 			view.setNodeLineIcos(setting, node);
+			view.repairNodeLevelClass(setting, node, oldLevel)
 
 			//处理原节点的父节点
 			if (!setting.data.keep.parent && oldParentNode[childsKey].length < 1) {
@@ -984,6 +1031,20 @@
 			view.removeEditBtn(node);
 			view.removeRemoveBtn(node);
 			tools.apply(setting.view.removeHoverDom, [setting.treeId, node]);
+		},
+		repairNodeLevelClass: function(setting, node, oldLevel) {
+			if (oldLevel === node.level) return;
+			var liObj = $("#" + node.tId),
+			aObj = $("#" + node.tId + consts.id.A),
+			ulObj = $("#" + node.tId + consts.id.UL),
+			oldClass = "level" + oldLevel,
+			newClass = "level" + node.level;
+			liObj.removeClass(oldClass);
+			liObj.addClass(newClass);
+			aObj.removeClass(oldClass);
+			aObj.addClass(newClass);
+			ulObj.removeClass(oldClass);
+			ulObj.addClass(newClass);
 		}
 	},
 

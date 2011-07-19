@@ -95,17 +95,17 @@
 		var setting1 = clone(setting);
 		setting1.idKey = "id";
 		setting1.pIdKey = "pId";
-		var zNodes1 = $("#standardData").attr("checked") ? clone(zNodes) : clone(simpleNodes);
+		var zNodes1 = $("#standardData").attr("checked") ? (zNodes) : (simpleNodes);
 		if ($("#standardData").attr("checked")) {
 			$("#standardDataDemo").css({"display":"block"});
 			$("#simpleDataDemo").css({"display":"none"});
 			setting1.data.simpleData.enable = false;
-			zNodes1 = clone(zNodes);
+			zNodes1 = (zNodes);
 		} else {
 			$("#standardDataDemo").css({"display":"none"});
 			$("#simpleDataDemo").css({"display":"block"});
 			setting1.data.simpleData.enable = true;
-			zNodes1 = clone(simpleNodes);
+			zNodes1 = (simpleNodes);
 		}
 
 		if (!type) type = (curType=='0') ? '1' : curType;
