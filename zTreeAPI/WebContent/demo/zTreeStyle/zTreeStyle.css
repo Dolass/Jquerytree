@@ -124,14 +124,14 @@ website:	http://code.google.com/p/jquerytree/
 .tree li button.switch_center_close{ background:url(./img/plus_center.gif);}
 .tree li button.switch_bottom_open{ background:url(./img/minus_bottom.gif);}
 .tree li button.switch_bottom_close{ background:url(./img/plus_bottom.gif);}
-.tree li button.switch_noLine_open{ background:url(./img/minus_noLine.gif);}
-.tree li button.switch_noLine_close{ background:url(./img/plus_noLine.gif);}
+.tree li button.switch_noline_open{ background:url(./img/minus_noLine.gif);}
+.tree li button.switch_noline_close{ background:url(./img/plus_noLine.gif);}
 
 .tree li button.switch_root_docu{ background:none;}
 .tree li button.switch_roots_docu{ background:url(./img/line_top.gif);}
 .tree li button.switch_center_docu{ background:url(./img/line_center.gif);}
 .tree li button.switch_bottom_docu{ background:url(./img/line_bottom.gif);}
-.tree li button.switch_noLine_docu{ background:none;}
+.tree li button.switch_noline_docu{ background:none;}
 
 .tree li button.ico_loading{ background:url(./img/loading.gif) no-repeat scroll 1px 1px transparent;}
 .tree li button.ico_open{
