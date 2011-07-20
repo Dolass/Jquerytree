@@ -55,6 +55,7 @@
 			selectedMulti: true,
 			expandSpeed: "fast",
 			addDiyDom: null,
+			dblClickExpand: true,
 			fontCss: {}
 		},
 		data: {
@@ -188,7 +189,7 @@
 		} else if (tools.eqs(event.type, "dblclick")) {
 			treeEventType = "dblclick";
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (tmp) {
+			if (setting.view.dblClickExpand && tmp) {
 				tId = tmp.parentNode.id;
 				nodeEventType = "switchNode";
 			}
