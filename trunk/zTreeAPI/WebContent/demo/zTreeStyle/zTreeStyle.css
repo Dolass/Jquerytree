@@ -139,20 +139,20 @@ website:	http://code.google.com/p/jquerytree/
 	margin-right: 2px;
 	vertical-align:top;
 	*vertical-align:middle;
-	background:url(./img/folder_Open.gif);}
+	background:url(./img/folder_Open.gif) 0 -1px;}
 /*.tree li button.ico_close{ vertical-align:top;width:16px; height:16px; background:url(./img/folder_Close2.png);}*/
 .tree li button.ico_close{
 	width:16px;	height:16px;
 	margin-right: 2px;
 	vertical-align:top;
 	*vertical-align:middle;
-	background:url(./img/folder_Close.gif);}
+	background:url(./img/folder_Close.gif) 0 -1px;}
 .tree li button.ico_docu{
 	width:16px;	height:16px;
 	margin-right: 2px;
 	vertical-align:top;
 	*vertical-align:middle;
-	background:url(./img/page.gif);}
+	background:url(./img/page.gif) 0 -1px;}
 
 .tree INPUT.checkbox {
 	padding:0; margin:0 2px 0 0; 
