@@ -161,10 +161,11 @@
 	},
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
-			if (!newNodes) return;
+			if (!newNodes) return null;
 			if (!parentNode) parentNode = null;
 			var xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			view.addNodes(this.setting, parentNode, xNewNodes, (isSilent==true));
+			return xNewNodes;
 		}
 		zTreeTools.cancelEditName = function(newName) {
 			var root = data.getRoot(this.setting),
