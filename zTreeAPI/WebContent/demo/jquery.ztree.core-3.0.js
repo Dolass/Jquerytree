@@ -941,7 +941,7 @@
 				return;
 			}
 
-			if (!node.open && node[childsKey] && node[childsKey].length>0 && !$("#" + node[childsKey][0].tId).get(0)) {
+			if (!node.open && node.isParent && (!$("#" + node.tId + consts.id.UL).get(0) || !$("#" + node[childsKey][0].tId).get(0))) {
 				view.appendParentULDom(setting, node);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
@@ -1037,7 +1037,7 @@
 			return icoStyle.join('');
 		},
 		makeNodeLineClass: function(setting, node) {
-			var lineClass = ["switch"];
+			var lineClass = [];
 			if (setting.view.showLine) {
 				if (node.level == 0 && node.isFirstNode && node.isLastNode) {
 					lineClass.push(consts.line.ROOT);
@@ -1056,7 +1056,7 @@
 			} else {
 				lineClass.push(consts.folder.DOCU);
 			}
-			return "level" + node.level + " " + lineClass.join('_');
+			return "level" + node.level + " switch " + lineClass.join('_');
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
@@ -1097,12 +1097,12 @@
 				case consts.line.CENTER:
 				case consts.line.BOTTOM:
 				case consts.line.NOLINE:
-					tmpList[1] = newName;
+					tmpList[0] = newName;
 					break;
 				case consts.folder.OPEN:
 				case consts.folder.CLOSE:
 				case consts.folder.DOCU:
-					tmpList[2] = newName;
+					tmpList[1] = newName;
 					break;
 			}
 			obj.attr("class", tmpList.join("_"));
