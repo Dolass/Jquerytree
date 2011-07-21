@@ -30,7 +30,7 @@
 		},
 		node: {
 			CURSELECTED_EDIT: "curSelectedNode_Edit",
-			TMPTARGET_TREE: "tmpTargetTree",
+			TMPTARGET_TREE: "tmpTargetzTree",
 			TMPTARGET_NODE: "tmpTargetNode"
 		}
 	},
