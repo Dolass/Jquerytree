@@ -941,7 +941,7 @@
 				return;
 			}
 
-			if (!node.open && node.isParent && (!$("#" + node.tId + consts.id.UL).get(0) || !$("#" + node[childsKey][0].tId).get(0))) {
+			if (!node.open && node.isParent && (!$("#" + node.tId + consts.id.UL).get(0) || (node[childsKey] && !$("#" + node[childsKey][0].tId).get(0)))) {
 				view.appendParentULDom(setting, node);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
@@ -1016,7 +1016,7 @@
 		makeNodeIcoClass: function(setting, node) {
 			var icoCss = ["ico"];
 			if (!node.isAjaxing) {
-				icoCss[0] = (node.iconSkin ? node.iconSkin : "") + " " + icoCss[0];
+				icoCss[0] = (node.iconSkin ? node.iconSkin + "_" : "") + icoCss[0];
 				if (node.isParent) {
 					icoCss.push(node.open ? consts.folder.OPEN : consts.folder.CLOSE);
 				} else {
@@ -1081,7 +1081,7 @@
 				case consts.folder.OPEN:
 				case consts.folder.CLOSE:
 				case consts.folder.DOCU:
-					tmpList[1] = newName;
+					tmpList[tmpList.length-1] = newName;
 					break;
 			}
 			obj.attr("class", tmpList.join("_"));
