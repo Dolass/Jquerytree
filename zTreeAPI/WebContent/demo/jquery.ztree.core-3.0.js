@@ -962,7 +962,7 @@
 						tools.apply(callback, []);
 					} else {
 						if (node[childsKey] && node[childsKey].length > 0) {
-							ulObj.show(setting.view.expandSpeed, callback);
+							ulObj.slideDown(setting.view.expandSpeed, callback);
 						} else {
 							ulObj.show();
 							tools.apply(callback, []);
@@ -975,7 +975,7 @@
 						ulObj.hide();
 						tools.apply(callback, []);
 					} else {
-						ulObj.hide(setting.view.expandSpeed, callback);
+						ulObj.slideUp(setting.view.expandSpeed, callback);
 					}
 				}
 			} else {
