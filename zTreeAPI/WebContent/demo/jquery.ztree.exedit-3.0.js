@@ -712,7 +712,7 @@
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
-					if (tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
+					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
 					view.editNode(setting, node);
 					return false;
 				}
@@ -731,7 +731,7 @@
 
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
 				function() {
-					if (tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return true;
+					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return true;
 					view.removeNode(setting, node);
 					setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 					return false;
@@ -1114,6 +1114,7 @@
 		if (e && (tools.eqs(e.type, "mouseover") || tools.eqs(e.type, "mouseout") || tools.eqs(e.type, "mousedown") || tools.eqs(e.type, "mouseup"))) {
 			return true;
 		}
+		console.log(!root.curEditNode);
 		return (!root.curEditNode) && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
 	}
 })(jQuery);
