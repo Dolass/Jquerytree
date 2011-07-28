@@ -8,6 +8,9 @@
    #【终结】 v2.6 是v2.x系列最后一个正式版本，下一步将全力开发v3.0，并且不会再保证向下兼容。如果发现重大bug会对v2.6进行修正，但不会再对其进行功能增加。
 </font>
 
+*2011.07.28* v2.6.02
+   * 【修正】点击编辑按钮、删除按钮时 会导致 confirmRename 失效的Bug
+
 *2011.06.29* v2.6.01
    * 【修正】先设置 treeNode.icon ；updateNode后如果设置 treeNode.icon为空的时候，在IE下原图标无法消失的 Bug
    * 【修正】InputNodeName 后再回调 confirmRename 函数中验证处理然后返回true,但过会会触发一个异常"未知的运行时错误", 异常代码段为:setTimeout(function(){document.selection.empty()}",且不断触发该异常.再Chrome中未发现该异常,IE8也没有,只有IE9有这情况.(文本渲染模式为IE8，浏览器模式为IE9).   

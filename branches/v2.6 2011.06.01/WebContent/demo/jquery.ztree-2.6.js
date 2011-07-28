@@ -1,5 +1,5 @@
 /*
- * JQuery zTree 2.6.01
+ * JQuery zTree 2.6.02
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -1291,7 +1291,7 @@
 		
 		$("#" + treeNode.tId + IDMark_Edit).bind('click', 
 			function() {
-				if (tools.apply(setting.callback.beforeRename, [setting.treeObjId, treeNode], true) == false) return true;
+				if (!st.checkEvent(setting) || tools.apply(setting.callback.beforeRename, [setting.treeObjId, treeNode], true) == false) return true;
 				editTreeNode(setting, treeNode);
 				return false;
 			}
@@ -1303,14 +1303,14 @@
 		}
 		if (!tools.apply(setting.edit_removeBtn, [treeNode], setting.edit_removeBtn)) {
 			return;
-		}		
+		}
 		var aObj = $("#" + treeNode.tId + IDMark_A);
 		var removeStr = "<button type='button' class='remove' id='" + treeNode.tId + IDMark_Remove + "' title='' treeNode"+IDMark_Remove+" onfocus='this.blur();' style='display:none;'></button>";
 		aObj.append(removeStr);
 		
 		$("#" + treeNode.tId + IDMark_Remove).bind('click', 
 			function() {
-				if (tools.apply(setting.callback.beforeRemove, [setting.treeObjId, treeNode], true) == false) return true;
+				if (!st.checkEvent(setting) || tools.apply(setting.callback.beforeRemove, [setting.treeObjId, treeNode], true) == false) return true;
 				removeTreeNode(setting, treeNode);
 				//触发remove事件
 				setting.treeObj.trigger(ZTREE_REMOVE, [setting.treeObjId, treeNode]);
