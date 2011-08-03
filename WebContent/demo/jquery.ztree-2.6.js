@@ -1503,7 +1503,7 @@
 		if (treeNode) {
 			treeNode.isAjaxing = true;
 			var icoObj = $("#" + treeNode.tId + IDMark_Icon);
-			icoObj.attr("class", "ico_loading");
+			icoObj.attr({"style":"", "class":"ico_loading"});
 		}
 
 		var tmpParam = "";
