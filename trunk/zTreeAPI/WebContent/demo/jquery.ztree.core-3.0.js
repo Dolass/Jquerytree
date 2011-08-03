@@ -818,7 +818,7 @@
 			if (node) {
 				node.isAjaxing = true;
 				var icoObj = $("#" + node.tId + consts.id.ICON);
-				icoObj.attr("class", "ico_loading");
+				icoObj.attr({"style":"", "class":"ico_loading"});
 			}
 
 			var tmpParam = "";
