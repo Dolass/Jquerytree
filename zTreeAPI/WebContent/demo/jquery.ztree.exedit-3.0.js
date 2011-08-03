@@ -749,7 +749,7 @@
 					view.addEditBtn(setting, node);
 					view.addRemoveBtn(setting, node);
 				}
-				tools.apply(setting.view.addHoverDom, [setting, node]);
+				tools.apply(setting.view.addHoverDom, [setting.treeId, node]);
 			}
 		},
 		cancelCurEditNode: function (setting, newName) {
