@@ -114,7 +114,7 @@ website:	http://code.google.com/p/jquerytree/
 .tree li button.switch_bottom_docu{ background:url(./img/line_bottom.gif);}
 .tree li button.switch_noLine_docu{ background:none;}
 
-.tree li button.ico_loading{ background:url(./img/loading.gif) no-repeat scroll 1px 1px transparent;}
+.tree li button.ico_loading{ background:url(./img/loading.gif) no-repeat scroll 0 0 transparent;}
 .tree li button.ico_open{ background:url(./img/folder_Open.gif);}
 .tree li button.ico_close{ background:url(./img/folder_Close.gif);}
 .tree li button.ico_docu{ background:url(./img/page.gif);}
