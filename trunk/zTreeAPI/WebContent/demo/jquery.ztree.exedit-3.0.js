@@ -39,7 +39,6 @@
 			enable: false,
 			showRemoveBtn: true,
 			showRenameBtn: true,
-			showHoverDom: true,
 			drag: {
 				isCopy: true,
 				isMove: true,
@@ -76,6 +75,7 @@
 		r.dragFlag = 0;
 		r.dragNodeShowBefore = [];
 		r.dragMaskList = new Array();
+		r.showHoverDom = true;
 	},
 	_initCache = function(treeId) {},
 	_bindEvent = function(setting) {
@@ -321,7 +321,7 @@
 					if (tools.apply(setting.callback.beforeDrag, [setting.treeId, nodes], true) == false) return true;
 
 					root.dragFlag = 1;
-					setting.edit.showHoverDom = false;
+					root.showHoverDom = false;
 					tools.showIfameMask(setting, true);
 
 					//sort
@@ -569,7 +569,7 @@
 				}
 				tools.showIfameMask(setting, false);
 
-				setting.edit.showHoverDom = true;
+				root.showHoverDom = true;
 				if (root.dragFlag == 0) return;
 				root.dragFlag = 0;
 
@@ -742,7 +742,7 @@
 				).show();
 		},
 		addHoverDom: function(setting, node) {
-			if (setting.edit.showHoverDom) {
+			if (root.showHoverDom) {
 				node.isHover = true;
 				if (setting.edit.enable) {
 					view.addEditBtn(setting, node);
