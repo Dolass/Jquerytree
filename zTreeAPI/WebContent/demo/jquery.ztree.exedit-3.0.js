@@ -60,13 +60,12 @@
 			beforeDrag:null,
 			beforeDragOpen:null,
 			beforeDrop:null,
-			beforeEditName:null,
 			beforeRemove:null,
 			beforeRename:null,
 			onDrag:null,
 			onDrop:null,
-			onEditName:null,
-			onRemove:null
+			onRemove:null,
+			onRename:null
 		}
 	},
 	_initRoot = function (setting) {
@@ -84,7 +83,7 @@
 		var c = consts.event;
 		o.unbind(c.EDITNAME);
 		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
-			tools.apply(setting.callback.onEditName, [event, treeId, treeNode]);
+			tools.apply(setting.callback.onRename, [event, treeId, treeNode]);
 		});
 
 		o.unbind(c.REMOVE);
@@ -703,7 +702,7 @@
 			if (node.editNameFlag || $("#" + node.tId + consts.id.EDIT).length > 0) {
 				return;
 			}
-			if (!tools.apply(setting.edit.showRenameBtn, [node], setting.edit.showRenameBtn)) {
+			if (!tools.apply(setting.edit.showRenameBtn, [setting.treeId, node], setting.edit.showRenameBtn)) {
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
@@ -712,7 +711,7 @@
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
-					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
+					if (!tools.uCanDo(setting)) return true;
 					view.editNode(setting, node);
 					return false;
 				}
@@ -722,7 +721,7 @@
 			if (node.editNameFlag || $("#" + node.tId + consts.id.REMOVE).length > 0) {
 				return;
 			}
-			if (!tools.apply(setting.edit.showRemoveBtn, [node], setting.edit.showRemoveBtn)) {
+			if (!tools.apply(setting.edit.showRemoveBtn, [setting.treeId, node], setting.edit.showRemoveBtn)) {
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
