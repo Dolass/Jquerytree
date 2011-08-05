@@ -609,12 +609,12 @@
 		},
 		onClickNode: function (event, node) {
 			var setting = settings[event.data.treeId],
-			clickFlag = !(event.ctrlKey && data.isSelectedNode(setting, node));
+			clickFlag = (event.ctrlKey && data.isSelectedNode(setting, node)) ? 0 : (event.ctrlKey && setting.view.selectedMulti) ? 2 : 1;
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node, clickFlag], true) == false) return true;
-			if (!clickFlag) {
+			if (clickFlag === 0) {
 				view.cancelPreSelectedNode(setting, node);
 			} else {
-				view.selectNode(setting, node, setting.view.selectedMulti && event.ctrlKey);
+				view.selectNode(setting, node, clickFlag === 2);
 			}
 			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node, clickFlag]);
 			return true;
