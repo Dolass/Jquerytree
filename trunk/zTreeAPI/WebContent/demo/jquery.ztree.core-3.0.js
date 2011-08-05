@@ -77,7 +77,7 @@
 		},
 		async: {
 			enable: false,
-			method: "post",
+			type: "post",
 			dataType: "text",
 			url: "",
 			autoParam: [],
@@ -841,8 +841,8 @@
 			}
 
 			$.ajax({
-				type: setting.async.method,
-				url: tools.apply(setting.async.url, [node], setting.async.url),
+				type: setting.async.type,
+				url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
 				data: tmpParam,
 				dataType: setting.async.dataType,
 				success: function(msg) {
