@@ -48,7 +48,8 @@
 				minMoveSize: 5,
 				borderMax: 10,
 				borderMin: -5,
-				maxShowNodeNum: 5
+				maxShowNodeNum: 5,
+				autoOpenTime: 500
 			}
 		},
 		view: {
@@ -530,7 +531,7 @@
 								window.zTreeMoveTimer = setTimeout(function() {
 									if (moveType != consts.move.TYPE_INNER) return;
 									var targetNode = data.getNodeCache(targetSetting, tmpTargetNodeId);
-									if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > 500
+									if (targetNode && targetNode.isParent && !targetNode.open && (new Date()).getTime() - startTime > targetSetting.autoOpenTime
 										&& tools.apply(targetSetting.callback.beforeDragOpen, [targetSetting.treeId, targetNode], true)) {
 										view.switchNode(targetSetting, targetNode);
 									}
