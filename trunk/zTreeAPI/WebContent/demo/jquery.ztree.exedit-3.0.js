@@ -15,8 +15,8 @@
 		event: {
 			DRAG: "ztree_drag",
 			DROP: "ztree_drop",
-			EDITNAME: "ztree_editname",
-			REMOVE: "ztree_rename"
+			REMOVE: "ztree_remove",
+			RENAME: "ztree_rename"
 		},
 		id: {
 			EDIT: "_edit",
@@ -82,8 +82,8 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj;
 		var c = consts.event;
-		o.unbind(c.EDITNAME);
-		o.bind(c.EDITNAME, function (event, treeId, treeNode) {
+		o.unbind(c.RENAME);
+		o.bind(c.RENAME, function (event, treeId, treeNode) {
 			tools.apply(setting.callback.onRename, [event, treeId, treeNode]);
 		});
 
@@ -759,13 +759,15 @@
 			if (node) {
 				var inputObj = root.curEditInput;
 				newName = newName ? newName:inputObj.val();
-				if ( tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
-					node.editNameStatus = true;
-					tools.inputFocus(inputObj);
-					return false;
-				} else if (newName !== node[nameKey]) {
-					node[nameKey] = newName ? newName:inputObj.val();
-					setting.treeObj.trigger(consts.event.EDITNAME, [setting.treeId, node]);
+				if (newName !== node[nameKey]) {
+					if (tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+						node.editNameStatus = true;
+						tools.inputFocus(inputObj);
+						return false;
+					} else {
+						node[nameKey] = newName ? newName:inputObj.val();
+						setting.treeObj.trigger(consts.event.RENAME, [setting.treeId, node]);
+					}
 				}
 				var aObj = $("#" + node.tId + consts.id.A);
 				aObj.removeClass(consts.node.CURSELECTED_EDIT);

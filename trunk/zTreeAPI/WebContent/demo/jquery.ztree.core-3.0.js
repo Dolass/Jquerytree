@@ -434,7 +434,7 @@
 			return null;
 		},
 		getRoot: function(setting) {
-			return roots[setting.treeId];
+			return setting ? roots[setting.treeId] : null;
 		},
 		getSetting: function(treeId) {
 			return settings[treeId];
@@ -442,10 +442,9 @@
 		getSettings: function() {
 			return settings;
 		},
-		getZTreeTools: function(setting, zTreeTools) {
-			for (var i=0, j=_init.zTreeTools.length; i<j; i++) {
-				_init.zTreeTools[i].apply(this, arguments);
-			}
+		getZTreeTools: function(treeId) {
+			var r = this.getRoot(this.getSetting(treeId));
+			return r ? r.treeTools : null;
 		},
 		initCache: function(setting) {
 			for (var i=0, j=_init.caches.length; i<j; i++) {
@@ -1185,9 +1184,9 @@
 			event: event,
 			data: data
 		},
-		getZTreeTools: function(treeId) {
-			var o = settings[treeId];
-			return o ? o.treeTools : null;
+		getZTreeObj: function(treeId) {
+			var o = data.getZTreeTools(treeId);
+			return o ? o : null;
 		},
 		init: function(obj, zSetting, zNodes) {
 			var setting = tools.clone(_setting);
@@ -1344,7 +1343,7 @@
 				}
 			}
 			root.treeTools = zTreeTools;
-			data.getZTreeTools(setting, zTreeTools);
+//			data.getZTreeTools(setting, zTreeTools);
 			return zTreeTools;
 		}
 	};
