@@ -138,6 +138,7 @@
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
 			var checkedKey = this.setting.data.key.checked;
+			if (tools.apply(setting.callback.beforeCheck, [setting.treeId, node], true) == false) return;
 			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true) {
 				node[checkedKey] = !!checked;
 				var checkObj = $("#" + node.tId + consts.id.CHECK);
@@ -149,7 +150,7 @@
 		}
 
 		zTreeTools.checkAllNodes = function(checked) {
-			view.repairAllChk(this.setting, checked);
+			view.repairAllChk(this.setting, !!checked);
 		}
 
 		zTreeTools.getCheckedNodes = function(checked) {
@@ -338,13 +339,15 @@
 			return c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
-			var checkedKey = setting.data.key.checked,
-			childsKey = setting.data.key.childs,
-			root = data.getRoot(setting);
-			if (setting.check.enable) {
+			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
+				var checkedKey = setting.data.key.checked,
+				childsKey = setting.data.key.childs,
+				root = data.getRoot(setting);
 				for (var i = 0, l = root[childsKey].length; i<l ; i++) {
 					var node = root[childsKey][i];
-					node[checkedKey] = checked;
+					if (node.nocheck !== true) {
+						node[checkedKey] = checked;
+					}
 					view.setSonNodeCheckBox(setting, node, checked);
 				}
 			}
