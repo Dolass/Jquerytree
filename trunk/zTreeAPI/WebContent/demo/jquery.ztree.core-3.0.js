@@ -134,8 +134,8 @@
 		});
 
 		o.unbind(c.CLICK);
-		o.bind(c.CLICK, function (event, treeId, node) {
-			tools.apply(setting.callback.onClick, [event, treeId, node]);
+		o.bind(c.CLICK, function (event, treeId, node, clickFlag) {
+			tools.apply(setting.callback.onClick, [event, treeId, node, clickFlag]);
 		});
 
 		o.unbind(c.EXPAND);
@@ -1224,15 +1224,24 @@
 				},
 				expandAll : function(expandFlag) {
 					if (expandFlag !== true && expandFlag !== false) {
-						var n = data.getNodes(this.setting)[0];
-						if (!n) return null;
-						expandFlag = !n.open;
+						expandFlag = null;
+						var nodes = data.getNodes(this.setting);
+						for (var i=0, l=nodes.length; i<l; i++) {
+							if (nodes[i].isParent) {
+								expandFlag = !nodes[i].open;
+								break;
+							}
+						}
+						if (expandFlag == null) return expandFlag;
 					}
 					view.expandCollapseSonNode(this.setting, null, expandFlag, true);
 					return expandFlag;
 				},
 				expandNode : function(node, expandFlag, sonSign, focus) {
-					if (!node) return;
+					if (!node || !node.isParent) return null;
+					if (expandFlag !== true && expandFlag !== false) {
+						expandFlag = !node.open;
+					}
 					if (expandFlag) {
 						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
@@ -1247,6 +1256,7 @@
 						view.switchNode(this.setting, node);
 						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 					}
+					return expandFlag;
 				},
 				getNodes : function() {
 					return data.getNodes(this.setting);
