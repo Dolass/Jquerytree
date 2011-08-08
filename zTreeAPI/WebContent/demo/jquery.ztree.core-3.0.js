@@ -1324,6 +1324,7 @@
 				selectNode : function(node, addFlag) {
 					if (!node) return;
 					if (tools.uCanDo(this.setting)) {
+						addFlag = setting.view.selectedMulti && addFlag;
 						if (node.parentTId) {
 							view.expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
 								$("#" + node.tId + consts.id.ICON).focus().blur();

@@ -207,6 +207,7 @@
 		}
 		zTreeTools.removeNode = function(node) {
 			if (!node) return;
+			if (tools.apply(this.setting.callback.beforeRemove, [this.setting.treeId, node], true) == false) return;
 			view.removeNode(this.setting, node);
 			this.setting.treeObj.trigger(consts.event.REMOVE, [this.setting.treeId, node]);
 		}
