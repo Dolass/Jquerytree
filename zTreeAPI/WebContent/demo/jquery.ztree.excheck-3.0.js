@@ -119,7 +119,6 @@
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
 		n.nocheck = !!n.nocheck;
-		n.check_Focus = false;
 		n.check_True_Full = true;
 		n.check_False_Full = true;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
