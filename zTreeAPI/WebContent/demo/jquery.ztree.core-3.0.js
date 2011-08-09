@@ -486,6 +486,11 @@
 		setRoot: function(setting, root) {
 			roots[setting.treeId] = root;
 		},
+		setZTreeTools: function(setting, zTreeTools) {
+			for (var i=0, j=_init.zTreeTools.length; i<j; i++) {
+				_init.zTreeTools[i].apply(this, arguments);
+			}
+		},
 		transformToArrayFormat: function (setting, nodes) {
 			if (!nodes) return [];
 			var childsKey = setting.data.key.childs,
@@ -1354,7 +1359,7 @@
 				}
 			}
 			root.treeTools = zTreeTools;
-//			data.getZTreeTools(setting, zTreeTools);
+			data.setZTreeTools(setting, zTreeTools);
 			return zTreeTools;
 		}
 	};

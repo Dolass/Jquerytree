@@ -121,6 +121,7 @@
 		n.nocheck = !!n.nocheck;
 		n.check_True_Full = true;
 		n.check_False_Full = true;
+		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
 	},
 	_beforeA = function(setting, node, html) {
@@ -257,14 +258,14 @@
 		onMouseoverCheck: function(event, node) {
 			var setting = data.getSetting(event.data.treeId),
 			checkObj = $("#" + node.tId + consts.id.CHECK);
-			node.checkboxFocus = true;
+			node.check_Focus = true;
 			view.setChkClass(setting, checkObj, node);
 			return true;
 		},
 		onMouseoutCheck: function(event, node) {
 			var setting = data.getSetting(event.data.treeId),
 			checkObj = $("#" + node.tId + consts.id.CHECK);
-			node.checkboxFocus = false;
+			node.check_Focus = false;
 			view.setChkClass(setting, checkObj, node);
 			return true;
 		}
@@ -334,7 +335,7 @@
 			c = consts.checkbox, r = consts.radio,
 			chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
 			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? (node.check_True_Full? c.FULL:c.PART) : (node.check_False_Full? c.FULL:c.PART) );
-			chkName = node.checkboxFocus ? chkName + "_" + c.FOCUS : chkName;
+			chkName = node.check_Focus ? chkName + "_" + c.FOCUS : chkName;
 			return c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
