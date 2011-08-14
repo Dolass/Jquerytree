@@ -74,3 +74,4 @@
 28、（搞定）使用自定义图标功能时，异步加载无法切换为loading图标的bug
 29、异步加载 与编辑共存时，拖拽过快，会导致目标父节点不进行异步加载
 30、支持 treeNode.selected 属性，用于初始化时默认选中，删除 isSelectedNode 方法
+31、另外提一个小问题，现在的expendNode方法在调用的时候不会默认打开它的父结点，这个很纠结啊，还有就是你上面提的该改变node的checked属性然后调用updateNode方法来实现默认选中的问题，应用checkbox的时候没问题，但是在用radio的时候在调用getCheckedNodes时无法获取选中的radio结点
