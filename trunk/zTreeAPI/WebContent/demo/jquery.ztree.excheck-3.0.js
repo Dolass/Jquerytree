@@ -142,7 +142,7 @@
 			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true) {
 				node[checkedKey] = !!checked;
 				var checkObj = $("#" + node.tId + consts.id.CHECK);
-				if (checkTypeFlag) view.checkNodeRelation(this.setting, node);
+				if (checkTypeFlag || this.setting.check.chkStyle == consts.radio.STYLE) view.checkNodeRelation(this.setting, node);
 				view.setChkClass(this.setting, checkObj, node);
 				view.repairParentChkClassWithSelf(this.setting, node);
 				setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
