@@ -9,7 +9,7 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  * email: hunter.z@263.net
- * Date: 2011-06-29
+ * Date: 2011-08-15
  */
 
 (function($) {
@@ -2327,7 +2327,7 @@
 				if (st.checkEvent(this.setting)) {
 					var checkObj = $("#" + treeNode.tId + IDMark_Check);
 					if (this.setting.checkable) {
-						if (checkTypeFlag == true) checkNodeRelation(this.setting, treeNode);
+						if (checkTypeFlag == true || this.setting.checkStyle == Check_Style_Radio) checkNodeRelation(this.setting, treeNode);
 						setChkClass(this.setting, checkObj, treeNode);
 						repairParentChkClassWithSelf(this.setting, treeNode);
 					}
