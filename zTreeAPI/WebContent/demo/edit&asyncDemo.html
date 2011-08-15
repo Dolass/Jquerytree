@@ -16,7 +16,10 @@
 
 	setting = {
 		edit: {
-			enable: true
+			enable: true,
+			drag: {
+				autoOpenTime: 5000
+			}
 		},
 		data : {
 			keep: {
@@ -40,15 +43,14 @@
 	});
 
 	function beforeAsync(treeId, treeNode) {
-		if (treeNode.level>3) {
+		if (treeNode && treeNode.level>3) {
 			return false;
 		}
 		return true;
 	}
 
 	function refreshTree() {
-		zTree1 = $("#treeDemo");
-		$.fn.zTree.init(zTree1, setting);
+		zTree1 = $.fn.zTree.init($("#treeDemo"), setting);
 	}
 
   //-->
@@ -61,7 +63,7 @@
 	<TR>
 		<TD width=340px align=center valign=top>
 		<div class="zTreeDemoBackground">
-			<ul id="treeDemo" class="tree"></ul>
+			<ul id="treeDemo" class="ztree"></ul>
 		</div>		
 		</TD>
 		<TD width=360px align=left valign=top>
