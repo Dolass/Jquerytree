@@ -241,10 +241,12 @@
 		n.tId = setting.treeId + "_" + (++zId);
 		n.parentTId = parentNode ? parentNode.tId : null;
 		if (n[childsKey] && n[childsKey].length > 0) {
+			if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
 			n.open = openFlag && !!n.open;
 			n.isParent = true;
 		} else {
 			n.open = false;
+			if (typeof n.isParent == "string") n.isParent = tools.eqs(n.isParent, "true");
 			n.isParent = !!n.isParent;
 		}
 		n.isFirstNode = isFirstNode;
@@ -814,10 +816,16 @@
 			nObj.append(html.join(''));
 			view.createNodeCallback(setting);
 		},
-		asyncNode: function(setting, node, isSilent) {
+		asyncNode: function(setting, node, isSilent, callback) {
 			var i, l;
-			if (node && (node.isAjaxing || !node.isParent)) {
-				return;
+			if (node && !node.isParent) {
+				tools.apply(callback);
+				return false;
+			} else if (node && node.isAjaxing) {
+				return false;
+			} else if (tools.apply(setting.callback.beforeAsync, [setting.treeId, node], true) == false) {
+				tools.apply(callback);
+				return false;
 			}
 			if (node) {
 				node.isAjaxing = true;
@@ -870,6 +878,7 @@
 						view.addNodes(setting, node, [], !!isSilent);
 					}
 					setting.treeObj.trigger(consts.event.ASYNC_SUCCESS, [setting.treeId, node, msg]);
+					tools.apply(callback);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					view.setNodeLineIcos(setting, node);
@@ -877,6 +886,7 @@
 					setting.treeObj.trigger(consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
 				}
 			});
+			return true;
 		},
 		cancelPreSelectedNode: function (setting, node) {
 			var list = data.getRoot(setting).curSelectedList;
@@ -1170,11 +1180,10 @@
 			if (node.open || (node && node[childsKey] && node[childsKey].length > 0)) {
 				view.expandCollapseNode(setting, node, !node.open);
 			} else if (setting.async.enable) {
-				if (tools.apply(setting.callback.beforeAsync, [setting.treeId, node], true) == false) {
+				if (!view.asyncNode(setting, node)) {
 					view.expandCollapseNode(setting, node, !node.open);
 					return;
 				}
-				view.asyncNode(setting, node);
 			} else if (node) {
 				view.expandCollapseNode(setting, node, !node.open);
 			}

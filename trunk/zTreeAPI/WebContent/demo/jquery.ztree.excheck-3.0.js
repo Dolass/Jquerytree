@@ -116,6 +116,7 @@
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		var checkedKey = setting.data.key.checked;
+		if (typeof n[checkedKey] == "string") n[checkedKey] = tools.eqs(n[checkedKey], "true");
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
 		n.nocheck = !!n.nocheck;
