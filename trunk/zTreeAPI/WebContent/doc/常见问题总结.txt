@@ -76,3 +76,4 @@
 30、(放弃了) 支持 treeNode.selected 属性，用于初始化时默认选中，删除 isSelectedNode 方法
     原因：selected属性牵扯面太广，初始化zTree、异步加载，新增节点、移动节点都会牵扯此属性，很难让该属性无障碍的适应所有规则，对于初始化默认选中节点完全可以利用增加特殊标识后，使用 getNodeByParam 或 getNodesByParam 获取节点后动态实现。
 31、（搞定）配置使用radio输入框，当用js操作 updateNode 方法设置 radio被勾选时，radio勾选规则失效的bug
+32、（搞定）增加 setting.view.autoCancelSelected 属性，设置配合 ctrl 键是否可以取消节点选择
