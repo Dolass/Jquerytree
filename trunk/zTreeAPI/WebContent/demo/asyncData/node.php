@@ -11,11 +11,11 @@ if(array_key_exists('name',$_REQUEST)) {
 if ($pId==null || $pId=="") $pId = "0";
 if ($pName==null) $pName = "";
 
-for ($i=1; $i<9999; $i++) {
-	for ($j=1; $j<999; $j++) {
-
-	}
-}
+//for ($i=1; $i<9999; $i++) {
+//	for ($j=1; $j<999; $j++) {
+//
+//	}
+//}
 
 for ($i=1; $i<5; $i++) {
 	$nId = $pId.$i;
