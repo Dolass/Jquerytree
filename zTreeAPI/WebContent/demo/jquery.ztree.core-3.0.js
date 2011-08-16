@@ -243,7 +243,8 @@
 		n.parentTId = parentNode ? parentNode.tId : null;
 		if (n[childsKey] && n[childsKey].length > 0) {
 			if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
-			n.open = openFlag && !!n.open;
+			n.open = !!n.open;
+//			n.open = openFlag && !!n.open;
 			n.isParent = true;
 		} else {
 			n.open = false;
