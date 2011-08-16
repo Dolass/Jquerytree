@@ -550,7 +550,7 @@
 								"top": (tmpTargetA.offset().top + dY) + "px",
 								"left": (tmpTargetA.offset().left + dX) + "px"
 							});
-
+							
 							if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
 								startTime = (new Date()).getTime();
 							}
@@ -565,7 +565,6 @@
 								if (startTimer) {
 									window.zTreeMoveTimer = setTimeout(function() {
 										if (moveType != consts.move.TYPE_INNER) return;
-//										var targetNode = data.getNodeCache(targetSetting, tmpTargetNodeId);
 										if (tmpTargetNode && tmpTargetNode.isParent && !tmpTargetNode.open && (new Date()).getTime() - startTime > targetSetting.edit.drag.autoOpenTime
 											&& tools.apply(targetSetting.callback.beforeDragOpen, [targetSetting.treeId, tmpTargetNode], true)) {
 											view.switchNode(targetSetting, tmpTargetNode);
