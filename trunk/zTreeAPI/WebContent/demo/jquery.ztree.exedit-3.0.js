@@ -236,6 +236,12 @@
 			view.removeNode(setting, node);
 			this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 		}
+		zTreeTools.removeChilds = function(node) {
+			var childsKey = setting.data.key.childs;
+			if (!node || !node.isParent || !node[childsKey] || node[childsKey].length === 0) return null;
+
+
+		}
 		zTreeTools.setEditable = function(editable) {
 			setting.edit.enable = editable;
 			return this.refresh();
