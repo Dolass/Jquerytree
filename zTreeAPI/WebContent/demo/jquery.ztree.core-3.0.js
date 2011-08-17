@@ -257,6 +257,10 @@
 		n.getPreNode = function() {return data.getPreNode(setting, n);};
 		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
+		n.icon = null;
+		n.iconOpen = null;
+		n.iconClose = null;
+		n.iconSkin = null;
 		data.fixPIdKeyValue(setting, n);
 	},
 	_init = {
