@@ -814,6 +814,7 @@
 		appendParentULDom: function(setting, node) {
 			var html = [],
 			nObj = $("#" + node.tId),
+			ulObj = $("#" + node.tId + consts.id.UL),
 			childsKey = setting.data.key.childs,
 			childHtml = view.appendNodes(setting, node.level+1, node[childsKey], node, false, true);
 			view.makeUlHtml(setting, node, html, childHtml.join(''));
@@ -821,6 +822,10 @@
 				view.appendParentULDom(setting, node.getParentNode());
 				nObj = $("#" + node.tId);
 			}
+			if (ulObj.get(0)) {
+				ulObj.remove();
+			}
+
 			nObj.append(html.join(''));
 			view.createNodeCallback(setting);
 		},
@@ -962,8 +967,7 @@
 				tools.apply(callback, []);
 				return;
 			}
-
-			if (!node.open && node.isParent && (!$("#" + node.tId + consts.id.UL).get(0) || (node[childsKey] && !$("#" + node[childsKey][0].tId).get(0)))) {
+			if (!node.open && node.isParent && ((!$("#" + node.tId + consts.id.UL).get(0)) || (node[childsKey] && !$("#" + node[childsKey][0].tId).get(0)))) {
 				view.appendParentULDom(setting, node);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
