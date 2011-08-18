@@ -180,6 +180,16 @@
 	},
 
 	_data = {
+		getRadioCheckedList: function(setting) {
+			var checkedList = data.getRoot(setting).radioCheckedList;
+			for (var i=0, j=checkedList.length; i<j; i++) {
+				if(!data.getNodeCache(setting, checkedList[i].tId)) {
+					checkedList.splice(i, 1);
+					i--; j--;
+				}
+			}
+			return checkedList;
+		},
 		getCheckStatus: function(setting, node) {
 			if (!setting.check.enable || node.nocheck) return null;
 			var checkedKey = setting.data.key.checked,
@@ -283,20 +293,20 @@
 			checkedKey = setting.data.key.checked,
 			r = consts.radio;
 			if (setting.check.chkStyle == r.STYLE) {
-				var radioCheckedList = data.getRoot(setting).radioCheckedList;
+				var checkedList = data.getRadioCheckedList(setting);
 				if (node[checkedKey]) {
 					if (setting.check.radioType == r.TYPE_ALL) {
-						for (i = radioCheckedList.length-1; i >= 0; i--) {
-							pNode = radioCheckedList[i];
+						for (i = checkedList.length-1; i >= 0; i--) {
+							pNode = checkedList[i];
 							pNode[checkedKey] = false;
-							radioCheckedList.splice(i, 1);
+							checkedList.splice(i, 1);
 
 							view.setChkClass(setting, $("#" + pNode.tId + consts.id.CHECK), pNode);
 							if (pNode.parentTId != node.parentTId) {
 								view.repairParentChkClassWithSelf(setting, pNode);
 							}
 						}
-						radioCheckedList.push(node);
+						checkedList.push(node);
 					} else {
 						var parentNode = (node.parentTId) ? node.getParentNode() : data.getRoot(setting);
 						for (i = 0, l = parentNode[childsKey].length; i < l; i++) {
@@ -308,9 +318,9 @@
 						}
 					}
 				} else if (setting.check.radioType == r.TYPE_ALL) {
-					for (i = 0, l = radioCheckedList.length; i < l; i++) {
-						if (node == radioCheckedList[i]) {
-							radioCheckedList.splice(i, 1);
+					for (i = 0, l = checkedList.length; i < l; i++) {
+						if (node == checkedList[i]) {
+							checkedList.splice(i, 1);
 							break;
 						}
 					}
