@@ -227,8 +227,7 @@
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
-			}
-			
+			}			
 		}
 		zTreeTools.removeNode = function(node) {
 			if (!node) return;
@@ -237,16 +236,16 @@
 			this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 		}
 		zTreeTools.removeChilds = function(node) {
-			var childsKey = setting.data.key.childs;
-			if (!node || !node.isParent || !node[childsKey] || node[childsKey].length === 0) return null;
-
-
+			if (!node) return null;
+			var childsKey = setting.data.key.childs,
+			nodes = node[childsKey];
+			view.removeChilds(setting, node);
+			return nodes ? nodes : null;
 		}
 		zTreeTools.setEditable = function(editable) {
 			setting.edit.enable = editable;
 			return this.refresh();
 		}
-
 	},
 
 	_data = {
@@ -1023,9 +1022,31 @@
 			}
 
 			//移动后，则必须展开新位置的全部父节点
-			console.log("isSilent = " + isSilent);
+//			console.log("isSilent = " + isSilent);
 			if (!isSilent) {
-//				view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
+				view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
+			}
+		},
+		removeChilds: function(setting, node) {
+			if (!node) return;
+			var childsKey = setting.data.key.childs,
+			nodes = node[childsKey];
+			if (!nodes) return;
+			$("#" + node.tId + consts.id.UL).remove();
+			for (var i = 0, l = nodes.length; i < l; i++) {
+				data.removeNodeCache(setting, nodes[i]);
+			}
+			data.removeSelectedNode(setting);
+			delete node[childsKey];
+
+			if (!setting.data.keep.parent) {
+				//父节点
+				node.isParent = false;
+				node.open = false;
+				var tmp_switchObj = $("#" + node.tId + consts.id.SWITCH),
+				tmp_icoObj = $("#" + node.tId + consts.id.ICON);
+				view.replaceSwitchClass(tmp_switchObj, consts.folder.DOCU);
+				view.replaceIcoClass(node, tmp_icoObj, consts.folder.DOCU);
 			}
 		},
 		removeEditBtn: function(node) {
@@ -1038,8 +1059,8 @@
 			if (root.curEditNode === node) root.curEditNode = null;
 
 			$("#" + node.tId).remove();
-			data.removeSelectedNode(setting, node);
 			data.removeNodeCache(setting, node);
+			data.removeSelectedNode(setting, node);
 
 			//进行数据结构修正
 			for (var i = 0, l = parentNode[childsKey].length; i < l; i++) {

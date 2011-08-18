@@ -473,14 +473,20 @@
 			return false;
 		},
 		removeNodeCache: function(setting, node) {
+			var childsKey = setting.data.key.childs;
+			if (node[childsKey]) {
+				for (var i=0, l=node[childsKey].length; i<l; i++) {
+					arguments.callee(setting, node[childsKey][i]);
+				}
+			}
 			delete data.getCache(setting).nodes[node.tId];
 		},
 		removeSelectedNode: function(setting, node) {
 			var root = data.getRoot(setting);
 			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
-				if(node === root.curSelectedList[i]) {
+				if(node === root.curSelectedList[i] || !data.getNodeCache(setting, root.curSelectedList[i].tId)) {
 					root.curSelectedList.splice(i, 1);
-					break;
+					i--; j--;
 				}
 			}
 		},
