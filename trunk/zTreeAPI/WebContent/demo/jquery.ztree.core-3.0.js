@@ -1268,16 +1268,22 @@
 					if (expandFlag !== true && expandFlag !== false) {
 						expandFlag = !node.open;
 					}
+					if (expandFlag === node.open && !sonSign) {
+						return null;
+					} else if (expandFlag && (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false)) {
+						return null;
+					} else if (!expandFlag && (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false)) {
+						return null;
+					}
 					if (expandFlag) {
 						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
+					data.getRoot(setting).expandTriggerFlag = true;
 					if (sonSign) {
-						data.getRoot(setting).expandTriggerFlag = true;
 						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
 							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
 						});
 					} else {
-						data.getRoot(setting).expandTriggerFlag = true;
 						node.open = !expandFlag;
 						view.switchNode(this.setting, node);
 						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
