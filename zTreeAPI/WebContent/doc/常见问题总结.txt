@@ -78,3 +78,4 @@
 31、（搞定）配置使用radio输入框，当用js操作 updateNode 方法设置 radio被勾选时，radio勾选规则失效的bug
 32、（搞定）增加 setting.view.autoCancelSelected 属性，设置配合 ctrl 键是否可以取消节点选择
 33、（搞定）增加 removeChilds 方法，便于用户组合操作(removeNode/moveNode/removeChilds 都需要清理 radioCheckedList / curSelectedList 和 Caches)
+34、从底层修正 checkbox / radio 关联关系，对于有很多不显示checkbox的节点的案例，也能够保证正常关联 （check_False_Full / check_True_Full 被替换为 check_Child_State）
