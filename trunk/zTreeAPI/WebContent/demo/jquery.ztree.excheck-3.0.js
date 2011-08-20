@@ -120,8 +120,7 @@
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
 		n.nocheck = !!n.nocheck;
-		n.check_True_Full = true;
-		n.check_False_Full = true;
+		n.check_Child_State = -1;
 		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
 	},
@@ -199,7 +198,7 @@
 			var checkedKey = setting.data.key.checked,
 			r = {
 				checked: node[checkedKey],
-				half: ((node[checkedKey] || setting.check.chkStyle == consts.radio.STYLE) ? (!node.check_True_Full) : (!node.check_False_Full) )
+				half: ((node[checkedKey] || setting.check.chkStyle == consts.radio.STYLE) ? (node.check_Child_State < 2) : (node.check_Child_State > 0) )
 			};
 			return r;
 		},
@@ -233,23 +232,58 @@
 			if (!node) return;
 			var childsKey = setting.data.key.childs,
 			checkedKey = setting.data.key.checked,
-			chkFlag = {"trueFlag": true, "falseFlag": true};
+			chkFlag = -1;
 			if (node[childsKey]) {
 				for (var i = 0, l = node[childsKey].length; i < l; i++) {
-					var tmpTrue = (node[childsKey][i].nocheck === true) ? false : node[childsKey][i][checkedKey],
-					tmpFalse = (node[childsKey][i].nocheck === true) ? false : !node[childsKey][i][checkedKey];
-					if (setting.check.chkStyle == consts.radio.STYLE && (tmpTrue || !node[childsKey][i].check_True_Full)) {
-						chkFlag.trueFlag = false;
-					} else if (setting.check.chkStyle != consts.radio.STYLE && node[checkedKey] && (tmpFalse || !node[childsKey][i].check_True_Full)) {
-						chkFlag.trueFlag = false;
-					} else if (setting.check.chkStyle != consts.radio.STYLE && !node[checkedKey] && (tmpTrue || !node[childsKey][i].check_False_Full)) {
-						chkFlag.falseFlag = false;
+					var cNode = node[childsKey][i],
+					cNodeHasChild = cNode[childsKey] && cNode[childsKey].length>0;
+//					var tmpTrueRadio = (cNode.nocheck === true) ? false : cNode[checkedKey];
+//					var tmpTrueChk = (cNode.nocheck === true) ? node[checkedKey] : cNode[checkedKey];
+					var tmp = -1;
+					if (setting.check.chkStyle == consts.radio.STYLE) {
+						if (cNode.nocheck === true) {
+							tmp = cNode.check_Child_State;
+						} else if (cNode.nocheck !== true && cNode[checkedKey]) {
+							tmp = 2;
+//						} else if (cNode.nocheck !== true && !cNode[checkedKey]) {
+						} else {
+							tmp = cNode.check_Child_State > 0 ? 2:0;
+						}
+						if (tmp == 2) {
+							chkFlag = 2; break;
+						} else if (tmp == 0){
+							chkFlag = 0;
+						}
+					} else if (setting.check.chkStyle == consts.checkbox.STYLE) {
+
+						if (cNode.nocheck === true) {
+							tmp = cNode.check_Child_State;
+						} else if (cNode.nocheck !== true && cNode[checkedKey] ) {
+							tmp = (cNode.check_Child_State === -1 || cNode.check_Child_State === 2) ? 2 : 1;
+//						} else if (cNode.nocheck === true && !cNode[checkedKey] ) {
+						} else {
+							tmp = (cNode.check_Child_State > 0) ? 1 : 0;
+						}
+						if (tmp === 1) {
+							console.log(1);
+							chkFlag = 1; break;
+						} else if (tmp === 2 && i > 0 && tmp !== chkFlag) {
+							console.log(2);
+							chkFlag = 1; break;
+						} else if (chkFlag === 2 && tmp > -1 && tmp < 2) {
+							console.log(3 + ", i:"+i+", tmp:" + tmp);
+							chkFlag = 1; break;
+						} else if (tmp > -1) {
+							console.log(4);
+							chkFlag = tmp;
+						}
 					}
-					if (!chkFlag.trueFlag || !chkFlag.falseFlag) break;
 				}
+			} else if (node.nocheck !== true) {
+				chkFlag = node[checkedKey] ? 2 : 0;
 			}
-			node.check_True_Full = chkFlag.trueFlag;
-			node.check_False_Full = chkFlag.falseFlag;
+			node.check_Child_State = chkFlag;
+			console.log(node.name + " ---> " + node.check_Child_State );
 		}
 	},
 
@@ -331,13 +365,13 @@
 				}
 
 			} else {
-				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("s") > -1) {
+				if (node[checkedKey] && (!node[childsKey] || node[childsKey].length==0 || setting.check.chkboxType.Y.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, true);
 				}
 				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("p") > -1) {
 					view.setParentNodeCheckBox(setting, node, true);
 				}
-				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("s") > -1) {
+				if (!node[checkedKey] && (!node[childsKey] || node[childsKey].length==0 || setting.check.chkboxType.N.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, false);
 				}
 				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("p") > -1) {
@@ -347,10 +381,12 @@
 		},
 		makeChkClass: function(setting, node) {
 			var checkedKey = setting.data.key.checked,
+//			childsKey = setting.data.key.childs,
 			c = consts.checkbox, r = consts.radio,
 			chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
-			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? (node.check_True_Full? c.FULL:c.PART) : (node.check_False_Full? c.FULL:c.PART) );
+			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? ((node.check_Child_State === 2 || node.check_Child_State === -1) ? c.FULL:c.PART) : ((node.check_Child_State < 1)? c.FULL:c.PART) );
 			chkName = node.check_Focus ? chkName + "_" + c.FOCUS : chkName;
+//			console.log(node.name + "," + node.checked + "," + node.check_Child_State + " ---- " + c.DEFAULT+" "+chkName);
 			return c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
@@ -399,9 +435,11 @@
 			obj.addClass(view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
+			console.log("--------- setParentNodeCheckBox --------- " + node.name + ",   " + node.check_Child_State);
 			var childsKey = setting.data.key.childs,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
+			data.makeChkFlag(setting, node);
 			if (node.nocheck !== true) {
 				node[checkedKey] = value;
 				view.setChkClass(setting, checkObj, node);
@@ -409,13 +447,20 @@
 			if (node.parentTId) {
 				var pSign = true;
 				if (!value) {
-					for (var i = 0, l = node.getParentNode()[childsKey].length; i < l; i++) {
-						if (node.getParentNode()[childsKey][i][checkedKey]) {
+					var pNodes = node.getParentNode()[childsKey];
+					for (var i = 0, l = pNodes.length; i < l; i++) {
+						console.log(pNodes[i].name);
+						console.log("pNodes[i].check_Child_State == " + pNodes[i].check_Child_State);
+						console.log("pNodes[i].check_Child_State !== -1_____" + (pNodes[i].check_Child_State !== -1));
+						console.log((pNodes[i].nocheck === true) +" && "+ (pNodes[i].check_Child_State !== -1));
+						if ((pNodes[i].nocheck !== true && pNodes[i][checkedKey])
+						|| (pNodes[i].nocheck === true && pNodes[i].check_Child_State > 0)) {
 							pSign = false;
 							break;
 						}
 					}
 				}
+				console.log(node.name + ", pSign = " + pSign);
 				if (pSign) {
 					view.setParentNodeCheckBox(setting, node.getParentNode(), value);
 				}
@@ -427,10 +472,13 @@
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 
-			if (node != data.getRoot(setting) && node.nocheck !== true) {
-				node[checkedKey] = value;
-				node.check_True_Full = true;
-				node.check_False_Full = true;
+			if (node != data.getRoot(setting)) {
+				if (node.nocheck !== true) {
+					node[checkedKey] = value;
+					node.check_Child_State = value ? 2 : 0;
+				} else {
+					node.check_Child_State = -1;
+				}
 				view.setChkClass(setting, checkObj, node);
 			}
 
