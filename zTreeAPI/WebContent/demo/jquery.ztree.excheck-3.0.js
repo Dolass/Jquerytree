@@ -265,25 +265,21 @@
 							tmp = (cNode.check_Child_State > 0) ? 1 : 0;
 						}
 						if (tmp === 1) {
-							console.log(1);
 							chkFlag = 1; break;
 						} else if (tmp === 2 && i > 0 && tmp !== chkFlag) {
-							console.log(2);
 							chkFlag = 1; break;
 						} else if (chkFlag === 2 && tmp > -1 && tmp < 2) {
-							console.log(3 + ", i:"+i+", tmp:" + tmp);
 							chkFlag = 1; break;
 						} else if (tmp > -1) {
-							console.log(4);
 							chkFlag = tmp;
 						}
 					}
 				}
-			} else if (node.nocheck !== true) {
-				chkFlag = node[checkedKey] ? 2 : 0;
+//			} else if (node.nocheck !== true) {
+//				chkFlag = -1;
 			}
 			node.check_Child_State = chkFlag;
-			console.log(node.name + " ---> " + node.check_Child_State );
+//			console.log(node.name + " ---> " + node.check_Child_State );
 		}
 	},
 
@@ -383,8 +379,13 @@
 			var checkedKey = setting.data.key.checked,
 //			childsKey = setting.data.key.childs,
 			c = consts.checkbox, r = consts.radio,
-			chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE)
-			+ "_" + ((node[checkedKey] || setting.check.chkStyle == r.STYLE) ? ((node.check_Child_State === 2 || node.check_Child_State === -1) ? c.FULL:c.PART) : ((node.check_Child_State < 1)? c.FULL:c.PART) );
+			fullStyle = "";
+			if (setting.check.chkStyle == r.STYLE) {
+				fullStyle = (node.check_Child_State < 1)? c.FULL:c.PART;
+			} else {
+				fullStyle = node[checkedKey] ? ((node.check_Child_State === 2 || node.check_Child_State === -1) ? c.FULL:c.PART) : ((node.check_Child_State < 1)? c.FULL:c.PART);
+			}
+			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
 			chkName = node.check_Focus ? chkName + "_" + c.FOCUS : chkName;
 //			console.log(node.name + "," + node.checked + "," + node.check_Child_State + " ---- " + c.DEFAULT+" "+chkName);
 			return c.DEFAULT + " " + chkName;
@@ -435,7 +436,7 @@
 			obj.addClass(view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
-			console.log("--------- setParentNodeCheckBox --------- " + node.name + ",   " + node.check_Child_State);
+//			console.log("--------- setParentNodeCheckBox --------- " + node.name + ",   " + node.check_Child_State);
 			var childsKey = setting.data.key.childs,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
@@ -449,10 +450,10 @@
 				if (!value) {
 					var pNodes = node.getParentNode()[childsKey];
 					for (var i = 0, l = pNodes.length; i < l; i++) {
-						console.log(pNodes[i].name);
-						console.log("pNodes[i].check_Child_State == " + pNodes[i].check_Child_State);
-						console.log("pNodes[i].check_Child_State !== -1_____" + (pNodes[i].check_Child_State !== -1));
-						console.log((pNodes[i].nocheck === true) +" && "+ (pNodes[i].check_Child_State !== -1));
+//						console.log(pNodes[i].name);
+//						console.log("pNodes[i].check_Child_State == " + pNodes[i].check_Child_State);
+//						console.log("pNodes[i].check_Child_State !== -1_____" + (pNodes[i].check_Child_State !== -1));
+//						console.log((pNodes[i].nocheck === true) +" && "+ (pNodes[i].check_Child_State !== -1));
 						if ((pNodes[i].nocheck !== true && pNodes[i][checkedKey])
 						|| (pNodes[i].nocheck === true && pNodes[i].check_Child_State > 0)) {
 							pSign = false;
@@ -460,7 +461,7 @@
 						}
 					}
 				}
-				console.log(node.name + ", pSign = " + pSign);
+//				console.log(node.name + ", pSign = " + pSign);
 				if (pSign) {
 					view.setParentNodeCheckBox(setting, node.getParentNode(), value);
 				}
