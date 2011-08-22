@@ -25,8 +25,8 @@
 		},
 		move: {
 			TYPE_INNER: "inner",
-			TYPE_BEFORE: "before",
-			TYPE_AFTER: "after"
+			TYPE_PREV: "prev",
+			TYPE_NEXT: "next"
 		},
 		node: {
 			CURSELECTED_EDIT: "curSelectedNode_Edit",
@@ -333,29 +333,33 @@
 				childsKey = setting.data.key.childs;
 				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
-				
-				for (i=0, l=nodes.length; root.dragFlag == 0 && i<l; i++) {
-					if (i==0) {
-						root.dragNodeShowBefore = [];
-					}
-					tmpNode = nodes[i];
-					if (tmpNode.isParent && tmpNode.open) {
-						view.expandCollapseNode(setting, tmpNode, !tmpNode.open);
-						root.dragNodeShowBefore[tmpNode.tId] = true;
-					} else {
-						root.dragNodeShowBefore[tmpNode.tId] = false;
-					}
-				}
 
 				if (root.dragFlag == 0) {
 					//避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
-					root.dragFlag = -1;
-					if (tools.apply(setting.callback.beforeDrag, [setting.treeId, nodes], true) == false) return true;
+//					root.dragFlag = -1;
+					if (tools.apply(setting.callback.beforeDrag, [setting.treeId, nodes], true) == false) {
+						_docMouseUp(event);
+						return true;
+					}
+
+					for (i=0, l=nodes.length; i<l; i++) {
+						if (i==0) {
+							root.dragNodeShowBefore = [];
+						}
+						tmpNode = nodes[i];
+						if (tmpNode.isParent && tmpNode.open) {
+							view.expandCollapseNode(setting, tmpNode, !tmpNode.open);
+							root.dragNodeShowBefore[tmpNode.tId] = true;
+						} else {
+							root.dragNodeShowBefore[tmpNode.tId] = false;
+						}
+					}
 
 					root.dragFlag = 1;
 					root.showHoverDom = false;
 					tools.showIfameMask(setting, true);
 
+					
 					//sort
 					var isOrder = true, lastIndex = -1;
 					if (nodes.length>1) {						
@@ -540,11 +544,11 @@
 							if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
 								dX = 1 - tmpArrow.width();
 								dY = 0 - tmpArrow.height()/2;
-								moveType = consts.move.TYPE_BEFORE;
+								moveType = consts.move.TYPE_PREV;
 							} else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
 								dX = 1 - tmpArrow.width();
 								dY = tmpTargetA.height() - tmpArrow.height()/2;
-								moveType = consts.move.TYPE_AFTER;
+								moveType = consts.move.TYPE_NEXT;
 							}else {
 								dX = 5 - tmpArrow.width();
 								dY = 0;
@@ -647,7 +651,7 @@
 								view.addNodes(targetSetting, dragTargetNode, newNodes);
 							} else {
 								view.addNodes(targetSetting, dragTargetNode.getParentNode(), newNodes);
-								if (moveType == consts.move.TYPE_BEFORE) {
+								if (moveType == consts.move.TYPE_PREV) {
 									for (i=0, l=newNodes.length; i<l; i++) {
 										view.moveNode(targetSetting, dragTargetNode, newNodes[i], moveType, false);
 									}
@@ -664,7 +668,7 @@
 								if (isCopy) {
 									view.addNodes(targetSetting, dragTargetNode.getParentNode(), newNodes);
 								}
-								if (moveType == consts.move.TYPE_BEFORE) {
+								if (moveType == consts.move.TYPE_PREV) {
 									for (i=0, l=newNodes.length; i<l; i++) {
 										view.moveNode(targetSetting, dragTargetNode, newNodes[i], moveType, false);
 									}
@@ -881,7 +885,7 @@
 			if (targetNodeIsRoot) moveType = consts.move.TYPE_INNER;
 			var targetParentNode = (targetNode.parentTId ? targetNode.getParentNode() : root);
 
-			if (moveType != consts.move.TYPE_BEFORE && moveType != consts.move.TYPE_AFTER) {
+			if (moveType != consts.move.TYPE_PREV && moveType != consts.move.TYPE_NEXT) {
 				moveType = consts.move.TYPE_INNER;
 			}
 
@@ -902,9 +906,9 @@
 			var nodeDom = $("#" + node.tId).remove();
 			if (target_ulObj && moveType == consts.move.TYPE_INNER) {
 				target_ulObj.append(nodeDom);
-			} else if (targetObj && moveType == consts.move.TYPE_BEFORE) {
+			} else if (targetObj && moveType == consts.move.TYPE_PREV) {
 				targetObj.before(nodeDom);
-			} else if (targetObj && moveType == consts.move.TYPE_AFTER) {
+			} else if (targetObj && moveType == consts.move.TYPE_NEXT) {
 				targetObj.after(nodeDom);
 			}
 
@@ -958,7 +962,7 @@
 				targetNode[childsKey].splice(targetNode[childsKey].length, 0, node);
 				node.isLastNode = true;
 				node.isFirstNode = (targetNode[childsKey].length == 1);
-			} else if (targetNode.isFirstNode && moveType == consts.move.TYPE_BEFORE) {
+			} else if (targetNode.isFirstNode && moveType == consts.move.TYPE_PREV) {
 				targetParentNode[childsKey].splice(tmpTargetIndex, 0, node);
 				newNeighbor = targetNode;
 				newNeighbor.isFirstNode = false;
@@ -966,7 +970,7 @@
 				node.isFirstNode = true;
 				node.isLastNode = false;
 
-			} else if (targetNode.isLastNode && moveType == consts.move.TYPE_AFTER) {
+			} else if (targetNode.isLastNode && moveType == consts.move.TYPE_NEXT) {
 				targetParentNode[childsKey].splice(tmpTargetIndex + 1, 0, node);
 				newNeighbor = targetNode;
 				newNeighbor.isLastNode = false;
@@ -975,7 +979,7 @@
 				node.isLastNode = true;
 
 			} else {
-				if (moveType == consts.move.TYPE_BEFORE) {
+				if (moveType == consts.move.TYPE_PREV) {
 					targetParentNode[childsKey].splice(tmpTargetIndex, 0, node);
 				} else {
 					targetParentNode[childsKey].splice(tmpTargetIndex + 1, 0, node);
