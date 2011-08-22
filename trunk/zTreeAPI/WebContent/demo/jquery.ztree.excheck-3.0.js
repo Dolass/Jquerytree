@@ -198,7 +198,7 @@
 			var checkedKey = setting.data.key.checked,
 			r = {
 				checked: node[checkedKey],
-				half: ((node[checkedKey] || setting.check.chkStyle == consts.radio.STYLE) ? (node.check_Child_State < 2) : (node.check_Child_State > 0) )
+				half: (setting.check.chkStyle == consts.radio.STYLE ? (node.check_Child_State === 2) : (node[checkedKey] ? (node.check_Child_State > -1 && node.check_Child_State < 2) : (node.check_Child_State > 0)))
 			};
 			return r;
 		},
