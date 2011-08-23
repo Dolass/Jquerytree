@@ -213,9 +213,9 @@
 			}
 		}
 		zTreeTools.moveNode = function(targetNode, node, moveType, isSilent) {
-			if (!node) return;
+			if (!node) return node;
 			if (targetNode && ((node.parentTId == targetNode.tId && moveType == consts.move.TYPE_INNER) || $("#" + node.tId).find("#" + targetNode.tId).length > 0)) {
-				return;
+				return null;
 			} else if (!targetNode) {
 				targetNode = null;
 			}
@@ -228,6 +228,7 @@
 			} else {
 				moveCallback();
 			}
+			return node;
 		}
 		zTreeTools.removeNode = function(node) {
 			if (!node) return;
