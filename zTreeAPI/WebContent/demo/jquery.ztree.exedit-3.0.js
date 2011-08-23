@@ -227,7 +227,7 @@
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
-			}			
+			}
 		}
 		zTreeTools.removeNode = function(node) {
 			if (!node) return;
@@ -359,10 +359,10 @@
 					root.showHoverDom = false;
 					tools.showIfameMask(setting, true);
 
-					
+
 					//sort
 					var isOrder = true, lastIndex = -1;
-					if (nodes.length>1) {						
+					if (nodes.length>1) {
 						var pNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childsKey] : data.getNodes(setting);
 						tmpNodes = [];
 						for (i=0, l=pNodes.length; i<l; i++) {
@@ -402,7 +402,7 @@
 							curNode.append(tmpDom);
 							break;
 						}
-					}					
+					}
 					curNode.attr("id", nodes[0].tId + consts.id.UL + "_tmp");
 					curNode.addClass(setting.treeObj.attr("class"));
 					curNode.appendTo("body");
@@ -488,7 +488,7 @@
 						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
 						if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
 							tmpTarget = targetSetting.treeObj;
-							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
+//							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
 						}
 						//滚动条自动滚动
 						if (isTop) {
@@ -559,7 +559,7 @@
 								"top": (tmpTargetA.offset().top + dY) + "px",
 								"left": (tmpTargetA.offset().left + dX) + "px"
 							});
-							
+
 							if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
 								startTime = (new Date()).getTime();
 							}
@@ -585,6 +585,11 @@
 						}
 					} else {
 						moveType = consts.move.TYPE_INNER;
+						if (tmpTarget && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner)) {
+							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
+						} else {
+							tmpTarget = null;
+						}
 						tmpArrow.css({
 							"display":"none"
 						});
@@ -951,6 +956,7 @@
 					node.parentTId = null;
 				} else {
 					targetNode.isParent = true;
+					targetNode.open = false;
 					node.parentTId = targetNode.tId;
 				}
 
@@ -1000,6 +1006,7 @@
 			if (!setting.data.keep.parent && oldParentNode[childsKey].length < 1) {
 				//原所在父节点无子节点
 				oldParentNode.isParent = false;
+				oldParentNode.open = false;
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL),
 				tmp_switchObj = $("#" + oldParentNode.tId + consts.id.SWITCH),
 				tmp_icoObj = $("#" + oldParentNode.tId + consts.id.ICON);
