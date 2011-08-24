@@ -39,6 +39,8 @@
 			enable: false,
 			showRemoveBtn: true,
 			showRenameBtn: true,
+			removeTitle: "remove",
+			renameTitle: "rename",
 			drag: {
 				isCopy: true,
 				isMove: true,
@@ -771,7 +773,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			editStr = "<button type='button' class='edit' id='" + node.tId + consts.id.EDIT + "' title='' treeNode"+consts.id.EDIT+" onfocus='this.blur();' style='display:none;'></button>";
+			editStr = "<button type='button' class='edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" onfocus='this.blur();' style='display:none;'></button>";
 			aObj.append(editStr);
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
@@ -790,7 +792,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			removeStr = "<button type='button' class='remove' id='" + node.tId + consts.id.REMOVE + "' title='' treeNode"+consts.id.REMOVE+" onfocus='this.blur();' style='display:none;'></button>";
+			removeStr = "<button type='button' class='remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" onfocus='this.blur();' style='display:none;'></button>";
 			aObj.append(removeStr);
 
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
