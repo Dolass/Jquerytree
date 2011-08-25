@@ -656,6 +656,7 @@
 					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, nodes, dragTargetNode, moveType], true) == false) return;
 					var newNodes = isCopy ? tools.clone(nodes) : nodes;
 
+					
 					function dropCallback() {
 						if (isOtherTree) {							
 							if (!isCopy) {
@@ -702,7 +703,7 @@
 
 					}
 
-					if (targetSetting.async.enable && dragTargetNode && dragTargetNode.isParent && (!dragTargetNode[childsKey] || dragTargetNode[childsKey].length === 0)) {
+					if (moveType == consts.move.TYPE_INNER && targetSetting.async.enable && dragTargetNode && dragTargetNode.isParent && (!dragTargetNode[childsKey] || dragTargetNode[childsKey].length === 0)) {
 						view.asyncNode(targetSetting, dragTargetNode, false, dropCallback);
 					} else {
 						dropCallback();
