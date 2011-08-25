@@ -165,6 +165,7 @@
 		zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
 			if (!newNodes) return null;
 			if (!parentNode) parentNode = null;
+			if (parentNode && !parentNode.isParent && setting.data.keep.leaf) return null;
 			var childsKey = setting.data.key.childs,
 			xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			function addCallback() {
@@ -186,6 +187,7 @@
 		}
 		zTreeTools.copyNode = function(targetNode, node, moveType, isSilent) {
 			if (!node) return null;
+			if (targetNode && !targetNode.isParent && setting.data.keep.leaf && moveType === consts.move.TYPE_INNER) return null;
 			var childsKey = setting.data.key.childs,
 			newNode = tools.clone(node);
 			if (!targetNode) {
@@ -208,7 +210,7 @@
 			return newNode;
 		}
 		zTreeTools.editName = function(node) {
-			if (!node) return;
+			if (!node || !node.tId || node !== data.getNodeCache(setting, node.tId)) return;
 			if (tools.uCanDo(setting)) {
 				view.expandCollapseParentNode(setting, node, true);
 				view.editNode(setting, node)
