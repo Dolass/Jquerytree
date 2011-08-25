@@ -493,7 +493,7 @@
 					tmpNode = nodes[0];
 					if (isTreeInner && (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length>0)) {
 						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
-						if (!tmpTarget && (isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
+						if (!tmpTarget && (event.target.id == targetSetting.treeId || isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
 							tmpTarget = targetSetting.treeObj;
 //							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
 						}
@@ -657,8 +657,12 @@
 					var newNodes = isCopy ? tools.clone(nodes) : nodes;
 
 					function dropCallback() {
-						if (isOtherTree) {
-							if (!isCopy) {view.removeNode(setting, nodes);}
+						if (isOtherTree) {							
+							if (!isCopy) {
+								for(var i=0, l=nodes.length; i<l; i++) {
+									view.removeNode(setting, nodes[i]);
+								}
+							}
 							if (moveType == consts.move.TYPE_INNER) {
 								view.addNodes(targetSetting, dragTargetNode, newNodes);
 							} else {
