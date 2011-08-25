@@ -967,7 +967,7 @@
 				tools.apply(callback, []);
 				return;
 			}
-			if (!node.open && node.isParent && ((!$("#" + node.tId + consts.id.UL).get(0)) || (node[childsKey] && !$("#" + node[childsKey][0].tId).get(0)))) {
+			if (!node.open && node.isParent && ((!$("#" + node.tId + consts.id.UL).get(0)) || (node[childsKey] && node[childsKey].length>0 && !$("#" + node[childsKey][0].tId).get(0)))) {
 				view.appendParentULDom(setting, node);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
