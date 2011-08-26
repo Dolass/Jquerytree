@@ -190,7 +190,7 @@
 		} else if (tools.eqs(event.type, "dblclick")) {
 			treeEventType = "dblclick";
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (setting.view.dblClickExpand && tmp) {
+			if (tmp) {
 				tId = tmp.parentNode.id;
 				nodeEventType = "switchNode";
 			}
@@ -204,7 +204,11 @@
 			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
-					nodeEventCallback = handler.onSwitchNode;
+					if (tools.apply(setting.view.dblClickExpand, [setting.treeId, node], setting.view.dblClickExpand)) {
+						nodeEventCallback = handler.onSwitchNode;
+					} else {
+						nodeEventType = "";
+					}
 					break;
 				case "clickNode" :
 					nodeEventCallback = handler.onClickNode;
