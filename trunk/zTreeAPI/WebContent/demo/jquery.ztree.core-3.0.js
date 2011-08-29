@@ -204,7 +204,8 @@
 			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
-					if (tools.apply(setting.view.dblClickExpand, [setting.treeId, node], setting.view.dblClickExpand)) {
+					if (tools.eqs(event.type, "click") 
+						|| (tools.eqs(event.type, "dblclick") && tools.apply(setting.view.dblClickExpand, [setting.treeId, node], setting.view.dblClickExpand))) {
 						nodeEventCallback = handler.onSwitchNode;
 					} else {
 						nodeEventType = "";
@@ -1272,9 +1273,8 @@
 					if (expandFlag !== true && expandFlag !== false) {
 						expandFlag = !node.open;
 					}
-					if (expandFlag === node.open && !sonSign) {
-						return null;
-					} else if (expandFlag && (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false)) {
+
+					if (expandFlag && (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false)) {
 						return null;
 					} else if (!expandFlag && (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false)) {
 						return null;
@@ -1282,6 +1282,10 @@
 					if (expandFlag) {
 						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
+					if (expandFlag === node.open && !sonSign) {
+						return null;
+					}
+					
 					data.getRoot(setting).expandTriggerFlag = true;
 					if (sonSign) {
 						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
