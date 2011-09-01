@@ -654,8 +654,8 @@
 		},
 		onZTreeDblclick: function(event, node) {
 			var setting = settings[event.data.treeId];
-			if (tools.apply(setting.callback.beforeDblclick, [setting.treeId, node], true)) {
-				tools.apply(setting.callback.onDblclick, [event, setting.treeId, node]);
+			if (tools.apply(setting.callback.beforeDblClick, [setting.treeId, node], true)) {
+				tools.apply(setting.callback.onDblClick, [event, setting.treeId, node]);
 			}
 			return true;
 		},
