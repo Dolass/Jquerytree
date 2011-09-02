@@ -8,9 +8,10 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2011-06-01
+ * Date: 2011-09-01
  */
 (function($){
+	//default consts of excheck
 	var _consts = {
 		event: {
 			CHECK: "ztree_check"
@@ -33,6 +34,7 @@
 			TYPE_LEVEL: "level"
 		}
 	},
+	//default setting of excheck
 	_setting = {
 		check: {
 			enable: false,
@@ -53,11 +55,14 @@
 			onCheck:null
 		}
 	},
+	//default root of excheck
 	_initRoot = function (setting) {
 		var r = data.getRoot(setting);
 		r.radioCheckedList = [];
 	},
+	//default cache of excheck
 	_initCache = function(treeId) {},
+	//default bind event of excheck
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
@@ -66,6 +71,7 @@
 			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
 	},
+	//default event proxy of excheck
 	_eventProxy = function(e) {
 		var target = e.target,
 		setting = data.getSetting(e.data.treeId),
@@ -113,6 +119,7 @@
 		};
 		return proxyResult
 	},
+	//default init node of excheck
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		var checkedKey = setting.data.key.checked;
@@ -124,6 +131,7 @@
 		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
 	},
+	//add dom for check
 	_beforeA = function(setting, node, html) {
 		var checkedKey = setting.data.key.checked;
 		if (setting.check.enable) {
@@ -135,6 +143,7 @@
 			html.push("<button type='button' ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
 		}
 	},
+	//update zTreeObj, add method of check
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
 			var checkedKey = this.setting.data.key.checked;
@@ -181,7 +190,7 @@
 			}
 		}
 	},
-
+	//method of operate data
 	_data = {
 		getRadioCheckedList: function(setting) {
 			var checkedList = data.getRoot(setting).radioCheckedList;
@@ -235,17 +244,13 @@
 			chkFlag = -1;
 			if (node[childsKey]) {
 				for (var i = 0, l = node[childsKey].length; i < l; i++) {
-					var cNode = node[childsKey][i],
-					cNodeHasChild = cNode[childsKey] && cNode[childsKey].length>0;
-//					var tmpTrueRadio = (cNode.nocheck === true) ? false : cNode[checkedKey];
-//					var tmpTrueChk = (cNode.nocheck === true) ? node[checkedKey] : cNode[checkedKey];
+					var cNode = node[childsKey][i];
 					var tmp = -1;
 					if (setting.check.chkStyle == consts.radio.STYLE) {
 						if (cNode.nocheck === true) {
 							tmp = cNode.check_Child_State;
 						} else if (cNode.nocheck !== true && cNode[checkedKey]) {
 							tmp = 2;
-//						} else if (cNode.nocheck !== true && !cNode[checkedKey]) {
 						} else {
 							tmp = cNode.check_Child_State > 0 ? 2:0;
 						}
@@ -260,7 +265,6 @@
 							tmp = cNode.check_Child_State;
 						} else if (cNode.nocheck !== true && cNode[checkedKey] ) {
 							tmp = (cNode.check_Child_State === -1 || cNode.check_Child_State === 2) ? 2 : 1;
-//						} else if (cNode.nocheck === true && !cNode[checkedKey] ) {
 						} else {
 							tmp = (cNode.check_Child_State > 0) ? 1 : 0;
 						}
@@ -275,18 +279,15 @@
 						}
 					}
 				}
-//			} else if (node.nocheck !== true) {
-//				chkFlag = -1;
 			}
 			node.check_Child_State = chkFlag;
-//			console.log(node.name + " ---> " + node.check_Child_State );
 		}
 	},
-
+	//method of event proxy
 	_event = {
 
 	},
-
+	//method of event handler
 	_handler = {
 		onCheckNode: function (event, node) {
 			var setting = data.getSetting(event.data.treeId),
@@ -315,11 +316,11 @@
 			return true;
 		}
 	},
-
+	//method of tools for zTree
 	_tools = {
 
 	},
-
+	//method of operate ztree dom
 	_view = {
 		checkNodeRelation: function(setting, node) {
 			var pNode, i, l,
@@ -377,7 +378,6 @@
 		},
 		makeChkClass: function(setting, node) {
 			var checkedKey = setting.data.key.checked,
-//			childsKey = setting.data.key.childs,
 			c = consts.checkbox, r = consts.radio,
 			fullStyle = "";
 			if (setting.check.chkStyle == r.STYLE) {
@@ -387,7 +387,6 @@
 			}
 			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
 			chkName = node.check_Focus ? chkName + "_" + c.FOCUS : chkName;
-//			console.log(node.name + "," + node.checked + "," + node.check_Child_State + " ---- " + c.DEFAULT+" "+chkName);
 			return c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
@@ -436,7 +435,6 @@
 			obj.addClass(view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
-//			console.log("--------- setParentNodeCheckBox --------- " + node.name + ",   " + node.check_Child_State);
 			var childsKey = setting.data.key.childs,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
@@ -450,10 +448,6 @@
 				if (!value) {
 					var pNodes = node.getParentNode()[childsKey];
 					for (var i = 0, l = pNodes.length; i < l; i++) {
-//						console.log(pNodes[i].name);
-//						console.log("pNodes[i].check_Child_State == " + pNodes[i].check_Child_State);
-//						console.log("pNodes[i].check_Child_State !== -1_____" + (pNodes[i].check_Child_State !== -1));
-//						console.log((pNodes[i].nocheck === true) +" && "+ (pNodes[i].check_Child_State !== -1));
 						if ((pNodes[i].nocheck !== true && pNodes[i][checkedKey])
 						|| (pNodes[i].nocheck === true && pNodes[i].check_Child_State > 0)) {
 							pSign = false;
@@ -461,7 +455,6 @@
 						}
 					}
 				}
-//				console.log(node.name + ", pSign = " + pSign);
 				if (pSign) {
 					view.setParentNodeCheckBox(setting, node.getParentNode(), value);
 				}
