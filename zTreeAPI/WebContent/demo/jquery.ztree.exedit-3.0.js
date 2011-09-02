@@ -8,9 +8,10 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2011-06-01
+ * Date: 2011-09-01
  */
 (function($){
+	//default consts of exedit
 	var _consts = {
 		event: {
 			DRAG: "ztree_drag",
@@ -34,6 +35,7 @@
 			TMPTARGET_NODE: "tmpTargetNode"
 		}
 	},
+	//default setting of exedit
 	_setting = {
 		edit: {
 			enable: false,
@@ -70,6 +72,7 @@
 			onRename:null
 		}
 	},
+	//default root of exedit
 	_initRoot = function (setting) {
 		var r = data.getRoot(setting);
 		r.curEditNode = null;
@@ -80,7 +83,9 @@
 		r.dragMaskList = new Array();
 		r.showHoverDom = true;
 	},
+	//default cache of exedit
 	_initCache = function(treeId) {},
+	//default bind event of exedit
 	_bindEvent = function(setting) {
 		var o = setting.treeObj;
 		var c = consts.event;
@@ -104,6 +109,7 @@
 			tools.apply(setting.callback.onDrop, [event, treeId, treeNodes, targetNode, moveType]);
 		});
 	},
+	//default event proxy of exedit
 	_eventProxy = function(e) {
 		var target = e.target,
 		setting = data.getSetting(e.data.treeId),
@@ -156,11 +162,13 @@
 		};
 		return proxyResult
 	},
+	//default init node of exedit
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		n.isHover = false;
 		n.editNameFlag = false;
 	},
+	//update zTreeObj, add method of edit
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.addNodes = function(parentNode, newNodes, isSilent) {
 			if (!newNodes) return null;
@@ -254,7 +262,7 @@
 			return this.refresh();
 		}
 	},
-
+	//method of operate data
 	_data = {
 		setSonNodeLevel: function(setting, parentNode, node) {
 			if (!node) return;
@@ -266,11 +274,11 @@
 			}
 		}
 	},
-
+	//method of event proxy
 	_event = {
 
 	},
-
+	//method of event handler
 	_handler = {
 		onHoverOverNode: function(event, node) {
 			var setting = data.getSetting(event.data.treeId),
@@ -293,9 +301,9 @@
 			var i,l,
 			setting = data.getSetting(eventMouseDown.data.treeId),
 			root = data.getRoot(setting);
-			//右键、禁用拖拽功能 不能拖拽
+			//right click can't drag & drop
 			if (eventMouseDown.button == 2 || !setting.edit.enable || (!setting.edit.drag.isCopy && !setting.edit.drag.isMove)) return true;
-			//编辑输入框内不能拖拽节点
+			//input of edit node name can't drag & drop
 			var target = eventMouseDown.target,
 			_nodes = data.getRoot(setting).curSelectedList,
 			nodes = [];
@@ -331,7 +339,7 @@
 				if (!tools.uCanDo(setting)) {
 					return true;
 				}
-				//避免鼠标误操作，对于第一次移动小于consts.move.MINMOVESIZE时，不开启拖拽功能
+				//avoid start drag after click node
 				if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < setting.edit.drag.minMoveSize
 					&& Math.abs(mouseDownY - event.clientY) < setting.edit.drag.minMoveSize) {
 					return true;
@@ -342,8 +350,6 @@
 				$("body").css("cursor", "pointer");
 
 				if (root.dragFlag == 0) {
-					//避免beforeDrag alert时，得到返回值之前仍能拖拽的Bug
-//					root.dragFlag = -1;
 					if (tools.apply(setting.callback.beforeDrag, [setting.treeId, nodes], true) == false) {
 						_docMouseUp(event);
 						return true;
@@ -365,7 +371,6 @@
 					root.dragFlag = 1;
 					root.showHoverDom = false;
 					tools.showIfameMask(setting, true);
-
 
 					//sort
 					var isOrder = true, lastIndex = -1;
@@ -391,7 +396,7 @@
 						nextNode = nodes[nodes.length-1].getNextNode();
 					}
 
-					//设置节点为选中状态
+					//set node in selected
 					curNode = $("<ul class='zTreeDragUL'></ul>");
 					for (i=0, l=nodes.length; i<l; i++) {
 						tmpNode = nodes[i];
@@ -418,7 +423,6 @@
 					tmpArrow.attr("id", "zTreeMove_arrow_tmp");
 					tmpArrow.appendTo("body");
 
-					//触发 DRAG 拖拽事件，返回正在拖拽的源数据对象
 					setting.treeObj.trigger(consts.event.DRAG, [setting.treeId, nodes]);
 				}
 
@@ -430,7 +434,7 @@
 					tmpTarget = null;
 					tmpTargetNodeId = null;
 
-					//判断是否不同的树
+					//judge drag & drop in multi ztree
 					isOtherTree = false;
 					targetSetting = setting;
 					var settings = data.getSettings();
@@ -462,14 +466,14 @@
 					isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width()+10) >= scrollWidth);
 
 					if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
-						//任意节点 移到 其他节点
+						//get node <li> dom
 						var targetObj = event.target;
 						while (targetObj && targetObj.tagName && !tools.eqs(targetObj.tagName, "li") && targetObj.id != targetSetting.treeId) {
 							targetObj = targetObj.parentNode;
 						}
 
 						var canMove = true;
-						//如果移到自己 或者自己的子集，则不能当做临时目标
+						//don't move to self or childs of self
 						for (i=0, l=nodes.length; i<l; i++) {
 							tmpNode = nodes[i];
 							if (targetObj.id === tmpNode.tId) {
@@ -489,15 +493,14 @@
 						}
 					}
 
-					//确保鼠标在zTree内部
+					//the mouse must be in zTree
 					tmpNode = nodes[0];
 					if (isTreeInner && (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length>0)) {
-						//只有移动到zTree容器的边缘才算移到 根（排除根节点在本棵树内的移动）
+						//judge mouse move in root of ztree
 						if (!tmpTarget && (event.target.id == targetSetting.treeId || isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
 							tmpTarget = targetSetting.treeObj;
-//							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
 						}
-						//滚动条自动滚动
+						//auto scroll top
 						if (isTop) {
 							targetSetting.treeObj.scrollTop(targetSetting.treeObj.scrollTop()-10);
 						} else if (isBottom)  {
@@ -508,7 +511,7 @@
 						} else if (isRight) {
 							targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+10);
 						}
-						//目标节点在可视区域左侧，自动移动横向滚动条
+						//auto scroll left
 						if (tmpTarget && tmpTarget != targetSetting.treeObj && tmpTarget.offset().left < targetSetting.treeObj.offset().left) {
 							targetSetting.treeObj.scrollLeft(targetSetting.treeObj.scrollLeft()+ tmpTarget.offset().left - targetSetting.treeObj.offset().left);
 						}
@@ -646,7 +649,6 @@
 				if (curNode) curNode.remove();
 				if (tmpArrow) tmpArrow.remove();
 
-				//显示树上 移动后的节点
 				var isCopy = (event.ctrlKey && setting.edit.drag.isMove && setting.edit.drag.isCopy) || (!setting.edit.drag.isMove && setting.edit.drag.isCopy);
 				if (!isCopy && tmpTarget && tmpTargetNodeId && nodes[0].parentTId && tmpTargetNodeId==nodes[0].parentTId && moveType == consts.move.TYPE_INNER) {
 					tmpTarget = null;
@@ -655,7 +657,6 @@
 					var dragTargetNode = tmpTargetNodeId == null ? null: data.getNodeCache(targetSetting, tmpTargetNodeId);
 					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, nodes, dragTargetNode, moveType], true) == false) return;
 					var newNodes = isCopy ? tools.clone(nodes) : nodes;
-
 					
 					function dropCallback() {
 						if (isOtherTree) {							
@@ -709,14 +710,11 @@
 						dropCallback();
 					}
 
-					//触发 DROP 拖拽事件，返回拖拽的目标数据对象
 					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNodes, dragTargetNode, moveType]);
-
 				} else {
 					for (i=0, l=nodes.length; i<l; i++) {
 						view.selectNode(targetSetting, nodes[i], i>0);
 					}
-					//触发 DROP 拖拽事件，返回null
 					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null]);
 				}
 			}
@@ -728,7 +726,7 @@
 			return true;
 		}
 	},
-
+	//method of tools for zTree
 	_tools = {
 		getAbs: function (obj) {
 			var oRect = obj.getBoundingClientRect();
@@ -754,13 +752,13 @@
 		},
 		showIfameMask: function(setting, showSign) {
 			var root = data.getRoot(setting);
-			//清空所有遮罩
+			//clear full mask
 			while (root.dragMaskList.length > 0) {
 				root.dragMaskList[0].remove();
 				root.dragMaskList.shift();
 			}
 			if (showSign) {
-				//显示遮罩
+				//show mask
 				var iframeList = $("iframe");
 				for (var i = 0, l = iframeList.length; i < l; i++) {
 					var obj = iframeList.get(i),
@@ -772,7 +770,7 @@
 			}
 		}
 	},
-
+	//method of operate ztree dom
 	_view = {
 		addEditBtn: function(setting, node) {
 			if (node.editNameFlag || $("#" + node.tId + consts.id.EDIT).length > 0) {
@@ -906,7 +904,7 @@
 				moveType = consts.move.TYPE_INNER;
 			}
 
-			//移动节点Dom
+			//move node Dom
 			var targetObj, target_ulObj;
 			if (targetNodeIsRoot) {
 				targetObj = setting.treeObj;
@@ -929,7 +927,7 @@
 				targetObj.after(nodeDom);
 			}
 
-			//进行数据结构修正
+			//repair the data after move
 			var i,l,
 			tmpSrcIndex = -1,
 			tmpTargetIndex = 0,
@@ -964,7 +962,7 @@
 			}
 			if (moveType == consts.move.TYPE_INNER) {
 				if (targetNodeIsRoot) {
-					//成为根节点，则不操作目标节点数据
+					//parentTId of root node is null
 					node.parentTId = null;
 				} else {
 					targetNode.isParent = true;
@@ -1009,14 +1007,13 @@
 			data.fixPIdKeyValue(setting, node);
 			data.setSonNodeLevel(setting, node.getParentNode(), node);
 
-			//进行HTML结构修正
-			//处理被移动的节点
+			//repair node what been moved
 			view.setNodeLineIcos(setting, node);
 			view.repairNodeLevelClass(setting, node, oldLevel)
 
-			//处理原节点的父节点
+			//repair node's old parentNode dom
 			if (!setting.data.keep.parent && oldParentNode[childsKey].length < 1) {
-				//原所在父节点无子节点
+				//old parentNode has no childs node
 				oldParentNode.isParent = false;
 				oldParentNode.open = false;
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL),
@@ -1027,16 +1024,16 @@
 				tmp_ulObj.css("display", "none");
 
 			} else if (oldNeighbor) {
-				//原所在位置需要处理的相邻节点
+				//old neigbor node
 				view.setNodeLineIcos(setting, oldNeighbor);
 			}
 
-			//处理目标节点的相邻节点
+			//new neigbor node
 			if (newNeighbor) {
 				view.setNodeLineIcos(setting, newNeighbor);
 			}
 
-			//修正父节点Check状态
+			//repair checkbox / radio
 			if (setting.checkable) {
 				view.repairChkClass(setting, oldParentNode);
 				view.repairParentChkClassWithSelf(setting, oldParentNode);
@@ -1044,8 +1041,7 @@
 					view.repairParentChkClassWithSelf(setting, node);
 			}
 
-			//移动后，则必须展开新位置的全部父节点
-//			console.log("isSilent = " + isSilent);
+			//expand parents after move
 			if (!isSilent) {
 				view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
 			}
@@ -1063,7 +1059,6 @@
 			delete node[childsKey];
 
 			if (!setting.data.keep.parent) {
-				//父节点
 				node.isParent = false;
 				node.open = false;
 				var tmp_switchObj = $("#" + node.tId + consts.id.SWITCH),
@@ -1085,7 +1080,6 @@
 			data.removeNodeCache(setting, node);
 			data.removeSelectedNode(setting, node);
 
-			//进行数据结构修正
 			for (var i = 0, l = parentNode[childsKey].length; i < l; i++) {
 				if (parentNode[childsKey][i].tId == node.tId) {
 					parentNode[childsKey].splice(i, 1);
@@ -1094,9 +1088,9 @@
 			}
 			var tmp_ulObj,tmp_switchObj,tmp_icoObj;
 
-			//处理原节点的父节点的图标、线
+			//repair nodes old parent
 			if (!setting.data.keep.parent && parentNode[childsKey].length < 1) {
-				//原所在父节点无子节点
+				//old parentNode has no childs node
 				parentNode.isParent = false;
 				parentNode.open = false;
 				tmp_ulObj = $("#" + parentNode.tId + consts.id.UL);
@@ -1107,7 +1101,7 @@
 				tmp_ulObj.css("display", "none");
 
 			} else if (setting.view.showLine && parentNode[childsKey].length > 0) {
-				//原所在父节点有子节点
+				//old parentNode has childs node
 				var newLast = parentNode[childsKey][parentNode[childsKey].length - 1];
 				newLast.isLastNode = true;
 				newLast.isFirstNode = (parentNode[childsKey].length == 1);
@@ -1116,7 +1110,7 @@
 				tmp_icoObj = $("#" + newLast.tId + consts.id.ICON);
 				if (parentNode == root) {
 					if (parentNode[childsKey].length == 1) {
-						//原为根节点 ，且移动后只有一个根节点
+						//node was root, and ztree has only one root after move node
 						view.replaceSwitchClass(tmp_switchObj, consts.line.ROOT);
 					} else {
 						var tmp_first_switchObj = $("#" + parentNode[childsKey][0].tId + consts.id.SWITCH);
@@ -1176,7 +1170,6 @@
 	data.addInitNode(_initNode);
 	data.addInitProxy(_eventProxy);
 	data.addInitRoot(_initRoot);
-//	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 
 	var _cancelPreSelectedNode = view.cancelPreSelectedNode;

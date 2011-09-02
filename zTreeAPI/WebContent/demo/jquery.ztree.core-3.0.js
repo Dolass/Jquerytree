@@ -8,10 +8,11 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2011-06-01
+ * Date: 2011-09-01
  */
 (function($){
 	var settings = [], roots = [], caches = [], zId = 0,
+	//default consts of core
 	_consts = {
 		event: {
 			NODECREATED: "ztree_nodeCreated",
@@ -45,6 +46,7 @@
 			CURSELECTED: "curSelectedNode"
 		}
 	},
+	//default setting of core
 	_setting = {
 		treeId: "",
 		treeObj: null,
@@ -105,6 +107,8 @@
 			onCollapse:null
 		}
 	},
+	//default root of core
+	//zTree use root to save full data
 	_initRoot = function (setting) {
 		var r = data.getRoot(setting);
 		if (!r) {
@@ -117,6 +121,7 @@
 		r.noSelection = true;
 		r.createdNodes = [];
 	},
+	//default cache of core
 	_initCache = function(setting) {
 		var c = data.getCache(setting);
 		if (!c) {
@@ -126,6 +131,7 @@
 		c.nodes = [];
 		c.doms = [];
 	},
+	//default bindEvent of core
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
@@ -159,6 +165,7 @@
 			tools.apply(setting.callback.onAsyncError, [event, treeId, node, XMLHttpRequest, textStatus, errorThrown]);
 		});
 	},
+	//default event proxy of core
 	_eventProxy = function(event) {
 		var target = event.target,
 		setting = settings[event.data.treeId],
@@ -199,7 +206,7 @@
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 			if (tmp) {tId = tmp.parentNode.id;}
 		}
-
+		// event to node
 		if (tId.length>0) {
 			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
@@ -216,6 +223,7 @@
 					break;
 			}
 		}
+		// event to zTree
 		switch (treeEventType) {
 			case "mousedown" :
 				treeEventCallback = handler.onZTreeMousedown;
@@ -240,6 +248,7 @@
 		};
 		return proxyResult
 	},
+	//default init node of core
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
 		var childsKey = setting.data.key.childs;
@@ -249,7 +258,6 @@
 		if (n[childsKey] && n[childsKey].length > 0) {
 			if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
 			n.open = !!n.open;
-//			n.open = openFlag && !!n.open;
 			n.isParent = true;
 		} else {
 			n.open = false;
@@ -276,7 +284,7 @@
 		innerAfterA: [],
 		zTreeTools: []
 	},
-
+	//method of operate data
 	data = {
 		addNodeCache: function(setting, node) {
 			data.getCache(setting).nodes[node.tId] = node;
@@ -551,7 +559,7 @@
 			}
 		}
 	},
-
+	//method of event proxy
 	event = {
 		bindEvent: function(setting) {
 			for (var i=0, j=_init.bind.length; i<j; i++) {
@@ -611,7 +619,7 @@
 			return r;
 		}
 	},
-
+	//method of event handler
 	handler = {
 		onSwitchNode: function (event, node) {
 			var setting = settings[event.data.treeId];
@@ -667,7 +675,7 @@
 			return (typeof setting.callback.onRightClick) != "function";
 		}
 	},
-
+	//method of tools for zTree
 	tools = {
 		apply: function(fun, param, defaultValue) {
 			if ((typeof fun) == "function") {
@@ -726,7 +734,7 @@
 			return true;
 		}
 	},
-
+	//method of operate ztree dom
 	view = {
 		addNodes: function(setting, parentNode, newNodes, isSilent) {
 			if (setting.data.keep.leaf && parentNode && !parentNode.isParent) {
@@ -781,7 +789,7 @@
 
 				var childHtml = [];
 				if (node[childsKey] && node[childsKey].length > 0) {
-					//必须先初始化子节点，否则父节点check状态有问题
+					//make childs html first, because checkType
 					childHtml = view.appendNodes(setting, level + 1, node[childsKey], node, initFlag, openFlag && node.open);
 				}
 				if (openFlag) {
@@ -1206,7 +1214,7 @@
 			}
 		}
 	};
-
+	// zTree defind
 	$.fn.zTree = {
 		consts : _consts,
 		_z : {
