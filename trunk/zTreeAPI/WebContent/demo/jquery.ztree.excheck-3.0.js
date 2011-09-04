@@ -1,5 +1,5 @@
 /*
- * JQuery zTree excheck 3.0
+ * JQuery zTree excheck 3.0 beta
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
