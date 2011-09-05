@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>iconSkin</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>String</span>iconSkin</h2>
+	<h3><span>目录: [参数说明] --> [zTreeNodes 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>设定节点的自定义图标在 CSS 中对应的自定义 ClassName（<font style="color:red">从 v1.02 版本开始支持此功能</font>）</p>
+			<p>对于 CSS 图标具体定义方法，请参考 <A href="css.html">zTreeStyle.css</A> 说明</p>
+			<p style="color:red">因为 CSS 选择器功能的支持问题，因此不兼容 IE6，做项目必须兼容 IE6 的朋友，请不要使用此功能</p>
+			<p style="color:red">按照 CSS 的优先规则，为避免异常，建议将自定义的 CSS 属性放在 “.tree li button.ico_open”、“.tree li button.ico_close”、“.tree li button.ico_docu” 这几个定义之后。</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>设定某节点自定义图标为 sim 系列中的图标</p>
+	<h5 xmlns="">zTreeNodes 举例:</h5>
+	<pre xmlns=""><code>var zTreeNodes = [{
+&nbsp;&nbsp;&nbsp;&nbsp;iconSkin : "sim1",
+&nbsp;&nbsp;&nbsp;&nbsp;......
+}];</code></pre>
+
+</div>
+</div>
+
+</body></html>

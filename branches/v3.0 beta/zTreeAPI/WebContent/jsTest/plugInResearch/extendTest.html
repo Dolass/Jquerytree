@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>extend Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+	  <div id="x">x</div>
+	  <div id="xDeep">xDeep</div>
+	  <div id="z">z</div>
+	  <div id="zDeep">zDeep</div>
+	  <div id="t">t</div>
+	  <div id="tDeep">tDeep</div>
+	<script type="text/javascript" src="../jQuery/jquery-1.4.2.js"></script>
+	<script type="text/javascript">
+		var a = {a:{a1:1, a2:2}};
+		var b = {b:function(){alert('b');}};
+		var x, xDeep, z, zDeep, t, tDeep;
+
+(function($) {
+	var i=1, j=2;
+	function p() {
+		alert('p');
+	}
+
+	var f = {
+		f: function() {alert(i+','+j); i++; j++; p();}
+	};
+
+	var zTreeExtend = function(options) {
+		var deep = options["deep"];
+		if (deep === true) {
+			this.extend(deep, f);
+			this.extend(deep, b);
+		} else {
+			this.extend(f);
+			this.extend(b);
+		}
+	};
+	$.fn.zTreeInitList = [zTreeExtend];
+
+	$.fn.zTree = function(options) {
+		for (var i=0, j=this.zTreeInitList.length; i<j; i++) {
+			console.log(this.zTreeInitList[i]);
+			this.zTreeInitList[i].apply(this, arguments);
+		}
+	};
+})(jQuery);
+
+(function($) {
+	var ii=-1, jj=-2;
+	function pp() {
+		alert('pp');
+	}
+
+	var ff = {
+		ff: function() {alert(ii+','+jj); ii--; jj--; pp();}
+	};
+
+	var zTreeExtend = function(options) {
+		var deep = options["deep"];
+		if (deep === true) {
+			this.extend(deep, ff);
+		} else {
+			this.extend(ff);
+		}
+	}
+	$.fn.zTreeInitList.push(zTreeExtend);
+
+})(jQuery);
+
+		$(document).ready(function(){
+			x = $("#x"); xDeep = $("#xDeep");
+			z = $("#z"); zDeep = $("#zDeep");
+			t = $("#t"); tDeep = $("#tDeep");
+
+			x.extend(a);
+			xDeep.extend(true, a);
+			console.log("1 x.a.a1 = " + x.a.a1);
+			console.log("1 xDeep.a.a1 = " + xDeep.a.a1);
+			a.a.a1 = 3;
+			console.log("2 x.a.a1 = " + x.a.a1);
+			console.log("2 xDeep.a.a1 = " + xDeep.a.a1);
+
+			z.extend(b);
+			zDeep.extend(true,b);
+			console.log("1 z.b = " + z.b);
+			console.log("1 zDeep.b = " + zDeep.b);
+			b.b = function(){alert('bb');};
+			console.log("2 z.b = " + z.b);
+			console.log("2 zDeep.b = " + zDeep.b);
+
+			t.zTree({deep:true});
+			t.f();
+			t.ff();
+
+//			t.zTreeExtend();
+//			t.f();
+//			tDeep.zTreeExtend();
+//			tDeep.f();
+//			t.b();
+//			t.pp();
+
+		});
+	</script>
+  </body>
+</html>

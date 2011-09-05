@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>checkable</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>Boolean</span>checkable</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>确定 zTree 的节点上是否显示 CheckBox</p>
+			<p style="color:red">目前默认的 checkbox/radio 不支持只出现于部分节点 以及混合出现，如果有需求可以通过自定义控件方式增加，或者利用 nodeCreated 事件回调函数对相应节点的 checkbox 进行隐藏</p>
+			<p>默认值：false</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>需要显示 CheckBox</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;checkable : true,
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_checkType.html">checkType</A></h4>
+	<h3>相关事件</h3>
+	<h4><A href="e_change.html">change</A></h4>
+
+</div>
+</div>
+
+</body></html>

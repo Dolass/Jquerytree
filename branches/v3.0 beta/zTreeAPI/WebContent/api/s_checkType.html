@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=gb2312" />
+<title>checkType</title>
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+<link rel="shortcut icon" href="style/img/favicon.ico" />
+</head>
+<body id="split">
+<div id="content">
+<div rel="bugAndUpdate">
+	<h2><span>JSON</span>checkType</h2>
+	<h3><span>目录: [参数说明] --> [setting 详解]</span>概述</h3>
+	<div class="desc">
+		<p></p>
+		<div class="longdesc">
+			<p>当 checkable = true 且 checkStyle = "checkbox" 时，checkType 配置勾选 checkbox 对于父子节点关联关系。</p>
+			<p>规则说明：
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y 属性定义 CheckBox 被勾选后的情况；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;N 属性定义 CheckBox 取消勾选后的情况；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"p" 表示操作会影响父级节点；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"s" 表明操作会影响子级节点。</p>
+			<p style="color:red;">请注意大小写，不要改变</p>
+			<p style="color:red;">请注意在取消勾选的操作时，如果设置影响父级节点，只有在父节点下的子节点全部取消勾选时才会生效。</p>
+			<p>默认值：{ "Y": "ps", "N": "ps" }</p>
+		</div>
+	</div>
+	<h3>示例</h3>
+	<h4>描述：</h4>
+	<p>CheckBox 被勾选后，只影响父级节点；取消选中后，只影响子级节点</p>
+	<h5 xmlns="">setting 举例:</h5>
+	<pre xmlns=""><code>var setting = {
+&nbsp;&nbsp;&nbsp;&nbsp;checkable : true,
+&nbsp;&nbsp;&nbsp;&nbsp;checkType : { "Y": "p", "N": "s" },
+&nbsp;&nbsp;&nbsp;&nbsp;......
+};</code></pre>
+	<h3>相关参数</h3>
+	<h4><A href="s_checkable.html">checkable</A></h4>
+
+</div>
+</div>
+
+</body></html>

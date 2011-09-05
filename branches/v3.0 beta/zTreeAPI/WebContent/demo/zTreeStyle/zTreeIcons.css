@@ -1,0 +1,40 @@
+/*-------------------------------------
+zTree Icons Skin
+
+version:	2.0
+author:		Hunter.z
+email:		hunter.z@263.net
+website:	http://code.google.com/p/jquerytree/
+
+-------------------------------------*/
+
+.ztree li button.sim1_ico_open{ background:url(./img/sim/1_open.png);}
+.ztree li button.sim1_ico_close{ background:url(./img/sim/1_close.png);}
+.ztree li button.sim2_ico_open{ background:url(./img/sim/2.png);}
+.ztree li button.sim2_ico_close{ background:url(./img/sim/2.png);}
+.ztree li button.sim2_ico_docu{ background:url(./img/sim/2.png);}
+.ztree li button.sim3_ico_docu{ background:url(./img/sim/3.png);}
+.ztree li button.sim4_ico_docu{ background:url(./img/sim/4.png);}
+.ztree li button.sim5_ico_docu{ background:url(./img/sim/5.png);}
+.ztree li button.sim6_ico_open{ background:url(./img/sim/6.png);}
+.ztree li button.sim6_ico_close{ background:url(./img/sim/6.png);}
+.ztree li button.sim7_ico_docu{ background:url(./img/sim/7.png);}
+.ztree li button.sim8_ico_docu{ background:url(./img/sim/8.png);}
+.ztree li button.sim9_ico_docu{ background:url(./img/sim/9.png);}
+.ztree li button.sim10_ico_docu{ background:url(./img/sim/10.png);}
+
+.ztree li button.flag1_ico_open{ background:url(./img/flag/1_open.png);}
+.ztree li button.flag1_ico_close{ background:url(./img/flag/1_close.png);}
+.ztree li button.flag2_ico_open{ background:url(./img/flag/2.png);}
+.ztree li button.flag2_ico_close{ background:url(./img/flag/2.png);}
+.ztree li button.flag2_ico_docu{ background:url(./img/flag/2.png);}
+.ztree li button.flag3_ico_docu{ background:url(./img/flag/3.png);}
+.ztree li button.flag4_ico_docu{ background:url(./img/flag/4.png);}
+.ztree li button.flag5_ico_docu{ background:url(./img/flag/5.png);}
+.ztree li button.flag6_ico_docu{ background:url(./img/flag/6.png);}
+.ztree li button.flag7_ico_docu{ background:url(./img/flag/7.png);}
+.ztree li button.flag8_ico_docu{ background:url(./img/flag/8.png);}
+.ztree li button.flag9_ico_docu{ background:url(./img/flag/9.png);}
+.ztree li button.flag10_ico_docu{ background:url(./img/flag/10.png);}
+
+
