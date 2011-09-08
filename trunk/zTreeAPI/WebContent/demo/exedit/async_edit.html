@@ -66,7 +66,7 @@
 		function addHoverDom(treeId, treeNode) {
 			var sObj = $("#" + treeNode.tId + "_span");
 			if ($("#addBtn_"+treeNode.id).length>0) return;
-			var addStr = "<button type='button' class='add2' id='addBtn_" + treeNode.id
+			var addStr = "<button type='button' class='add' id='addBtn_" + treeNode.id
 				+ "' title='add node' onfocus='this.blur();'></button>";
 			sObj.append(addStr);
 			var btn = $("#addBtn_"+treeNode.id);
@@ -86,7 +86,6 @@
 	</SCRIPT>
 	<style type="text/css">
 .ztree li button.add {margin-left:2px; margin-right: -1px; background-position:-112px 0; vertical-align:top; *vertical-align:middle}
-.ztree li button.add2 {margin-left:2px; margin-right: -1px; background-position:-112px -16px; vertical-align:top; *vertical-align:middle}
 	</style>
 </HEAD>
 
