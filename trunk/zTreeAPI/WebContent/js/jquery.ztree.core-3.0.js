@@ -679,7 +679,7 @@
 	tools = {
 		apply: function(fun, param, defaultValue) {
 			if ((typeof fun) == "function") {
-				return fun.apply(zt, param);
+				return fun.apply(zt, param?param:[]);
 			}
 			return defaultValue;
 		},
