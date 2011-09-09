@@ -10,11 +10,9 @@
 <font color=#041594>
 *2011.10.01* v3.0
    * 【修改】setting.view.title 默认值设置为 ""，初始化时自动赋值为 setting.view.name 这样可避免希望 title 与 name 一致的用户反复设置参数
+   * 【修改】异步加载 & 编辑功能 共存时，拖拽节点 或 增加节点 导致 ie 上报错的 bug （apply 方法引起）
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
-   * 【修改 bug 】 异步加载 & 编辑功能 共存的这个DEMO 在IE上也报错，不知道是不是异步加载的问题？ ie6上面 如果是异步加载的话，添加节点的时候，树形菜单第一次加载完毕直接添加节点不行，报JS 错误，加载过一次再添加没有问题？     这是什么原因
-
-
-
+   * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
 
 *2011.09.05* v3.0 beta
    * 【修改】zTree 的 js 代码架构全面修改，并且拆分
