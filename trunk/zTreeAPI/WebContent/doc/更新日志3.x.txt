@@ -11,6 +11,8 @@
 *2011.10.01* v3.0
    * 【修改】setting.view.title 默认值设置为 ""，初始化时自动赋值为 setting.view.name 这样可避免希望 title 与 name 一致的用户反复设置参数
    * 【修改】异步加载 & 编辑功能 共存时，拖拽节点 或 增加节点 导致 ie 上报错的 bug （apply 方法引起）
+   * 【修改】zTreeStyle 样式冲突
+      将 zTreeStyle 的第 82 行 ul.zTreeDragUL 修改为  ul.ztree.zTreeDragUL，并且将该行的 overflow:auto; 修改为 overflow:hidden;
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
 
