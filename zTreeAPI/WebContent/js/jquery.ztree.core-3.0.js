@@ -211,7 +211,9 @@
 			node = data.getNodeCache(setting, tId);
 			switch (nodeEventType) {
 				case "switchNode" :
-					if (tools.eqs(event.type, "click") 
+					if (!node.isParent) {
+						nodeEventType = "";
+					} else if (tools.eqs(event.type, "click") 
 						|| (tools.eqs(event.type, "dblclick") && tools.apply(setting.view.dblClickExpand, [setting.treeId, node], setting.view.dblClickExpand))) {
 						nodeEventCallback = handler.onSwitchNode;
 					} else {
