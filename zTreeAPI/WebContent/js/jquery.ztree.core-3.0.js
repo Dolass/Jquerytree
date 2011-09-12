@@ -501,7 +501,7 @@
 			for (var i=0, j=root.curSelectedList.length; i<j; i++) {
 				if(node === root.curSelectedList[i] || !data.getNodeCache(setting, root.curSelectedList[i].tId)) {
 					root.curSelectedList.splice(i, 1);
-					i--; j--;
+					i--;j--;
 				}
 			}
 		},
@@ -802,7 +802,7 @@
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
 					html.push("<li id='", node.tId, "' class='level", node.level,"' treenode>",
-						"<button type='button' id='", node.tId, consts.id.SWITCH,
+						"<button type='button' hidefocus='true'",(node.isParent?"":"disabled")," id='", node.tId, consts.id.SWITCH,
 						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
 					data.getBeforeA(setting, node, html);
 					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
@@ -811,7 +811,7 @@
 					if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
 					html.push(">");
 					data.getInnerBeforeA(setting, node, html);
-					html.push("<button type='button' id='", node.tId, consts.id.ICON,
+					html.push("<button type='button' hidefocus='true' id='", node.tId, consts.id.ICON,
 						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
 						"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
 					data.getInnerAfterA(setting, node, html);
@@ -1147,6 +1147,11 @@
 					break;
 			}
 			obj.attr("class", tmpList.join("_"));
+			if (newName !== consts.folder.DOCU) {
+				obj.removeAttr("disabled");
+			} else {
+				obj.attr("disabled", "disabled");
+			}
 		},
 		selectNode: function(setting, node, addFlag) {
 			if (!addFlag) {
@@ -1174,6 +1179,11 @@
 				ulObj.addClass(ulLine);
 			}
 			switchObj.attr("class", view.makeNodeLineClass(setting, node));
+			if (node.isParent) {
+				switchObj.removeAttr("disabled");
+			} else {
+				switchObj.attr("disabled", "disabled");
+			}
 			icoObj.removeAttr("style");
 			icoObj.attr("style", view.makeNodeIcoStyle(setting, node));
 			icoObj.attr("class", view.makeNodeIcoClass(setting, node));
