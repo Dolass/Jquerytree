@@ -64,6 +64,7 @@
 			beforeDrag:null,
 			beforeDragOpen:null,
 			beforeDrop:null,
+			beforeEditName:null,
 			beforeRemove:null,
 			beforeRename:null,
 			onDrag:null,
@@ -785,7 +786,7 @@
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
-					if (!tools.uCanDo(setting)) return true;
+					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
 					view.editNode(setting, node);
 					return false;
 				}
