@@ -65,7 +65,7 @@
 			key: {
 				name: "name",
 				childs: "childs",
-				title: "name"
+				title: ""
 			},
 			simpleData: {
 				enable: false,
@@ -461,6 +461,9 @@
 		getSettings: function() {
 			return settings;
 		},
+		getTitleKey: function(setting) {
+			return setting.data.key.title === "" ? setting.data.key.name : setting.data.key.title;
+		},
 		getZTreeTools: function(treeId) {
 			var r = this.getRoot(this.getSetting(treeId));
 			return r ? r.treeTools : null;
@@ -777,7 +780,7 @@
 			var html = [],
 			childsKey = setting.data.key.childs,
 			nameKey = setting.data.key.name,
-			titleKey = setting.data.key.title;
+			titleKey = data.getTitleKey(setting);
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				var node = nodes[i],
 				tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
@@ -1190,7 +1193,7 @@
 		},
 		setNodeName: function(setting, node) {
 			var nameKey = setting.data.key.name,
-			titleKey = setting.data.key.title,
+			titleKey = data.getTitleKey(setting),
 			nObj = $("#" + node.tId + consts.id.SPAN);
 			nObj.empty();
 			nObj.text(node[nameKey]);
