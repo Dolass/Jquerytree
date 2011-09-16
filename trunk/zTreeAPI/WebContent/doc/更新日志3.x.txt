@@ -10,22 +10,19 @@
 <font color=#041594>
 *2011.10.01* v3.0
    * 【修改】setting.data.key.title 默认值设置为 ""，初始化时自动赋值为 setting.data.key.name 这样可避免希望 title 与 name 一致的用户反复设置参数
-      修正完毕
    * 【修改】异步加载 & 编辑功能 共存时，拖拽节点 或 增加节点 导致 ie 上报错的 bug （apply 方法引起）
-	  修正完毕
    * 【修改】zTreeStyle 样式冲突
-      将 zTreeStyle 的第 82 行 ul.zTreeDragUL 修改为  ul.ztree.zTreeDragUL，并且将该行的 overflow:auto; 修改为 overflow:hidden;
    * 【修改】点击叶子节点的连接线会触发 expand 事件的 bug
-      修正完毕
    * 【修改】IE 下 点击叶子节点连线会出现虚线框的 bug
-      修正完毕
    * 【修改】updateNode 导致 checkbox 半选状态错误的 bug
-      修正完毕
    * 【修改】checkNode、checkAllNodes 方法实现 toggle 操作
+      尚未制作
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
+      尚未制作
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
-	  修正完毕
-   * 【增加】treeNode.checkDisable 属性，会保证显示checkbox 但是用户无法修改checkbox 状态
+   * 【增加】treeNode.checkDisable 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该checkbox 会影响父节点的 checkbox 的半选状态
+      尚未制作
+
 
 *2011.09.05* v3.0 beta
    * 【修改】zTree 的 js 代码架构全面修改，并且拆分
