@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
-	<TITLE> ZTREE DEMO - comboTree select menu</TITLE>
+	<TITLE> ZTREE DEMO - radio select menu</TITLE>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="../../css/demo.css" type="text/css">
 	<link rel="stylesheet" href="../../css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -21,7 +21,8 @@
 			},
 			check: {
 				enable: true,
-				chkboxType: {"Y":"", "N":""}
+				chkStyle: "radio",
+				radioType: "all"
 			},
 			view: {
 				dblClickExpand: false
@@ -39,11 +40,13 @@
 			}
 		};
 
+		var hasChecked = false;
 		function filter(treeId, parentNode, childNodes) {
 			if (!childNodes) return null;
 			for (var i=0, l=childNodes.length; i<l; i++) {
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
-				if (!parentNode && childNodes[i].id %2 == 0) {
+				if (!hasChecked && !parentNode && childNodes[i].id %2 == 0) {
+					hasChecked = true;
 					childNodes[i].checked = true;
 				}
 			}
@@ -58,9 +61,13 @@
 			}
 		}
 		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			treeNode.checked = !treeNode.checked;
+			zTree.updateNode(treeNode);
+			onCheck();
 			return false;
 		}
-		
+
 		function onCheck(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
 			nodes = zTree.getCheckedNodes(true),
@@ -100,13 +107,13 @@
  </HEAD>
 
 <BODY>
-<h1>ComboTree -- zTree</h1>
-<h6>[ File Path：demo/super/select_menu_combo.html ]</h6>
+<h1>Menu Tree with Radio  -- zTree</h1>
+<h6>[ File Path: demo/super/select_menu_radio.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul class="list">
-			<li class="title">&nbsp;&nbsp;<span class="highlight_red">click the checkbox to select.</span></li>
-			<li class="title">&nbsp;&nbsp;Test：<input id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu();" />
+			<li class="title">&nbsp;&nbsp;<span class="highlight_red">click the radio or node to select.</span></li>
+			<li class="title">&nbsp;&nbsp;Test: <input id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu();" />
 		&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">select</a></li>
 		</ul>
 	</div>

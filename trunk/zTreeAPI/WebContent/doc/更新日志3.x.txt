@@ -19,9 +19,12 @@
       修正完毕
    * 【修改】IE 下 点击叶子节点连线会出现虚线框的 bug
       修正完毕
+   * 【修改】updateNode 导致 checkbox 半选状态错误的 bug
+      修正完毕
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
 	  修正完毕
+   * 【增加】treeNode.checkDisable 属性，会保证显示checkbox 但是用户无法修改checkbox 状态
 
 *2011.09.05* v3.0 beta
    * 【修改】zTree 的 js 代码架构全面修改，并且拆分
