@@ -17,12 +17,13 @@
    * 【修改】updateNode 导致 checkbox 半选状态错误的 bug
    * 【修改】checkNode、checkAllNodes 方法实现 toggle 操作
       尚未制作
+   * 【修改】zTree 内鼠标移动会抢页面上 input 内的焦点的 bug
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
       尚未制作
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
    * 【增加】treeNode.checkDisable 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该checkbox 会影响父节点的 checkbox 的半选状态
       尚未制作
-   * 【增加】treeNode.checkInherit, treeNode.nocheckInherit 属性，用户设置其子节点继承 checkDisable 或 nocheck 属性
+   * 【增加】treeNode.checkInherit 属性，用户设置其子节点继承 checkDisable 或 nocheck 属性，方便批量设置
       尚未制作
 
 
