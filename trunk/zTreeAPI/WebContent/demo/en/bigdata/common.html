@@ -128,8 +128,8 @@
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 			var time2 = new Date();
 
-			alert("节点共 " + zNodes.length + " 个, 初始化生成 Dom 的节点共 " + showNodeCount + " 个"
-				+ "\n\n 初始化 zTree 共耗时: " + (time2.getTime() - time1.getTime()) + " ms");
+			alert(" " + zNodes.length + " nodes are initialized, " + showNodeCount + " nodes generate the dom object."
+				+ "\n\n Initialization zTree total time: " + (time2.getTime() - time1.getTime()) + " ms");
 		}
 
 
@@ -143,18 +143,18 @@
  </HEAD>
 
 <BODY>
-<h1>一次性加载大数据量</h1>
-<h6>[ 文件路径: bigdata/common.html ]</h6>
+<h1>One-time Loading Large Data</h1>
+<h6>[ File Path: bigdata/common.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul>
-		<li><span>调整总节点数，测试加载速度：</span>
-			<div id="ruler" class="ruler" title="拖拽可调整节点数">
+		<li><span>Adjust the total number of nodes to the test load speed: </span>
+			<div id="ruler" class="ruler" title="can drag to adjust the number of nodes">
 				<div id="cursor" class="cursor">5000</div>
 			</div>
 			<div style="width:220px; text-align: center;">
-				<span>checkbox</span><input type="checkbox" id="showChk" title="是否显示 checkbox" class="checkbox first" />&nbsp;&nbsp;&nbsp;&nbsp;
-				[ <a id="createTree" href="#" title="初始化 zTree" onclick="return false;">初始化 zTree</a> ]
+				<span>checkbox</span><input type="checkbox" id="showChk" title="whether to display checkbox" class="checkbox first" />&nbsp;&nbsp;&nbsp;&nbsp;
+				[ <a id="createTree" href="#" title="Initialize zTree" onclick="return false;">Initialize zTree</a> ]
 			</div>
 		</li>
 		</ul>
@@ -162,25 +162,25 @@
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、大数据量加载说明</h2>
+			<li class="title"><h2>1, explain of large data load</h2>
 				<ul class="list">
-				<li>1)、zTree v3.0 针对大数据量一次性加载进行了更深入的优化，实现了延迟加载功能，即不展开的节点不创建子节点的 Dom。</li>
-				<li class="highlight_red">2)、对于每级节点最多一百左右，但总节点数几千甚至几万，且不是全部展开的数据，一次性加载的效果最明显，速度非常快。</li>
-				<li class="highlight_red">3)、对于某一级节点数就多达几千的情况 延迟加载无效，这种情况建议考虑分页异步加载。</li>
-				<li class="highlight_red">4)、对于全部节点都展开显示的情况，延迟加载无效，这种情况建议不要全部展开。</li>
-				<li>5)、显示 checkbox / radio 会造成一定程度的性能下降。</li>
-				<li>6)、利用 addDiyDom 功能增加自定义控件会影响速度，影响程度受节点数量而定。</li>
-				<li>7)、利用 onNodeCreated 事件回调函数对节点 Dom 进行操作会影响速度，影响程度受节点数量而定。</li>
+				<li>1) zTree v3.0 optimized for one-time loading large data capacity, using a lazy loading technique, which does not expand the node does not create child nodes of the Dom.</li>
+				<li class="highlight_red">2) If a maximum of 100 nodes each, but a total number of several thousand or even tens of thousands of nodes, and the parent node is collapsed by default to optimize the most obvious effect, very fast.</li>
+				<li class="highlight_red">3) For the next level there are thousands of sub-node case, the optimization of lazy loading is invalid, proposal to consider asynchronous page loading.</li>
+				<li class="highlight_red">4) if you set the data to all the parent nodes are expanded, the optimization  of lazy loading is invalid, proposal to not expand all parent node when you initialize zTree.</li>
+				<li>5) set the display checkbox / radio will affect some of the performance.</li>
+				<li>6) Dom generated using addDiyDom function will affect the speed, the number of nodes determines the number of impact situations.</li>
+				<li>7) Using 'onNodeCreated' callback function to manipulate nodes object will affect the speed, the degree of influence determined by the number of nodes.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
+			<li class="title"><h2>2, explain of setting</h2>
 				<ul class="list">
-				<li>不需要进行特殊的配置</li>
+				<li>No special configuration.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
+			<li class="title"><h2>3, explain of treeNode</h2>
 				<ul class="list">
-				<li>对 节点数据 没有特殊要求，用户可以根据自己的需求添加自定义属性</li>
+				<li>No special requirements on the node data, the user can add custom properties.</li>
 				</ul>
 			</li>
 		</ul>
