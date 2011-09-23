@@ -467,9 +467,9 @@
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 
 			if (node != data.getRoot(setting)) {
-				if (node.nocheck !== true && node[childsKey] && node[childsKey].length > 0) {
+				if (node.nocheck !== true) {
 					node[checkedKey] = value;
-					node.check_Child_State = value ? 2 : 0;
+					node.check_Child_State = (node[childsKey] && node[childsKey].length > 0) ? (value ? 2 : 0) : -1;
 				} else {
 					node.check_Child_State = -1;
 				}

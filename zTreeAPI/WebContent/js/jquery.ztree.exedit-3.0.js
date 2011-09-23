@@ -833,15 +833,13 @@
 			if (node) {
 				var inputObj = root.curEditInput;
 				newName = newName ? newName:inputObj.val();
-				if (newName !== node[nameKey]) {
-					if (tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
-						node.editNameStatus = true;
-						tools.inputFocus(inputObj);
-						return false;
-					} else {
-						node[nameKey] = newName ? newName:inputObj.val();
-						setting.treeObj.trigger(consts.event.RENAME, [setting.treeId, node]);
-					}
+				if (tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+					node.editNameStatus = true;
+					tools.inputFocus(inputObj);
+					return false;
+				} else {
+					node[nameKey] = newName ? newName:inputObj.val();
+					setting.treeObj.trigger(consts.event.RENAME, [setting.treeId, node]);
 				}
 				var aObj = $("#" + node.tId + consts.id.A);
 				aObj.removeClass(consts.node.CURSELECTED_EDIT);
