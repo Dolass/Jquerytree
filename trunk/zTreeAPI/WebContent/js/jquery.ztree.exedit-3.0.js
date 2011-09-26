@@ -440,7 +440,7 @@
 					targetSetting = setting;
 					var settings = data.getSettings();
 					for (var s in settings) {
-						if (settings[s].edit.enable && settings[s].treeId != setting.treeId
+						if (settings[s].treeId && settings[s].edit.enable && settings[s].treeId != setting.treeId
 							&& (event.target.id == settings[s].treeId || $(event.target).parents("#" + settings[s].treeId).length>0)) {
 							isOtherTree = true;
 							targetSetting = settings[s];
