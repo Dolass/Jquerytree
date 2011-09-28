@@ -28,6 +28,8 @@
       尚未制作
    * 【增加】treeNode.checkInherit 属性，用户设置其子节点继承 checkDisable 或 nocheck 属性，方便批量设置
       尚未制作
+   * 【增加】setting.view.nameType 属性("text", "html")，可以允许 name 是html标签
+      尚未制作
 
 
 *2011.09.05* v3.0 beta
