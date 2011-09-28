@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <HEAD>
-	<TITLE> ZTREE DEMO - Simple Data</TITLE>
+	<TITLE> ZTREE DEMO - noIcon </TITLE>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" href="../../../css/demo.css" type="text/css">
 	<link rel="stylesheet" href="../../../css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -12,6 +12,9 @@
 	<SCRIPT LANGUAGE="JavaScript">
 		<!--
 		var setting = {
+			view: {
+				showIcon: showIconForTree
+			},
 			data: {
 				simpleData: {
 					enable: true
@@ -51,16 +54,21 @@
 			{ id:3, pId:0, name:"pNode 3 - no child", isParent:true}
 		];
 
+		function showIconForTree(treeId, treeNode) {
+			return !treeNode.isParent;
+		};
+
 		$(document).ready(function(){
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		});
 		//-->
 	</SCRIPT>
- </HEAD>
+
+</HEAD>
 
 <BODY>
-<h1>simple JSON data</h1>
-<h6>[ File Path: core/simpleData.html ]</h6>
+<h1>Don't Show Icon</h1>
+<h6>[ File Path: core/noicon.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
@@ -69,28 +77,13 @@
 		<ul class="info">
 			<li class="title"><h2>1, explain of setting</h2>
 				<ul class="list">
-				<li class="highlight_red">Must to set Setting.data.simple properties,  see the API documentation for more related content.</li>
-				<li>The setting.view in API documentation is associated with the display of the zTree.</li>
-				<li>Change the name, childs, title attribute, please refer to the API documentation setting.data.key.</li>
+				<li>This Demo using Function set to the parent node does not display the icon.</li>
+				<li class="highlight_red">Whether to display the icon, you need to set setting.view.showIcon property, see the API documentation for more related content.</li>
 				</ul>
 			</li>
 			<li class="title"><h2>2, explain of treeNode</h2>
 				<ul class="list">
-				<li class="highlight_red">Simple model of the JSON data to use id / pId that include parent-child relationship between nodes, and other properties please refer to the instructions within setting.data.simple.
-				<div><pre xmlns=""><code>For example:
-var nodes = [
-	{id:1, pId:0, name: "pNode 01"},
-	{id:11, pId:1, name: "child 01"},
-	{id:12, pId:1, name: "child 02"}
-];</code></pre></div></li>
-				<li>Nodes expanded by default, set treeNode.open property.</li>
-				<li>No child node of parent node, set treeNode.isParent property</li>
-				<li>Please refer to the API documentation "treeNode data details" to view other properties description.</li>
-				</ul>
-			</li>
-			<li class="title"><h2>3、other explain</h2>
-				<ul class="list">
-				<li>zTree v3.0 Demo used all of the simple JSON data model , easy to learn.</li>
+				<li>TreeNode data does not require special settings. If you need some node display icon, and some nodes are not displayed, you can add special properties to the node data for identification.</li>
 				</ul>
 			</li>
 		</ul>

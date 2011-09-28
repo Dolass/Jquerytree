@@ -18,12 +18,12 @@
 		};
 
 		var zNodes =[
-			{ name:"粗体字", font:{'font-weight':'bold'} },
-			{ name:"斜体字", font:{'font-style':'italic'}},
-			{ name:"有背景的字", font:{'background-color':'black', 'color':'white'}},
-			{ name:"红色字", font:{'color':'red'}},
-			{ name:"蓝色字", font:{'color':'blue'}},
-			{ name:"zTree 默认样式"}
+			{ name:"Bold", font:{'font-weight':'bold'} },
+			{ name:"Italic", font:{'font-style':'italic'}},
+			{ name:"Background-color", font:{'background-color':'black', 'color':'white'}},
+			{ name:"Red Font", font:{'color':'red'}},
+			{ name:"Blue Font", font:{'color':'blue'}},
+			{ name:"zTree Default"}
 		];
 
 		function getFont(treeId, node) {
@@ -38,23 +38,23 @@
 </HEAD>
 
 <BODY>
-<h1>显示个性化字体的树</h1>
-<h6>[ 文件路径: core/self_font.html ]</h6>
+<h1>Personalized Fonts</h1>
+<h6>[ File Path: core/self_font.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、setting 配置信息说明</h2>
+			<li class="title"><h2>1, explain of setting</h2>
 				<ul class="list">
-				<li class="highlight_red">设置节点个性化字体请设置 setting.view.fontCss 属性，详细请参见 API 文档中的相关内容</li>
+				<li class="highlight_red">For display personalized fonts,  you need to set setting.view.fontCss property, see the API documentation for more related content.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、treeNode 节点数据说明</h2>
+			<li class="title"><h2>2, explain of treeNode</h2>
 				<ul class="list">
-				<li>设置字体不需要 treeNode 设置特殊数据，但如果用于为了区别不同类型的节点，设置不同的样式，可以对相应的数据设置自定义属性</li>
-				<li>此 Demo 利用 treeNode 保存样式定义</li>
+				<li>Set the font does not require to special node data , but if used to differentiate between different types of nodes, the corresponding data can set custom properties.</li>
+				<li>The css style of data stored in the nodes within this demo</li>
 				</ul>
 			</li>
 		</ul>

@@ -43,30 +43,30 @@
 </HEAD>
 
 <BODY>
-<h1>异步加载节点数据的树</h1>
-<h6>[ 文件路径: core/async.html ]</h6>
+<h1>Dynamic Tree with Ajax</h1>
+<h6>[ File Path: core/async.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、setting 配置信息说明</h2>
+			<li class="title"><h2>1, explain of setting</h2>
 				<ul class="list">
-				<li class="highlight_red">使用异步加载，必须设置 setting.async 中的各个属性，详细请参见 API 文档中的相关内容</li>
+				<li class="highlight_red">For create dynamic tree with ajax,  you need to set properties in setting.async, see the API documentation for more related content.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、treeNode 节点数据说明</h2>
+			<li class="title"><h2>2, explain of treeNode</h2>
 				<ul class="list">
-				<li>异步加载功能对于 treeNode 节点数据没有特别要求，如果采用简单 JSON 数据，请设置 setting.data.simple 中的属性</li>
-				<li>如果异步加载每次都只返回单层的节点数据，那么可以不设置简单 JSON 数据模式</li>
+				<li>Dynamic tree with ajax doesn't need to make special treeNode node data, if use simple JSON data model, please set the properties in setting.data.simple.</li>
+				<li>If ajax only to return node data in single level, you don't need to use simple JSON data model.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、其他说明</h2>
+			<li class="title"><h2>3、other explain</h2>
 				<ul class="list">
-				<li class="highlight_red">观察 autoParam 和 otherParam 请使用 firebug 或 浏览器的开发人员工具</li>
-				<li class="highlight_red">此 Demo 利用 beforeAsync 限制只有第 5 级以内的父节点展开时才进行异步加载</li>
-				<li class="highlight_red">此 Demo 利用 dataFilter 对节点的 name 进行了修改</li>
+				<li class="highlight_red">Monitoring autoParam and otherParam use firebug or the developer tools in browser.</li>
+				<li class="highlight_red">This Demo using 'beforeAsync' limit loading 5 level nodes.</li>
+				<li class="highlight_red">This Demo use 'dataFilter' to modify the name of the node.</li>
 				</ul>
 			</li>
 		</ul>
