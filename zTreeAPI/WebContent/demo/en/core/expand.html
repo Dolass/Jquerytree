@@ -33,22 +33,22 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"可折腾的父节点 1", t:"我很普通，随便 展开/折叠 我吧", open:true},
-			{ id:11, pId:1, name:"叶子节点 - 1", t:"我老爸很普通，随便折腾他吧"},
-			{ id:12, pId:1, name:"可折腾的父节点 2", t:"我和我老爸都很普通，随便折腾我和他吧"},
-			{ id:121, pId:12, name:"叶子节点 - 21", t:"我老爸很普通，随便折腾他吧"},
-			{ id:122, pId:12, name:"叶子节点 - 22", t:"我老爸很普通，随便折腾他吧"},
-			{ id:123, pId:12, name:"叶子节点 - 23", t:"我老爸很普通，随便折腾他吧"},
-			{ id:13, pId:1, name:"叶子节点 - 3", t:"我老爸很普通，随便折腾他吧"},
-			{ id:2, pId:0, name:"无法折叠的父节点", t:"休想让我折叠起来...除非你用 expandAll 方法", open:true, collapse:false},
-			{ id:21, pId:2, name:"叶子节点2 - 1", t:"哈哈哈，我老爸NB吧，不能折叠吧？"},
-			{ id:22, pId:2, name:"叶子节点2 - 2", t:"哈哈哈，我老爸NB吧，不能折叠吧？"},
-			{ id:23, pId:2, name:"叶子节点2 - 3", t:"哈哈哈，我老爸NB吧，不能折叠吧？"},
-			{ id:3, pId:0, name:"无法展开的父节点", t:"就凭你也想展开我？难呀...嘿嘿, 除非你用 expandAll 方法", open:false, expand:false},
-			{ id:31, pId:3, name:"叶子节点3 - 1", t:"居然让你看到了...莫非你用了全部节点展开？"},
-			{ id:32, pId:3, name:"叶子节点3 - 2", t:"居然让你看到了...莫非你用了全部节点展开？"},
-			{ id:33, pId:3, name:"叶子节点3 - 3", t:"居然让你看到了...莫非你用了全部节点展开？"},
-			{ id:4, pId:0, name:"空空的父节点 1", t:"一无所有...除了我自己", isParent:true, open:false}
+			{ id:1, pId:0, name:"ordinary parent 1", t:"I am ordinary, just expand or collapse on me", open:true},
+			{ id:11, pId:1, name:"leaf node 1-1", t:"..."},
+			{ id:12, pId:1, name:"ordinary parent 2", t:"I am ordinary, just expand or collapse on me"},
+			{ id:121, pId:12, name:"leaf node 2-1", t:"..."},
+			{ id:122, pId:12, name:"leaf node 2-2", t:"..."},
+			{ id:123, pId:12, name:"leaf node 2-3", t:"..."},
+			{ id:13, pId:1, name:"leaf node  1-3", t:"..."},
+			{ id:2, pId:0, name:"can't collapse me", t:"can't collapse me...Unless you use expandAll method.", open:true, collapse:false},
+			{ id:21, pId:2, name:"leaf node 2-1", t:"You can't collapse my parent"},
+			{ id:22, pId:2, name:"leaf node 2-2", t:"You can't collapse my parent"},
+			{ id:23, pId:2, name:"leaf node 2-3", t:"You can't collapse my parent"},
+			{ id:3, pId:0, name:"can't expand me", t:"can't expand me...Unless you use expandAll method.", open:false, expand:false},
+			{ id:31, pId:3, name:"leaf node 3-1", t:"OMG, you can see me!! Do you use the expandAll method?"},
+			{ id:32, pId:3, name:"leaf node 3-2", t:"OMG, you can see me!! Do you use the expandAll method?"},
+			{ id:33, pId:3, name:"leaf node 3-3", t:"OMG, you can see me!! Do you use the expandAll method?"},
+			{ id:4, pId:0, name:"empty parent 1", t:"I have nothing...", isParent:true, open:false}
 		];
 
 		var log, className = "dark";
@@ -56,7 +56,7 @@
 			if (treeNode.isParent) {
 				return true;
 			} else {
-				alert("这个 Demo 是用来测试 展开 / 折叠 的...\n\n去点击父节点吧... ");
+				alert("This Demo is used to test the parent node expand / collapse...\n\nGo to click parent node... ");
 				return false;
 			}
 		}
@@ -97,7 +97,7 @@
 			type = e.data.type,
 			nodes = zTree.getSelectedNodes();
 			if (type.indexOf("All")<0 && nodes.length == 0) {
-				alert("请先选择一个父节点");
+				alert("Please select one parent node at first...");
 			}
 
 			if (type == "expandAll") {
