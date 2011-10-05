@@ -18,7 +18,9 @@
 				selectedMulti: false
 			},
 			check: {
-				enable: true
+				enable: true,
+				chkStyle: "radio",
+				radioType: "level"
 			},
 			data: {
 				simpleData: {
@@ -32,20 +34,20 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"随意勾选 1", open:true},
-			{ id:11, pId:1, name:"无 checkbox 1-1", nocheck:true},
-			{ id:12, pId:1, name:"随意勾选 1-2", open:true},
-			{ id:121, pId:12, name:"随意勾选 1-2-1"},
-			{ id:122, pId:12, name:"随意勾选 1-2-2"},
-			{ id:123, pId:12, name:"无 checkbox 1-2-3", nocheck:true},
-			{ id:13, pId:1, name:"随意勾选 1-3"},
-			{ id:2, pId:0, name:"禁止勾选 2", open:true, doCheck:false},
-			{ id:21, pId:2, name:"禁止勾选 2-1", doCheck:false},
-			{ id:22, pId:2, name:"禁止勾选 2-2", checked:true, open:true, doCheck:false},
-			{ id:221, pId:22, name:"禁止勾选 2-2-1", doCheck:false},
-			{ id:222, pId:22, name:"禁止勾选 2-2-2", checked:true, doCheck:false},
-			{ id:223, pId:22, name:"禁止勾选 2-2-3", doCheck:false},
-			{ id:23, pId:2, name:"禁止勾选 2-3", doCheck:false}
+			{ id:1, pId:0, name:"can check 1", open:true},
+			{ id:11, pId:1, name:"no radio 1-1", nocheck:true},
+			{ id:12, pId:1, name:"can check 1-2", open:true},
+			{ id:121, pId:12, name:"can check 1-2-1"},
+			{ id:122, pId:12, name:"can check 1-2-2"},
+			{ id:123, pId:12, name:"no radio 1-2-3", nocheck:true},
+			{ id:13, pId:1, name:"can check 1-3"},
+			{ id:2, pId:0, name:"can't check 2", open:true, doCheck:false},
+			{ id:21, pId:2, name:"can't check 2-1", doCheck:false},
+			{ id:22, pId:2, name:"can't check 2-2", checked:true, open:true, doCheck:false},
+			{ id:221, pId:22, name:"can't chk 2-2-1", doCheck:false},
+			{ id:222, pId:22, name:"can't chk 2-2-2", checked:true, doCheck:false},
+			{ id:223, pId:22, name:"can't chk 2-2-3", doCheck:false},
+			{ id:23, pId:2, name:"can't check 2-3", doCheck:false}
 		];
 		
 		var code, log, className = "dark";
@@ -78,7 +80,7 @@
 			type = e.data.type,
 			nodes = zTree.getSelectedNodes();
 			if (type.indexOf("All")<0 && nodes.length == 0) {
-				alert("请先选择一个节点");
+				alert("Please select one node at first...");
 			}
 
 			if (type == "checkAllTrue") {
@@ -104,48 +106,40 @@
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 			$("#checkTrue").bind("click", {type:"checkTrue"}, checkNode);
 			$("#checkFalse").bind("click", {type:"checkFalse"}, checkNode);
-			$("#checkTruePS").bind("click", {type:"checkTruePS"}, checkNode);
-			$("#checkFalsePS").bind("click", {type:"checkFalsePS"}, checkNode);
-			$("#checkAllTrue").bind("click", {type:"checkAllTrue"}, checkNode);
-			$("#checkAllFalse").bind("click", {type:"checkAllFalse"}, checkNode);
 		});
 		//-->
 	</SCRIPT>
 </HEAD>
 
 <BODY>
-<h1>用 zTree 方法 勾选 checkbox</h1>
-<h6>[ 文件路径: excheck/checkbox_fun.html ]</h6>
+<h1>Radio - zTree methods</h1>
+<h6>[ File Path: excheck/radio_fun.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、beforeCheck / onCheck 事件回调函数控制</h2>
+			<li class="title"><h2>1, 'beforeCheck / onCheck' callback function</h2>
 				<ul class="list">
-				<li>利用 beforeCheck / onCheck 事件回调函数 可以控制是否允许 更改 节点勾选状态，这里简单演示如何监控此事件</li>
-				<li><p>这里还演示了 checkNode / checkAllNodes 方法触发 beforeCheck / onCheck 事件回调函数的情况，试试看：<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;单个节点--[ <a id="checkTrue" href="#" title="不想勾选我就不勾选你..." onclick="return false;">勾选</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkFalse" href="#" title="不想取消勾选我就不取消你..." onclick="return false;">取消勾选</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;单个节点 ( 保持关联关系 )--[ <a id="checkTruePS" href="#" title="不想勾选我就不勾选你..." onclick="return false;">勾选</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkFalsePS" href="#" title="不想取消勾选我就不取消你..." onclick="return false;">取消勾选</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;全部节点--[ <a id="checkAllTrue" href="#" title="不管你有多NB，统统都要听我的！！" onclick="return false;">勾选</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkAllFalse" href="#" title="不管你有多NB，统统都要听我的！！" onclick="return false;">取消勾选</a> ]</p>
-				<li><p><span class="highlight_red">使用 zTreeObj.checkNode / checkAllNodes 方法，详细请参见 API 文档中的相关内容</span><br/>
+				<li>Use 'beforeCheck / onCheck' callback function can control whether to allow changes to the node check state. This simple demo shows how to monitor the check event.</li>
+				<li><p>By the way also demonstrates how to use the 'checkNode' method triggers 'beforeCheck / onCheck' callback, Try: <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkTrue" href="#" title="check..." onclick="return false;">check</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkFalse" href="#" title="uncheck..." onclick="return false;">uncheck</a> ]</p>
+				<li><p><span class="highlight_red">How to use 'zTreeObj.checkNode' method,  please see the API documentation.</span><br/>
 					beforeCheck / onCheck log:<br/>
 					<ul id="log" class="log" style="height:130px;"></ul></p>
 				</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
+			<li class="title"><h2>2, explain of setting</h2>
 				<ul class="list">
-				<li>同 "checkbox 勾选操作" 中的说明</li>
+				<li>as same as 'Radio Operation'</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
+			<li class="title"><h2>3, explain of treeNode</h2>
 				<ul class="list">
-				<li>同 "checkbox 勾选操作" 中的说明</li>
+				<li>as same as 'Radio Operation'</li>
 				</ul>
 			</li>
 		</ul>
