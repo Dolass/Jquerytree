@@ -36,18 +36,18 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"父节点 1", open:true},
-			{ id:11, pId:1, name:"叶子节点 1-1"},
-			{ id:12, pId:1, name:"叶子节点 1-2"},
-			{ id:13, pId:1, name:"叶子节点 1-3"},
-			{ id:2, pId:0, name:"父节点 2", open:true},
-			{ id:21, pId:2, name:"叶子节点 2-1"},
-			{ id:22, pId:2, name:"叶子节点 2-2"},
-			{ id:23, pId:2, name:"叶子节点 2-3"},
-			{ id:3, pId:0, name:"父节点 3", open:true},
-			{ id:31, pId:3, name:"叶子节点 3-1"},
-			{ id:32, pId:3, name:"叶子节点 3-2"},
-			{ id:33, pId:3, name:"叶子节点 3-3"}
+			{ id:1, pId:0, name:"parent node 1", open:true},
+			{ id:11, pId:1, name:"leaf node 1-1"},
+			{ id:12, pId:1, name:"leaf node 1-2"},
+			{ id:13, pId:1, name:"leaf node 1-3"},
+			{ id:2, pId:0, name:"parent node 2", open:true},
+			{ id:21, pId:2, name:"leaf node 2-1"},
+			{ id:22, pId:2, name:"leaf node 2-2"},
+			{ id:23, pId:2, name:"leaf node 2-3"},
+			{ id:3, pId:0, name:"parent node 3", open:true },
+			{ id:31, pId:3, name:"leaf node 3-1"},
+			{ id:32, pId:3, name:"leaf node 3-2"},
+			{ id:33, pId:3, name:"leaf node 3-3"}
 		];
 		var log, className = "dark";
 		function beforeDrag(treeId, treeNodes) {
@@ -58,14 +58,14 @@
 			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
-			return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
+			return confirm("Start node '" + treeNode.name + "' editorial status?");
 		}
 		function beforeRemove(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
-			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+			return confirm("Confirm delete node '" + treeNode.name + "' it?");
 		}
 		function onRemove(e, treeId, treeNode) {
 			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
@@ -74,7 +74,7 @@
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 			if (newName.length == 0) {
-				alert("节点名称不能为空.");
+				alert("Node name can not be empty.");
 				return false;
 			}
 			return true;
@@ -126,33 +126,33 @@
 </HEAD>
 
 <BODY>
-<h1>高级 增 / 删 / 改 节点</h1>
-<h6>[ 文件路径: exedit/edit_super.html ]</h6>
+<h1>Advanced Edit Nodes</h1>
+<h6>[ File Path: exedit/edit_super.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、beforeEditName<br/>&nbsp;&nbsp;beforeRemove / onRemove<br/>&nbsp;&nbsp;beforeRename / onRename 事件回调函数控制</h2>
+			<li class="title"><h2>1, 'beforeDrag / onDrag'<br/>&nbsp;&nbsp;'beforeEditName'<br/>&nbsp;&nbsp;'beforeRemove / onRemove'<br/>&nbsp;&nbsp;'beforeRename / onRename' callback function</h2>
 				<ul class="list">
-				<li>此 Demo 演示合理利用自定义控件、事件回调函数配合以增强用户体验，操作时可以对比"基本 增 / 删 / 改 节点"的 Demo</li>
-				<li>此 Demo 实现增加节点按钮</li>
-				<li>此 Demo 实现删除节点时进行确认</li>
-				<li class="highlight_red">可以利用 beforeEditName 触发自定义的编辑操作</li>
-				<li><p><span class="highlight_red">在对这些灵活的配置熟悉以后，相信你能够做出更加合理的编辑界面！</span><br/>
+				<li>This demo shows the use of custom controls, the callback function to enhance the user experience, the operation can be compared with "Basic Edit Nodes" example.</li>
+				<li>This demo achieve  the Add nodes button.</li>
+				<li>This demo achieve the confirmation when deleting node.</li>
+				<li class="highlight_red">Can use 'beforeEditName' callback trigger custom editing.</li>
+				<li><p><span class="highlight_red">After be familiar with these configurations, I think you can design a more flexible and rational rules!</span><br/>
 					remove / rename log:<br/>
 					<ul id="log" class="log"></ul></p></li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
+			<li class="title"><h2>2, explain of setting</h2>
 				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
+				<li>as same as 'Basic Edit Nodes'</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
+			<li class="title"><h2>3, explain of treeNode</h2>
 				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
+				<li>as same as 'Basic Edit Nodes'</li>
 				</ul>
 			</li>
 		</ul>
