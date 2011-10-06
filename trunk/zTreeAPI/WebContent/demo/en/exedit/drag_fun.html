@@ -111,17 +111,17 @@
 			nodes = zTree.getSelectedNodes(),
 			targetNode = nodes.length>0? nodes[0]:null;
 			if (curSrcNode === targetNode) {
-				alert("不能移动，源节点 与 目标节点相同");
+				alert("Can't move, the same source node and destination node.");
 				return;
 			} else if (curType === "cut" && ((!!targetNode && curSrcNode.parentTId === targetNode.tId) || (!targetNode && !curSrcNode.parentTId))) {
-				alert("不能移动，源节点 已经存在于 目标节点中");
+				alert("Can't move, source node is the target node's child.");
 				return;
 			} else if (curType === "copy") {
 				targetNode = zTree.copyNode(targetNode, curSrcNode, "inner");
 			} else if (curType === "cut") {
 				targetNode = zTree.moveNode(targetNode, curSrcNode, "inner");
 				if (!targetNode) {
-					alert("剪切失败，源节点是目标节点的父节点");
+					alert("Cutting failure, source node is the target node's parent.");
 				}
 				targetNode = curSrcNode;
 			}
@@ -145,32 +145,32 @@
 </HEAD>
 
 <BODY>
-<h1>用 zTree 方法 移动 / 复制节点</h1>
-<h6>[ 文件路径: demo/exedit/drag_fun.html ]</h6>
+<h1>Move / Copy - zTree methods</h1>
+<h6>[ File Path: exedit/drag_fun.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、copyNode / moveNode 方法操作说明</h2>
+			<li class="title"><h2>1, explain of copyNode / moveNode</h2>
 				<ul class="list">
-				<li>利用 copyNode / moveNode 方法也可以实现 复制 / 移动 节点的目的，这里简单演示使用方法</li>
-				<li><p>对节点进行 复制 / 剪切，试试看：<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="copy" href="#" title="复制" onclick="return false;">复制</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="cut" href="#" title="剪切" onclick="return false;">剪切</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="paste" href="#" title="粘贴" onclick="return false;">粘贴</a> ]</p>
-				<li class="highlight_red">使用 zTreeObj.copyNode / moveNode 方法，详细请参见 API 文档中的相关内容</li>
+				<li>Use 'copyNode / moveNode' method can also be achieved copy / move nodes.</li>
+				<li><p>Try to copy or cut node:<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="copy" href="#" title="copy" onclick="return false;">copy</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="cut" href="#" title="cut" onclick="return false;">cut</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="paste" href="#" title="paste" onclick="return false;">paste</a> ]</p>
+				<li class="highlight_red">How to use 'zTreeObj.copyNode / moveNode' method,  please see the API documentation.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
+			<li class="title"><h2>2, explain of setting</h2>
 				<ul class="list">
-				<li>同 "拖拽 节点 基本控制"</li>
+				<li>as same as 'Normal Drag Node Operation'</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
+			<li class="title"><h2>3, explain of treeNode</h2>
 				<ul class="list">
-				<li>同 "拖拽 节点 基本控制"</li>
+				<li>as same as 'Normal Drag Node Operation'</li>
 				</ul>
 			</li>
 		</ul>
