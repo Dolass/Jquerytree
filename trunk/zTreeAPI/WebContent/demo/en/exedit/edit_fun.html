@@ -36,25 +36,25 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"父节点 1", open:true},
-			{ id:11, pId:1, name:"叶子节点 1-1"},
-			{ id:12, pId:1, name:"叶子节点 1-2"},
-			{ id:13, pId:1, name:"叶子节点 1-3"},
-			{ id:2, pId:0, name:"父节点 2", open:true},
-			{ id:21, pId:2, name:"叶子节点 2-1"},
-			{ id:22, pId:2, name:"叶子节点 2-2"},
-			{ id:23, pId:2, name:"叶子节点 2-3"},
-			{ id:3, pId:0, name:"父节点 3", open:true},
-			{ id:31, pId:3, name:"叶子节点 3-1"},
-			{ id:32, pId:3, name:"叶子节点 3-2"},
-			{ id:33, pId:3, name:"叶子节点 3-3"}
+			{ id:1, pId:0, name:"parent node 1", open:true},
+			{ id:11, pId:1, name:"leaf node 1-1"},
+			{ id:12, pId:1, name:"leaf node 1-2"},
+			{ id:13, pId:1, name:"leaf node 1-3"},
+			{ id:2, pId:0, name:"parent node 2", open:true},
+			{ id:21, pId:2, name:"leaf node 2-1"},
+			{ id:22, pId:2, name:"leaf node 2-2"},
+			{ id:23, pId:2, name:"leaf node 2-3"},
+			{ id:3, pId:0, name:"parent node 3", open:true },
+			{ id:31, pId:3, name:"leaf node 3-1"},
+			{ id:32, pId:3, name:"leaf node 3-2"},
+			{ id:33, pId:3, name:"leaf node 3-3"}
 		];
 		function beforeDrag(treeId, treeNodes) {
 			return false;
 		}
 		function beforeRename(treeId, treeNode, newName) {
 			if (newName.length == 0) {
-				alert("节点名称不能为空.");
+				alert("Node name can not be empty.");
 				return false;
 			}
 			return true;
@@ -74,7 +74,7 @@
 			if (treeNode) {
 				zTree.editName(treeNode[0]);
 			} else {
-				alert("叶子节点被锁定，无法增加子节点");
+				alert("Leaf node is locked and can not add child node.");
 			}
 		};
 		function edit() {
@@ -82,7 +82,7 @@
 			nodes = zTree.getSelectedNodes(),
 			treeNode = nodes[0];
 			if (nodes.length == 0) {
-				alert("请先选择一个节点");
+				alert("Please select one node at first...");
 				return;
 			}
 			zTree.editName(treeNode);
@@ -92,7 +92,7 @@
 			nodes = zTree.getSelectedNodes(),
 			treeNode = nodes[0];
 			if (nodes.length == 0) {
-				alert("请先选择一个节点");
+				alert("Please select one node at first...");
 				return;
 			}
 			zTree.removeNode(treeNode);
@@ -102,7 +102,7 @@
 			nodes = zTree.getSelectedNodes(),
 			treeNode = nodes[0];
 			if (nodes.length == 0 || !nodes[0].isParent) {
-				alert("请先选择一个父节点");
+				alert("Please select one parent node at first...");
 				return;
 			}
 			zTree.removeChilds(treeNode);
@@ -121,37 +121,37 @@
 </HEAD>
 
 <BODY>
-<h1>用 zTree 方法 增 / 删 / 改 节点</h1>
-<h6>[ 文件路径: exedit/edit_fun.html ]</h6>
+<h1>Edit Nodes - zTree methods</h1>
+<h6>[ File Path: exedit/edit_fun.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、addNodes / editName / removeNode / removeChilds 方法操作说明</h2>
+			<li class="title"><h2>1, explain of 'addNodes / editName / removeNode / removeChilds' method</h2>
 				<ul class="list">
-				<li>利用 addNodes / editName / removeNode / removeChilds 方法也可以实现 增 / 删 / 改 节点的目的，这里简单演示使用方法</li>
-				<li>cancelEditName 方法仅仅是在节点进入名称编辑状态时有效，请在必要时使用，Demo 不进行此方法的演示</li>
-				<li class="highlight_red">利用 setting.data.keep.parent / leaf 属性 实现了父节点、叶子节点的状态锁定</li>
-				<li><p>对节点进行 增 / 删 / 改，试试看：<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="增加父节点" onclick="return false;">增加父节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="增加叶子节点" onclick="return false;">增加叶子节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="修改节点" onclick="return false;">修改节点</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="删除节点" onclick="return false;">删除节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChilds" href="#" title="清空子节点" onclick="return false;">清空子节点</a> ]<br/>
-				<li class="highlight_red">使用 zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChilds 方法，详细请参见 API 文档中的相关内容</li>
+				<li>Use 'addNodes / editName / removeNode / removeChilds' method can also be achieved copy / move nodes.</li>
+				<li>Method 'cancelEditName' is effective, only when edit the node name. Please use it when necessary, this demo doesn't show how to use the method.</li>
+				<li class="highlight_red">Use setting.data.keep.parent / leaf attribute, you can lock the parent node and leaf node.</li>
+				<li><p>Try to edit node:<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="add parent node" onclick="return false;">add parent node</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="add leaf node" onclick="return false;">add leaf node</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="modify node" onclick="return false;">modify node</a> ]<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="remove node" onclick="return false;">remove node</a> ]
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChilds" href="#" title="make child nodes to empty" onclick="return false;">make child nodes to empty</a> ]<br/>
+				<li class="highlight_red">How to use 'zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChilds' method,  please see the API documentation.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2、setting 配置信息说明</h2>
+			<li class="title"><h2>2, explain of setting</h2>
 				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
-				<li class="highlight_red">保持 父 / 叶子 节点状态，需要设置 setting.data.keep.parent / leaf 属性，详细请参见 API 文档中的相关内容</li>
+				<li>as same as 'Basic Edit Nodes'</li>
+				<li class="highlight_red">Lock the parent / leaf node status, need to set setting.data.keep.parent / leaf attribute, see the API documentation for more related content</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、treeNode 节点数据说明</h2>
+			<li class="title"><h2>3, explain of treeNode</h2>
 				<ul class="list">
-				<li>同 "基本 增 / 删 / 改 节点"</li>
+				<li>as same as 'Basic Edit Nodes'</li>
 				</ul>
 			</li>
 		</ul>
