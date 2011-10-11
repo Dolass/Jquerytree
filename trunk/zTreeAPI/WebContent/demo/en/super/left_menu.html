@@ -31,39 +31,39 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"主菜单 1", open:true},
-			{ id:11, pId:1, name:"子菜单 1-1"},
-			{ id:111, pId:11, name:"叶子节点 1-1-1"},
-			{ id:112, pId:11, name:"叶子节点 1-1-2"},
-			{ id:113, pId:11, name:"叶子节点 1-1-3"},
-			{ id:114, pId:11, name:"叶子节点 1-1-4"},
-			{ id:12, pId:1, name:"子菜单 1-2"},
-			{ id:121, pId:12, name:"叶子节点 1-2-1"},
-			{ id:122, pId:12, name:"叶子节点 1-2-2"},
-			{ id:123, pId:12, name:"叶子节点 1-2-3"},
-			{ id:124, pId:12, name:"叶子节点 1-2-4"},
-			{ id:2, pId:0, name:"主菜单 2"},
-			{ id:21, pId:2, name:"子菜单 2-1"},
-			{ id:211, pId:21, name:"叶子节点 2-1-1"},
-			{ id:212, pId:21, name:"叶子节点 2-1-2"},
-			{ id:213, pId:21, name:"叶子节点 2-1-3"},
-			{ id:214, pId:21, name:"叶子节点 2-1-4"},
-			{ id:22, pId:2, name:"子菜单 2-2"},
-			{ id:221, pId:22, name:"叶子节点 2-2-1"},
-			{ id:222, pId:22, name:"叶子节点 2-2-2"},
-			{ id:223, pId:22, name:"叶子节点 2-2-3"},
-			{ id:224, pId:22, name:"叶子节点 2-2-4"},
-			{ id:3, pId:0, name:"主菜单 3"},
-			{ id:31, pId:3, name:"子菜单 3-1"},
-			{ id:311, pId:31, name:"叶子节点 3-1-1"},
-			{ id:312, pId:31, name:"叶子节点 3-1-2"},
-			{ id:313, pId:31, name:"叶子节点 3-1-3"},
-			{ id:314, pId:31, name:"叶子节点 3-1-4"},
-			{ id:32, pId:3, name:"子菜单 3-2"},
-			{ id:321, pId:32, name:"叶子节点 3-2-1"},
-			{ id:322, pId:32, name:"叶子节点 3-2-2"},
-			{ id:323, pId:32, name:"叶子节点 3-2-3"},
-			{ id:324, pId:32, name:"叶子节点 3-2-4"}			
+			{ id:1, pId:0, name:"Main Menu 1", open:true},
+			{ id:11, pId:1, name:"Sub Menu 1-1"},
+			{ id:111, pId:11, name:"Leaf Node 1-1-1"},
+			{ id:112, pId:11, name:"Leaf Node 1-1-2"},
+			{ id:113, pId:11, name:"Leaf Node 1-1-3"},
+			{ id:114, pId:11, name:"Leaf Node 1-1-4"},
+			{ id:12, pId:1, name:"Sub Menu 1-2"},
+			{ id:121, pId:12, name:"Leaf Node 1-2-1"},
+			{ id:122, pId:12, name:"Leaf Node 1-2-2"},
+			{ id:123, pId:12, name:"Leaf Node 1-2-3"},
+			{ id:124, pId:12, name:"Leaf Node 1-2-4"},
+			{ id:2, pId:0, name:"Main Menu 2"},
+			{ id:21, pId:2, name:"Sub Menu 2-1"},
+			{ id:211, pId:21, name:"Leaf Node 2-1-1"},
+			{ id:212, pId:21, name:"Leaf Node 2-1-2"},
+			{ id:213, pId:21, name:"Leaf Node 2-1-3"},
+			{ id:214, pId:21, name:"Leaf Node 2-1-4"},
+			{ id:22, pId:2, name:"Sub Menu 2-2"},
+			{ id:221, pId:22, name:"Leaf Node 2-2-1"},
+			{ id:222, pId:22, name:"Leaf Node 2-2-2"},
+			{ id:223, pId:22, name:"Leaf Node 2-2-3"},
+			{ id:224, pId:22, name:"Leaf Node 2-2-4"},
+			{ id:3, pId:0, name:"Main Menu 3"},
+			{ id:31, pId:3, name:"Sub Menu 3-1"},
+			{ id:311, pId:31, name:"Leaf Node 3-1-1"},
+			{ id:312, pId:31, name:"Leaf Node 3-1-2"},
+			{ id:313, pId:31, name:"Leaf Node 3-1-3"},
+			{ id:314, pId:31, name:"Leaf Node 3-1-4"},
+			{ id:32, pId:3, name:"Sub Menu 3-2"},
+			{ id:321, pId:32, name:"Leaf Node 3-2-1"},
+			{ id:322, pId:32, name:"Leaf Node 3-2-2"},
+			{ id:323, pId:32, name:"Leaf Node 3-2-3"},
+			{ id:324, pId:32, name:"Leaf Node 3-2-4"}
 		];
 
 		function beforeClick(treeId, node) {
@@ -125,24 +125,24 @@
  </HEAD>
 
 <BODY>
-<h1>用来当做左侧菜单的 zTree</h1>
-<h6>[ 文件路径: super/left_menu.html ]</h6>
+<h1>Left Menu</h1>
+<h6>[ File Path: super/left_menu.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>实现方法说明</h2>
+			<li class="title"><h2>explain of implementation method</h2>
 				<ul class="list">
-				<li>在 “Demo 演示”中的左侧菜单就是用 zTree 实现的，主要是靠 css 样式负责排版，利用 setting 中的配置进行功能制作，本 Demo 对实现 左侧菜单进行简单的介绍，你也可以通过查看 “Demo 演示”页面的源码深入了解。</li>
-				<li class="highlight_red">1、关于 css 完全可以根据自己的需要进行个性化调整，例如：此 Demo 的菜单样式 就 与 “Demo 演示”页面的不一样，仅供对比参考</li>
-				<li class="highlight_red">2、主要用到的配置有：<br/>
+				<li>The menu in the "zTree v3.0 Demo" page is to use zTree to achieve, is to use css set interface, use the configuration 'setting' to achieve features, this demo achieve a simple example of the left menu, you can view the source code of "zTree v3.0 Demo" for in-depth study.</li>
+				<li class="highlight_red">1. According to your needs to modify the css, for example: the menu style on this Demo and "zTree v3.0 Demo" page not the same.</li>
+				<li class="highlight_red">2. Main configuration:<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;setting.view.showIcon / showLine / selectedMulti / dblClickExpand<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;setting.callback.onNodeCreated / beforeClick / onClick
 				</li>
-				<li>3、是否需要限制单一路径展开，完全由你的需求而定，实现代码可参考 "保持展开单一路径"</li>
-				<li>4、其他辅助规则，请根据实际情况自行编写</li>
+				<li>3. If need to keep single path, please refer to the source code of "Keep Single Path" Demo.</li>
+				<li>4. Other auxiliary rules, please write code based on your needs.</li>
 				</ul>
 			</li>
 		</ul>
