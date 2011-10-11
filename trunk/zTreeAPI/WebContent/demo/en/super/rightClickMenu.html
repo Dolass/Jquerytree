@@ -24,25 +24,25 @@
 		};
 
 		var zNodes =[
-			{id:1, name:"无右键菜单 1", open:true, noR:true,
+			{id:1, name:"No right-click menu 1", open:true, noR:true,
 				childs:[
-					   {id:11, name:"节点 1-1", noR:true},
-					   {id:12, name:"节点 1-2", noR:true}
+					   {id:11, name:"Leaf Node 1-1", noR:true},
+					   {id:12, name:"Leaf Node 1-2", noR:true}
 
 				]},
-			{id:2, name:"右键操作 2", open:true,
+			{id:2, name:"Right-click 2", open:true,
 				childs:[
-					   {id:21, name:"节点 2-1"},
-					   {id:22, name:"节点 2-2"},
-					   {id:23, name:"节点 2-3"},
-					   {id:24, name:"节点 2-4"}
+					   {id:21, name:"Leaf Node 2-1"},
+					   {id:22, name:"Leaf Node 2-2"},
+					   {id:23, name:"Leaf Node 2-3"},
+					   {id:24, name:"Leaf Node 2-4"}
 				]},
-			{id:3, name:"右键操作 3", open:true,
+			{id:3, name:"Right-click 3", open:true,
 				childs:[
-					   {id:31, name:"节点 3-1"},
-					   {id:32, name:"节点 3-2"},
-					   {id:33, name:"节点 3-3"},
-					   {id:34, name:"节点 3-4"}
+					   {id:31, name:"Leaf Node 3-1"},
+					   {id:32, name:"Leaf Node 3-2"},
+					   {id:33, name:"Leaf Node 3-3"},
+					   {id:34, name:"Leaf Node 3-4"}
 				]}
   	 	];
 
@@ -83,14 +83,14 @@
 		var addCount = 1;
 		function addTreeNode() {
 			hideRMenu();
-			zTree.addNodes(zTree.getSelectedNodes()[0], [{ name:"增加" + (addCount++)}]);
+			zTree.addNodes(zTree.getSelectedNodes()[0], [{ name:"newNode " + (addCount++)}]);
 		}
 		function removeTreeNode() {
 			hideRMenu();
 			var nodes = zTree.getSelectedNodes();
 			if (nodes && nodes.length>0) {
 				if (nodes[0].childs && nodes[0].childs.length > 0) {
-					var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
+					var msg = "If you delete this node will be deleted along with sub-nodes. \n\nPlease confirm!";
 					if (confirm(msg)==true){
 						zTree.removeNode(nodes[0]);
 					}
@@ -132,18 +132,18 @@ div#rMenu ul li{
  </HEAD>
 
 <BODY>
-<h1>右键菜单的实现</h1>
-<h6>[ 文件路径: super/rightClickMenu.html ]</h6>
+<h1>Right-click Menu</h1>
+<h6>[ File Path: super/rightClickMenu.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>实现方法说明</h2>
+			<li class="title"><h2>explain of implementation method</h2>
 				<ul class="list">
-				<li>利用 beforeRightClick / onRightClick 事件回调函数简单实现的右键菜单</li>
-				<li class="highlight_red">Demo 中的菜单比较简陋，你完全可以配合其他自定义样式的菜单图层混合使用</li>
+				<li>Use 'beforeRightClick / onRightClick' callback function achieve right-click menu.</li>
+				<li class="highlight_red">Demo's menu is ugly, you can use a custom menu fine style.</li>
 				</ul>
 			</li>
 		</ul>
@@ -151,11 +151,11 @@ div#rMenu ul li{
 </div>
 <div id="rMenu">
 	<ul>
-		<li id="m_add" onclick="addTreeNode();">增加节点</li>
-		<li id="m_del" onclick="removeTreeNode();">删除节点</li>
-		<li id="m_check" onclick="checkTreeNode(true);">Check节点</li>
-		<li id="m_unCheck" onclick="checkTreeNode(false);">unCheck节点</li>
-		<li id="m_reset" onclick="resetTree();">恢复zTree</li>
+		<li id="m_add" onclick="addTreeNode();">Add Node</li>
+		<li id="m_del" onclick="removeTreeNode();">Delete Node</li>
+		<li id="m_check" onclick="checkTreeNode(true);">Check Node</li>
+		<li id="m_unCheck" onclick="checkTreeNode(false);">Uncheck Node</li>
+		<li id="m_reset" onclick="resetTree();">Resume zTree</li>
 	</ul>
 </div>
 </BODY>
