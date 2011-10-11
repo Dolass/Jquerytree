@@ -27,30 +27,30 @@
 		};
 
 		var zNodes =[
-			{id:1, pId:0, name:"北京"},
-			{id:2, pId:0, name:"天津"},
-			{id:3, pId:0, name:"上海"},
-			{id:6, pId:0, name:"重庆"},
-			{id:4, pId:0, name:"河北省", open:true},
-			{id:41, pId:4, name:"石家庄"},
-			{id:42, pId:4, name:"保定"},
-			{id:43, pId:4, name:"邯郸"},
-			{id:44, pId:4, name:"承德"},
-			{id:5, pId:0, name:"广东省", open:true},
-			{id:51, pId:5, name:"广州"},
-			{id:52, pId:5, name:"深圳"},
-			{id:53, pId:5, name:"东莞"},
-			{id:54, pId:5, name:"佛山"},
-			{id:6, pId:0, name:"福建省", open:true},
-			{id:61, pId:6, name:"福州"},
-			{id:62, pId:6, name:"厦门"},
-			{id:63, pId:6, name:"泉州"},
-			{id:64, pId:6, name:"三明"}
+			{id:1, pId:0, name:"Beijing"},
+			{id:2, pId:0, name:"Tianjin"},
+			{id:3, pId:0, name:"Shanghai"},
+			{id:6, pId:0, name:"Chongqing"},
+			{id:4, pId:0, name:"Hebei Province", open:true},
+			{id:41, pId:4, name:"Shijiazhuang"},
+			{id:42, pId:4, name:"Baoding"},
+			{id:43, pId:4, name:"Handan"},
+			{id:44, pId:4, name:"Chengde"},
+			{id:5, pId:0, name:"Guangdong Province", open:true},
+			{id:51, pId:5, name:"Guangzhou"},
+			{id:52, pId:5, name:"Shenzhen"},
+			{id:53, pId:5, name:"Dongguan"},
+			{id:54, pId:5, name:"Fushan"},
+			{id:6, pId:0, name:"Fujian Province", open:true},
+			{id:61, pId:6, name:"Fuzhou"},
+			{id:62, pId:6, name:"Xiamen"},
+			{id:63, pId:6, name:"Quanzhou"},
+			{id:64, pId:6, name:"Sanming"}
 		 ];
 
 		function beforeClick(treeId, treeNode) {
 			var check = (treeNode && !treeNode.isParent);
-			if (!check) alert("只能选择城市...");
+			if (!check) alert("Do not select province...");
 			return check;
 		}
 		
@@ -94,23 +94,23 @@
  </HEAD>
 
 <BODY>
-<h1>下拉菜单</h1>
-<h6>[ 文件路径: super/select_menu.html ]</h6>
+<h1>Drop-down Menu</h1>
+<h6>[ File Path: super/select_menu.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul class="list">
-			<li class="title">&nbsp;&nbsp;<span class="highlight_red">选择城市时，按下 Ctrl 键可以进行多选</span></li>
-			<li class="title">&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value="" style="width:120px;"/>
-		&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+			<li class="title">&nbsp;&nbsp;<span class="highlight_red">Press Ctrl key to select multiple cities</span></li>
+			<li class="title">&nbsp;&nbsp;city: <input id="citySel" type="text" readonly value="" style="width:120px;"/>
+		&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">select</a></li>
 		</ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>实现方法说明</h2>
+			<li class="title"><h2>explain of implementation method</h2>
 				<ul class="list">
-				<li>用 zTree 实现这种下拉菜单，应该说是比较容易的，你只需要控制 zTree 所在容器的隐藏/显示，以及位置即可。</li>
-				<li class="highlight_red">zTree v3.0 实现了多点选中功能，因此对于需要多选的下拉菜单也易如反掌。</li>
-				<li class="highlight_red">利用 setting 的各项配置参数，完全可以满足大部分的功能需求。</li>
+				<li>Achieve this drop-down menu, it is relatively easy, you only need to control zTree Hide / Show, and location.</li>
+				<li class="highlight_red">Use zTree v3.0, you can select multiple nodes, so the multi-selection is also easy.</li>
+				<li class="highlight_red">Use the configuration parameters setting, fully meet the needs of most of the functionality.</li>
 				</ul>
 			</li>
 		</ul>
