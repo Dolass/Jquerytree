@@ -596,7 +596,7 @@
 						}
 					} else {
 						moveType = consts.move.TYPE_INNER;
-						if (tmpTarget && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner)) {
+						if (tmpTarget && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, null], !!targetSetting.edit.drag.inner)) {
 							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
 						} else {
 							tmpTarget = null;
