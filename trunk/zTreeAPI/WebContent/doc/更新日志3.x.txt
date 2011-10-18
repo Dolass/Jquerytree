@@ -21,6 +21,7 @@
       $("input:focus").length == 0 会导致 IE6异常
    * 【修改】checkNode/expandNode/removeNode 方法，默认不触发回调函数，恢复 v2.6 的默认状态，同时增加 trigger 参数，设置为 true 时，可以触发回调函数
       尚未制作
+   * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性
 
    * 【修改】beforeRename / onRename 的触发方式——即使名称内容未改变也会触发，便于用户配合 beforeEditName 捕获编辑状态的结束，赋予用户更多调整规则的权利
    * 【修改】与 easyUI 共存时无法拖拽的bug
