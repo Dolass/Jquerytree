@@ -531,9 +531,9 @@
 						isPrev = !!(preNode && tmpTargetNodeId === preNode.tId),
 						isNext = !!(nextNode && tmpTargetNodeId === nextNode.tId),
 						isInner = (tmpNode.parentTId && tmpNode.parentTId == tmpTargetNodeId),
-						canPrev = (isCopy || !isNext) && tools.apply(targetSetting.edit.drag.prev, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.prev),
-						canNext = (isCopy || !isPrev) && tools.apply(targetSetting.edit.drag.next, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.next),
-						canInner = (isCopy || !isInner) && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent) && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, tmpTargetNode], !!targetSetting.edit.drag.inner);
+						canPrev = (isCopy || !isNext) && tools.apply(targetSetting.edit.drag.prev, [targetSetting.treeId, nodes, tmpTargetNode], !!targetSetting.edit.drag.prev),
+						canNext = (isCopy || !isPrev) && tools.apply(targetSetting.edit.drag.next, [targetSetting.treeId, nodes, tmpTargetNode], !!targetSetting.edit.drag.next),
+						canInner = (isCopy || !isInner) && !(targetSetting.data.keep.leaf && !tmpTargetNode.isParent) && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, nodes, tmpTargetNode], !!targetSetting.edit.drag.inner);
 						if (!canPrev && !canNext && !canInner) {
 							tmpTarget = null;
 							tmpTargetNodeId = "";
@@ -596,7 +596,7 @@
 						}
 					} else {
 						moveType = consts.move.TYPE_INNER;
-						if (tmpTarget && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, null], !!targetSetting.edit.drag.inner)) {
+						if (tmpTarget && tools.apply(targetSetting.edit.drag.inner, [targetSetting.treeId, nodes, null], !!targetSetting.edit.drag.inner)) {
 							tmpTarget.addClass(consts.node.TMPTARGET_TREE);
 						} else {
 							tmpTarget = null;

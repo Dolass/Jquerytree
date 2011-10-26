@@ -56,42 +56,42 @@
 			{ id:33, pId:3, name:"随意拖拽 3-3"}
 		];
 
-		function dropPrev(treeId, treeNode) {
-			var pNode =treeNode.getParentNode();
+		function dropPrev(treeId, nodes, targetNode) {
+			var pNode = targetNode.getParentNode();
 			if (pNode && pNode.dropInner === false) {
 				return false;
 			} else {
 				for (var i=0,l=curDragNodes.length; i<l; i++) {
 					var curPNode = curDragNodes[i].getParentNode();
-					if (curPNode && curPNode !== treeNode.getParentNode() && curPNode.childOuter === false) {
+					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
 						return false;
 					}
 				}
 			}
 			return true;
 		}
-		function dropInner(treeId, treeNode) {
-			if (treeNode && treeNode.dropInner === false) {
+		function dropInner(treeId, nodes, targetNode) {
+			if (targetNode && targetNode.dropInner === false) {
 				return false;
 			} else {
 				for (var i=0,l=curDragNodes.length; i<l; i++) {
-					if (!treeNode && curDragNodes[i].dropRoot === false) {
+					if (!targetNode && curDragNodes[i].dropRoot === false) {
 						return false;
-					} else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== treeNode && curDragNodes[i].getParentNode().childOuter === false) {
+					} else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== targetNode && curDragNodes[i].getParentNode().childOuter === false) {
 						return false;
 					}
 				}
 			}
 			return true;
 		}
-		function dropNext(treeId, treeNode) {
-			var pNode =treeNode.getParentNode();
+		function dropNext(treeId, nodes, targetNode) {
+			var pNode = targetNode.getParentNode();
 			if (pNode && pNode.dropInner === false) {
 				return false;
 			} else {
 				for (var i=0,l=curDragNodes.length; i<l; i++) {
 					var curPNode = curDragNodes[i].getParentNode();
-					if (curPNode && curPNode !== treeNode.getParentNode() && curPNode.childOuter === false) {
+					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
 						return false;
 					}
 				}
