@@ -7,6 +7,24 @@
 * [http://www.baby666.cn/v3/faq.php#_101 zTree v3.0 常见问题]
 </font>
 
+需要核实的问题：
+(1) http://ztreeapi.iteye.com/blog/1169368 94楼回复内容需要检查
+嘿嘿，又发现一个问题，应该是V2 到V3 过渡产生的bug
+jquery.ztree.core-3.0.js  871行
+Java代码
+if (tools.isArray(setting.asyncParamOther)) {//asyncParamOther 是V2的参数
+  //...
+} else {
+  //...
+}
+再对Array prototype增加了几个属性的情况下，异步方式 url 会增加几个字段
+
+（2）Email 279929158.qq.com
+demo\exedit\multiTree.html
+测试浏览器 ：firefox 7.0.1
+不能在2棵树直接拖动,ie8正常。
+
+
 <font color=#041594>
 *2011.10.01* v3.0
    * 【修改】异步加载 & 编辑功能 共存时，拖拽节点 或 增加节点 导致 ie 上报错的 bug （apply 方法引起）
