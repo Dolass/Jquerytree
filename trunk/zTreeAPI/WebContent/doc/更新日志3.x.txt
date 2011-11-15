@@ -24,6 +24,9 @@ demo\exedit\multiTree.html
 测试浏览器 ：firefox 7.0.1
 不能在2棵树直接拖动,ie8正常。
 
+（3）希望zTreeObj.getCheckedNodes(checked)方法给个过滤器
+（4）exedit中调用 excheck库的方法时没有进行容错导致如果只加入 exedit 而没有excheck的时候，会出错
+    例如： view.repairParentChkClassWithSelf(setting, parentNode);
 
 <font color=#041594>
 *2011.10.01* v3.0
