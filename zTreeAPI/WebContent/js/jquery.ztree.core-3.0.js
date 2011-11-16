@@ -873,8 +873,8 @@
 				}
 				tmpParam += (tmpParam.length > 0 ? "&": "") + spKey + "=" + node[pKey];
 			}
-			if (tools.isArray(setting.asyncParamOther)) {
-				for (i = 0, l = setting.asyncParamOther.length; i < l; i += 2) {
+			if (tools.isArray(setting.async.otherParam)) {
+				for (i = 0, l = setting.async.otherParam.length; i < l; i += 2) {
 					tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.otherParam[i] + "=" + setting.async.otherParam[i + 1];
 				}
 			} else {
