@@ -51,6 +51,7 @@ demo\exedit\multiTree.html
    * 【修改】初始化 zTree 时 onNodeCreated 事件回调函数中无法 用 getZTreeObj 获取 zTree 对象的bug
       尚未制作
    * 【修改】setting.edit.drag.prev / next / inner 参数，增加被拖拽的节点集合
+   * 【修改】异步加载模式下，otherParam 使用Array数组会出错的bug。例如： ["id", "1", "name", "test"]
 
 
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
