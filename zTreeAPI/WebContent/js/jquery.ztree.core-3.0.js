@@ -1277,17 +1277,7 @@
 					view.cancelPreSelectedNode(this.setting, node);
 				},
 				expandAll : function(expandFlag) {
-					if (expandFlag !== true && expandFlag !== false) {
-						expandFlag = null;
-						var nodes = data.getNodes(this.setting);
-						for (var i=0, l=nodes.length; i<l; i++) {
-							if (nodes[i].isParent) {
-								expandFlag = !nodes[i].open;
-								break;
-							}
-						}
-						if (expandFlag == null) return expandFlag;
-					}
+					expandFlag = !!expandFlag;
 					view.expandCollapseSonNode(this.setting, null, expandFlag, true);
 					return expandFlag;
 				},
