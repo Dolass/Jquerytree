@@ -724,6 +724,12 @@
 			function _docSelect() {
 				return false;
 			}
+
+			//Avoid FireFox's Bug
+			//If zTree Div CSS set 'overflow', so drag node outside of zTree, and event.target is error.
+			if(eventMouseDown.preventDefault) {
+				eventMouseDown.preventDefault();
+			}
 			return true;
 		}
 	},
@@ -1033,7 +1039,7 @@
 			}
 
 			//repair checkbox / radio
-			if (setting.checkable) {
+			if (setting.check.enable && view.repairChkClass) {
 				view.repairChkClass(setting, oldParentNode);
 				view.repairParentChkClassWithSelf(setting, oldParentNode);
 				if (oldParentNode != node.parent)
@@ -1185,9 +1191,13 @@
 
 	var _createNodes = view.createNodes;
 	view.createNodes = function(setting, level, nodes, parentNode) {
-		if (_createNodes) _createNodes.apply(view, arguments);
+		if (_createNodes) {
+			_createNodes.apply(view, arguments);
+		}
 		if (!nodes) return;
-		view.repairParentChkClassWithSelf(setting, parentNode);
+		if (view.repairParentChkClassWithSelf) {
+			view.repairParentChkClassWithSelf(setting, parentNode);
+		}
 	}
 
 	view.makeNodeUrl = function(setting, node) {

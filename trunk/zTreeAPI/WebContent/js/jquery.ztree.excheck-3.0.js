@@ -147,13 +147,16 @@
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
 			var checkedKey = this.setting.data.key.checked;
-			if (node[checkedKey] === !!checked && !checkTypeFlag) {
+			if (checked !== true && checked !== false) {
+				checked = !node[checkedKey];
+			}
+			if (node[checkedKey] === checked && !checkTypeFlag) {
 				return;
 			} else if (tools.apply(this.setting.callback.beforeCheck, [this.setting.treeId, node], true) == false) {
 				return;
 			}
 			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true) {
-				node[checkedKey] = !!checked;
+				node[checkedKey] = checked;
 				var checkObj = $("#" + node.tId + consts.id.CHECK);
 				if (checkTypeFlag || this.setting.check.chkStyle === consts.radio.STYLE) view.checkNodeRelation(this.setting, node);
 				view.setChkClass(this.setting, checkObj, node);
