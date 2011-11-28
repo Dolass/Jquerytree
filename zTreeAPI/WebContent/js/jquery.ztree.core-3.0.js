@@ -1281,25 +1281,26 @@
 					view.expandCollapseSonNode(this.setting, null, expandFlag, true);
 					return expandFlag;
 				},
-				expandNode : function(node, expandFlag, sonSign, focus) {
+				expandNode : function(node, expandFlag, sonSign, focus, callbackFlag) {
 					if (!node || !node.isParent) return null;
 					if (expandFlag !== true && expandFlag !== false) {
 						expandFlag = !node.open;
 					}
+					callbackFlag = !!callbackFlag;
 
-					if (expandFlag && (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false)) {
+					if (callbackFlag && expandFlag && (tools.apply(setting.callback.beforeExpand, [setting.treeId, node], true) == false)) {
 						return null;
-					} else if (!expandFlag && (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false)) {
+					} else if (callbackFlag && !expandFlag && (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false)) {
 						return null;
 					}
-					if (expandFlag) {
-						if (node.parentTId) view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
+					if (expandFlag && node.parentTId) {
+						view.expandCollapseParentNode(this.setting, node.getParentNode(), expandFlag, false);
 					}
 					if (expandFlag === node.open && !sonSign) {
 						return null;
 					}
 					
-					data.getRoot(setting).expandTriggerFlag = true;
+					data.getRoot(setting).expandTriggerFlag = callbackFlag;
 					if (sonSign) {
 						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
 							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}

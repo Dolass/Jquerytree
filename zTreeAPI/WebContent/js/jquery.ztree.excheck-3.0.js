@@ -145,14 +145,16 @@
 	},
 	//update zTreeObj, add method of check
 	_zTreeTools = function(setting, zTreeTools) {
-		zTreeTools.checkNode = function(node, checked, checkTypeFlag) {
+		zTreeTools.checkNode = function(node, checked, checkTypeFlag, callbackFlag) {
 			var checkedKey = this.setting.data.key.checked;
 			if (checked !== true && checked !== false) {
 				checked = !node[checkedKey];
 			}
+			callbackFlag = !!callbackFlag;
+			
 			if (node[checkedKey] === checked && !checkTypeFlag) {
 				return;
-			} else if (tools.apply(this.setting.callback.beforeCheck, [this.setting.treeId, node], true) == false) {
+			} else if (callbackFlag && tools.apply(this.setting.callback.beforeCheck, [this.setting.treeId, node], true) == false) {
 				return;
 			}
 			if (tools.uCanDo(this.setting) && this.setting.check.enable && node.nocheck !== true) {
@@ -161,7 +163,9 @@
 				if (checkTypeFlag || this.setting.check.chkStyle === consts.radio.STYLE) view.checkNodeRelation(this.setting, node);
 				view.setChkClass(this.setting, checkObj, node);
 				view.repairParentChkClassWithSelf(this.setting, node);
-				setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+				if (callbackFlag) {
+					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+				}
 			}
 		}
 

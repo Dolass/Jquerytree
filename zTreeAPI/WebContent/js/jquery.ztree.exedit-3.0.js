@@ -245,11 +245,14 @@
 			}
 			return node;
 		}
-		zTreeTools.removeNode = function(node) {
+		zTreeTools.removeNode = function(node, callbackFlag) {
 			if (!node) return;
-			if (tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return;
+			callbackFlag = !!callbackFlag;
+			if (callbackFlag && tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return;
 			view.removeNode(setting, node);
-			this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
+			if (callbackFlag) {
+				this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
+			}
 		}
 		zTreeTools.removeChilds = function(node) {
 			if (!node) return null;
