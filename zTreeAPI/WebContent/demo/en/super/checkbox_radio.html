@@ -57,7 +57,7 @@
 			var checkedRadio = getCheckedRadio("radio_"+treeNode.id);
 			if (btn.attr("checked")) {
 				if (!checkedRadio) {
-					$("#radio_" + treeNode.childs[0].id).attr("checked", true);
+					$("#radio_" + treeNode.child[0].id).attr("checked", true);
 				}
 			} else {
 				checkedRadio.attr("checked", false);

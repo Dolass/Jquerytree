@@ -175,12 +175,12 @@
 			if (!newNodes) return null;
 			if (!parentNode) parentNode = null;
 			if (parentNode && !parentNode.isParent && setting.data.keep.leaf) return null;
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			function addCallback() {
 				view.addNodes(setting, parentNode, xNewNodes, (isSilent==true));
 			}
-			if (this.setting.async.enable && parentNode && parentNode.isParent && (!parentNode[childsKey] || parentNode[childsKey].length === 0)) {
+			if (this.setting.async.enable && parentNode && parentNode.isParent && (!parentNode[childKey] || parentNode[childKey].length === 0)) {
 				view.asyncNode(setting, parentNode, isSilent, addCallback);
 			} else {
 				addCallback();
@@ -197,7 +197,7 @@
 		zTreeTools.copyNode = function(targetNode, node, moveType, isSilent) {
 			if (!node) return null;
 			if (targetNode && !targetNode.isParent && setting.data.keep.leaf && moveType === consts.move.TYPE_INNER) return null;
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			newNode = tools.clone(node);
 			if (!targetNode) {
 				targetNode = null;
@@ -207,7 +207,7 @@
 				function copyCallback() {
 					view.addNodes(setting, targetNode, [newNode], isSilent);
 				}
-				if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childsKey] || targetNode[childsKey].length === 0)) {
+				if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childKey] || targetNode[childKey].length === 0)) {
 					view.asyncNode(setting, targetNode, isSilent, copyCallback);
 				} else {
 					copyCallback();
@@ -234,11 +234,11 @@
 			} else if (!targetNode) {
 				targetNode = null;
 			}
-			var childsKey = setting.data.key.childs;
+			var childKey = setting.data.key.child;
 			function moveCallback() {
 				view.moveNode(setting, targetNode, node, moveType, false, isSilent);
 			}
-			if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childsKey] || targetNode[childsKey].length === 0)) {
+			if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childKey] || targetNode[childKey].length === 0)) {
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
@@ -254,11 +254,11 @@
 				this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 			}
 		}
-		zTreeTools.removeChilds = function(node) {
+		zTreeTools.removeChild = function(node) {
 			if (!node) return null;
-			var childsKey = setting.data.key.childs,
-			nodes = node[childsKey];
-			view.removeChilds(setting, node);
+			var childKey = setting.data.key.child,
+			nodes = node[childKey];
+			view.removeChild(setting, node);
 			return nodes ? nodes : null;
 		}
 		zTreeTools.setEditable = function(editable) {
@@ -270,11 +270,11 @@
 	_data = {
 		setSonNodeLevel: function(setting, parentNode, node) {
 			if (!node) return;
-			var childsKey = setting.data.key.childs;
+			var childKey = setting.data.key.child;
 			node.level = (parentNode)? parentNode.level + 1 : 0;
-			if (!node[childsKey]) return;
-			for (var i = 0, l = node[childsKey].length; i < l; i++) {
-				if (node[childsKey][i]) data.setSonNodeLevel(setting, node, node[childsKey][i]);
+			if (!node[childKey]) return;
+			for (var i = 0, l = node[childKey].length; i < l; i++) {
+				if (node[childKey][i]) data.setSonNodeLevel(setting, node, node[childKey][i]);
 			}
 		}
 	},
@@ -349,7 +349,7 @@
 					return true;
 				}
 				var i, l, tmpNode, tmpDom, tmpNodes,
-				childsKey = setting.data.key.childs;
+				childKey = setting.data.key.child;
 				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
@@ -379,7 +379,7 @@
 					//sort
 					var isOrder = true, lastIndex = -1;
 					if (nodes.length>1) {
-						var pNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childsKey] : data.getNodes(setting);
+						var pNodes = nodes[0].parentTId ? nodes[0].getParentNode()[childKey] : data.getNodes(setting);
 						tmpNodes = [];
 						for (i=0, l=pNodes.length; i<l; i++) {
 							if (root.dragNodeShowBefore[pNodes[i].tId] !== undefined) {
@@ -477,7 +477,7 @@
 						}
 
 						var canMove = true;
-						//don't move to self or childs of self
+						//don't move to self or child of self
 						for (i=0, l=nodes.length; i<l; i++) {
 							tmpNode = nodes[i];
 							if (targetObj.id === tmpNode.tId) {
@@ -641,7 +641,7 @@
 				root.dragFlag = 0;
 
 				var i, l, tmpNode,
-				childsKey = setting.data.key.childs;
+				childKey = setting.data.key.child;
 				for (i=0, l=nodes.length; i<l; i++) {
 					tmpNode = nodes[i];
 					if (tmpNode.isParent && root.dragNodeShowBefore[tmpNode.tId] && !tmpNode.open) {
@@ -708,7 +708,7 @@
 
 					}
 
-					if (moveType == consts.move.TYPE_INNER && targetSetting.async.enable && dragTargetNode && dragTargetNode.isParent && (!dragTargetNode[childsKey] || dragTargetNode[childsKey].length === 0)) {
+					if (moveType == consts.move.TYPE_INNER && targetSetting.async.enable && dragTargetNode && dragTargetNode.isParent && (!dragTargetNode[childKey] || dragTargetNode[childKey].length === 0)) {
 						view.asyncNode(targetSetting, dragTargetNode, false, dropCallback);
 					} else {
 						dropCallback();
@@ -899,7 +899,7 @@
 		},
 		moveNode: function(setting, targetNode, node, moveType, animateFlag, isSilent) {
 			var root = data.getRoot(setting),
-			childsKey = setting.data.key.childs;
+			childKey = setting.data.key.child;
 			if (targetNode == node) return;
 			if (setting.data.keep.leaf && targetNode && !targetNode.isParent && moveType == consts.move.TYPE_INNER) return;
 			var oldParentNode = (node.parentTId ? node.getParentNode(): root),
@@ -944,28 +944,28 @@
 			oldLevel = node.level;
 			if (node.isFirstNode) {
 				tmpSrcIndex = 0;
-				if (oldParentNode[childsKey].length > 1 ) {
-					oldNeighbor = oldParentNode[childsKey][1];
+				if (oldParentNode[childKey].length > 1 ) {
+					oldNeighbor = oldParentNode[childKey][1];
 					oldNeighbor.isFirstNode = true;
 				}
 			} else if (node.isLastNode) {
-				tmpSrcIndex = oldParentNode[childsKey].length -1;
-				oldNeighbor = oldParentNode[childsKey][tmpSrcIndex - 1];
+				tmpSrcIndex = oldParentNode[childKey].length -1;
+				oldNeighbor = oldParentNode[childKey][tmpSrcIndex - 1];
 				oldNeighbor.isLastNode = true;
 			} else {
-				for (i = 0, l = oldParentNode[childsKey].length; i < l; i++) {
-					if (oldParentNode[childsKey][i].tId == node.tId) {
+				for (i = 0, l = oldParentNode[childKey].length; i < l; i++) {
+					if (oldParentNode[childKey][i].tId == node.tId) {
 						tmpSrcIndex = i;
 						break;
 					}
 				}
 			}
 			if (tmpSrcIndex >= 0) {
-				oldParentNode[childsKey].splice(tmpSrcIndex, 1);
+				oldParentNode[childKey].splice(tmpSrcIndex, 1);
 			}
 			if (moveType != consts.move.TYPE_INNER) {
-				for (i = 0, l = targetParentNode[childsKey].length; i < l; i++) {
-					if (targetParentNode[childsKey][i].tId == targetNode.tId) tmpTargetIndex = i;
+				for (i = 0, l = targetParentNode[childKey].length; i < l; i++) {
+					if (targetParentNode[childKey][i].tId == targetNode.tId) tmpTargetIndex = i;
 				}
 			}
 			if (moveType == consts.move.TYPE_INNER) {
@@ -978,16 +978,16 @@
 					node.parentTId = targetNode.tId;
 				}
 
-				if (!targetNode[childsKey]) targetNode[childsKey] = new Array();
-				if (targetNode[childsKey].length > 0) {
-					newNeighbor = targetNode[childsKey][targetNode[childsKey].length - 1];
+				if (!targetNode[childKey]) targetNode[childKey] = new Array();
+				if (targetNode[childKey].length > 0) {
+					newNeighbor = targetNode[childKey][targetNode[childKey].length - 1];
 					newNeighbor.isLastNode = false;
 				}
-				targetNode[childsKey].splice(targetNode[childsKey].length, 0, node);
+				targetNode[childKey].splice(targetNode[childKey].length, 0, node);
 				node.isLastNode = true;
-				node.isFirstNode = (targetNode[childsKey].length == 1);
+				node.isFirstNode = (targetNode[childKey].length == 1);
 			} else if (targetNode.isFirstNode && moveType == consts.move.TYPE_PREV) {
-				targetParentNode[childsKey].splice(tmpTargetIndex, 0, node);
+				targetParentNode[childKey].splice(tmpTargetIndex, 0, node);
 				newNeighbor = targetNode;
 				newNeighbor.isFirstNode = false;
 				node.parentTId = targetNode.parentTId;
@@ -995,7 +995,7 @@
 				node.isLastNode = false;
 
 			} else if (targetNode.isLastNode && moveType == consts.move.TYPE_NEXT) {
-				targetParentNode[childsKey].splice(tmpTargetIndex + 1, 0, node);
+				targetParentNode[childKey].splice(tmpTargetIndex + 1, 0, node);
 				newNeighbor = targetNode;
 				newNeighbor.isLastNode = false;
 				node.parentTId = targetNode.parentTId;
@@ -1004,9 +1004,9 @@
 
 			} else {
 				if (moveType == consts.move.TYPE_PREV) {
-					targetParentNode[childsKey].splice(tmpTargetIndex, 0, node);
+					targetParentNode[childKey].splice(tmpTargetIndex, 0, node);
 				} else {
-					targetParentNode[childsKey].splice(tmpTargetIndex + 1, 0, node);
+					targetParentNode[childKey].splice(tmpTargetIndex + 1, 0, node);
 				}
 				node.parentTId = targetNode.parentTId;
 				node.isFirstNode = false;
@@ -1020,8 +1020,8 @@
 			view.repairNodeLevelClass(setting, node, oldLevel)
 
 			//repair node's old parentNode dom
-			if (!setting.data.keep.parent && oldParentNode[childsKey].length < 1) {
-				//old parentNode has no childs node
+			if (!setting.data.keep.parent && oldParentNode[childKey].length < 1) {
+				//old parentNode has no child node
 				oldParentNode.isParent = false;
 				oldParentNode.open = false;
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL),
@@ -1054,17 +1054,17 @@
 				view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
 			}
 		},
-		removeChilds: function(setting, node) {
+		removeChild: function(setting, node) {
 			if (!node) return;
-			var childsKey = setting.data.key.childs,
-			nodes = node[childsKey];
+			var childKey = setting.data.key.child,
+			nodes = node[childKey];
 			if (!nodes) return;
 			$("#" + node.tId + consts.id.UL).remove();
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				data.removeNodeCache(setting, nodes[i]);
 			}
 			data.removeSelectedNode(setting);
-			delete node[childsKey];
+			delete node[childKey];
 
 			if (!setting.data.keep.parent) {
 				node.isParent = false;
@@ -1080,7 +1080,7 @@
 		},
 		removeNode: function(setting, node) {
 			var root = data.getRoot(setting),
-			childsKey = setting.data.key.childs,
+			childKey = setting.data.key.child,
 			parentNode = (node.parentTId) ? node.getParentNode() : root;
 			if (root.curEditNode === node) root.curEditNode = null;
 
@@ -1088,17 +1088,17 @@
 			data.removeNodeCache(setting, node);
 			data.removeSelectedNode(setting, node);
 
-			for (var i = 0, l = parentNode[childsKey].length; i < l; i++) {
-				if (parentNode[childsKey][i].tId == node.tId) {
-					parentNode[childsKey].splice(i, 1);
+			for (var i = 0, l = parentNode[childKey].length; i < l; i++) {
+				if (parentNode[childKey][i].tId == node.tId) {
+					parentNode[childKey].splice(i, 1);
 					break;
 				}
 			}
 			var tmp_ulObj,tmp_switchObj,tmp_icoObj;
 
 			//repair nodes old parent
-			if (!setting.data.keep.parent && parentNode[childsKey].length < 1) {
-				//old parentNode has no childs node
+			if (!setting.data.keep.parent && parentNode[childKey].length < 1) {
+				//old parentNode has no child node
 				parentNode.isParent = false;
 				parentNode.open = false;
 				tmp_ulObj = $("#" + parentNode.tId + consts.id.UL);
@@ -1108,20 +1108,20 @@
 				view.replaceIcoClass(parentNode, tmp_icoObj, consts.folder.DOCU);
 				tmp_ulObj.css("display", "none");
 
-			} else if (setting.view.showLine && parentNode[childsKey].length > 0) {
-				//old parentNode has childs node
-				var newLast = parentNode[childsKey][parentNode[childsKey].length - 1];
+			} else if (setting.view.showLine && parentNode[childKey].length > 0) {
+				//old parentNode has child node
+				var newLast = parentNode[childKey][parentNode[childKey].length - 1];
 				newLast.isLastNode = true;
-				newLast.isFirstNode = (parentNode[childsKey].length == 1);
+				newLast.isFirstNode = (parentNode[childKey].length == 1);
 				tmp_ulObj = $("#" + newLast.tId + consts.id.UL);
 				tmp_switchObj = $("#" + newLast.tId + consts.id.SWITCH);
 				tmp_icoObj = $("#" + newLast.tId + consts.id.ICON);
 				if (parentNode == root) {
-					if (parentNode[childsKey].length == 1) {
+					if (parentNode[childKey].length == 1) {
 						//node was root, and ztree has only one root after move node
 						view.replaceSwitchClass(tmp_switchObj, consts.line.ROOT);
 					} else {
-						var tmp_first_switchObj = $("#" + parentNode[childsKey][0].tId + consts.id.SWITCH);
+						var tmp_first_switchObj = $("#" + parentNode[childKey][0].tId + consts.id.SWITCH);
 						view.replaceSwitchClass(tmp_first_switchObj, consts.line.ROOTS);
 						view.replaceSwitchClass(tmp_switchObj, consts.line.BOTTOM);
 					}

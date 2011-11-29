@@ -174,14 +174,14 @@
 		}
 
 		zTreeTools.getCheckedNodes = function(checked) {
-			var childsKey = this.setting.data.key.childs;
+			var childKey = this.setting.data.key.child;
 			checked = (checked !== false);
-			return data.getTreeCheckedNodes(this.setting, data.getRoot(setting)[childsKey], checked);
+			return data.getTreeCheckedNodes(this.setting, data.getRoot(setting)[childKey], checked);
 		}
 
 		zTreeTools.getChangeCheckedNodes = function() {
-			var childsKey = this.setting.data.key.childs;
-			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childsKey]);
+			var childKey = this.setting.data.key.child;
+			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childKey]);
 		}
 
 		var _updateNode = zTreeTools.updateNode;
@@ -220,38 +220,38 @@
 		},
 		getTreeCheckedNodes: function(setting, nodes, checked, results) {
 			if (!nodes) return [];
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked;
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i].nocheck !== true && nodes[i][checkedKey] == checked) {
 					results.push(nodes[i]);
 				}
-				data.getTreeCheckedNodes(setting, nodes[i][childsKey], checked, results);
+				data.getTreeCheckedNodes(setting, nodes[i][childKey], checked, results);
 			}
 			return results;
 		},
 		getTreeChangeCheckedNodes: function(setting, nodes, results) {
 			if (!nodes) return [];
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked;
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i].nocheck !== true && nodes[i][checkedKey] != nodes[i].checkedOld) {
 					results.push(nodes[i]);
 				}
-				data.getTreeChangeCheckedNodes(setting, nodes[i][childsKey], results);
+				data.getTreeChangeCheckedNodes(setting, nodes[i][childKey], results);
 			}
 			return results;
 		},
 		makeChkFlag: function(setting, node) {
 			if (!node) return;
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked,
 			chkFlag = -1;
-			if (node[childsKey]) {
-				for (var i = 0, l = node[childsKey].length; i < l; i++) {
-					var cNode = node[childsKey][i];
+			if (node[childKey]) {
+				for (var i = 0, l = node[childKey].length; i < l; i++) {
+					var cNode = node[childKey][i];
 					var tmp = -1;
 					if (setting.check.chkStyle == consts.radio.STYLE) {
 						if (cNode.nocheck === true) {
@@ -331,7 +331,7 @@
 	_view = {
 		checkNodeRelation: function(setting, node) {
 			var pNode, i, l,
-			childsKey = setting.data.key.childs,
+			childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked,
 			r = consts.radio;
 			if (setting.check.chkStyle == r.STYLE) {
@@ -351,8 +351,8 @@
 						checkedList.push(node);
 					} else {
 						var parentNode = (node.parentTId) ? node.getParentNode() : data.getRoot(setting);
-						for (i = 0, l = parentNode[childsKey].length; i < l; i++) {
-							pNode = parentNode[childsKey][i];
+						for (i = 0, l = parentNode[childKey].length; i < l; i++) {
+							pNode = parentNode[childKey][i];
 							if (pNode[checkedKey] && pNode != node) {
 								pNode[checkedKey] = false;
 								view.setChkClass(setting, $("#" + pNode.tId + consts.id.CHECK), pNode);
@@ -369,13 +369,13 @@
 				}
 
 			} else {
-				if (node[checkedKey] && (!node[childsKey] || node[childsKey].length==0 || setting.check.chkboxType.Y.indexOf("s") > -1)) {
+				if (node[checkedKey] && (!node[childKey] || node[childKey].length==0 || setting.check.chkboxType.Y.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, true);
 				}
 				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("p") > -1) {
 					view.setParentNodeCheckBox(setting, node, true);
 				}
-				if (!node[checkedKey] && (!node[childsKey] || node[childsKey].length==0 || setting.check.chkboxType.N.indexOf("s") > -1)) {
+				if (!node[checkedKey] && (!node[childKey] || node[childKey].length==0 || setting.check.chkboxType.N.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, false);
 				}
 				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("p") > -1) {
@@ -399,10 +399,10 @@
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
 				var checkedKey = setting.data.key.checked,
-				childsKey = setting.data.key.childs,
+				childKey = setting.data.key.child,
 				root = data.getRoot(setting);
-				for (var i = 0, l = root[childsKey].length; i<l ; i++) {
-					var node = root[childsKey][i];
+				for (var i = 0, l = root[childKey].length; i<l ; i++) {
+					var node = root[childKey][i];
 					if (node.nocheck !== true) {
 						node[checkedKey] = checked;
 					}
@@ -424,9 +424,9 @@
 		},
 		repairParentChkClassWithSelf: function(setting, node) {
 			if (!node) return;
-			var childsKey = setting.data.key.childs;
-			if (node[childsKey] && node[childsKey].length > 0) {
-				view.repairParentChkClass(setting, node[childsKey][0]);
+			var childKey = setting.data.key.child;
+			if (node[childKey] && node[childKey].length > 0) {
+				view.repairParentChkClass(setting, node[childKey][0]);
 			} else {
 				view.repairParentChkClass(setting, node);
 			}
@@ -442,7 +442,7 @@
 			obj.addClass(view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			data.makeChkFlag(setting, node);
@@ -453,7 +453,7 @@
 			if (node.parentTId) {
 				var pSign = true;
 				if (!value) {
-					var pNodes = node.getParentNode()[childsKey];
+					var pNodes = node.getParentNode()[childKey];
 					for (var i = 0, l = pNodes.length; i < l; i++) {
 						if ((pNodes[i].nocheck !== true && pNodes[i][checkedKey])
 						|| (pNodes[i].nocheck === true && pNodes[i].check_Child_State > 0)) {
@@ -469,23 +469,23 @@
 		},
 		setSonNodeCheckBox: function(setting, node, value) {
 			if (!node) return;
-			var childsKey = setting.data.key.childs,
+			var childKey = setting.data.key.child,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 
 			if (node != data.getRoot(setting)) {
 				if (node.nocheck !== true) {
 					node[checkedKey] = value;
-					node.check_Child_State = (node[childsKey] && node[childsKey].length > 0) ? (value ? 2 : 0) : -1;
+					node.check_Child_State = (node[childKey] && node[childKey].length > 0) ? (value ? 2 : 0) : -1;
 				} else {
 					node.check_Child_State = -1;
 				}
 				view.setChkClass(setting, checkObj, node);
 			}
 
-			if (!node[childsKey]) return;
-			for (var i = 0, l = node[childsKey].length; i < l; i++) {
-				if (node[childsKey][i]) view.setSonNodeCheckBox(setting, node[childsKey][i], value);
+			if (!node[childKey]) return;
+			for (var i = 0, l = node[childKey].length; i < l; i++) {
+				if (node[childKey][i]) view.setSonNodeCheckBox(setting, node[childKey][i], value);
 			}
 		}
 	},
