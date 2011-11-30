@@ -64,7 +64,7 @@
 		data: {
 			key: {
 				name: "name",
-				child: "child",
+				children: "children",
 				title: ""
 			},
 			simpleData: {
@@ -115,7 +115,7 @@
 			r = {};
 			data.setRoot(setting, r);
 		}
-		r.child = [];
+		r.children = [];
 		r.expandTriggerFlag = false;
 		r.curSelectedList = [];
 		r.noSelection = true;
@@ -253,7 +253,7 @@
 	//default init node of core
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
-		var childKey = setting.data.key.child;
+		var childKey = setting.data.key.children;
 		n.level = level;
 		n.tId = setting.treeId + "_" + (++zId);
 		n.parentTId = parentNode ? parentNode.tId : null;
@@ -319,7 +319,7 @@
 			_init.roots.push(initRoot);
 		},
 		addNodesData: function(setting, parentNode, nodes) {
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			if (!parentNode[childKey]) parentNode[childKey] = [];
 			if (parentNode[childKey].length > 0) {
 				parentNode[childKey][parentNode[childKey].length - 1].isLastNode = false;
@@ -376,7 +376,7 @@
 		},
 		getNextNode: function(setting, node) {
 			if (!node) return null;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isLastNode) {
 				return null;
@@ -393,7 +393,7 @@
 		},
 		getNodeByParam: function(setting, nodes, key, value) {
 			if (!nodes || !key) return null;
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i][key] == value) {
 					return nodes[i];
@@ -409,11 +409,11 @@
 			return n ? n : null;
 		},
 		getNodes: function(setting) {
-			return data.getRoot(setting)[setting.data.key.child];
+			return data.getRoot(setting)[setting.data.key.children];
 		},
 		getNodesByParam: function(setting, nodes, key, value) {
 			if (!nodes || !key) return [];
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			result = [];
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i][key] == value) {
@@ -425,7 +425,7 @@
 		},
 		getNodesByParamFuzzy: function(setting, nodes, key, value) {
 			if (!nodes || !key) return [];
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			result = [];
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (typeof nodes[i][key] == "string" && nodes[i][key].indexOf(value)>-1) {
@@ -437,7 +437,7 @@
 		},
 		getPreNode: function(setting, node) {
 			if (!node) return null;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isFirstNode) {
 				return null;
@@ -491,7 +491,7 @@
 			return false;
 		},
 		removeNodeCache: function(setting, node) {
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			if (node[childKey]) {
 				for (var i=0, l=node[childKey].length; i<l; i++) {
 					arguments.callee(setting, node[childKey][i]);
@@ -521,7 +521,7 @@
 		},
 		transformToArrayFormat: function (setting, nodes) {
 			if (!nodes) return [];
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			r = [];
 			if (tools.isArray(nodes)) {
 				for (var i=0, l=nodes.length; i<l; i++) {
@@ -540,7 +540,7 @@
 			var i,l,
 			key = setting.data.simpleData.idKey,
 			parentKey = setting.data.simpleData.pIdKey,
-			childKey = setting.data.key.child;
+			childKey = setting.data.key.children;
 			if (!key || key=="" || !sNodes) return [];
 
 			if (tools.isArray(sNodes)) {
@@ -778,7 +778,7 @@
 		appendNodes: function(setting, level, nodes, parentNode, initFlag, openFlag) {
 			if (!nodes) return [];
 			var html = [],
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			nameKey = setting.data.key.name,
 			titleKey = data.getTitleKey(setting);
 			for (var i = 0, l = nodes.length; i < l; i++) {
@@ -833,7 +833,7 @@
 			var html = [],
 			nObj = $("#" + node.tId),
 			ulObj = $("#" + node.tId + consts.id.UL),
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			childHtml = view.appendNodes(setting, node.level+1, node[childKey], node, false, true);
 			view.makeUlHtml(setting, node, html, childHtml.join(''));
 			if (!nObj.get(0) && !!node.parentTId) {
@@ -948,7 +948,7 @@
 		createNodes: function(setting, level, nodes, parentNode) {
 			if (!nodes || nodes.length == 0) return;
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			openFlag = !parentNode || parentNode.open || !!$("#" + parentNode[childKey][0].tId).get(0);
 			root.createdNodes = [];
 			var zTreeHtml = view.appendNodes(setting, level, nodes, parentNode, true, openFlag);
@@ -964,7 +964,7 @@
 		},
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child;
+			childKey = setting.data.key.children;
 			if (!node) {
 				tools.apply(callback, []);
 				return;
@@ -1040,7 +1040,7 @@
 		},
 		expandCollapseSonNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			treeNodes = (node) ? node[childKey]: root[childKey],
 			selfAnimateSign = (node) ? false : animateFlag,
 			expandTriggerFlag = data.getRoot(setting).expandTriggerFlag;
@@ -1216,7 +1216,7 @@
 			}
 		},
 		switchNode: function(setting, node) {
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			if (node.open || (node && node[childKey] && node[childKey].length > 0)) {
 				view.expandCollapseNode(setting, node, !node.open);
 			} else if (setting.async.enable) {
@@ -1255,7 +1255,7 @@
 
 			data.initRoot(setting);
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child;
+			childKey = setting.data.key.children;
 			zNodes = zNodes ? tools.clone(tools.isArray(zNodes)? zNodes : [zNodes]) : [];
 			if (setting.data.simpleData.enable) {
 				root[childKey] = data.transformTozTreeFormat(setting, zNodes);
@@ -1313,22 +1313,22 @@
 				},
 				getNodeByParam : function(key, value, parentNode) {
 					if (!key) return null;
-					return data.getNodeByParam(this.setting, parentNode?parentNode[this.setting.data.key.child]:data.getNodes(this.setting), key, value);
+					return data.getNodeByParam(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), key, value);
 				},
 				getNodeByTId : function(tId) {
 					return data.getNodeCache(this.setting, tId);
 				},
 				getNodesByParam : function(key, value, parentNode) {
 					if (!key) return null;
-					return data.getNodesByParam(this.setting, parentNode?parentNode[this.setting.data.key.child]:data.getNodes(this.setting), key, value);
+					return data.getNodesByParam(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), key, value);
 				},
 				getNodesByParamFuzzy : function(key, value, parentNode) {
 					if (!key) return null;
-					return data.getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.child]:data.getNodes(this.setting), key, value);
+					return data.getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), key, value);
 				},
 				getNodeIndex : function(node) {
 					if (!node) return null;
-					var childKey = setting.data.key.child,
+					var childKey = setting.data.key.children,
 					parentNode = (node.parentTId) ? node.getParentNode() : data.getRoot(this.setting);
 					for (var i=0, l = parentNode[childKey].length; i < l; i++) {
 						if (parentNode[childKey][i] == node) return i;
@@ -1352,7 +1352,7 @@
 						parentNode = data.getRoot(this.setting);
 					}
 					if (reloadType=="refresh") {
-						parentNode[this.setting.data.key.child] = [];
+						parentNode[this.setting.data.key.children] = [];
 						if (isRoot) {
 							this.setting.treeObj.empty();
 						} else {
@@ -1365,11 +1365,11 @@
 				refresh : function() {
 					this.setting.treeObj.empty();
 					var root = data.getRoot(this.setting),
-					nodes = root[this.setting.data.key.child]
+					nodes = root[this.setting.data.key.children]
 					data.initRoot(this.setting);
-					root[this.setting.data.key.child] = nodes
+					root[this.setting.data.key.children] = nodes
 					data.initCache(this.setting);
-					view.createNodes(this.setting, 0, root[this.setting.data.key.child]);
+					view.createNodes(this.setting, 0, root[this.setting.data.key.children]);
 				},
 				selectNode : function(node, addFlag) {
 					if (!node) return;

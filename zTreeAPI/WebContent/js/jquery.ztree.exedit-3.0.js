@@ -175,7 +175,7 @@
 			if (!newNodes) return null;
 			if (!parentNode) parentNode = null;
 			if (parentNode && !parentNode.isParent && setting.data.keep.leaf) return null;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			function addCallback() {
 				view.addNodes(setting, parentNode, xNewNodes, (isSilent==true));
@@ -197,7 +197,7 @@
 		zTreeTools.copyNode = function(targetNode, node, moveType, isSilent) {
 			if (!node) return null;
 			if (targetNode && !targetNode.isParent && setting.data.keep.leaf && moveType === consts.move.TYPE_INNER) return null;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			newNode = tools.clone(node);
 			if (!targetNode) {
 				targetNode = null;
@@ -234,7 +234,7 @@
 			} else if (!targetNode) {
 				targetNode = null;
 			}
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			function moveCallback() {
 				view.moveNode(setting, targetNode, node, moveType, false, isSilent);
 			}
@@ -254,11 +254,11 @@
 				this.setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 			}
 		}
-		zTreeTools.removeChild = function(node) {
+		zTreeTools.removeChildNodes = function(node) {
 			if (!node) return null;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			nodes = node[childKey];
-			view.removeChild(setting, node);
+			view.removeChildNodes(setting, node);
 			return nodes ? nodes : null;
 		}
 		zTreeTools.setEditable = function(editable) {
@@ -270,7 +270,7 @@
 	_data = {
 		setSonNodeLevel: function(setting, parentNode, node) {
 			if (!node) return;
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			node.level = (parentNode)? parentNode.level + 1 : 0;
 			if (!node[childKey]) return;
 			for (var i = 0, l = node[childKey].length; i < l; i++) {
@@ -349,7 +349,7 @@
 					return true;
 				}
 				var i, l, tmpNode, tmpDom, tmpNodes,
-				childKey = setting.data.key.child;
+				childKey = setting.data.key.children;
 				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
@@ -477,7 +477,7 @@
 						}
 
 						var canMove = true;
-						//don't move to self or child of self
+						//don't move to self or children of self
 						for (i=0, l=nodes.length; i<l; i++) {
 							tmpNode = nodes[i];
 							if (targetObj.id === tmpNode.tId) {
@@ -641,7 +641,7 @@
 				root.dragFlag = 0;
 
 				var i, l, tmpNode,
-				childKey = setting.data.key.child;
+				childKey = setting.data.key.children;
 				for (i=0, l=nodes.length; i<l; i++) {
 					tmpNode = nodes[i];
 					if (tmpNode.isParent && root.dragNodeShowBefore[tmpNode.tId] && !tmpNode.open) {
@@ -899,7 +899,7 @@
 		},
 		moveNode: function(setting, targetNode, node, moveType, animateFlag, isSilent) {
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child;
+			childKey = setting.data.key.children;
 			if (targetNode == node) return;
 			if (setting.data.keep.leaf && targetNode && !targetNode.isParent && moveType == consts.move.TYPE_INNER) return;
 			var oldParentNode = (node.parentTId ? node.getParentNode(): root),
@@ -1021,7 +1021,7 @@
 
 			//repair node's old parentNode dom
 			if (!setting.data.keep.parent && oldParentNode[childKey].length < 1) {
-				//old parentNode has no child node
+				//old parentNode has no child nodes
 				oldParentNode.isParent = false;
 				oldParentNode.open = false;
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL),
@@ -1054,9 +1054,9 @@
 				view.expandCollapseParentNode(setting, node.getParentNode(), true, animateFlag);
 			}
 		},
-		removeChild: function(setting, node) {
+		removeChildNodes: function(setting, node) {
 			if (!node) return;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			nodes = node[childKey];
 			if (!nodes) return;
 			$("#" + node.tId + consts.id.UL).remove();
@@ -1080,7 +1080,7 @@
 		},
 		removeNode: function(setting, node) {
 			var root = data.getRoot(setting),
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			parentNode = (node.parentTId) ? node.getParentNode() : root;
 			if (root.curEditNode === node) root.curEditNode = null;
 
@@ -1098,7 +1098,7 @@
 
 			//repair nodes old parent
 			if (!setting.data.keep.parent && parentNode[childKey].length < 1) {
-				//old parentNode has no child node
+				//old parentNode has no child nodes
 				parentNode.isParent = false;
 				parentNode.open = false;
 				tmp_ulObj = $("#" + parentNode.tId + consts.id.UL);
@@ -1109,7 +1109,7 @@
 				tmp_ulObj.css("display", "none");
 
 			} else if (setting.view.showLine && parentNode[childKey].length > 0) {
-				//old parentNode has child node
+				//old parentNode has child nodes
 				var newLast = parentNode[childKey][parentNode[childKey].length - 1];
 				newLast.isLastNode = true;
 				newLast.isFirstNode = (parentNode[childKey].length == 1);
