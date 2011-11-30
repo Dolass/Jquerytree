@@ -82,8 +82,8 @@
 					a.addClass("cur");
 
 					var isOpen = false;
-					for (var i=0,l=node.child.length; i<l; i++) {
-						if(node.child[i].open) {
+					for (var i=0,l=node.children.length; i<l; i++) {
+						if(node.children[i].open) {
 							isOpen = true;
 							break;
 						}
@@ -92,8 +92,8 @@
 						zTree_Menu.expandNode(node, true);
 						curMenu = node;
 					} else {
-						zTree_Menu.expandNode(node.child[0], true);
-						curMenu = node.child[0];
+						zTree_Menu.expandNode(node.children[0], true);
+						curMenu = node.children[0];
 					}
 				} else {
 					zTree_Menu.expandNode(node);
@@ -108,7 +108,7 @@
 		$(document).ready(function(){
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 			zTree_Menu = $.fn.zTree.getZTreeObj("treeDemo");
-			curMenu = zTree_Menu.getNodes()[0].child[0].child[0];
+			curMenu = zTree_Menu.getNodes()[0].children[0].children[0];
 			zTree_Menu.selectNode(curMenu);
 			var a = $("#" + zTree_Menu.getNodes()[0].tId + "_a");
 			a.addClass("cur");
