@@ -174,13 +174,13 @@
 		}
 
 		zTreeTools.getCheckedNodes = function(checked) {
-			var childKey = this.setting.data.key.child;
+			var childKey = this.setting.data.key.children;
 			checked = (checked !== false);
 			return data.getTreeCheckedNodes(this.setting, data.getRoot(setting)[childKey], checked);
 		}
 
 		zTreeTools.getChangeCheckedNodes = function() {
-			var childKey = this.setting.data.key.child;
+			var childKey = this.setting.data.key.children;
 			return data.getTreeChangeCheckedNodes(this.setting, data.getRoot(setting)[childKey]);
 		}
 
@@ -220,7 +220,7 @@
 		},
 		getTreeCheckedNodes: function(setting, nodes, checked, results) {
 			if (!nodes) return [];
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked;
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
@@ -233,7 +233,7 @@
 		},
 		getTreeChangeCheckedNodes: function(setting, nodes, results) {
 			if (!nodes) return [];
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked;
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
@@ -246,7 +246,7 @@
 		},
 		makeChkFlag: function(setting, node) {
 			if (!node) return;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			chkFlag = -1;
 			if (node[childKey]) {
@@ -331,7 +331,7 @@
 	_view = {
 		checkNodeRelation: function(setting, node) {
 			var pNode, i, l,
-			childKey = setting.data.key.child,
+			childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			r = consts.radio;
 			if (setting.check.chkStyle == r.STYLE) {
@@ -399,7 +399,7 @@
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
 				var checkedKey = setting.data.key.checked,
-				childKey = setting.data.key.child,
+				childKey = setting.data.key.children,
 				root = data.getRoot(setting);
 				for (var i = 0, l = root[childKey].length; i<l ; i++) {
 					var node = root[childKey][i];
@@ -424,7 +424,7 @@
 		},
 		repairParentChkClassWithSelf: function(setting, node) {
 			if (!node) return;
-			var childKey = setting.data.key.child;
+			var childKey = setting.data.key.children;
 			if (node[childKey] && node[childKey].length > 0) {
 				view.repairParentChkClass(setting, node[childKey][0]);
 			} else {
@@ -442,7 +442,7 @@
 			obj.addClass(view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value) {
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			data.makeChkFlag(setting, node);
@@ -469,7 +469,7 @@
 		},
 		setSonNodeCheckBox: function(setting, node, value) {
 			if (!node) return;
-			var childKey = setting.data.key.child,
+			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 
