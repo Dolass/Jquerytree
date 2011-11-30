@@ -43,7 +43,7 @@
 		var log, className = "dark",
 		startTime = 0, endTime = 0, perCount = 100, perTime = 100;
 		function getUrl(treeId, treeNode) {
-			var curCount = (treeNode.child) ? treeNode.child.length : 0;
+			var curCount = (treeNode.children) ? treeNode.children.length : 0;
 			var getCount = (curCount + perCount) > treeNode.count ? (treeNode.count - curCount) : perCount;
 			var param = "id="+treeNode.id+"_"+(treeNode.times++) +"&count="+getCount;
 			return "../asyncData/getNodesForBigData.php?" + param;
@@ -65,12 +65,12 @@
 			}
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
 			totalCount = treeNode.count;
-			if (treeNode.child.length < totalCount) {
+			if (treeNode.children.length < totalCount) {
 				setTimeout(function() {ajaxGetNodes(treeNode);}, perTime);
 			} else {
 				treeNode.icon = "";
 				zTree.updateNode(treeNode);
-				zTree.selectNode(treeNode.child[0]);
+				zTree.selectNode(treeNode.children[0]);
 				endTime = new Date();
 				var usedTime = (endTime.getTime() - startTime.getTime())/1000;
 				className = (className === "dark" ? "":"dark");

@@ -35,7 +35,7 @@
    * 【修改】FireFox 下多棵树拖拽异常的 bug
    * 【修改】exedit 中调用 excheck库的方法时没有进行容错处理，导致如果只加入 exedit 而没有 excheck的时候，会出现 js 错误
    * 【修改】显示 checkbox 的 zTree 在编辑模式下，移动节点不会更新父节点半选状态的 bug
-   * 【修改】treeNode.childs --> child; treeObject.removeChilds --> removeChild; setting.data.key.childs --> child （英文不好惹的祸！抱歉了！）
+   * 【修改】treeNode.childs --> children; treeObject.removeChilds --> removeChildNodes; setting.data.key.childs --> children（英文不好惹的祸！抱歉了！）
 
    * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
       尚未制作

@@ -15,16 +15,16 @@
 
 		var zNodes =[
 			{ name:"pNode 01", open:true,
-				child: [
+				children: [
 					{ name:"pNode 11",
-						child: [
+						children: [
 							{ name:"leaf node 111"},
 							{ name:"leaf node 112"},
 							{ name:"leaf node 113"},
 							{ name:"leaf node 114"}
 						]},
 					{ name:"pNode 12",
-						child: [
+						children: [
 							{ name:"leaf node 121"},
 							{ name:"leaf node 122"},
 							{ name:"leaf node 123"},
@@ -33,23 +33,23 @@
 					{ name:"pNode 13 - no child", isParent:true}
 				]},
 			{ name:"pNode 02",
-				child: [
+				children: [
 					{ name:"pNode 21", open:true,
-						child: [
+						children: [
 							{ name:"leaf node 211"},
 							{ name:"leaf node 212"},
 							{ name:"leaf node 213"},
 							{ name:"leaf node 214"}
 						]},
 					{ name:"pNode 22",
-						child: [
+						children: [
 							{ name:"leaf node 221"},
 							{ name:"leaf node 222"},
 							{ name:"leaf node 223"},
 							{ name:"leaf node 224"}
 						]},
 					{ name:"pNode 23",
-						child: [
+						children: [
 							{ name:"leaf node 231"},
 							{ name:"leaf node 232"},
 							{ name:"leaf node 233"},
@@ -80,7 +80,7 @@
 				<ul class="list">
 				<li class="highlight_red">Use the basic functions, there is no need to set the parameters.</li>
 				<li>The setting.view in API documentation is associated with the display of the zTree.</li>
-				<li>Change the name, child, title attribute, please refer to the API documentation setting.data.key.</li>
+				<li>Change the 'name', 'children', 'title' attribute, please refer to the API documentation about 'setting.data.key'.</li>
 				</ul>
 			</li>
 			<li class="title"><h2>2, explain of treeNode</h2>
@@ -88,14 +88,14 @@
 				<li class="highlight_red">Need to use nested JSON data that include parent-child relationship between nodes
 					<div><pre xmlns=""><code>For example:
 var nodes = [
-	{name: "pNode 01", child: [
+	{name: "pNode 01", children: [
 		{name: "child 01"},
 		{name: "child 02"}
 	]}
 ];</code></pre></div>
 				</li>
 				<li>Nodes expanded by default, set treeNode.open attribute.</li>
-				<li>No child node of parent node, set treeNode.isParent attribute.</li>
+				<li>No child nodes of parent node, set treeNode.isParent attribute.</li>
 				<li>Please refer to the API documentation "treeNode data details" to view other attributes description.</li>
 				</ul>
 			</li>

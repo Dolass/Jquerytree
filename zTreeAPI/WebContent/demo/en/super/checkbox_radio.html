@@ -57,7 +57,7 @@
 			var checkedRadio = getCheckedRadio("radio_"+treeNode.id);
 			if (btn.attr("checked")) {
 				if (!checkedRadio) {
-					$("#radio_" + treeNode.child[0].id).attr("checked", true);
+					$("#radio_" + treeNode.children[0].id).attr("checked", true);
 				}
 			} else {
 				checkedRadio.attr("checked", false);
@@ -106,7 +106,7 @@
 			<li class="title"><h2>explain of implementation method</h2>
 				<ul class="list">
 				<li>zTree default checkbox and radio can not coexist, but can be used the custom DOM features to achieve this requirement, refer to the "Adding Custom DOM".</li>
-				<li class="highlight_red">For checkbox / radio association rules of the parent node and child node, according to the needs to develop its own rules.</li>
+				<li class="highlight_red">For checkbox / radio association rules of the parent nodes and child nodes, according to the needs to develop its own rules.</li>
 				</ul>
 			</li>
 		</ul>

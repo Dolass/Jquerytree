@@ -25,20 +25,20 @@
 
 		var zNodes =[
 			{id:1, name:"No right-click menu 1", open:true, noR:true,
-				child:[
+				children:[
 					   {id:11, name:"Leaf Node 1-1", noR:true},
 					   {id:12, name:"Leaf Node 1-2", noR:true}
 
 				]},
 			{id:2, name:"Right-click 2", open:true,
-				child:[
+				children:[
 					   {id:21, name:"Leaf Node 2-1"},
 					   {id:22, name:"Leaf Node 2-2"},
 					   {id:23, name:"Leaf Node 2-3"},
 					   {id:24, name:"Leaf Node 2-4"}
 				]},
 			{id:3, name:"Right-click 3", open:true,
-				child:[
+				children:[
 					   {id:31, name:"Leaf Node 3-1"},
 					   {id:32, name:"Leaf Node 3-2"},
 					   {id:33, name:"Leaf Node 3-3"},
@@ -89,7 +89,7 @@
 			hideRMenu();
 			var nodes = zTree.getSelectedNodes();
 			if (nodes && nodes.length>0) {
-				if (nodes[0].child && nodes[0].child.length > 0) {
+				if (nodes[0].children && nodes[0].children.length > 0) {
 					var msg = "If you delete this node will be deleted along with sub-nodes. \n\nPlease confirm!";
 					if (confirm(msg)==true){
 						zTree.removeNode(nodes[0]);
