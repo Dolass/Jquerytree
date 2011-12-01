@@ -48,9 +48,9 @@
 				key.addClass("empty");
 			}
 		}
-		var history = "", nodeList = [], fontCss = {};
+		var lastValue = "", nodeList = [], fontCss = {};
 		function clickRadio(e) {
-			history = "";
+			lastValue = "";
 			searchNode(e);
 		}
 		function searchNode(e) {
@@ -69,9 +69,9 @@
 			if (key.hasClass("empty")) {
 				value = "";
 			}
-			if (history === value) return;
+			if (lastValue === value) return;
 			updateNodes({color:"#333", "font-weight":"normal"});
-			history = value;
+			lastValue = value;
 			if (value === "") return;
 
 			var result = "";
