@@ -8,7 +8,11 @@
 </font>
 
 需要核实的问题：
-（1）希望zTreeObj.getCheckedNodes(checked)方法给个过滤器
+(1) 希望zTreeObj.getCheckedNodes(checked)方法给个过滤器
+(2)在使用zTree过程中,我感觉对tree的搜索功能与某个节点的显示与隐藏需要扩展,
+比如在有些时候需要隐藏某个节点
+还有在获取一个treeNode后需要取得相应的document元素也没提供,应该扩展..
+
 
 <font color=#041594>
 *2011.10.01* v3.0
@@ -26,8 +30,7 @@
    * 【修改】beforeName 在 Firefox 下如果利用 alert，会触发两次的 bug
       尚未制作
    * 【修改】checkNode/expandNode/removeNode 方法，默认不触发回调函数，恢复 v2.6 的默认状态，同时增加 callbackFlag 参数，设置为 true 时，可以触发回调函数
-   * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性
-      尚未制作
+   * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性(Demo 自身的问题，定义了history变量)
    * 【修改】初始化 zTree 时 onNodeCreated 事件回调函数中无法 用 getZTreeObj 获取 zTree 对象的 bug
    * 【修改】setting.edit.drag.prev / next / inner 参数，增加被拖拽的节点集合
    * 【修改】异步加载模式下，otherParam 使用Array数组会出错的 bug。例如： ["id", "1", "name", "test"]
