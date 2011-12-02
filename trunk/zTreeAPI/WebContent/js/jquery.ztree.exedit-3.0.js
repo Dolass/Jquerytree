@@ -835,20 +835,24 @@
 				tools.apply(setting.view.addHoverDom, [setting.treeId, node]);
 			}
 		},
-		cancelCurEditNode: function (setting, newName) {
+		cancelCurEditNode: function (setting, forceName, isKey) {
 			var root = data.getRoot(setting),
 			nameKey = setting.data.key.name,
 			node = root.curEditNode;
+			
 			if (node) {
 				var inputObj = root.curEditInput;
-				newName = newName ? newName:inputObj.val();
-				if (tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+				var newName = forceName ? forceName:inputObj.val();
+				if (!forceName && tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
 					node.editNameStatus = true;
-					tools.inputFocus(inputObj);
+					if (!isKey) setTimeout(function() {tools.inputFocus(inputObj);}, 0);
+					view.editNodeBlur = false;
 					return false;
 				} else {
 					node[nameKey] = newName ? newName:inputObj.val();
-					setting.treeObj.trigger(consts.event.RENAME, [setting.treeId, node]);
+					if (!forceName) {
+						setting.treeObj.trigger(consts.event.RENAME, [setting.treeId, node]);
+					}
 				}
 				var aObj = $("#" + node.tId + consts.id.A);
 				aObj.removeClass(consts.node.CURSELECTED_EDIT);
@@ -860,6 +864,7 @@
 				view.selectNode(setting, node, false);
 			}
 			root.noSelection = true;
+			view.editNodeBlur = false;
 			return true;
 		},
 		editNode: function(setting, node) {
@@ -878,11 +883,15 @@
 			inputObj.attr("value", node[nameKey]);
 			tools.inputFocus(inputObj);
 
+			view.editNodeBlur = false;
 			inputObj.bind('blur', function(event) {
-				view.cancelCurEditNode(setting);
-			}).bind('keyup', function(event) {
-				if (event.keyCode=="13") {
+				if (!view.editNodeBlur) {
 					view.cancelCurEditNode(setting);
+				}
+			}).bind('keydown', function(event) {
+				if (event.keyCode=="13") {
+					view.editNodeBlur = true;
+					view.cancelCurEditNode(setting, null, true);
 				} else if (event.keyCode=="27") {
 					view.cancelCurEditNode(setting, node[nameKey]);
 				}
