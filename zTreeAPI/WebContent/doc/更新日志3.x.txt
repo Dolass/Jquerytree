@@ -28,7 +28,6 @@
    * 【修改】beforeRename / onRename 的触发方式——即使名称内容未改变也会触发，便于用户配合 beforeEditName 捕获编辑状态的结束，赋予用户更多调整规则的权利
    * 【修改】与 easyUI 共存时无法拖拽的bug
    * 【修改】beforeName 在 Firefox 下如果利用 alert，会触发两次的 bug
-      尚未制作
    * 【修改】checkNode/expandNode/removeNode 方法，默认不触发回调函数，恢复 v2.6 的默认状态，同时增加 callbackFlag 参数，设置为 true 时，可以触发回调函数
    * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性(Demo 自身的问题，定义了history变量)
    * 【修改】初始化 zTree 时 onNodeCreated 事件回调函数中无法 用 getZTreeObj 获取 zTree 对象的 bug
