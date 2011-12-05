@@ -618,9 +618,11 @@
 					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
-			if (x && $("input:focus").length == 0) {
-				tools.noSel(setting);
-			}
+			try{
+				if (x && $("input:focus").length == 0) {
+					tools.noSel(setting);
+				}
+			} catch(e) {}
 			return r;
 		}
 	},
