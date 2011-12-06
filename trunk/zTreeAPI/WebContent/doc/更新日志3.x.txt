@@ -38,15 +38,13 @@
    * 【修改】显示 checkbox 的 zTree 在编辑模式下，移动节点不会更新父节点半选状态的 bug
    * 【修改】treeNode.childs --> children; treeObject.removeChilds --> removeChildNodes; setting.data.key.childs --> children（英文不好惹的祸！抱歉了！）
 
-   * 【增加】setting.check.chkboxEvent 默认值 false，可以设置联动选中时是否触发事件回调函数
-      尚未制作
+   * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
    * 【增加】treeNode.checkDisable 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该 checkbox 会影响父节点的 checkbox 的半选状态
       尚未制作
    * 【增加】treeNode.checkInherit 属性，用户设置其子节点继承 checkDisable 或 nocheck 属性，方便批量设置
       尚未制作
-   * 【增加】setting.view.autoExpandEvent 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
-      尚未制作
+   * 【增加】setting.view.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
    * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
       尚未制作
    * 【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点

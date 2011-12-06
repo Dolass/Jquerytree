@@ -38,6 +38,7 @@
 	_setting = {
 		check: {
 			enable: false,
+			autoCheckTrigger: false,
 			chkStyle: _consts.checkbox.STYLE,
 			radioType: _consts.radio.TYPE_LEVEL,
 			chkboxType: {
@@ -441,14 +442,18 @@
 			obj.removeClass();
 			obj.addClass(view.makeChkClass(setting, node));
 		},
-		setParentNodeCheckBox: function(setting, node, value) {
+		setParentNodeCheckBox: function(setting, node, value, srcNode) {
 			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
+			if (!srcNode) srcNode = node;
 			data.makeChkFlag(setting, node);
 			if (node.nocheck !== true) {
 				node[checkedKey] = value;
 				view.setChkClass(setting, checkObj, node);
+				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
+					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+				}
 			}
 			if (node.parentTId) {
 				var pSign = true;
@@ -463,16 +468,16 @@
 					}
 				}
 				if (pSign) {
-					view.setParentNodeCheckBox(setting, node.getParentNode(), value);
+					view.setParentNodeCheckBox(setting, node.getParentNode(), value, srcNode);
 				}
 			}
 		},
-		setSonNodeCheckBox: function(setting, node, value) {
+		setSonNodeCheckBox: function(setting, node, value, srcNode) {
 			if (!node) return;
 			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
-
+			if (!srcNode) srcNode = node;
 			if (node != data.getRoot(setting)) {
 				if (node.nocheck !== true) {
 					node[checkedKey] = value;
@@ -481,11 +486,14 @@
 					node.check_Child_State = -1;
 				}
 				view.setChkClass(setting, checkObj, node);
+				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
+					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+				}
 			}
 
 			if (!node[childKey]) return;
 			for (var i = 0, l = node[childKey].length; i < l; i++) {
-				if (node[childKey][i]) view.setSonNodeCheckBox(setting, node[childKey][i], value);
+				if (node[childKey][i]) view.setSonNodeCheckBox(setting, node[childKey][i], value, srcNode);
 			}
 		}
 	},

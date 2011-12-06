@@ -44,6 +44,7 @@
 			removeTitle: "remove",
 			renameTitle: "rename",
 			drag: {
+				autoExpandTrigger: false,
 				isCopy: true,
 				isMove: true,
 				prev: true,
@@ -591,6 +592,9 @@
 										if (tmpTargetNode && tmpTargetNode.isParent && !tmpTargetNode.open && (new Date()).getTime() - startTime > targetSetting.edit.drag.autoOpenTime
 											&& tools.apply(targetSetting.callback.beforeDragOpen, [targetSetting.treeId, tmpTargetNode], true)) {
 											view.switchNode(targetSetting, tmpTargetNode);
+											if (targetSetting.edit.drag.autoExpandTrigger) {
+												targetSetting.treeObj.trigger(consts.event.EXPAND, [targetSetting.treeId, tmpTargetNode]);
+											}
 										}
 									}, targetSetting.edit.drag.autoOpenTime+50);
 									window.zTreeMoveTargetNodeTId = tmpTargetNode.tId;
