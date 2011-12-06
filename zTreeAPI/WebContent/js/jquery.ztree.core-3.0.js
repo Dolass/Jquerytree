@@ -52,6 +52,7 @@
 		treeObj: null,
 		view: {
 			autoCancelSelected: true,
+			nameIsHTML: false,
 			showLine: true,
 			showIcon: true,
 			showTitle: true,
@@ -816,9 +817,10 @@
 					if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
 					html.push(">");
 					data.getInnerBeforeA(setting, node, html);
+					var name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 					html.push("<button type='button' hidefocus='true' id='", node.tId, consts.id.ICON,
 						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
-						"'>",node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),"</span>");
+						"'>",name,"</span>");
 					data.getInnerAfterA(setting, node, html);
 					html.push("</a>");
 					data.getAfterA(setting, node, html);
@@ -1198,7 +1200,11 @@
 			titleKey = data.getTitleKey(setting),
 			nObj = $("#" + node.tId + consts.id.SPAN);
 			nObj.empty();
-			nObj.text(node[nameKey]);
+			if (setting.view.nameIsHTML) {
+				nObj.html(node[nameKey]);
+			} else {
+				nObj.text(node[nameKey]);
+			}
 			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {
 				var aObj = $("#" + node.tId + consts.id.A);
 				aObj.attr("title", node[titleKey]);
