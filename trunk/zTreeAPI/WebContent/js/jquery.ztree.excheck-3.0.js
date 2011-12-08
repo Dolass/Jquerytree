@@ -22,6 +22,7 @@
 		checkbox: {
 			STYLE: "checkbox",
 			DEFAULT: "chk",
+			DISABLE: "disable",
 			FALSE: "false",
 			TRUE: "true",
 			FULL: "full",
@@ -128,9 +129,13 @@
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
 		n.nocheck = !!n.nocheck;
+		n.checkDisable = !!n.checkDisable || (parentNode && !!parentNode.checkDisable);
 		n.check_Child_State = -1;
 		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
+		if (isLastNode) {
+			data.makeChkFlag(setting, parentNode);
+		}
 	},
 	//add dom for check
 	_beforeA = function(setting, node, html) {
@@ -148,6 +153,7 @@
 	_zTreeTools = function(setting, zTreeTools) {
 		zTreeTools.checkNode = function(node, checked, checkTypeFlag, callbackFlag) {
 			var checkedKey = this.setting.data.key.checked;
+			if (node.checkDisable === true) return;
 			if (checked !== true && checked !== false) {
 				checked = !node[checkedKey];
 			}
@@ -298,6 +304,7 @@
 	//method of event handler
 	_handler = {
 		onCheckNode: function (event, node) {
+			if (node.checkDisable === true) return false;
 			var setting = data.getSetting(event.data.treeId),
 			checkedKey = setting.data.key.checked;
 			if (tools.apply(setting.callback.beforeCheck, [setting.treeId, node], true) == false) return true;
@@ -310,6 +317,7 @@
 			return true;
 		},
 		onMouseoverCheck: function(event, node) {
+			if (node.checkDisable === true) return false;
 			var setting = data.getSetting(event.data.treeId),
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.check_Focus = true;
@@ -317,6 +325,7 @@
 			return true;
 		},
 		onMouseoutCheck: function(event, node) {
+			if (node.checkDisable === true) return false;
 			var setting = data.getSetting(event.data.treeId),
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			node.check_Focus = false;
@@ -373,11 +382,11 @@
 				if (node[checkedKey] && (!node[childKey] || node[childKey].length==0 || setting.check.chkboxType.Y.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, true);
 				}
-				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("p") > -1) {
-					view.setParentNodeCheckBox(setting, node, true);
-				}
 				if (!node[checkedKey] && (!node[childKey] || node[childKey].length==0 || setting.check.chkboxType.N.indexOf("s") > -1)) {
 					view.setSonNodeCheckBox(setting, node, false);
+				}
+				if (node[checkedKey] && setting.check.chkboxType.Y.indexOf("p") > -1) {
+					view.setParentNodeCheckBox(setting, node, true);
 				}
 				if (!node[checkedKey] && setting.check.chkboxType.N.indexOf("p") > -1) {
 					view.setParentNodeCheckBox(setting, node, false);
@@ -388,13 +397,15 @@
 			var checkedKey = setting.data.key.checked,
 			c = consts.checkbox, r = consts.radio,
 			fullStyle = "";
-			if (setting.check.chkStyle == r.STYLE) {
+			if (node.checkDisable === true) {
+				fullStyle = c.DISABLE
+			} else if (setting.check.chkStyle == r.STYLE) {
 				fullStyle = (node.check_Child_State < 1)? c.FULL:c.PART;
 			} else {
 				fullStyle = node[checkedKey] ? ((node.check_Child_State === 2 || node.check_Child_State === -1) ? c.FULL:c.PART) : ((node.check_Child_State < 1)? c.FULL:c.PART);
 			}
 			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
-			chkName = node.check_Focus ? chkName + "_" + c.FOCUS : chkName;
+			chkName = (node.check_Focus && node.checkDisable !== true) ? chkName + "_" + c.FOCUS : chkName;
 			return c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
@@ -448,7 +459,7 @@
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			if (!srcNode) srcNode = node;
 			data.makeChkFlag(setting, node);
-			if (node.nocheck !== true) {
+			if (node.nocheck !== true && node.checkDisable !== true) {
 				node[checkedKey] = value;
 				view.setChkClass(setting, checkObj, node);
 				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
@@ -478,10 +489,23 @@
 			checkedKey = setting.data.key.checked,
 			checkObj = $("#" + node.tId + consts.id.CHECK);
 			if (!srcNode) srcNode = node;
-			if (node != data.getRoot(setting)) {
+
+			var hasDisable = false;
+			if (node[childKey]) {
+				for (var i = 0, l = node[childKey].length; i < l && node.checkDisable !== true; i++) {
+					var sNode = node[childKey][i];
+					view.setSonNodeCheckBox(setting, sNode, value, srcNode);
+					if (sNode.checkDisable === true) hasDisable = true;
+				}
+			}
+			
+			if (node != data.getRoot(setting) && node.checkDisable !== true) {
+				if (hasDisable && node.nocheck !== true) {
+					data.makeChkFlag(setting, node);
+				}
 				if (node.nocheck !== true) {
 					node[checkedKey] = value;
-					node.check_Child_State = (node[childKey] && node[childKey].length > 0) ? (value ? 2 : 0) : -1;
+					if (!hasDisable) node.check_Child_State = (node[childKey] && node[childKey].length > 0) ? (value ? 2 : 0) : -1;
 				} else {
 					node.check_Child_State = -1;
 				}
@@ -491,10 +515,6 @@
 				}
 			}
 
-			if (!node[childKey]) return;
-			for (var i = 0, l = node[childKey].length; i < l; i++) {
-				if (node[childKey][i]) view.setSonNodeCheckBox(setting, node[childKey][i], value, srcNode);
-			}
 		}
 	},
 
