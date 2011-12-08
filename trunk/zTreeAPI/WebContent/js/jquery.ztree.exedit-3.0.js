@@ -1097,6 +1097,11 @@
 			parentNode = (node.parentTId) ? node.getParentNode() : root;
 			if (root.curEditNode === node) root.curEditNode = null;
 
+			node.isFirstNode = false;
+			node.isLastNode = false;
+			node.getPreNode = function() {return null;};
+			node.getNextNode = function() {return null;};
+			
 			$("#" + node.tId).remove();
 			data.removeNodeCache(setting, node);
 			data.removeSelectedNode(setting, node);
