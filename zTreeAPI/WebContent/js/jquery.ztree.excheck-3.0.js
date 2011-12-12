@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2011-10-01
+ * Date: 2011-12-20
  */
 (function($){
 	//default consts of excheck
@@ -41,6 +41,7 @@
 			enable: false,
 			autoCheckTrigger: false,
 			chkStyle: _consts.checkbox.STYLE,
+			nocheckInherit: false,
 			radioType: _consts.radio.TYPE_LEVEL,
 			chkboxType: {
 				"Y": "ps",
@@ -128,7 +129,7 @@
 		if (typeof n[checkedKey] == "string") n[checkedKey] = tools.eqs(n[checkedKey], "true");
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
-		n.nocheck = !!n.nocheck;
+		n.nocheck = !!n.nocheck || (setting.check.nocheckInherit && parentNode && !!parentNode.nocheck);
 		n.chkDisabled = !!n.chkDisabled || (parentNode && !!parentNode.chkDisabled);
 		n.check_Child_State = -1;
 		n.check_Focus = false;
