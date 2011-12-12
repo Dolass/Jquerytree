@@ -12,8 +12,8 @@
 (2)在使用zTree过程中,我感觉对tree的搜索功能与某个节点的显示与隐藏需要扩展,
 比如在有些时候需要隐藏某个节点
 还有在获取一个treeNode后需要取得相应的document元素也没提供,应该扩展..
-(3) 节点排序功能
-
+(3)【增加】节点排序功能
+(4)【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
 
 <font color=#041594>
 *2011.10.01* v3.0
@@ -43,12 +43,9 @@
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
    * 【增加】treeNode.chkDisabled 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该 checkbox 会影响父节点的 checkbox 的半选状态
-   * 【增加】treeNode.checkInherit 属性，用户设置其子节点继承 checkDisable 或 nocheck 属性，方便批量设置
-      尚未制作
+   * 【增加】setting.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
    * 【增加】setting.view.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
    * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
-   * 【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
-      尚未制作
    * 【增加】treeNode.click 属性的说明文档！
       尚未制作
    * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
