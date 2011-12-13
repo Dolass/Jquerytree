@@ -46,8 +46,7 @@
    * 【增加】setting.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
    * 【增加】setting.view.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
    * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
-   * 【增加】treeNode.click 属性的说明文档！
-      尚未制作
+   * 【增加】treeNode.click 属性的说明文档
    * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
 
 
