@@ -51,21 +51,21 @@
 		treeId: "",
 		treeObj: null,
 		view: {
-			autoCancelSelected: true,
-			nameIsHTML: false,
-			showLine: true,
-			showIcon: true,
-			showTitle: true,
-			selectedMulti: true,
-			expandSpeed: "fast",
 			addDiyDom: null,
+			autoCancelSelected: true,
 			dblClickExpand: true,
-			fontCss: {}
+			expandSpeed: "fast",
+			fontCss: {},
+			nameIsHTML: false,
+			selectedMulti: true,
+			showIcon: true,
+			showLine: true,
+			showTitle: true
 		},
 		data: {
 			key: {
-				name: "name",
 				children: "children",
+				name: "name",
 				title: ""
 			},
 			simpleData: {
