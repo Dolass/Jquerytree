@@ -24,6 +24,7 @@
    * 【修改】IE 下 点击叶子节点连线会出现虚线框的 bug
    * 【修改】updateNode 导致 checkbox 半选状态错误的 bug
    * 【修改】checkNode 方法实现 toggle 操作, 取消 expandAll 方法的 toggle 操作
+checkbox_fun.html 增加 勾选/取消勾选 切换操作
    * 【修改】zTree 内鼠标移动会抢页面上 input 内的焦点的 bug
       $("input:focus").length == 0 会导致 IE6异常
    * 【修改】beforeRename / onRename 的触发方式——即使名称内容未改变也会触发，便于用户配合 beforeEditName 捕获编辑状态的结束，赋予用户更多调整规则的权利
