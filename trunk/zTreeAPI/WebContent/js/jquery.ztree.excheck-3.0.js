@@ -131,6 +131,8 @@
 		n.checkedOld = n[checkedKey];
 		n.nocheck = !!n.nocheck || (setting.check.nocheckInherit && parentNode && !!parentNode.nocheck);
 		n.chkDisabled = !!n.chkDisabled || (parentNode && !!parentNode.chkDisabled);
+		if (typeof n.halfCheck == "string") n.halfCheck = tools.eqs(n.halfCheck, "true");
+		n.halfCheck = !!n.halfCheck;
 		n.check_Child_State = -1;
 		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
@@ -228,7 +230,7 @@
 			var checkedKey = setting.data.key.checked,
 			r = {
 				checked: node[checkedKey],
-				half: (setting.check.chkStyle == consts.radio.STYLE ? (node.check_Child_State === 2) : (node[checkedKey] ? (node.check_Child_State > -1 && node.check_Child_State < 2) : (node.check_Child_State > 0)))
+				half: node.halfCheck ? node.halfCheck : (setting.check.chkStyle == consts.radio.STYLE ? (node.check_Child_State === 2) : (node[checkedKey] ? (node.check_Child_State > -1 && node.check_Child_State < 2) : (node.check_Child_State > 0)))
 			};
 			return r;
 		},
@@ -405,7 +407,9 @@
 			c = consts.checkbox, r = consts.radio,
 			fullStyle = "";
 			if (node.chkDisabled === true) {
-				fullStyle = c.DISABLED
+				fullStyle = c.DISABLED;
+			} else if (node.halfCheck) {
+				fullStyle = c.PART;
 			} else if (setting.check.chkStyle == r.STYLE) {
 				fullStyle = (node.check_Child_State < 1)? c.FULL:c.PART;
 			} else {

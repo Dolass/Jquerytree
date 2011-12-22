@@ -221,10 +221,8 @@
 		}
 		zTreeTools.editName = function(node) {
 			if (!node || !node.tId || node !== data.getNodeCache(setting, node.tId)) return;
-			if (tools.uCanDo(setting)) {
-				view.expandCollapseParentNode(setting, node, true);
-				view.editNode(setting, node)
-			}
+			view.expandCollapseParentNode(setting, node, true);
+			view.editNode(setting, node)
 		}
 		zTreeTools.moveNode = function(targetNode, node, moveType, isSilent) {
 			if (!node) return node;
@@ -308,6 +306,7 @@
 			root = data.getRoot(setting);
 			//right click can't drag & drop
 			if (eventMouseDown.button == 2 || !setting.edit.enable || (!setting.edit.drag.isCopy && !setting.edit.drag.isMove)) return true;
+
 			//input of edit node name can't drag & drop
 			var target = eventMouseDown.target,
 			_nodes = data.getRoot(setting).curSelectedList,
@@ -327,6 +326,10 @@
 				}
 			}
 
+			view.editNodeBlur = true;
+			view.cancelCurEditNode(setting, null, true);
+			
+
 			var doc = $(document), curNode, tmpArrow, tmpTarget,
 			isOtherTree = false,
 			targetSetting = setting,
@@ -339,11 +342,10 @@
 			mouseDownY = eventMouseDown.clientY,
 			startTime = (new Date()).getTime();
 
-			doc.bind("mousemove", _docMouseMove);
+			if (tools.uCanDo(setting)) {
+				doc.bind("mousemove", _docMouseMove);
+			}
 			function _docMouseMove(event) {
-				if (!tools.uCanDo(setting)) {
-					return true;
-				}
 				//avoid start drag after click node
 				if (root.dragFlag == 0 && Math.abs(mouseDownX - event.clientX) < setting.edit.drag.minMoveSize
 					&& Math.abs(mouseDownY - event.clientY) < setting.edit.drag.minMoveSize) {
@@ -848,9 +850,7 @@
 				var inputObj = root.curEditInput;
 				var newName = forceName ? forceName:inputObj.val();
 				if (!forceName && tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
-					node.editNameStatus = true;
-					if (!isKey) setTimeout(function() {tools.inputFocus(inputObj);}, 0);
-					view.editNodeBlur = false;
+					node.editNameFlag = true;
 					return false;
 				} else {
 					node[nameKey] = newName ? newName:inputObj.val();
@@ -868,12 +868,13 @@
 				view.selectNode(setting, node, false);
 			}
 			root.noSelection = true;
-			view.editNodeBlur = false;
 			return true;
 		},
 		editNode: function(setting, node) {
 			var root = data.getRoot(setting);
+			view.editNodeBlur = false;
 			if (data.isSelectedNode(setting, node) && root.curEditNode == node && node.editNameFlag) {
+				setTimeout(function() {tools.inputFocus(root.curEditInput);}, 0);
 				return;
 			}
 			var nameKey = setting.data.key.name;
@@ -882,12 +883,10 @@
 			view.cancelCurEditNode(setting);
 			view.selectNode(setting, node, false);
 			$("#" + node.tId + consts.id.SPAN).html("<input type=text class='rename' id='" + node.tId + consts.id.INPUT + "' treeNode" + consts.id.INPUT + " >");
-
 			var inputObj = $("#" + node.tId + consts.id.INPUT);
 			inputObj.attr("value", node[nameKey]);
 			tools.inputFocus(inputObj);
 
-			view.editNodeBlur = false;
 			inputObj.bind('blur', function(event) {
 				if (!view.editNodeBlur) {
 					view.cancelCurEditNode(setting);
