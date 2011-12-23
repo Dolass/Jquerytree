@@ -29,10 +29,15 @@ Demo checkbox_fun.html 增加 勾选/取消勾选 切换操作
       $("input:focus").length == 0 会导致 IE6异常
    * 【修改】beforeRename / onRename 的触发方式——即使名称内容未改变也会触发，便于用户配合 beforeEditName 捕获编辑状态的结束，赋予用户更多调整规则的权利
    * 【修改】与 easyUI 共存时无法拖拽的bug
-   * 【修改】beforeName 在 Firefox 下如果利用 alert，会触发两次的 bug
-修改 beforeName API，return false 后不会让input 获取焦点
-修改 editName API， 可以让input 获取焦点
+   * 【修改】beforeRename 在 Firefox 下如果利用 alert，会触发两次的 bug
+API beforeName，return false 后不会让input 获取焦点
+API editName，可以让 input 获取焦点
+Demo edit_fun.html 名称为空时 alert 后让 input 重获焦点
+Demo edit_supper.html 名称为空时 alert 后让 input 重获焦点；编辑时不显示增加按钮
    * 【修改】checkNode/expandNode/removeNode 方法，默认不触发回调函数，恢复 v2.6 的默认状态，同时增加 callbackFlag 参数，设置为 true 时，可以触发回调函数
+Demo expand.html 增加 是否触发回调函数的radio
+Demo checkbox_fun.html/radio_fun.html 增加 是否触发回调函数的radio
+Demo edit_fun.html  增加 是否触发回调函数的radio
    * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性(Demo 自身的问题，定义了history变量)
    * 【修改】初始化 zTree 时 onNodeCreated 事件回调函数中无法 用 getZTreeObj 获取 zTree 对象的 bug
    * 【修改】setting.edit.drag.prev / next / inner 参数，增加被拖拽的节点集合
@@ -42,17 +47,29 @@ Demo checkbox_fun.html 增加 勾选/取消勾选 切换操作
    * 【修改】显示 checkbox 的 zTree 在编辑模式下，移动节点不会更新父节点半选状态的 bug
    * 【修改】treeNode.childs --> children; treeObject.removeChilds --> removeChildNodes; setting.data.key.childs --> children（英文不好惹的祸！抱歉了！）
    * 【修改】onRemove 回调中得到的 treeNode 还可以查找 preNode、nextNode 的bug。 修正后，getPreNode 和 getNextNode 都返回 null； 为了便于查找父节点，getParentNode 仍保留
+   * 【修改】简单数据模式下，如果 id 与 pId 的值相同会导致该节点无法正常加载的 bug
 
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
+Demo checkbox_fun.html 增加 联动操作时 是否触发 回调函数的 radio
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
+Demo edit_super.html 增加 beforeEditName Log
    * 【增加】treeNode.chkDisabled 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该 checkbox 会影响父节点的 checkbox 的半选状态
+Demo checkbox_fun.html/radio_fun.html 增加 disabled 数据
+Demo checkbox.html/radio.html 取消 nocheck 数据
+Demo 增加 checkbox_nocheck.html/radio_nocheck.html  nocheck 演示
+Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
    * 【增加】setting.check.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
+Demo 增加 checkbox_nocheckInherit.html nocheckInherit 演示
    * 【增加】setting.edit.drag.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
+Demo expand.html 增加 自动展开、折叠操作时，是否触发回调函数的radio
    * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
+Demo custom_font.html 增加 nameIsHTML 演示
    * 【增加】treeNode.click 属性的说明文档
+Demo 增加 url.html 超链接的演示
    * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
+Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
    * 【增加】treeNode.halfCheck 属性，用于强制设定节点的半选状态
-
+Demo 增加 checkbox_halfCheck.html/radio_halfCheck.html halfCheck 演示
 
 *2011.09.05* v3.0 beta
    * 【修改】zTree 的 js 代码架构全面修改，并且拆分
