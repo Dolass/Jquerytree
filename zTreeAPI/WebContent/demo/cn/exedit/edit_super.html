@@ -75,6 +75,8 @@
 			showLog("[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 			if (newName.length == 0) {
 				alert("节点名称不能为空.");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				setTimeout(function(){zTree.editName(treeNode)}, 10);
 				return false;
 			}
 			return true;
@@ -101,7 +103,7 @@
 		var newCount = 1;
 		function addHoverDom(treeId, treeNode) {
 			var sObj = $("#" + treeNode.tId + "_span");
-			if ($("#addBtn_"+treeNode.id).length>0) return;
+			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.id).length>0) return;
 			var addStr = "<button type='button' class='add' id='addBtn_" + treeNode.id
 				+ "' title='add node' onfocus='this.blur();'></button>";
 			sObj.append(addStr);
