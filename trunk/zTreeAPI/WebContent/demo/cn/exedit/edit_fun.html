@@ -55,6 +55,8 @@
 		function beforeRename(treeId, treeNode, newName) {
 			if (newName.length == 0) {
 				alert("节点名称不能为空.");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				setTimeout(function(){zTree.editName(treeNode)}, 10);
 				return false;
 			}
 			return true;
@@ -137,7 +139,7 @@
 				<li><p>对节点进行 增 / 删 / 改，试试看：<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="增加父节点" onclick="return false;">增加父节点</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="增加叶子节点" onclick="return false;">增加叶子节点</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="修改节点" onclick="return false;">修改节点</a> ]<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="编辑名称" onclick="return false;">编辑名称</a> ]<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="删除节点" onclick="return false;">删除节点</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChildren" href="#" title="清空子节点" onclick="return false;">清空子节点</a> ]<br/>
 				<li class="highlight_red">使用 zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChildNodes 方法，详细请参见 API 文档中的相关内容</li>
