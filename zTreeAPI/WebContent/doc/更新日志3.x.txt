@@ -30,7 +30,6 @@
    * 【修改】与 easyUI 共存时无法拖拽的bug
    * 【修改】beforeRename 在 Firefox 下如果利用 alert，会触发两次的 bug
    * 【修改】checkNode/expandNode/removeNode 方法，默认不触发回调函数，恢复 v2.6 的默认状态，同时增加 callbackFlag 参数，设置为 true 时，可以触发回调函数
-Demo expand.html 增加 是否触发回调函数的radio
 Demo radio_fun.html 增加 是否触发回调函数的radio
 Demo edit_fun.html  增加 是否触发回调函数的radio
    * 【修改】IE9下“根据参数查找节点”的Demo 报错：行14 重新声明常量属性(Demo 自身的问题，定义了history变量)
