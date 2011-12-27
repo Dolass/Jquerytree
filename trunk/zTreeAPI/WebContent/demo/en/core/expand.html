@@ -105,18 +105,19 @@
 			} else if (type == "collapseAll") {
 				zTree.expandAll(false);
 			} else {
+				var callbackFlag = $("#callbackTrigger").attr("checked");
 				for (var i=0, l=nodes.length; i<l; i++) {
 					zTree.setting.view.fontCss = {};
 					if (type == "expand") {
-						zTree.expandNode(nodes[i], true);
+						zTree.expandNode(nodes[i], true, null, null, callbackFlag);
 					} else if (type == "collapse") {
-						zTree.expandNode(nodes[i], false);
+						zTree.expandNode(nodes[i], false, null, null, callbackFlag);
 					} else if (type == "toggle") {
-						zTree.expandNode(nodes[i]);
+						zTree.expandNode(nodes[i], null, null, null, callbackFlag);
 					} else if (type == "expandSon") {
-						zTree.expandNode(nodes[i], true, true);
+						zTree.expandNode(nodes[i], true, true, null, callbackFlag);
 					} else if (type == "collapseSon") {
-						zTree.expandNode(nodes[i], false, true);
+						zTree.expandNode(nodes[i], false, true, null, callbackFlag);
 					}
 				}
 			}
@@ -149,7 +150,8 @@
 				<ul class="list">
 				<li>Use 'beforeCollapse / onCollapse' and 'beforeExpand / onExpand' callback function can control whether to allow expand or collapse the parent node
 					. This simple demo shows how to monitor the collapse and expand event.</li>
-				<li><p>By the way also demonstrates how to use the 'expandNode' method triggers collapse / expand callback, Try: <br/>
+				<li><p>Try: <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" /> Whether trigger the callback when execution expandNode() method.<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;Single Node --[ <a id="expandBtn" href="#" title="expand..." onclick="return false;">expand</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="collapseBtn" href="#" title="collapse..." onclick="return false;">collapse</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="toggleBtn" href="#" title="what do you want?..." onclick="return false;">toggle</a> ]<br/>
