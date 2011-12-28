@@ -31,7 +31,9 @@
 			},
 			callback: {
 				beforeDrag: beforeDrag,
-				beforeRename: beforeRename
+				beforeRemove: beforeRemove,
+				beforeRename: beforeRename,
+				onRemove: onRemove
 			}
 		};
 
@@ -49,8 +51,17 @@
 			{ id:32, pId:3, name:"叶子节点 3-2"},
 			{ id:33, pId:3, name:"叶子节点 3-3"}
 		];
+		var log, className = "dark";
 		function beforeDrag(treeId, treeNodes) {
 			return false;
+		}
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+		}
+		function onRemove(e, treeId, treeNode) {
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 		}
 		function beforeRename(treeId, treeNode, newName) {
 			if (newName.length == 0) {
@@ -60,6 +71,21 @@
 				return false;
 			}
 			return true;
+		}
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
 		}
 
 		var newCount = 1;
@@ -97,7 +123,8 @@
 				alert("请先选择一个节点");
 				return;
 			}
-			zTree.removeNode(treeNode);
+			var callbackFlag = $("#callbackTrigger").attr("checked");
+			zTree.removeNode(treeNode, callbackFlag);
 		};
 		function clearChildren(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
@@ -137,11 +164,15 @@
 				<li>cancelEditName 方法仅仅是在节点进入名称编辑状态时有效，请在必要时使用，Demo 不进行此方法的演示</li>
 				<li class="highlight_red">利用 setting.data.keep.parent / leaf 属性 实现了父节点、叶子节点的状态锁定</li>
 				<li><p>对节点进行 增 / 删 / 改，试试看：<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> removeNode 方法是否触发 callback<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="增加父节点" onclick="return false;">增加父节点</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="增加叶子节点" onclick="return false;">增加叶子节点</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="编辑名称" onclick="return false;">编辑名称</a> ]<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="删除节点" onclick="return false;">删除节点</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChildren" href="#" title="清空子节点" onclick="return false;">清空子节点</a> ]<br/>
+					remove log:<br/>
+					<ul id="log" class="log"></ul></p>
+				</li>
 				<li class="highlight_red">使用 zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChildNodes 方法，详细请参见 API 文档中的相关内容</li>
 				</ul>
 			</li>
