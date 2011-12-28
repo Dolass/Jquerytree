@@ -31,7 +31,9 @@
 			},
 			callback: {
 				beforeDrag: beforeDrag,
-				beforeRename: beforeRename
+				beforeRemove: beforeRemove,
+				beforeRename: beforeRename,
+				onRemove: onRemove
 			}
 		};
 
@@ -49,8 +51,17 @@
 			{ id:32, pId:3, name:"leaf node 3-2"},
 			{ id:33, pId:3, name:"leaf node 3-3"}
 		];
+		var log, className = "dark";
 		function beforeDrag(treeId, treeNodes) {
 			return false;
+		}
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			return confirm("Confirm delete node '" + treeNode.name + "' it?");
+		}
+		function onRemove(e, treeId, treeNode) {
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 		}
 		function beforeRename(treeId, treeNode, newName) {
 			if (newName.length == 0) {
@@ -61,7 +72,22 @@
 			}
 			return true;
 		}
-
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+		
 		var newCount = 1;
 		function add(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
@@ -97,7 +123,8 @@
 				alert("Please select one node at first...");
 				return;
 			}
-			zTree.removeNode(treeNode);
+			var callbackFlag = $("#callbackTrigger").attr("checked");
+			zTree.removeNode(treeNode, callbackFlag);
 		};
 		function clearChildren(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
@@ -137,11 +164,15 @@
 				<li>Method 'cancelEditName' is effective, only when edit the node name. Please use it when necessary, this demo doesn't show how to use the method.</li>
 				<li class="highlight_red">Use setting.data.keep.parent / leaf attribute, you can lock the parent node and leaf node.</li>
 				<li><p>Try to edit node:<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> Whether trigger the callback when execution removeNode() method.<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addParent" href="#" title="add parent node" onclick="return false;">add parent node</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addLeaf" href="#" title="add leaf node" onclick="return false;">add leaf node</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="edit" href="#" title="edit name" onclick="return false;">edit name</a> ]<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="remove" href="#" title="remove node" onclick="return false;">remove node</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="clearChildren" href="#" title="make child nodes to empty" onclick="return false;">make child nodes to empty</a> ]<br/>
+					remove log:<br/>
+					<ul id="log" class="log"></ul></p>
+				</li>
 				<li class="highlight_red">How to use 'zTreeObj.addNodes / cancelEditName / editName / removeNode / removeChildNodes' method,  please see the API documentation.</li>
 				</ul>
 			</li>

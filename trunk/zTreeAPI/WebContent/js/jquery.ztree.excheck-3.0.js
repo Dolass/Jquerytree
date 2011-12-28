@@ -266,6 +266,7 @@
 			checkedKey = setting.data.key.checked,
 			chkFlag = -1;
 			if (node[childKey]) {
+				var start = false;
 				for (var i = 0, l = node[childKey].length; i < l; i++) {
 					var cNode = node[childKey][i];
 					var tmp = -1;
@@ -283,7 +284,6 @@
 							chkFlag = 0;
 						}
 					} else if (setting.check.chkStyle == consts.checkbox.STYLE) {
-
 						if (cNode.nocheck === true) {
 							tmp = cNode.check_Child_State;
 						} else if (cNode.nocheck !== true && cNode[checkedKey] ) {
@@ -293,13 +293,14 @@
 						}
 						if (tmp === 1) {
 							chkFlag = 1; break;
-						} else if (tmp === 2 && i > 0 && tmp !== chkFlag) {
+						} else if (tmp === 2 && start && tmp !== chkFlag) {
 							chkFlag = 1; break;
 						} else if (chkFlag === 2 && tmp > -1 && tmp < 2) {
 							chkFlag = 1; break;
 						} else if (tmp > -1) {
 							chkFlag = tmp;
 						}
+						if (!start) start = (cNode.nocheck !== true);
 					}
 				}
 			}

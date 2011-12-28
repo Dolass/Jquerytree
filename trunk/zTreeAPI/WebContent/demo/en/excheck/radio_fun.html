@@ -88,15 +88,16 @@
 			} else if (type == "checkAllFalse") {
 				zTree.checkAllNodes(false);
 			} else {
+				var callbackFlag = $("#callbackTrigger").attr("checked");
 				for (var i=0, l=nodes.length; i<l; i++) {
 					if (type == "checkTrue") {
-						zTree.checkNode(nodes[i], true);
+						zTree.checkNode(nodes[i], true, null, callbackFlag);
 					} else if (type == "checkFalse") {
-						zTree.checkNode(nodes[i], false);
+						zTree.checkNode(nodes[i], false, null, callbackFlag);
 					}else if (type == "checkTruePS") {
-						zTree.checkNode(nodes[i], true, true);
+						zTree.checkNode(nodes[i], true, true, callbackFlag);
 					} else if (type == "checkFalsePS") {
-						zTree.checkNode(nodes[i], false, true);
+						zTree.checkNode(nodes[i], false, true, callbackFlag);
 					}
 				}
 			}
@@ -124,6 +125,7 @@
 				<ul class="list">
 				<li>Use 'beforeCheck / onCheck' callback function can control whether to allow changes to the node check state. This simple demo shows how to monitor the check event.</li>
 				<li><p>By the way also demonstrates how to use the 'checkNode' method triggers 'beforeCheck / onCheck' callback, Try: <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> Whether trigger the callback when execution checkNode() method.<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkTrue" href="#" title="check..." onclick="return false;">check</a> ]
 					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkFalse" href="#" title="uncheck..." onclick="return false;">uncheck</a> ]</p>
 				<li><p><span class="highlight_red">How to use 'zTreeObj.checkNode' method,  please see the API documentation.</span><br/>

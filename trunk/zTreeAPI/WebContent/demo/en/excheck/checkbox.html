@@ -26,20 +26,17 @@
 
 		var zNodes =[
 			{ id:1, pId:0, name:"can check 1", open:true},
-			{ id:11, pId:1, name:"can check 1-1", checked:true},
-			{ id:12, pId:1, name:"no checkbox 1-2", nocheck:true, open:true},
+			{ id:11, pId:1, name:"can check 1-1", open:true},
+			{ id:111, pId:11, name:"can check 1-1-1"},
+			{ id:112, pId:11, name:"can check 1-1-2"},
+			{ id:12, pId:1, name:"can check 1-2", open:true},
 			{ id:121, pId:12, name:"can check 1-2-1"},
 			{ id:122, pId:12, name:"can check 1-2-2"},
-			{ id:123, pId:12, name:"no checkbox 1-2", nocheck:true},
-			{ id:13, pId:1, name:"no checkbox 1-3", nocheck:true, open:true},
-			{ id:131, pId:13, name:"no checkbox 1-3-1", nocheck:true},
-			{ id:132, pId:13, name:"no checkbox 1-3-2", nocheck:true},
 			{ id:2, pId:0, name:"can check 2", checked:true, open:true},
 			{ id:21, pId:2, name:"can check 2-1"},
 			{ id:22, pId:2, name:"can check 2-2", open:true},
 			{ id:221, pId:22, name:"can check 2-2-1", checked:true},
 			{ id:222, pId:22, name:"can check 2-2-2"},
-			{ id:223, pId:22, name:"can check 2-2-3"},
 			{ id:23, pId:2, name:"can check 2-3"}
 		];
 
@@ -97,9 +94,10 @@
 			<li class="title"><h2>2, explain of treeNode</h2>
 				<ul class="list">
 				<li class="highlight_red">1), If you need to initialize the node is checked, please set treeNode.checked attribute. See the API documentation for more related content.</li>
-				<li class="highlight_red">2), If you need to initialize the node don't show checkbox, please set treeNode.nocheck attribute. See the API documentation for more related content.</li>
-				<li class="highlight_red">3), If you need to change 'checked' to other attribute, please set setting.data.key.checked attribute. See the API documentation for more related content.</li>
-				<li>4), By the way, please see the API documentation for 'treeNode.checkedOld / getCheckStatus / check_Child_State / check_Focus'.</li>
+				<li class="highlight_red">2), If you need to initialize the node's checkbox is disabled, please set treeNode.chkDisabled attribute. See the API documentation for more related content and 'chkDisabled Demo'.</li>
+				<li class="highlight_red">3), If you need to initialize the node don't show checkbox, please set treeNode.nocheck attribute. See the API documentation for more related content and 'nocheck Demo'.</li>
+				<li class="highlight_red">4), If you need to change 'checked' to other attribute, please set setting.data.key.checked attribute. See the API documentation for more related content.</li>
+				<li>5), By the way, please see the API documentation for 'treeNode.checkedOld / getCheckStatus / check_Child_State / check_Focus'.</li>
 				</ul>
 			</li>
 		</ul>
