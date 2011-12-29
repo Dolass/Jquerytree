@@ -48,9 +48,7 @@ Demo 增加 checkbox_nocheck.html/radio_nocheck.html  nocheck 演示
 Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
    * 【增加】setting.check.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
    * 【增加】setting.edit.drag.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
-Demo expand.html 增加 自动展开、折叠操作时，是否触发回调函数的radio
    * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
-Demo custom_font.html 增加 nameIsHTML 演示
    * 【增加】treeNode.click 属性的说明文档
 Demo 增加 url.html 超链接的演示
    * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态

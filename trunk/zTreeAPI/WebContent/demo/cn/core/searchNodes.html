@@ -18,7 +18,10 @@
 				},
 				simpleData: {
 					enable: true
-				}
+				}				
+			},
+			view: {
+				fontCss: getFontCss
 			}
 		};
 
@@ -34,8 +37,8 @@
 			{ id:23, pId:2, name:"搜我吧", t:"id=23"},
 			{ id:3, pId:0, name:"节点搜索演示 3", t:"id=3", open:true },
 			{ id:31, pId:3, name:"我的 id 是: 31", t:"id=31"},
-			{ id:32, pId:3, name:"我的 id 是: 32", t:"id=32"},
-			{ id:33, pId:3, name:"我的 id 是: 33", t:"id=33"}
+			{ id:32, pId:31, name:"我的 id 是: 32", t:"id=32"},
+			{ id:33, pId:32, name:"我的 id 是: 33", t:"id=33"}
 		];
 
 		function focusKey(e) {
@@ -70,7 +73,8 @@
 				value = "";
 			}
 			if (lastValue === value) return;
-			updateNodes({color:"#333", "font-weight":"normal"});
+
+			updateNodes(false);
 			lastValue = value;
 			if (value === "") return;
 
@@ -87,15 +91,18 @@
 			} else if ($("#getNodesByParamFuzzy").attr("checked")) {
 				nodeList = zTree.getNodesByParamFuzzy(keyType, value);
 			}
-			updateNodes({color:"#A60000", "font-weight":"bold"});
+			updateNodes(true);
 
 		}
-		function updateNodes(fontCss) {
+		function updateNodes(highlight) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			for( var i=0, l=nodeList.length; i<l; i++) {
-				zTree.setting.view.fontCss = fontCss;
+				nodeList[i].highlight = highlight;
 				zTree.updateNode(nodeList[i]);
 			}
+		}
+		function getFontCss(treeId, treeNode) {
+			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
 		}
 
 		var key;
