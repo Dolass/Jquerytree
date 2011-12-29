@@ -13,7 +13,8 @@
 		<!--
 		var setting = {
 			view: {
-				fontCss: getFont
+				fontCss: getFont,
+				nameIsHTML: true
 			}
 		};
 
@@ -23,6 +24,7 @@
 			{ name:"有背景的字", font:{'background-color':'black', 'color':'white'}},
 			{ name:"红色字", font:{'color':'red'}},
 			{ name:"蓝色字", font:{'color':'blue'}},
+			{ name:"<span style='color:blue'>view</span>.<span style='color:red'>nameIsHTML</span>"},
 			{ name:"zTree 默认样式"}
 		];
 
@@ -48,7 +50,8 @@
 		<ul class="info">
 			<li class="title"><h2>1、setting 配置信息说明</h2>
 				<ul class="list">
-				<li class="highlight_red">设置节点自定义字体请设置 setting.view.fontCss 属性，详细请参见 API 文档中的相关内容</li>
+				<li class="highlight_red">1、节点自定义字体请设置 setting.view.fontCss 属性，详细请参见 API 文档中的相关内容</li>
+				<li class="highlight_red">2、setting.view.nameIsHTML 属性可以允许节点名称支持 HTML 内容，详细请参见 API 文档中的相关内容</li>
 				</ul>
 			</li>
 			<li class="title"><h2>2、treeNode 节点数据说明</h2>
