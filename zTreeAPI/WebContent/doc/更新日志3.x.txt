@@ -52,7 +52,6 @@ Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
    * 【增加】treeNode.click 属性的说明文档
 Demo 增加 url.html 超链接的演示
    * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
-Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
    * 【增加】treeNode.halfCheck 属性，用于强制设定节点的半选状态
 Demo 增加 checkbox_halfCheck.html/radio_halfCheck.html halfCheck 演示
 

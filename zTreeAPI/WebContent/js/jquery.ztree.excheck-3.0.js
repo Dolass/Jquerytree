@@ -273,6 +273,8 @@
 					if (setting.check.chkStyle == consts.radio.STYLE) {
 						if (cNode.nocheck === true) {
 							tmp = cNode.check_Child_State;
+						} else if (cNode.halfCheck === true) {
+							tmp = 2;
 						} else if (cNode.nocheck !== true && cNode[checkedKey]) {
 							tmp = 2;
 						} else {
@@ -286,6 +288,8 @@
 					} else if (setting.check.chkStyle == consts.checkbox.STYLE) {
 						if (cNode.nocheck === true) {
 							tmp = cNode.check_Child_State;
+						} else if (cNode.halfCheck === true) {
+							tmp = 1;
 						} else if (cNode.nocheck !== true && cNode[checkedKey] ) {
 							tmp = (cNode.check_Child_State === -1 || cNode.check_Child_State === 2) ? 2 : 1;
 						} else {
