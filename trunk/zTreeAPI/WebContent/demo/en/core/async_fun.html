@@ -18,13 +18,15 @@
 			async: {
 				enable: true,
 				url:"../asyncData/getNodes.php",
-				autoParam:["id", "name=n"],
+				autoParam:["id", "name=n", "level=lv"],
 				otherParam:{"otherParam":"zTreeAsyncTest"},
 				dataFilter: filter
 			},
 			callback: {
 				beforeClick: beforeClick,
-				beforeAsync: beforeAsync
+				beforeAsync: beforeAsync,
+				onAsyncError: onAsyncError,
+				onAsyncSuccess: onAsyncSuccess
 			}
 		};
 
@@ -43,10 +45,35 @@
 				return true;
 			}
 		}
+		var log, className = "dark";
 		function beforeAsync(treeId, treeNode) {
-			return treeNode ? treeNode.level < 5 : true;
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeAsync ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+			return true;
+		}
+		function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+			showLog("[ "+getTime()+" onAsyncError ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+		}
+		function onAsyncSuccess(event, treeId, treeNode, msg) {
+			showLog("[ "+getTime()+" onAsyncError ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
 		}
 
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+		
 		function refreshNode(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
 			type = e.data.type,
@@ -89,7 +116,9 @@
 					Try: [ <a id="refreshNode" href="#" onclick="return false;">reload</a> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addNode" href="#" onclick="return false;">append</a> ]</p>
 				</li>
 				<li><p><span class="highlight_red">'isSilent' parameter is only for the collapsed state of the parent node.</span><br/>
-					Try: [ <a id="refreshNodeSilent" href="#" onclick="return false;">Quietly reloaded</a> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addNodeSilent" href="#" onclick="return false;">Quietly append</a> ]</p>
+					Try: [ <a id="refreshNodeSilent" href="#" onclick="return false;">Quietly reloaded</a> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addNodeSilent" href="#" onclick="return false;">Quietly append</a> ]<br/>
+					async log:<br/>
+					<ul id="log" class="log"></ul></p>
 				</li>
 				</ul>
 			</li>

@@ -18,9 +18,6 @@
 				autoParam:["id", "name=n"],
 				otherParam:{"otherParam":"zTreeAsyncTest"},
 				dataFilter: filter
-			},
-			callback: {
-				beforeAsync: beforeAsync
 			}
 		};
 
@@ -30,9 +27,6 @@
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
 			}
 			return childNodes;
-		}
-		function beforeAsync(treeId, treeNode) {
-			return treeNode ? treeNode.level < 5 : true;
 		}
 
 		$(document).ready(function(){
@@ -65,7 +59,7 @@
 			<li class="title"><h2>3、other explain</h2>
 				<ul class="list">
 				<li class="highlight_red">Monitoring autoParam and otherParam use firebug or the developer tools in browser.</li>
-				<li class="highlight_red">This Demo using 'beforeAsync' limit loading 5 level nodes.</li>
+				<li class="highlight_red">This Demo only loading 4 level nodes (level = 3).</li>
 				<li class="highlight_red">This Demo use 'dataFilter' to modify the name of the node.</li>
 				</ul>
 			</li>

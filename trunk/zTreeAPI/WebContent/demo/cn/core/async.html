@@ -15,12 +15,9 @@
 			async: {
 				enable: true,
 				url:"../asyncData/getNodes.php",
-				autoParam:["id", "name=n"],
+				autoParam:["id", "name=n", "level=lv"],
 				otherParam:{"otherParam":"zTreeAsyncTest"},
 				dataFilter: filter
-			},
-			callback: {
-				beforeAsync: beforeAsync
 			}
 		};
 
@@ -30,9 +27,6 @@
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
 			}
 			return childNodes;
-		}
-		function beforeAsync(treeId, treeNode) {
-			return treeNode ? treeNode.level < 5 : true;
 		}
 
 		$(document).ready(function(){
@@ -65,7 +59,7 @@
 			<li class="title"><h2>3、其他说明</h2>
 				<ul class="list">
 				<li class="highlight_red">观察 autoParam 和 otherParam 请使用 firebug 或 浏览器的开发人员工具</li>
-				<li class="highlight_red">此 Demo 利用 beforeAsync 限制只有第 5 级以内的父节点展开时才进行异步加载</li>
+				<li class="highlight_red">此 Demo 只能加载到第 4 级节点（level=3）</li>
 				<li class="highlight_red">此 Demo 利用 dataFilter 对节点的 name 进行了修改</li>
 				</ul>
 			</li>
