@@ -15,7 +15,7 @@
 			async: {
 				enable: true,
 				url:"../asyncData/getNodes.php",
-				autoParam:["id", "name=n"],
+				autoParam:["id", "name=n", "level=lv"],
 				otherParam:{"otherParam":"zTreeAsyncTest"},
 				dataFilter: filter
 			},
@@ -33,7 +33,6 @@
 				}
 			},
 			callback: {
-				beforeAsync: beforeAsync,
 				beforeRemove: beforeRemove,
 				beforeRename: beforeRename
 			}
@@ -45,9 +44,6 @@
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
 			}
 			return childNodes;
-		}
-		function beforeAsync(treeId, treeNode) {
-			return treeNode ? treeNode.level < 5 : true;
 		}
 		function beforeRemove(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");

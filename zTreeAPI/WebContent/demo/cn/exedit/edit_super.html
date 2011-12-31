@@ -111,6 +111,7 @@
 			if (btn) btn.bind("click", function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+				return false;
 			});
 		};
 		function removeHoverDom(treeId, treeNode) {
