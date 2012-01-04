@@ -40,6 +40,7 @@
    * 【修改】treeNode.childs --> children; treeObject.removeChilds --> removeChildNodes; setting.data.key.childs --> children（英文不好惹的祸！抱歉了！）
    * 【修改】onRemove 回调中得到的 treeNode 还可以查找 preNode、nextNode 的bug。 修正后，getPreNode 和 getNextNode 都返回 null； 为了便于查找父节点，getParentNode 仍保留
    * 【修改】简单数据模式下，如果 id 与 pId 的值相同会导致该节点无法正常加载的 bug
+   * 【修改】移动或删除中间节点会导致最后一个节点连接线图标变小的 bug
 
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
    * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件

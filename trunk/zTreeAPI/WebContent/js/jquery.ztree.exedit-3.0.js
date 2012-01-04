@@ -1039,7 +1039,7 @@
 				var tmp_ulObj = $("#" + oldParentNode.tId + consts.id.UL),
 				tmp_switchObj = $("#" + oldParentNode.tId + consts.id.SWITCH),
 				tmp_icoObj = $("#" + oldParentNode.tId + consts.id.ICON);
-				view.replaceSwitchClass(tmp_switchObj, consts.folder.DOCU);
+				view.replaceSwitchClass(oldParentNode, tmp_switchObj, consts.folder.DOCU);
 				view.replaceIcoClass(oldParentNode, tmp_icoObj, consts.folder.DOCU);
 				tmp_ulObj.css("display", "none");
 
@@ -1083,7 +1083,7 @@
 				node.open = false;
 				var tmp_switchObj = $("#" + node.tId + consts.id.SWITCH),
 				tmp_icoObj = $("#" + node.tId + consts.id.ICON);
-				view.replaceSwitchClass(tmp_switchObj, consts.folder.DOCU);
+				view.replaceSwitchClass(node, tmp_switchObj, consts.folder.DOCU);
 				view.replaceIcoClass(node, tmp_icoObj, consts.folder.DOCU);
 			}
 		},
@@ -1121,7 +1121,7 @@
 				tmp_ulObj = $("#" + parentNode.tId + consts.id.UL);
 				tmp_switchObj = $("#" + parentNode.tId + consts.id.SWITCH);
 				tmp_icoObj = $("#" + parentNode.tId + consts.id.ICON);
-				view.replaceSwitchClass(tmp_switchObj, consts.folder.DOCU);
+				view.replaceSwitchClass(parentNode, tmp_switchObj, consts.folder.DOCU);
 				view.replaceIcoClass(parentNode, tmp_icoObj, consts.folder.DOCU);
 				tmp_ulObj.css("display", "none");
 
@@ -1136,14 +1136,14 @@
 				if (parentNode == root) {
 					if (parentNode[childKey].length == 1) {
 						//node was root, and ztree has only one root after move node
-						view.replaceSwitchClass(tmp_switchObj, consts.line.ROOT);
+						view.replaceSwitchClass(newLast, tmp_switchObj, consts.line.ROOT);
 					} else {
 						var tmp_first_switchObj = $("#" + parentNode[childKey][0].tId + consts.id.SWITCH);
-						view.replaceSwitchClass(tmp_first_switchObj, consts.line.ROOTS);
-						view.replaceSwitchClass(tmp_switchObj, consts.line.BOTTOM);
+						view.replaceSwitchClass(parentNode[childKey][0], tmp_first_switchObj, consts.line.ROOTS);
+						view.replaceSwitchClass(newLast, tmp_switchObj, consts.line.BOTTOM);
 					}
 				} else {
-					view.replaceSwitchClass(tmp_switchObj, consts.line.BOTTOM);
+					view.replaceSwitchClass(newLast, tmp_switchObj, consts.line.BOTTOM);
 				}
 				tmp_ulObj.removeClass(consts.line.LINE);
 			}
