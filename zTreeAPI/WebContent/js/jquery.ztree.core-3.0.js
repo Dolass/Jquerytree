@@ -760,7 +760,7 @@
 				target_ulObj = $("#" + parentNode.tId + consts.id.UL);
 
 				if (!parentNode.open) {
-					view.replaceSwitchClass(target_switchObj, consts.folder.CLOSE);
+					view.replaceSwitchClass(parentNode, target_switchObj, consts.folder.CLOSE);
 					view.replaceIcoClass(parentNode, target_icoObj, consts.folder.CLOSE);
 					parentNode.open = false;
 					target_ulObj.css({
@@ -1003,7 +1003,7 @@
 				}
 
 				if (node.open) {
-					view.replaceSwitchClass(switchObj, consts.folder.OPEN);
+					view.replaceSwitchClass(node, switchObj, consts.folder.OPEN);
 					view.replaceIcoClass(node, icoObj, consts.folder.OPEN);
 					if (animateFlag == false || setting.view.expandSpeed == "") {
 						ulObj.show();
@@ -1017,7 +1017,7 @@
 						}
 					}
 				} else {
-					view.replaceSwitchClass(switchObj, consts.folder.CLOSE);
+					view.replaceSwitchClass(node, switchObj, consts.folder.CLOSE);
 					view.replaceIcoClass(node, icoObj, consts.folder.CLOSE);
 					if (animateFlag == false || setting.view.expandSpeed == "") {
 						ulObj.hide();
@@ -1104,7 +1104,10 @@
 			} else {
 				lineClass.push(consts.folder.DOCU);
 			}
-			return "level" + node.level + " switch " + lineClass.join('_');
+			return view.makeNodeLineClassEx(node) + lineClass.join('_');
+		},
+		makeNodeLineClassEx: function(node) {
+			return "level" + node.level + " switch ";
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
@@ -1134,7 +1137,7 @@
 			}
 			obj.attr("class", tmpList.join("_"));
 		},
-		replaceSwitchClass: function(obj, newName) {
+		replaceSwitchClass: function(node, obj, newName) {
 			if (!obj) return;
 			var tmpName = obj.attr("class");
 			if (tmpName == undefined) return;
@@ -1145,7 +1148,7 @@
 				case consts.line.CENTER:
 				case consts.line.BOTTOM:
 				case consts.line.NOLINE:
-					tmpList[0] = newName;
+					tmpList[0] = view.makeNodeLineClassEx(node) + newName;
 					break;
 				case consts.folder.OPEN:
 				case consts.folder.CLOSE:
