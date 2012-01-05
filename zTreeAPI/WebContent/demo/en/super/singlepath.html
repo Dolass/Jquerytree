@@ -68,6 +68,13 @@
 		var curExpandNode = null;
 		function beforeExpand(treeId, treeNode) {
 			var pNode = curExpandNode ? curExpandNode.getParentNode():null;
+			var treeNodeP = treeNode.parentTId ? treeNode.getParentNode():null;
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			for(var i=0, l=!treeNodeP ? 0:treeNodeP.children.length; i<l; i++ ) {
+				if (treeNode !== treeNodeP.children[i]) {
+					zTree.expandNode(treeNodeP.children[i], false);
+				}
+			}
 			while (pNode) {
 				if (pNode === treeNode) {
 					break;
@@ -77,13 +84,14 @@
 			if (!pNode) {
 				singlePath(treeNode);
 			}
+
 		}
 		function singlePath(newNode) {
 			if (newNode === curExpandNode) return;
 			if (curExpandNode && curExpandNode.open==true) {
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				if (newNode.parentTId === curExpandNode.parentTId) {
-					zTree.expandNode(curExpandNode, false, true, null, true);
+					zTree.expandNode(curExpandNode, false);
 				} else {
 					var newParents = [];
 					while (newNode) {
@@ -107,12 +115,12 @@
 						if (newParents.length>0) {
 							for (var i = Math.min(newParents.length, oldParents.length)-1; i>=0; i--) {
 								if (newParents[i] !== oldParents[i]) {
-									zTree.expandNode(oldParents[i], false, true, null, true);
+									zTree.expandNode(oldParents[i], false);
 									break;
 								}
 							}
 						} else {
-							zTree.expandNode(oldParents[oldParents.length-1], false, true, null, true);
+							zTree.expandNode(oldParents[oldParents.length-1], false);
 						}
 					}
 				}
