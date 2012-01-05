@@ -83,7 +83,7 @@
 			if (curExpandNode && curExpandNode.open==true) {
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				if (newNode.parentTId === curExpandNode.parentTId) {
-					zTree.expandNode(curExpandNode, false, true);
+					zTree.expandNode(curExpandNode, false, true, null, true);
 				} else {
 					var newParents = [];
 					while (newNode) {
@@ -107,12 +107,12 @@
 						if (newParents.length>0) {
 							for (var i = Math.min(newParents.length, oldParents.length)-1; i>=0; i--) {
 								if (newParents[i] !== oldParents[i]) {
-									zTree.expandNode(oldParents[i], false, true);
+									zTree.expandNode(oldParents[i], false, true, null, true);
 									break;
 								}
 							}
 						} else {
-							zTree.expandNode(oldParents[oldParents.length-1], false, true);
+							zTree.expandNode(oldParents[oldParents.length-1], false, true, null, true);
 						}
 					}
 				}
@@ -126,7 +126,7 @@
 
 		function onClick(e,treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.expandNode(treeNode);
+			zTree.expandNode(treeNode, null, null, null, true);
 		}
 
 		$(document).ready(function(){
