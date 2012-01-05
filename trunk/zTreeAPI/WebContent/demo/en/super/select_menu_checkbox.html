@@ -54,7 +54,7 @@
 
 		function beforeClick(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.checkNode(treeNode, !treeNode.checked);
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
 			return false;
 		}
 		
