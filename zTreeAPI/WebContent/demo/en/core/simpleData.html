@@ -67,30 +67,30 @@
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1, explain of setting</h2>
+			<li class="title"><h2>1, Explanation of setting</h2>
 				<ul class="list">
-				<li class="highlight_red">Must to set setting.data.simple attributes,  see the API documentation for more related content.</li>
+				<li class="highlight_red">Must set setting.data.simple attributes,  see the API documentation for more related contents.</li>
 				<li>The setting.view in API documentation is associated with the display of the zTree.</li>
-				<li>Change the 'name', 'children', 'title' attribute, please refer to the API documentation about 'setting.data.key'.</li>
+				<li>To change the 'name', 'children', 'title' attribute, please refer to the API documentation about 'setting.data.key'.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>2, explain of treeNode</h2>
+			<li class="title"><h2>2, Explanation of treeNode</h2>
 				<ul class="list">
-				<li class="highlight_red">Simple model of the JSON data to use id / pId that include parent-child relationship between nodes, and other attributes please refer to the instructions within setting.data.simple.
+				<li class="highlight_red">Id / pId that include parent-child relationship between nodes is needed if you use Simple model of the JSON data, and other attributes please refer to the instructions within setting.data.simple.
 				<div><pre xmlns=""><code>For example:
 var nodes = [
 	{id:1, pId:0, name: "pNode 01"},
 	{id:11, pId:1, name: "child 01"},
 	{id:12, pId:1, name: "child 02"}
 ];</code></pre></div></li>
-				<li>Nodes expanded by default, set treeNode.open attribute.</li>
-				<li>No child node of parent node, set treeNode.isParent attribute.</li>
+				<li>To set nodes expanded by default, set treeNode.open attribute.</li>
+				<li>To get parent node which has no child node, set treeNode.isParent attribute.</li>
 				<li>Please refer to the API documentation "treeNode data details" to view other attributes description.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>3、other explain</h2>
+			<li class="title"><h2>3、Other explanation</h2>
 				<ul class="list">
-				<li>zTree v3.0 Demo used all of the simple JSON data model , easy to learn.</li>
+				<li>The simple JSON data model has been used almost everywhere, which can be learned easily.</li>
 				</ul>
 			</li>
 		</ul>
