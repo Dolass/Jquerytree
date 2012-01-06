@@ -11,7 +11,7 @@
  * Date: 2012-01-10
  */
 (function($){
-	var settings = [], roots = [], caches = [], zId = 0,
+	var settings = {}, roots = {}, caches = {}, zId = 0,
 	//default consts of core
 	_consts = {
 		event: {
