@@ -69,7 +69,7 @@
 			} else if (treeNode.id == 13) {
 				if ($("#diyBtn_"+treeNode.id).length>0) return;
 				var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' >&nbsp;</span><select class='selDemo ' id='diyBtn_" +treeNode.id+ "'><option value=1>1</option><option value=2>2</option><option value=3>3</option></select>";
-				aObj.append(editStr);
+				aObj.after(editStr);
 				var btn = $("#diyBtn_"+treeNode.id);
 				if (btn) btn.bind("change", function(){alert("diy Select value="+btn.attr("value")+" for " + treeNode.name);});
 			} else if (treeNode.id == 141) {
