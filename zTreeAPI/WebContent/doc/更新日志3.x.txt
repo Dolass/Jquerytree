@@ -16,7 +16,17 @@
 (4)【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
 
 <font color=#041594>
-*2011.10.01* v3.0
+*2012.01.10* v3.0
+   * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
+   * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
+   * 【增加】treeNode.chkDisabled 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该 checkbox 会影响父节点的 checkbox 的半选状态
+   * 【增加】setting.check.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
+   * 【增加】setting.edit.drag.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
+   * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
+   * 【增加】treeNode.click 属性的说明文档
+   * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
+   * 【增加】treeNode.halfCheck 属性，用于强制设定节点的半选状态
+
    * 【修改】异步加载 & 编辑功能 共存时，拖拽节点 或 增加节点 导致 ie 上报错的 bug （apply 方法引起）
    * 【修改】zTreeStyle 样式冲突
    * 【修改】setting.data.key.title 默认值设置为 ""，初始化时自动赋值为 setting.data.key.name 这样可避免希望 title 与 name 一致的用户反复设置参数
@@ -25,7 +35,6 @@
    * 【修改】updateNode 导致 checkbox 半选状态错误的 bug
    * 【修改】checkNode 方法实现 toggle 操作, 取消 expandAll 方法的 toggle 操作
    * 【修改】zTree 内鼠标移动会抢页面上 input 内的焦点的 bug
-      $("input:focus").length == 0 会导致 IE6异常
    * 【修改】beforeRename / onRename 的触发方式——即使名称内容未改变也会触发，便于用户配合 beforeEditName 捕获编辑状态的结束，赋予用户更多调整规则的权利
    * 【修改】与 easyUI 共存时无法拖拽的bug
    * 【修改】beforeRename 在 Firefox 下如果利用 alert，会触发两次的 bug
@@ -41,20 +50,6 @@
    * 【修改】onRemove 回调中得到的 treeNode 还可以查找 preNode、nextNode 的bug。 修正后，getPreNode 和 getNextNode 都返回 null； 为了便于查找父节点，getParentNode 仍保留
    * 【修改】简单数据模式下，如果 id 与 pId 的值相同会导致该节点无法正常加载的 bug
    * 【修改】移动或删除中间节点会导致最后一个节点连接线图标变小的 bug
-
-   * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
-   * 【增加】setting.callback.beforeEditName 回调函数，以保证用户可以捕获点击编辑按钮的事件
-   * 【增加】treeNode.chkDisabled 属性，显示 checkbox 但是用户无法修改 checkbox 状态，并且该 checkbox 会影响父节点的 checkbox 的半选状态
-Demo 增加 checkbox_nocheck.html/radio_nocheck.html  nocheck 演示
-Demo 增加 checkbox_chkDisabled.html/radio_chkDisabled.html chkDisabled 演示
-   * 【增加】setting.check.nocheckInherit 属性，用户设置子节点继承 nocheck 属性，用于批量初始化节点，不适用于已经显示的节点
-   * 【增加】setting.edit.drag.autoExpandTrigger 默认值 false，可以设置自动展开、折叠操作时是否触发事件回调函数
-   * 【增加】setting.view.nameIsHTML 默认值 false，允许用户对 name 设置 DOM 对象
-   * 【增加】treeNode.click 属性的说明文档
-Demo 增加 url.html 超链接的演示
-   * 【增加】treeObj.setChkDisabled 方法用于设置 checkbox / radio disabled 状态
-   * 【增加】treeNode.halfCheck 属性，用于强制设定节点的半选状态
-Demo 增加 checkbox_halfCheck.html/radio_halfCheck.html halfCheck 演示
 
 *2011.09.05* v3.0 beta
    * 【修改】zTree 的 js 代码架构全面修改，并且拆分
