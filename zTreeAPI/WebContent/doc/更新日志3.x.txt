@@ -16,14 +16,18 @@
 (4)【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
 
 <font color=#041594>
-*2012.02.10* v3.0
+*2012.02.10* v3.1
+   * 【增加】ajax的参数 contentType ，让提交参数适用于 json 数据提交。 http://www.oschina.net/question/60049_36789
+尚未制作
    * 【修改】异步加载 规则，不再仅仅依靠父节点的子节点数来判定，增加内部属性 zAsync，保证默认状态下父节点及时无子节点也只能异步加载一次，除非使用 reAsyncChildNodes 方法强行控制异步加载。
 尚未制作
    * 【修改】放大浏览器后导致 界面出现多余连接线的bug （需要更新：icon 图标和 css ）
 尚未制作
    * 【修改】在编辑状态，如果节点名超过编辑框宽度，左右键在框内不起作用的bug
 尚未制作
-   * 【增加】ajax的参数 contentType ，让提交参数适用于 json 数据提交。 http://www.oschina.net/question/60049_36789
+   * 【修改】title 设置后，如果属性不存在，则默认为 title 为空，便于数据容错和用户灵活使用
+尚未制作
+
 
 *2012.01.10* v3.0
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
