@@ -18,7 +18,6 @@
 <font color=#041594>
 *2012.02.10* v3.1
    * 【增加】ajax的参数 contentType ，让提交参数适用于 json 数据提交。 http://www.oschina.net/question/60049_36789
-尚未制作
    * 【修改】异步加载 规则，不再仅仅依靠父节点的子节点数来判定，增加内部属性 zAsync，保证默认状态下父节点及时无子节点也只能异步加载一次，除非使用 reAsyncChildNodes 方法强行控制异步加载。
 尚未制作
    * 【修改】放大浏览器后导致 界面出现多余连接线的bug （需要更新：icon 图标和 css ）

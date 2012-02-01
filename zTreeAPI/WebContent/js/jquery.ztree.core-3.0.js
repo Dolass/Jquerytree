@@ -81,6 +81,7 @@
 		},
 		async: {
 			enable: false,
+			contentType: "application/x-www-form-urlencoded",
 			type: "post",
 			dataType: "text",
 			url: "",
@@ -868,26 +869,44 @@
 				icoObj.attr({"style":"", "class":"ico_loading"});
 			}
 
-			var tmpParam = "";
+			var isJson = (setting.async.contentType == "application/json"), tmpParam = isJson ? "{" : "", jTemp="";
 			for (i = 0, l = setting.async.autoParam.length; node && i < l; i++) {
 				var pKey = setting.async.autoParam[i].split("="), spKey = pKey;
 				if (pKey.length>1) {
 					spKey = pKey[1];
 					pKey = pKey[0];
 				}
-				tmpParam += (tmpParam.length > 0 ? "&": "") + spKey + "=" + node[pKey];
+				if (isJson) {
+					jTemp = (typeof node[pKey] == "string") ? '"' : '';
+					tmpParam += '"' + spKey + ('":' + jTemp + node[pKey]).replace(/'/g,'\\\'') + jTemp + ',';
+				} else {
+					tmpParam += spKey + ("=" + node[pKey]).replace(/&/g,'%26') + "&";
+				}
 			}
 			if (tools.isArray(setting.async.otherParam)) {
 				for (i = 0, l = setting.async.otherParam.length; i < l; i += 2) {
-					tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.otherParam[i] + "=" + setting.async.otherParam[i + 1];
+					if (isJson) {
+						jTemp = (typeof setting.async.otherParam[i + 1] == "string") ? '"' : '';
+						tmpParam += '"' + setting.async.otherParam[i] + ('":' + jTemp + setting.async.otherParam[i + 1]).replace(/'/g,'\\\'') + jTemp + ",";
+					} else {
+						tmpParam += setting.async.otherParam[i] + ("=" + setting.async.otherParam[i + 1]).replace(/&/g,'%26') + "&";
+					}
 				}
 			} else {
 				for (var p in setting.async.otherParam) {
-					tmpParam += (tmpParam.length > 0 ? "&" : "") + p + "=" + setting.async.otherParam[p];
+					if (isJson) {
+						jTemp = (typeof setting.async.otherParam[p] == "string") ? '"' : '';
+						tmpParam += '"' + p + ('":' + jTemp + setting.async.otherParam[p]).replace(/'/g,'\\\'') + jTemp + ",";
+					} else {
+						tmpParam += p + ("=" + setting.async.otherParam[p]).replace(/&/g,'%26') + "&";
+					}
 				}
 			}
+			if (tmpParam.length > 1) tmpParam = tmpParam.substring(0, tmpParam.length-1);
+			if (isJson) tmpParam += "}";
 
 			$.ajax({
+				contentType: setting.async.contentType,
 				type: setting.async.type,
 				url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
 				data: tmpParam,
