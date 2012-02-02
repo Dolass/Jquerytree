@@ -1,5 +1,5 @@
 /*
- * JQuery zTree exedit 3.0
+ * JQuery zTree exedit 3.1
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-01-10
+ * Date: 2012-02-10
  */
 (function($){
 	//default consts of exedit
@@ -176,12 +176,12 @@
 			if (!newNodes) return null;
 			if (!parentNode) parentNode = null;
 			if (parentNode && !parentNode.isParent && setting.data.keep.leaf) return null;
-			var childKey = setting.data.key.children,
-			xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
+			var xNewNodes = tools.clone(tools.isArray(newNodes)? newNodes: [newNodes]);
 			function addCallback() {
 				view.addNodes(setting, parentNode, xNewNodes, (isSilent==true));
 			}
-			if (this.setting.async.enable && parentNode && parentNode.isParent && (!parentNode[childKey] || parentNode[childKey].length === 0)) {
+			
+			if (setting.async.enable && tools.canAsync(setting, parentNode)) {
 				view.asyncNode(setting, parentNode, isSilent, addCallback);
 			} else {
 				addCallback();
@@ -198,8 +198,7 @@
 		zTreeTools.copyNode = function(targetNode, node, moveType, isSilent) {
 			if (!node) return null;
 			if (targetNode && !targetNode.isParent && setting.data.keep.leaf && moveType === consts.move.TYPE_INNER) return null;
-			var childKey = setting.data.key.children,
-			newNode = tools.clone(node);
+			var newNode = tools.clone(node);
 			if (!targetNode) {
 				targetNode = null;
 				moveType = consts.move.TYPE_INNER;
@@ -208,7 +207,8 @@
 				function copyCallback() {
 					view.addNodes(setting, targetNode, [newNode], isSilent);
 				}
-				if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childKey] || targetNode[childKey].length === 0)) {
+
+				if (setting.async.enable && tools.canAsync(setting, targetNode)) {
 					view.asyncNode(setting, targetNode, isSilent, copyCallback);
 				} else {
 					copyCallback();
@@ -233,11 +233,10 @@
 			} else if (!targetNode) {
 				targetNode = null;
 			}
-			var childKey = setting.data.key.children;
 			function moveCallback() {
 				view.moveNode(setting, targetNode, node, moveType, false, isSilent);
 			}
-			if (setting.async.enable && targetNode && targetNode.isParent && (!targetNode[childKey] || targetNode[childKey].length === 0)) {
+			if (setting.async.enable && tools.canAsync(setting, targetNode)) {
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
@@ -714,7 +713,7 @@
 
 					}
 
-					if (moveType == consts.move.TYPE_INNER && targetSetting.async.enable && dragTargetNode && dragTargetNode.isParent && (!dragTargetNode[childKey] || dragTargetNode[childKey].length === 0)) {
+					if (moveType == consts.move.TYPE_INNER && tools.canAsync(targetSetting, dragTargetNode)) {
 						view.asyncNode(targetSetting, dragTargetNode, false, dropCallback);
 					} else {
 						dropCallback();
