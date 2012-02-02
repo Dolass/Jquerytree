@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.0
+ * JQuery zTree core 3.1
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-01-10
+ * Date: 2012-02-10
  */
 (function($){
 	var settings = {}, roots = {}, caches = {}, zId = 0,
@@ -274,6 +274,7 @@
 		n.getPreNode = function() {return data.getPreNode(setting, n);};
 		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
+		n.zAsync = false;
 		data.fixPIdKeyValue(setting, n);
 	},
 	_init = {
@@ -692,6 +693,10 @@
 			}
 			return defaultValue;
 		},
+		canAsync: function(setting, node) {
+			var childKey = setting.data.key.children;
+			return (node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
+		},
 		clone: function (jsonObj) {
 			var buf;
 			if (jsonObj instanceof Array) {
@@ -923,7 +928,10 @@
 						}
 					} catch(err) {}
 
-					if (node) node.isAjaxing = null;
+					if (node) {
+						node.isAjaxing = null;
+						node.zAsync = true;
+					}
 					view.setNodeLineIcos(setting, node);
 					if (newNodes && newNodes != "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
@@ -1246,8 +1254,7 @@
 			}
 		},
 		switchNode: function(setting, node) {
-			var childKey = setting.data.key.children;
-			if (node.open || (node && node[childKey] && node[childKey].length > 0)) {
+			if (node.open || !tools.canAsync(setting, node)) {
 				view.expandCollapseNode(setting, node, !node.open);
 			} else if (setting.async.enable) {
 				if (!view.asyncNode(setting, node)) {
