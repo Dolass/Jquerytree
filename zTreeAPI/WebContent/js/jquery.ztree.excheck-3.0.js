@@ -1,5 +1,5 @@
 /*
- * JQuery zTree excheck 3.1
+ * JQuery zTree excheck 3.0
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-02-10
+ * Date: 2012-01-10
  */
 (function($){
 	//default consts of excheck

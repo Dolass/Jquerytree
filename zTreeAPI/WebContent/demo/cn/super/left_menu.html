@@ -92,7 +92,7 @@
 						zTree_Menu.expandNode(node, true);
 						curMenu = node;
 					} else {
-						zTree_Menu.expandNode(node.children[0].isParent?node.children[0]:node, true);
+						zTree_Menu.expandNode(node.children[0], true);
 						curMenu = node.children[0];
 					}
 				} else {

@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.1
+ * JQuery zTree core 3.0
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-02-10
+ * Date: 2012-01-10
  */
 (function($){
 	var settings = {}, roots = {}, caches = {}, zId = 0,
@@ -81,7 +81,6 @@
 		},
 		async: {
 			enable: false,
-			contentType: "application/x-www-form-urlencoded",
 			type: "post",
 			dataType: "text",
 			url: "",
@@ -274,7 +273,6 @@
 		n.getPreNode = function() {return data.getPreNode(setting, n);};
 		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
-		n.zAsync = false;
 		data.fixPIdKeyValue(setting, n);
 	},
 	_init = {
@@ -693,10 +691,6 @@
 			}
 			return defaultValue;
 		},
-		canAsync: function(setting, node) {
-			var childKey = setting.data.key.children;
-			return (node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
-		},
 		clone: function (jsonObj) {
 			var buf;
 			if (jsonObj instanceof Array) {
@@ -820,7 +814,7 @@
 					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 						"'");
-					if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
+					if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {html.push("title='", node[titleKey].replace(/'/g,"&#39;"),"'");}
 					html.push(">");
 					data.getInnerBeforeA(setting, node, html);
 					var name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -874,44 +868,26 @@
 				icoObj.attr({"style":"", "class":"ico_loading"});
 			}
 
-			var isJson = (setting.async.contentType == "application/json"), tmpParam = isJson ? "{" : "", jTemp="";
+			var tmpParam = "";
 			for (i = 0, l = setting.async.autoParam.length; node && i < l; i++) {
 				var pKey = setting.async.autoParam[i].split("="), spKey = pKey;
 				if (pKey.length>1) {
 					spKey = pKey[1];
 					pKey = pKey[0];
 				}
-				if (isJson) {
-					jTemp = (typeof node[pKey] == "string") ? '"' : '';
-					tmpParam += '"' + spKey + ('":' + jTemp + node[pKey]).replace(/'/g,'\\\'') + jTemp + ',';
-				} else {
-					tmpParam += spKey + ("=" + node[pKey]).replace(/&/g,'%26') + "&";
-				}
+				tmpParam += (tmpParam.length > 0 ? "&": "") + spKey + "=" + node[pKey];
 			}
 			if (tools.isArray(setting.async.otherParam)) {
 				for (i = 0, l = setting.async.otherParam.length; i < l; i += 2) {
-					if (isJson) {
-						jTemp = (typeof setting.async.otherParam[i + 1] == "string") ? '"' : '';
-						tmpParam += '"' + setting.async.otherParam[i] + ('":' + jTemp + setting.async.otherParam[i + 1]).replace(/'/g,'\\\'') + jTemp + ",";
-					} else {
-						tmpParam += setting.async.otherParam[i] + ("=" + setting.async.otherParam[i + 1]).replace(/&/g,'%26') + "&";
-					}
+					tmpParam += (tmpParam.length > 0 ? "&": "") + setting.async.otherParam[i] + "=" + setting.async.otherParam[i + 1];
 				}
 			} else {
 				for (var p in setting.async.otherParam) {
-					if (isJson) {
-						jTemp = (typeof setting.async.otherParam[p] == "string") ? '"' : '';
-						tmpParam += '"' + p + ('":' + jTemp + setting.async.otherParam[p]).replace(/'/g,'\\\'') + jTemp + ",";
-					} else {
-						tmpParam += p + ("=" + setting.async.otherParam[p]).replace(/&/g,'%26') + "&";
-					}
+					tmpParam += (tmpParam.length > 0 ? "&" : "") + p + "=" + setting.async.otherParam[p];
 				}
 			}
-			if (tmpParam.length > 1) tmpParam = tmpParam.substring(0, tmpParam.length-1);
-			if (isJson) tmpParam += "}";
 
 			$.ajax({
-				contentType: setting.async.contentType,
 				type: setting.async.type,
 				url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
 				data: tmpParam,
@@ -928,10 +904,7 @@
 						}
 					} catch(err) {}
 
-					if (node) {
-						node.isAjaxing = null;
-						node.zAsync = true;
-					}
+					if (node) node.isAjaxing = null;
 					view.setNodeLineIcos(setting, node);
 					if (newNodes && newNodes != "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
@@ -1235,7 +1208,7 @@
 			} else {
 				nObj.text(node[nameKey]);
 			}
-			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {
+			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {
 				var aObj = $("#" + node.tId + consts.id.A);
 				aObj.attr("title", node[titleKey]);
 			}
@@ -1254,7 +1227,8 @@
 			}
 		},
 		switchNode: function(setting, node) {
-			if (node.open || !tools.canAsync(setting, node)) {
+			var childKey = setting.data.key.children;
+			if (node.open || (node && node[childKey] && node[childKey].length > 0)) {
 				view.expandCollapseNode(setting, node, !node.open);
 			} else if (setting.async.enable) {
 				if (!view.asyncNode(setting, node)) {
