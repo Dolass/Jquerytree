@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-02-10
+ * Date: 2012-02-14
  */
 (function($){
 	//default consts of exedit
