@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-02-10
+ * Date: 2012-02-14
  */
 (function($){
 	var settings = {}, roots = {}, caches = {}, zId = 0,
@@ -263,10 +263,12 @@
 			if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
 			n.open = !!n.open;
 			n.isParent = true;
+			n.zAsync = true;
 		} else {
 			n.open = false;
 			if (typeof n.isParent == "string") n.isParent = tools.eqs(n.isParent, "true");
 			n.isParent = !!n.isParent;
+			n.zAsync = !n.isParent;
 		}
 		n.isFirstNode = isFirstNode;
 		n.isLastNode = isLastNode;
@@ -274,7 +276,6 @@
 		n.getPreNode = function() {return data.getPreNode(setting, n);};
 		n.getNextNode = function() {return data.getNextNode(setting, n);};
 		n.isAjaxing = false;
-		n.zAsync = false;
 		data.fixPIdKeyValue(setting, n);
 	},
 	_init = {
