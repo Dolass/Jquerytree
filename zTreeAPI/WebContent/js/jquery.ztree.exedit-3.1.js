@@ -39,6 +39,7 @@
 	_setting = {
 		edit: {
 			enable: false,
+			editNameSelectAll: false,
 			showRemoveBtn: true,
 			showRenameBtn: true,
 			removeTitle: "remove",
@@ -221,7 +222,7 @@
 		}
 		zTreeTools.editName = function(node) {
 			if (!node || !node.tId || node !== data.getNodeCache(setting, node.tId)) return;
-			view.expandCollapseParentNode(setting, node, true);
+			if (node.parentTId) view.expandCollapseParentNode(setting, node.getParentNode(), true);
 			view.editNode(setting, node)
 		}
 		zTreeTools.moveNode = function(targetNode, node, moveType, isSilent) {
@@ -753,6 +754,12 @@
 				tools.setCursorPosition(inputObj.get(0), inputObj.val().length);
 			}
 		},
+		inputSelect: function(inputObj) {
+			if (inputObj.get(0)) {
+				inputObj.focus();
+				inputObj.select();
+			}
+		},
 		setCursorPosition: function(obj, pos){
 			if(obj.setSelectionRange) {
 				obj.focus();
@@ -884,7 +891,11 @@
 			$("#" + node.tId + consts.id.SPAN).html("<input type=text class='rename' id='" + node.tId + consts.id.INPUT + "' treeNode" + consts.id.INPUT + " >");
 			var inputObj = $("#" + node.tId + consts.id.INPUT);
 			inputObj.attr("value", node[nameKey]);
-			tools.inputFocus(inputObj);
+			if (setting.edit.editNameSelectAll) {
+				tools.inputSelect(inputObj);
+			} else {
+				tools.inputFocus(inputObj);
+			}
 
 			inputObj.bind('blur', function(event) {
 				if (!view.editNodeBlur) {
