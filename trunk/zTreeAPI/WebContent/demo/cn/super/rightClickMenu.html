@@ -12,6 +12,10 @@
 	<SCRIPT type="text/javascript">
 		<!--
 		var setting = {
+			edit: {
+				enable: true,
+				editNameSelectAll: true
+			},
 			view: {
 				dblClickExpand: false
 			},
@@ -89,14 +93,15 @@
 			hideRMenu();
 			var nodes = zTree.getSelectedNodes();
 			if (nodes && nodes.length>0) {
-				if (nodes[0].children && nodes[0].children.length > 0) {
-					var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
-					if (confirm(msg)==true){
-						zTree.removeNode(nodes[0]);
-					}
-				} else {
-					zTree.removeNode(nodes[0]);
-				}
+				zTree.editName(nodes[0]);
+//				if (nodes[0].children && nodes[0].children.length > 0) {
+//					var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
+//					if (confirm(msg)==true){
+//						zTree.removeNode(nodes[0]);
+//					}
+//				} else {
+//					zTree.removeNode(nodes[0]);
+//				}
 			}
 		}
 		function checkTreeNode(checked) {
