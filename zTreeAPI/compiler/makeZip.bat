@@ -15,7 +15,7 @@ cd publish
 mkdir js
 cd ../
 
-xcopy WebContent\js\jquery-1.4.4.min publish\js\
+xcopy WebContent\js\jquery-1.4.4.min.js publish\js\
 xcopy WebContent\js\*%ver%.js publish\js\
 xcopy WebContent\js\*%ver%.min.js publish\js\
 xcopy WebContent\doc\*3.x.txt publish\
