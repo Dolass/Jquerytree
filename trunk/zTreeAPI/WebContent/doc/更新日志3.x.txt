@@ -14,6 +14,12 @@
 还有在获取一个treeNode后需要取得相应的document元素也没提供,应该扩展..
 (3)【增加】节点排序功能
 (4)【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
+(5) Demo 带 checkbox 的多选下拉菜单 -- zTree
+http://www.baby666.cn/v3/demo.php#_509
+
+这个实例中选择加上如下的方式会不会更方便？
+1，选择大类后自动选择小类会更方便；
+2，shift按键结合选择
 
 <font color=#041594>
 *2012.02.10* v3.1
@@ -25,6 +31,7 @@
       CSS 中 filter:alpha(opacity=80) 造成的，应该是 ie 的 bug，需要更新 css 文件
    * 【修改】title 设置后，如果属性不存在，则默认为 title 为空，便于数据容错和用户灵活使用
    * 【修改】editName 方法如果针对尚未展开的 父节点，会导致该父节点自动展开的 bug
+   * 【修改】title 中存在标签时导致 title 显示异常的bug（例如：蓝色字22%"'<input/>）
 
 *2012.01.10* v3.0
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
