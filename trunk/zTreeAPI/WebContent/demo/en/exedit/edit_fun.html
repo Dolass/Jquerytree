@@ -135,6 +135,11 @@
 				return;
 			}
 			zTree.removeChildNodes(treeNode);
+			//repair the bug in v3.1
+			if (treeNode.open) {
+				zTree.expandNode(treeNode, false);
+				zTree.expandNode(treeNode, true);
+			}
 		};
 		
 		$(document).ready(function(){
