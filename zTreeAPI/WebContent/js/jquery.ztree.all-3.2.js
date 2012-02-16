@@ -1048,7 +1048,7 @@
 				} else {
 					view.replaceSwitchClass(node, switchObj, consts.folder.CLOSE);
 					view.replaceIcoClass(node, icoObj, consts.folder.CLOSE);
-					if (animateFlag == false || setting.view.expandSpeed == "") {
+					if (animateFlag == false || setting.view.expandSpeed == "" || !(node[childKey] && node[childKey].length > 0)) {
 						ulObj.hide();
 						tools.apply(callback, []);
 					} else {

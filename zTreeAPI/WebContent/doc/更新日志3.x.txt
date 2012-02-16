@@ -10,6 +10,8 @@
 <font color=#041594>
 *2012.03.15* v3.2
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
+   * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
+尚未处理
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
