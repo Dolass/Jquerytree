@@ -1081,7 +1081,7 @@
 			var childKey = setting.data.key.children,
 			nodes = node[childKey];
 			if (!nodes) return;
-			$("#" + node.tId + consts.id.UL).remove();
+			
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				data.removeNodeCache(setting, nodes[i]);
 			}
@@ -1095,6 +1095,9 @@
 				tmp_icoObj = $("#" + node.tId + consts.id.ICON);
 				view.replaceSwitchClass(node, tmp_switchObj, consts.folder.DOCU);
 				view.replaceIcoClass(node, tmp_icoObj, consts.folder.DOCU);
+				$("#" + node.tId + consts.id.UL).remove();
+			} else {
+				$("#" + node.tId + consts.id.UL).empty();
 			}
 		},
 		removeEditBtn: function(node) {
