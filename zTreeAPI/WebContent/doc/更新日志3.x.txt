@@ -8,6 +8,9 @@
 </font>
 
 <font color=#041594>
+*2012.03.15* v3.2
+   * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
+
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
    * 【增加】setting.edit.editNameSelectAll, 用于设定编辑节点名称时初次显示 input 后 text 内容为全选
