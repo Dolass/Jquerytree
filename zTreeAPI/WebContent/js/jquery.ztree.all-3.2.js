@@ -2996,13 +2996,19 @@
 				}
 				targetObj = $("#" + targetNode.tId);
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
+				if (!target_ulObj.get(0)) {
+					var ulstr = [];
+					view.makeUlHtml(setting, targetNode, ulstr, '');
+					targetObj.append(ulstr.join(''));
+				}
+				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
 			}
-			var nodeDom = $("#" + node.tId).remove();
-			if (target_ulObj && moveType == consts.move.TYPE_INNER) {
+			var nodeDom = $("#" + node.tId);
+			if (target_ulObj.get(0) && moveType == consts.move.TYPE_INNER) {
 				target_ulObj.append(nodeDom);
-			} else if (targetObj && moveType == consts.move.TYPE_PREV) {
+			} else if (targetObj.get(0) && moveType == consts.move.TYPE_PREV) {
 				targetObj.before(nodeDom);
-			} else if (targetObj && moveType == consts.move.TYPE_NEXT) {
+			} else if (targetObj.get(0) && moveType == consts.move.TYPE_NEXT) {
 				targetObj.after(nodeDom);
 			}
 
