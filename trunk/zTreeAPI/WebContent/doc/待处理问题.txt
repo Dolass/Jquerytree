@@ -1,4 +1,4 @@
-需要核实的问题：
+﻿需要核实的问题：
 (1) 希望zTreeObj.getCheckedNodes(checked)方法给个过滤器
 (2)在使用zTree过程中,我感觉对tree的搜索功能与某个节点的显示与隐藏需要扩展,
 比如在有些时候需要隐藏某个节点
@@ -7,6 +7,8 @@
 (4)【增加】类似于Ext.tree.TreeFilter类, 可以实现树节点的过滤，隐藏不匹配过滤条件的节点
 (5) Demo 带 checkbox 的多选下拉菜单 -- zTree
 http://www.baby666.cn/v3/demo.php#_509
+(6) 希望在 onAsyncSuccess 中能区分来源（zTree 自动加载? exandNode 方法触发？ reAsyncChildNodes 方法触发？）
+(7) addNodes  和 removeNode、removeChildNodes 方法转移到 core 核心包中
 
 这个实例中选择加上如下的方式会不会更方便？
 1，选择大类后自动选择小类会更方便；
