@@ -1,4 +1,4 @@
-=ZTree v3.x (JQuery Tree插件) 更新日志=
+﻿=ZTree v3.x (JQuery Tree插件) 更新日志=
 
 <font color="red">为了更好的优化及扩展zTree, 因此决定升级为v3.x，并且对之前的v2.x不兼容，会有很多结构上的修改，对此深感无奈与抱歉，请大家谅解。</font>
 <font color="red">
@@ -12,6 +12,7 @@
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
+   * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
 尚未处理
 
 *2012.02.14* v3.1
