@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.1
+ * JQuery zTree core 3.2
  * http://code.google.com/p/jquerytree/
  *
  * Copyright (c) 2010 Hunter.z (baby666.cn)

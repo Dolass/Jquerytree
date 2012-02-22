@@ -96,8 +96,8 @@
 		});
 
 		o.unbind(c.DROP);
-		o.bind(c.DROP, function (event, treeId, treeNodes, targetNode, moveType) {
-			tools.apply(setting.callback.onDrop, [event, treeId, treeNodes, targetNode, moveType]);
+		o.bind(c.DROP, function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
+			tools.apply(setting.callback.onDrop, [event, treeId, treeNodes, targetNode, moveType, isCopy]);
 		});
 	},
 	//default event proxy of exedit
@@ -653,7 +653,7 @@
 				}
 				if (tmpTarget) {
 					var dragTargetNode = tmpTargetNodeId == null ? null: data.getNodeCache(targetSetting, tmpTargetNodeId);
-					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, nodes, dragTargetNode, moveType], true) == false) return;
+					if (tools.apply(setting.callback.beforeDrop, [targetSetting.treeId, nodes, dragTargetNode, moveType, isCopy], true) == false) return;
 					var newNodes = isCopy ? tools.clone(nodes) : nodes;
 					
 					function dropCallback() {
@@ -708,12 +708,12 @@
 						dropCallback();
 					}
 
-					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNodes, dragTargetNode, moveType]);
+					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNodes, dragTargetNode, moveType, isCopy]);
 				} else {
 					for (i=0, l=nodes.length; i<l; i++) {
 						view.selectNode(targetSetting, nodes[i], i>0);
 					}
-					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null]);
+					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null, null]);
 				}
 			}
 
