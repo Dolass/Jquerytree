@@ -122,20 +122,22 @@
 			autoExpandNode = treeNode;
 			return true;
 		}
-		function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+		function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" beforeDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
-			showLog("target: " + (targetNode ? targetNode.name : "root"));
+			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"));
 			return true;
 		}
 		function onDrag(event, treeId, treeNodes) {
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" onDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
 		}
-		function onDrop(event, treeId, treeNodes, targetNode, moveType) {
+		function onDrop(event, treeId, treeNodes, targetNode, moveType, isCopy) {
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" onDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
-			showLog("target: " + (targetNode ? targetNode.name : "root"))
+			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"))
+			console.log(targetNode.getNextNode().id + targetNode.getNextNode().tId);
+			console.log(treeNodes[0].id + treeNodes[0].tId);
 		}
 		function onExpand(event, treeId, treeNode) {
 			if (treeNode === autoExpandNode) {

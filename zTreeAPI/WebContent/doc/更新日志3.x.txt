@@ -13,7 +13,7 @@
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
-尚未处理
+修改 onDrop 、 beforeDrop 的 API 文档（treeNodes 和 isCopy 的说明）
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
