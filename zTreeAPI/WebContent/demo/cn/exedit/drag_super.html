@@ -136,8 +136,6 @@
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" onDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
 			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"))
-			console.log(targetNode.getNextNode().id + targetNode.getNextNode().tId);
-			console.log(treeNodes[0].id + treeNodes[0].tId);
 		}
 		function onExpand(event, treeId, treeNode) {
 			if (treeNode === autoExpandNode) {
