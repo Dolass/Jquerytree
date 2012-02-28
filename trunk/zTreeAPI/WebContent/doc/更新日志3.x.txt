@@ -14,6 +14,8 @@
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
 修改 onDrop 、 beforeDrop 的 API 文档（treeNodes 和 isCopy 的说明）
+   * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的bug
+尚未修改
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
