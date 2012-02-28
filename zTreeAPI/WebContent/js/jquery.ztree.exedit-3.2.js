@@ -432,11 +432,24 @@
 
 					setting.treeObj.trigger(consts.event.DRAG, [setting.treeId, nodes]);
 				}
-
-				if (root.dragFlag == 1 && tmpArrow.attr("id") != event.target.id) {
+if (tmpTarget && tmpTargetNodeId) {
+//	console.log(tmpTarget);
+console.log("01:" + (event.clientX + doc.scrollLeft()) + "," + ($("#" + tmpTargetNodeId + consts.id.A, tmpTarget).offset().left));
+	
+}
+//				if (root.dragFlag == 1 && tmpArrow.attr("id") != event.target.id) {
+				if (root.dragFlag == 1) {
 					if (tmpTarget) {
-						tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
-						if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE);
+						if (tmpArrow.attr("id") == event.target.id && tmpTargetNodeId && (event.clientX + doc.scrollLeft()+2) > ($("#" + tmpTargetNodeId + consts.id.A, tmpTarget).offset().left)) {
+							var xT = $("#" + tmpTargetNodeId + consts.id.A, tmpTarget);
+							event.target = (xT.length > 0) ? xT.get(0) : event.target;
+console.log("02:" + event.target);
+console.log(event.target);
+						} else {
+							tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
+							if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE);
+							
+						}
 					}
 					tmpTarget = null;
 					tmpTargetNodeId = null;
@@ -471,8 +484,10 @@
 					isTreeBottom = (isBottom && (targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height()+10) >= scrollHeight),
 					isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0),
 					isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width()+10) >= scrollWidth);
-
+console.log("03:");
+console.log(event.target);
 					if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
+console.log("04:" + event.target.id);
 						//get node <li> dom
 						var targetObj = event.target;
 						while (targetObj && targetObj.tagName && !tools.eqs(targetObj.tagName, "li") && targetObj.id != targetSetting.treeId) {
@@ -531,6 +546,7 @@
 
 					var dX = 0;
 					var dY = 0;
+console.log("05:" + tmpTarget);
 					if (tmpTarget && tmpTarget.attr("id")!=targetSetting.treeId) {
 						var tmpTargetNode = tmpTargetNodeId == null ? null: data.getNodeCache(targetSetting, tmpTargetNodeId),
 						isCopy = (event.ctrlKey && setting.edit.drag.isMove && setting.edit.drag.isCopy) || (!setting.edit.drag.isMove && setting.edit.drag.isCopy),
@@ -547,11 +563,13 @@
 							tmpArrow.css({
 								"display":"none"
 							});
+console.log("06:" + "tmpArrow none");
 							if (window.zTreeMoveTimer) {
 								clearTimeout(window.zTreeMoveTimer);
 								window.zTreeMoveTargetNodeTId = null
 							}
 						} else {
+console.log("07:" + "tmpArrow show");
 							var tmpTargetA = $("#" + tmpTargetNodeId + consts.id.A, tmpTarget);
 							tmpTargetA.addClass(consts.node.TMPTARGET_NODE);
 
@@ -572,6 +590,7 @@
 								moveType = consts.move.TYPE_INNER;
 							}
 							tmpArrow.css({
+								"background-color":"red",
 								"display":"block",
 								"top": (tmpTargetA.offset().top + dY) + "px",
 								"left": (tmpTargetA.offset().left + dX) + "px"
