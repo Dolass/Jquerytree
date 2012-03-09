@@ -421,8 +421,11 @@
 					setting.treeObj.trigger(consts.event.DRAG, [setting.treeId, nodes]);
 				}
 
-				if (root.dragFlag == 1 && tmpArrow.attr("id") != event.target.id) {
-					if (tmpTarget) {
+				if (root.dragFlag == 1) {
+					if (tmpTarget && tmpArrow.attr("id") == event.target.id && tmpTargetNodeId && (event.clientX + doc.scrollLeft()+2) > ($("#" + tmpTargetNodeId + consts.id.A, tmpTarget).offset().left)) {
+						var xT = $("#" + tmpTargetNodeId + consts.id.A, tmpTarget);
+						event.target = (xT.length > 0) ? xT.get(0) : event.target;
+					} else if (tmpTarget) {
 						tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
 						if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE);
 					}
