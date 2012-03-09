@@ -932,8 +932,8 @@
 					tools.apply(callback);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					view.setNodeLineIcos(setting, node);
 					if (node) node.isAjaxing = null;
+					view.setNodeLineIcos(setting, node);
 					setting.treeObj.trigger(consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
 				}
 			});
