@@ -936,16 +936,30 @@
 			if (moveType != consts.move.TYPE_PREV && moveType != consts.move.TYPE_NEXT) {
 				moveType = consts.move.TYPE_INNER;
 			}
+			
+			if (moveType == consts.move.TYPE_INNER) {
+				if (targetNodeIsRoot) {
+					//parentTId of root node is null
+					node.parentTId = null;
+				} else {
+					if (!targetNode.isParent) {
+						targetNode.isParent = true;
+						targetNode.open = !!targetNode.open;
+						view.setNodeLineIcos(setting, targetNode);
+					}
+					node.parentTId = targetNode.tId;
+				}
+			}
 
 			//move node Dom
 			var targetObj, target_ulObj;
 			if (targetNodeIsRoot) {
 				targetObj = setting.treeObj;
 				target_ulObj = targetObj;
-			} else if (!isSilent) {
-				if (moveType == consts.move.TYPE_INNER) {
+			} else {
+				if (!isSilent && moveType == consts.move.TYPE_INNER) {
 					view.expandCollapseNode(setting, targetNode, true, false);
-				} else {
+				} else if (!isSilent) {
 					view.expandCollapseNode(setting, targetNode.getParentNode(), true, false);
 				}
 				targetObj = $("#" + targetNode.tId);
@@ -1000,15 +1014,6 @@
 				}
 			}
 			if (moveType == consts.move.TYPE_INNER) {
-				if (targetNodeIsRoot) {
-					//parentTId of root node is null
-					node.parentTId = null;
-				} else {
-					targetNode.isParent = true;
-					targetNode.open = false;
-					node.parentTId = targetNode.tId;
-				}
-
 				if (!targetNode[childKey]) targetNode[childKey] = new Array();
 				if (targetNode[childKey].length > 0) {
 					newNeighbor = targetNode[childKey][targetNode[childKey].length - 1];
