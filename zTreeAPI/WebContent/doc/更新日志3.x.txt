@@ -18,8 +18,9 @@
 尚未修改
 增加 showRenameBtn 和 showRemoveBtn 的演示
    * 【修改】moveNode 方法中设置 isSilent = true 时，如果移动到已展开的 父节点后，出现异常的bug
-尚未修改
+http://tieba.baidu.com/p/1447523586
    * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
+http://ztreeapi.iteye.com/blog/1423986#comments
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
