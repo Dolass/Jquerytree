@@ -13,7 +13,6 @@
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
-修改 onDrop 、 beforeDrop 的 API 文档（treeNodes 和 isCopy 的说明）
    * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的bug
 尚未修改
 增加 showRenameBtn 和 showRemoveBtn 的演示
