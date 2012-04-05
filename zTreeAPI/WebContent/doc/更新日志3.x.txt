@@ -22,6 +22,7 @@ http://tieba.baidu.com/p/1447523586
 http://ztreeapi.iteye.com/blog/1423986#comments
    * 【修改】所有 on* 的回调中 event 不是原始 event 的bug
 尚未修改
+   * 【修改】dataFilter中 return null 导致异常 的bug
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。
