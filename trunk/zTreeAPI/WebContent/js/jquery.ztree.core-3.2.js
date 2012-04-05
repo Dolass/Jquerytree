@@ -936,7 +936,7 @@
 					view.setNodeLineIcos(setting, node);
 					if (newNodes && newNodes != "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
-						view.addNodes(setting, node, tools.clone(newNodes), !!isSilent);
+						view.addNodes(setting, node, !!newNodes ? tools.clone(newNodes) : [], !!isSilent);
 					} else {
 						view.addNodes(setting, node, [], !!isSilent);
 					}
