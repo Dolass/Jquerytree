@@ -17,6 +17,7 @@ copy /B jquery.ztree.all-%ver%.js+jquery.ztree.%%a-%ver%.js+all.txt jquery.ztree
 copy /B jquery.ztree.all-%ver%.min.js+jquery.ztree.%%a-%ver%.min.js+all.txt jquery.ztree.all-%ver%.min.js
 copy /B jquery.ztree.%%a-%ver%.min.js ..\..\..\zTreeWeb\web3.0_Design\js\jquery.ztree.%%a-%ver%.js
 )
+del ..\..\..\zTreeWeb\web3.0_Design\api\apiCss\jquery.ztree.core-*.js
 copy /B ..\..\..\zTreeWeb\web3.0_Design\js\jquery.ztree.core-%ver%.js ..\..\..\zTreeWeb\web3.0_Design\api\apiCss\jquery.ztree.core-%ver%.js
 
 del *.tmp.js
