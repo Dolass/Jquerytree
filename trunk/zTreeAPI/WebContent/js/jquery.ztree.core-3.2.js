@@ -143,8 +143,8 @@
 		});
 
 		o.unbind(c.CLICK);
-		o.bind(c.CLICK, function (event, treeId, node, clickFlag) {
-			tools.apply(setting.callback.onClick, [event, treeId, node, clickFlag]);
+		o.bind(c.CLICK, function (event, srcEvent, treeId, node, clickFlag) {
+			tools.apply(setting.callback.onClick, [srcEvent, treeId, node, clickFlag]);
 		});
 
 		o.unbind(c.EXPAND);
@@ -654,7 +654,7 @@
 			} else {
 				view.selectNode(setting, node, clickFlag === 2);
 			}
-			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node, clickFlag]);
+			setting.treeObj.trigger(consts.event.CLICK, [event, setting.treeId, node, clickFlag]);
 			return true;
 		},
 		onZTreeMousedown: function(event, node) {
