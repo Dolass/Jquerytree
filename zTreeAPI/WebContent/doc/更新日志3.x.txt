@@ -20,8 +20,8 @@
 http://tieba.baidu.com/p/1447523586
    * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
 http://ztreeapi.iteye.com/blog/1423986#comments
-   * 【修改】所有 on* 的回调中 event 不是原始 event 的bug
-尚未修改
+   * 【修改】onClick/onDrag/onDrop 回调中 event 不是原始 event 的 bug
+增加 与其他 DOM 交互拖拽 的 Demo
    * 【修改】dataFilter中 return null 导致异常 的bug
 
 *2012.02.14* v3.1

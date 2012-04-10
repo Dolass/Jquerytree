@@ -144,8 +144,8 @@
 		});
 
 		o.unbind(c.CLICK);
-		o.bind(c.CLICK, function (event, treeId, node, clickFlag) {
-			tools.apply(setting.callback.onClick, [event, treeId, node, clickFlag]);
+		o.bind(c.CLICK, function (event, srcEvent, treeId, node, clickFlag) {
+			tools.apply(setting.callback.onClick, [srcEvent, treeId, node, clickFlag]);
 		});
 
 		o.unbind(c.EXPAND);
@@ -655,7 +655,7 @@
 			} else {
 				view.selectNode(setting, node, clickFlag === 2);
 			}
-			setting.treeObj.trigger(consts.event.CLICK, [setting.treeId, node, clickFlag]);
+			setting.treeObj.trigger(consts.event.CLICK, [event, setting.treeId, node, clickFlag]);
 			return true;
 		},
 		onZTreeMousedown: function(event, node) {
@@ -2152,13 +2152,13 @@
 		});
 
 		o.unbind(c.DRAG);
-		o.bind(c.DRAG, function (event, treeId, treeNodes) {
-			tools.apply(setting.callback.onDrag, [event, treeId, treeNodes]);
+		o.bind(c.DRAG, function (event, srcEvent, treeId, treeNodes) {
+			tools.apply(setting.callback.onDrag, [srcEvent, treeId, treeNodes]);
 		});
 
 		o.unbind(c.DROP);
-		o.bind(c.DROP, function (event, treeId, treeNodes, targetNode, moveType, isCopy) {
-			tools.apply(setting.callback.onDrop, [event, treeId, treeNodes, targetNode, moveType, isCopy]);
+		o.bind(c.DROP, function (event, srcEvent, treeId, treeNodes, targetNode, moveType, isCopy) {
+			tools.apply(setting.callback.onDrop, [srcEvent, treeId, treeNodes, targetNode, moveType, isCopy]);
 		});
 	},
 	//default event proxy of exedit
@@ -2479,7 +2479,7 @@
 					tmpArrow.attr("id", "zTreeMove_arrow_tmp");
 					tmpArrow.appendTo("body");
 
-					setting.treeObj.trigger(consts.event.DRAG, [setting.treeId, nodes]);
+					setting.treeObj.trigger(consts.event.DRAG, [event, setting.treeId, nodes]);
 				}
 
 				if (root.dragFlag == 1) {
@@ -2698,8 +2698,7 @@
 				if (root.dragFlag == 0) return;
 				root.dragFlag = 0;
 
-				var i, l, tmpNode,
-				childKey = setting.data.key.children;
+				var i, l, tmpNode;
 				for (i=0, l=nodes.length; i<l; i++) {
 					tmpNode = nodes[i];
 					if (tmpNode.isParent && root.dragNodeShowBefore[tmpNode.tId] && !tmpNode.open) {
@@ -2772,12 +2771,12 @@
 						dropCallback();
 					}
 
-					setting.treeObj.trigger(consts.event.DROP, [targetSetting.treeId, newNodes, dragTargetNode, moveType, isCopy]);
+					setting.treeObj.trigger(consts.event.DROP, [event, targetSetting.treeId, newNodes, dragTargetNode, moveType, isCopy]);
 				} else {
 					for (i=0, l=nodes.length; i<l; i++) {
 						view.selectNode(targetSetting, nodes[i], i>0);
 					}
-					setting.treeObj.trigger(consts.event.DROP, [setting.treeId, null, null, null, null]);
+					setting.treeObj.trigger(consts.event.DROP, [event, setting.treeId, null, null, null, null]);
 				}
 			}
 
@@ -2899,7 +2898,7 @@
 				tools.apply(setting.view.addHoverDom, [setting.treeId, node]);
 			}
 		},
-		cancelCurEditNode: function (setting, forceName, isKey) {
+		cancelCurEditNode: function (setting, forceName) {
 			var root = data.getRoot(setting),
 			nameKey = setting.data.key.name,
 			node = root.curEditNode;
