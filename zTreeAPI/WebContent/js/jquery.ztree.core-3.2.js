@@ -183,10 +183,10 @@
 		} else if (tools.eqs(event.type, "contextmenu")) {
 			treeEventType = "contextmenu";
 		} else if (tools.eqs(event.type, "click")) {
-			if (tools.eqs(target.tagName, "button")) {
-				target.blur();
-			}
-			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
+//			if (tools.eqs(target.tagName, "button")) {
+//				target.blur();
+//			}
+			if (tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "switchNode";
 			} else {
@@ -815,8 +815,8 @@
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
 					html.push("<li id='", node.tId, "' class='level", node.level,"' treenode>",
-						"<button type='button' hidefocus='true'",(node.isParent?"":"disabled")," id='", node.tId, consts.id.SWITCH,
-						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
+						"<span id='", node.tId, consts.id.SWITCH,
+						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></span>");
 					data.getBeforeA(setting, node, html);
 					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
@@ -825,8 +825,8 @@
 					html.push(">");
 					data.getInnerBeforeA(setting, node, html);
 					var name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-					html.push("<button type='button' hidefocus='true' id='", node.tId, consts.id.ICON,
-						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
+					html.push("<span id='", node.tId, consts.id.ICON,
+						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></span><span id='", node.tId, consts.id.SPAN,
 						"'>",name,"</span>");
 					data.getInnerAfterA(setting, node, html);
 					html.push("</a>");
@@ -1099,7 +1099,7 @@
 					icoCss.push(consts.folder.DOCU);
 				}
 			}
-			return icoCss.join('_');
+			return "button " + icoCss.join('_');
 		},
 		makeNodeIcoStyle: function(setting, node) {
 			var icoStyle = [];
@@ -1135,7 +1135,7 @@
 			return view.makeNodeLineClassEx(node) + lineClass.join('_');
 		},
 		makeNodeLineClassEx: function(node) {
-			return "level" + node.level + " switch ";
+			return "button level" + node.level + " switch ";
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
