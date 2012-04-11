@@ -426,7 +426,7 @@
 					curNode.addClass(setting.treeObj.attr("class"));
 					curNode.appendTo("body");
 
-					tmpArrow = $("<button class='tmpzTreeMove_arrow'></button>");
+					tmpArrow = $("<span class='tmpzTreeMove_arrow'></span>");
 					tmpArrow.attr("id", "zTreeMove_arrow_tmp");
 					tmpArrow.appendTo("body");
 
@@ -804,7 +804,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			editStr = "<button type='button' class='edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" onfocus='this.blur();' style='display:none;'></button>";
+			editStr = "<span class='button edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" style='display:none;'></span>";
 			aObj.append(editStr);
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
@@ -823,7 +823,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			removeStr = "<button type='button' class='remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" onfocus='this.blur();' style='display:none;'></button>";
+			removeStr = "<span class='button remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" style='display:none;'></span>";
 			aObj.append(removeStr);
 
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
