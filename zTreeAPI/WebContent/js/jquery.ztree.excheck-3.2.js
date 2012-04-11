@@ -83,17 +83,17 @@
 		nodeEventCallback = null, treeEventCallback = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoverCheck";
 			}
 		} else if (tools.eqs(e.type, "mouseout")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoutCheck";
 			}
 		} else if (tools.eqs(e.type, "click")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "checkNode";
 			}
@@ -149,7 +149,7 @@
 				var r = data.getRoot(setting);
 				r.radioCheckedList.push(node);
 			}
-			html.push("<button type='button' ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
+			html.push("<span ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK, (node.nocheck === true?" style='display:none;'":""),"></span>");
 		}
 	},
 	//update zTreeObj, add method of check
@@ -422,7 +422,7 @@
 			}
 			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
 			chkName = (node.check_Focus && node.chkDisabled !== true) ? chkName + "_" + c.FOCUS : chkName;
-			return c.DEFAULT + " " + chkName;
+			return "button " + c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
