@@ -9,19 +9,23 @@
 
 <font color=#041594>
 *2012.03.15* v3.2
+增加 与其他 DOM 交互拖拽 的 Demo
+增加 showRenameBtn 和 showRemoveBtn 的演示
+增加 异步加载全部展开的 演示
+   * 【增加】setting.data.keep.url 允许修改 url 属性
+尚未修改
+
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
    * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的bug
 尚未修改
-增加 showRenameBtn 和 showRemoveBtn 的演示
    * 【修改】moveNode 方法中设置 isSilent = true 时，如果移动到已展开的 父节点后，出现异常的bug
 http://tieba.baidu.com/p/1447523586
    * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
 http://ztreeapi.iteye.com/blog/1423986#comments
    * 【修改】onClick/onDrag/onDrop 回调中 event 不是原始 event 的 bug
-增加 与其他 DOM 交互拖拽 的 Demo
    * 【修改】dataFilter中 return null 导致异常 的bug
 
 *2012.02.14* v3.1
