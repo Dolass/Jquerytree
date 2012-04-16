@@ -182,7 +182,7 @@
 				view.addNodes(setting, parentNode, xNewNodes, (isSilent==true));
 			}
 			
-			if (setting.async.enable && tools.canAsync(setting, parentNode)) {
+			if (tools.canAsync(setting, parentNode)) {
 				view.asyncNode(setting, parentNode, isSilent, addCallback);
 			} else {
 				addCallback();
@@ -209,7 +209,7 @@
 					view.addNodes(setting, targetNode, [newNode], isSilent);
 				}
 
-				if (setting.async.enable && tools.canAsync(setting, targetNode)) {
+				if (tools.canAsync(setting, targetNode)) {
 					view.asyncNode(setting, targetNode, isSilent, copyCallback);
 				} else {
 					copyCallback();
@@ -237,7 +237,7 @@
 			function moveCallback() {
 				view.moveNode(setting, targetNode, node, moveType, false, isSilent);
 			}
-			if (setting.async.enable && tools.canAsync(setting, targetNode)) {
+			if (tools.canAsync(setting, targetNode)) {
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
