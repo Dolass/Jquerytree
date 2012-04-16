@@ -183,9 +183,6 @@
 		} else if (tools.eqs(event.type, "contextmenu")) {
 			treeEventType = "contextmenu";
 		} else if (tools.eqs(event.type, "click")) {
-//			if (tools.eqs(target.tagName, "button")) {
-//				target.blur();
-//			}
 			if (tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "switchNode";

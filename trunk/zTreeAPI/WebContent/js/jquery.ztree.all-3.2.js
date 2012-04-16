@@ -184,10 +184,7 @@
 		} else if (tools.eqs(event.type, "contextmenu")) {
 			treeEventType = "contextmenu";
 		} else if (tools.eqs(event.type, "click")) {
-			if (tools.eqs(target.tagName, "button")) {
-				target.blur();
-			}
-			if (tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
+			if (tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "switchNode";
 			} else {
@@ -697,7 +694,7 @@
 		},
 		canAsync: function(setting, node) {
 			var childKey = setting.data.key.children;
-			return (node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
+			return (setting.async.enable && node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
 		},
 		clone: function (jsonObj) {
 			var buf;
@@ -816,8 +813,8 @@
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
 					html.push("<li id='", node.tId, "' class='level", node.level,"' treenode>",
-						"<button type='button' hidefocus='true'",(node.isParent?"":"disabled")," id='", node.tId, consts.id.SWITCH,
-						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></button>");
+						"<span id='", node.tId, consts.id.SWITCH,
+						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></span>");
 					data.getBeforeA(setting, node, html);
 					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
@@ -826,8 +823,8 @@
 					html.push(">");
 					data.getInnerBeforeA(setting, node, html);
 					var name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-					html.push("<button type='button' hidefocus='true' id='", node.tId, consts.id.ICON,
-						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></button><span id='", node.tId, consts.id.SPAN,
+					html.push("<span id='", node.tId, consts.id.ICON,
+						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></span><span id='", node.tId, consts.id.SPAN,
 						"'>",name,"</span>");
 					data.getInnerAfterA(setting, node, html);
 					html.push("</a>");
@@ -1100,7 +1097,7 @@
 					icoCss.push(consts.folder.DOCU);
 				}
 			}
-			return icoCss.join('_');
+			return "button " + icoCss.join('_');
 		},
 		makeNodeIcoStyle: function(setting, node) {
 			var icoStyle = [];
@@ -1136,7 +1133,7 @@
 			return view.makeNodeLineClassEx(node) + lineClass.join('_');
 		},
 		makeNodeLineClassEx: function(node) {
-			return "level" + node.level + " switch ";
+			return "button level" + node.level + " switch ";
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
@@ -1542,17 +1539,17 @@
 		nodeEventCallback = null, treeEventCallback = null;
 
 		if (tools.eqs(e.type, "mouseover")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoverCheck";
 			}
 		} else if (tools.eqs(e.type, "mouseout")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "mouseoutCheck";
 			}
 		} else if (tools.eqs(e.type, "click")) {
-			if (setting.check.enable && tools.eqs(target.tagName, "button") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
+			if (setting.check.enable && tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.CHECK) !== null) {
 				tId = target.parentNode.id;
 				nodeEventType = "checkNode";
 			}
@@ -1608,7 +1605,7 @@
 				var r = data.getRoot(setting);
 				r.radioCheckedList.push(node);
 			}
-			html.push("<button type='button' ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK," onfocus='this.blur();' ",(node.nocheck === true?"style='display:none;'":""),"></button>");
+			html.push("<span ID='", node.tId, consts.id.CHECK, "' class='", view.makeChkClass(setting, node), "' treeNode", consts.id.CHECK, (node.nocheck === true?" style='display:none;'":""),"></span>");
 		}
 	},
 	//update zTreeObj, add method of check
@@ -1881,7 +1878,7 @@
 			}
 			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
 			chkName = (node.check_Focus && node.chkDisabled !== true) ? chkName + "_" + c.FOCUS : chkName;
-			return c.DEFAULT + " " + chkName;
+			return "button " + c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
@@ -2231,7 +2228,7 @@
 				view.addNodes(setting, parentNode, xNewNodes, (isSilent==true));
 			}
 			
-			if (setting.async.enable && tools.canAsync(setting, parentNode)) {
+			if (tools.canAsync(setting, parentNode)) {
 				view.asyncNode(setting, parentNode, isSilent, addCallback);
 			} else {
 				addCallback();
@@ -2258,7 +2255,7 @@
 					view.addNodes(setting, targetNode, [newNode], isSilent);
 				}
 
-				if (setting.async.enable && tools.canAsync(setting, targetNode)) {
+				if (tools.canAsync(setting, targetNode)) {
 					view.asyncNode(setting, targetNode, isSilent, copyCallback);
 				} else {
 					copyCallback();
@@ -2286,7 +2283,7 @@
 			function moveCallback() {
 				view.moveNode(setting, targetNode, node, moveType, false, isSilent);
 			}
-			if (setting.async.enable && tools.canAsync(setting, targetNode)) {
+			if (tools.canAsync(setting, targetNode)) {
 				view.asyncNode(setting, targetNode, isSilent, moveCallback);
 			} else {
 				moveCallback();
@@ -2475,7 +2472,7 @@
 					curNode.addClass(setting.treeObj.attr("class"));
 					curNode.appendTo("body");
 
-					tmpArrow = $("<button class='tmpzTreeMove_arrow'></button>");
+					tmpArrow = $("<span class='tmpzTreeMove_arrow'></span>");
 					tmpArrow.attr("id", "zTreeMove_arrow_tmp");
 					tmpArrow.appendTo("body");
 
@@ -2853,7 +2850,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			editStr = "<button type='button' class='edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" onfocus='this.blur();' style='display:none;'></button>";
+			editStr = "<span class='button edit' id='" + node.tId + consts.id.EDIT + "' title='"+tools.apply(setting.edit.renameTitle, [setting.treeId, node], setting.edit.renameTitle)+"' treeNode"+consts.id.EDIT+" style='display:none;'></span>";
 			aObj.append(editStr);
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
@@ -2872,7 +2869,7 @@
 				return;
 			}
 			var aObj = $("#" + node.tId + consts.id.A),
-			removeStr = "<button type='button' class='remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" onfocus='this.blur();' style='display:none;'></button>";
+			removeStr = "<span class='button remove' id='" + node.tId + consts.id.REMOVE + "' title='"+tools.apply(setting.edit.removeTitle, [setting.treeId, node], setting.edit.removeTitle)+"' treeNode"+consts.id.REMOVE+" style='display:none;'></span>";
 			aObj.append(removeStr);
 
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
