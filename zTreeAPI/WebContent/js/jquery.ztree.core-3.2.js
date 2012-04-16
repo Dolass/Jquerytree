@@ -696,7 +696,7 @@
 		},
 		canAsync: function(setting, node) {
 			var childKey = setting.data.key.children;
-			return (node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
+			return (setting.async.enable && node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
 		},
 		clone: function (jsonObj) {
 			var buf;
