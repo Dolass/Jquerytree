@@ -54,7 +54,8 @@
 			key: {
 				children: "children",
 				name: "name",
-				title: ""
+				title: "",
+				url: "url"
 			},
 			simpleData: {
 				enable: false,
@@ -1126,7 +1127,8 @@
 			return (node.target || "_blank");
 		},
 		makeNodeUrl: function(setting, node) {
-			return node.url ? node.url : null;
+			var urlKey = setting.data.key.url;
+			return node[urlKey] ? node[urlKey] : null;
 		},
 		makeUlHtml: function(setting, node, html, content) {
 			html.push("<ul id='", node.tId, consts.id.UL, "' class='level", node.level, " ", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
