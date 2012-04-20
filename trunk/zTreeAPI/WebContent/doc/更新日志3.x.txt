@@ -14,7 +14,11 @@
 增加 异步加载全部展开的 演示
    * 【增加】setting.data.keep.url 允许修改 url 属性
 尚未修改
+   * 【增加】getNodesByFilter(filter, isSingle) 方法
+尚未修改
 
+   * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法转移到 core 内
+尚未修改
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
