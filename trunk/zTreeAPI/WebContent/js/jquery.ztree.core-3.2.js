@@ -437,6 +437,21 @@
 			}
 			return result;
 		},
+		getNodesByFilter: function(setting, nodes, filter, isSingle) {
+			if (!nodes) return (isSingle ? null : []);
+			var childKey = setting.data.key.children,
+			result = isSingle ? null : [];
+			for (var i = 0, l = nodes.length; i < l; i++) {
+				if (tools.apply(filter, [nodes[i]], false)) {
+					if (isSingle) {return nodes[i];}
+					result.push(nodes[i]);
+				}
+				var tmpResult = data.getNodesByFilter(setting, nodes[i][childKey], filter, isSingle);
+				if (isSingle && !!tmpResult) {return tmpResult;}
+				result = isSingle ? tmpResult : result.concat(tmpResult);
+			}
+			return result;
+		},
 		getPreNode: function(setting, node) {
 			if (!node) return null;
 			var childKey = setting.data.key.children,
@@ -1362,6 +1377,11 @@
 				getNodesByParamFuzzy : function(key, value, parentNode) {
 					if (!key) return null;
 					return data.getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), key, value);
+				},
+				getNodesByFilter: function(filter, isSingle, parentNode) {
+					isSingle = !!isSingle;
+					if (!filter || (typeof filter != "function")) return (isSingle ? null : []);
+					return data.getNodesByFilter(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), filter, isSingle);
 				},
 				getNodeIndex : function(node) {
 					if (!node) return null;
