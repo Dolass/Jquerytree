@@ -12,8 +12,8 @@
 增加 与其他 DOM 交互拖拽 的 Demo
 增加 showRenameBtn 和 showRemoveBtn 的演示
 增加 异步加载全部展开的 演示
-   * 【增加】setting.data.keep.url 允许修改 url 属性
-尚未修改
+制作 setting.data.key.url 的 API 
+   * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
 尚未修改
 
