@@ -18,15 +18,12 @@
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
 
-   * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法转移到 core 内
-尚未修改
+   * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法 和 beforeRemove、onRemove 回调 转移到 core 内
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
    * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
    * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的bug
-button -> span 之后 无法正常 focus
-尚未制作
    * 【修改】moveNode 方法中设置 isSilent = true 时，如果移动到已展开的 父节点后，出现异常的bug
 http://tieba.baidu.com/p/1447523586
    * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
