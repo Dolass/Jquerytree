@@ -815,7 +815,7 @@
 					for (var f in fontcss) {
 						fontStyle.push(f, ":", fontcss[f], ";");
 					}
-					html.push("<li id='", node.tId, "' class='level", node.level,"' treenode>",
+					html.push("<li id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>",
 						"<span id='", node.tId, consts.id.SWITCH,
 						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></span>");
 					data.getBeforeA(setting, node, html);
@@ -1339,12 +1339,12 @@
 					data.getRoot(setting).expandTriggerFlag = callbackFlag;
 					if (sonSign) {
 						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
-							if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
+							if (focus !== false) {$("#" + node.tId).focus().blur();}
 						});
 					} else {
 						node.open = !expandFlag;
 						view.switchNode(this.setting, node);
-						if (focus !== false) {$("#" + node.tId + consts.id.ICON).focus().blur();}
+						if (focus !== false) {$("#" + node.tId).focus().blur();}
 					}
 					return expandFlag;
 				},
@@ -1422,10 +1422,10 @@
 						addFlag = setting.view.selectedMulti && addFlag;
 						if (node.parentTId) {
 							view.expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
-								$("#" + node.tId + consts.id.ICON).focus().blur();
+								$("#" + node.tId).focus().blur();
 							});
 						} else {
-							$("#" + node.tId + consts.id.ICON).focus().blur();
+							$("#" + node.tId).focus().blur();
 						}
 						view.selectNode(this.setting, node, addFlag);
 					}

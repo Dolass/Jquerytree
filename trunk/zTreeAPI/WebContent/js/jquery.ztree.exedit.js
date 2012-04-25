@@ -700,7 +700,7 @@
 						for (i=0, l=newNodes.length; i<l; i++) {
 							view.selectNode(targetSetting, newNodes[i], i>0);
 						}
-						$("#" + newNodes[0].tId + consts.id.ICON).focus().blur();
+						$("#" + newNodes[0].tId).focus().blur();
 
 					}
 
