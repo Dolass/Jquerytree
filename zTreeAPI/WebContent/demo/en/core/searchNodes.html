@@ -58,38 +58,40 @@
 		}
 		function searchNode(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			var value = $.trim(key.get(0).value);
-			var keyType = "";
-			if ($("#name").attr("checked")) {
-				keyType = "name";
-			} else if ($("#level").attr("checked")) {
-				keyType = "level";
-				value = parseInt(value);
-			} else if ($("#id").attr("checked")) {
-				keyType = "id";
-				value = parseInt(value);
-			}
-			if (key.hasClass("empty")) {
-				value = "";
-			}
-			if (lastValue === value) return;
-
 			updateNodes(false);
-			lastValue = value;
-			if (value === "") return;
-
-			var result = "";
-			if ($("#getNodeByParam").attr("checked")) {
-				var node = zTree.getNodeByParam(keyType, value);
-				if (node === null) {
-					nodeList = [];
-				} else {
-					nodeList = [node];
+			if (!$("#getNodesByFilter").attr("checked")) {
+				var value = $.trim(key.get(0).value);
+				var keyType = "";
+				if ($("#name").attr("checked")) {
+					keyType = "name";
+				} else if ($("#level").attr("checked")) {
+					keyType = "level";
+					value = parseInt(value);
+				} else if ($("#id").attr("checked")) {
+					keyType = "id";
+					value = parseInt(value);
 				}
-			} else if ($("#getNodesByParam").attr("checked")) {
-				nodeList = zTree.getNodesByParam(keyType, value);
-			} else if ($("#getNodesByParamFuzzy").attr("checked")) {
-				nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+				if (key.hasClass("empty")) {
+					value = "";
+				}
+				if (lastValue === value) return;
+				lastValue = value;
+				if (value === "") return;
+
+				if ($("#getNodeByParam").attr("checked")) {
+					var node = zTree.getNodeByParam(keyType, value);
+					if (node === null) {
+						nodeList = [];
+					} else {
+						nodeList = [node];
+					}
+				} else if ($("#getNodesByParam").attr("checked")) {
+					nodeList = zTree.getNodesByParam(keyType, value);
+				} else if ($("#getNodesByParamFuzzy").attr("checked")) {
+					nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+				}
+			} else {
+				nodeList = zTree.getNodesByFilter(filter);
 			}
 			updateNodes(true);
 
@@ -103,6 +105,9 @@
 		}
 		function getFontCss(treeId, treeNode) {
 			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+		}
+		function filter(node) {
+			return !node.isParent && node.isFirstNode;
 		}
 
 		var key;
@@ -119,6 +124,7 @@
 			$("#getNodeByParam").bind("change", clickRadio);
 			$("#getNodesByParam").bind("change", clickRadio);
 			$("#getNodesByParamFuzzy").bind("change", clickRadio);
+			$("#getNodesByFilter").bind("change", clickRadio);
 		});
 		//-->
 	</SCRIPT>
@@ -144,6 +150,7 @@
 						method: <input type="radio" id="getNodeByParam" name="funType" class="radio first" /><span>getNodeByParam</span><br/>
 						<input type="radio" id="getNodesByParam" name="funType" class="radio" style="margin-left:36px;" /><span>getNodesByParam</span><br/>
 						<input type="radio" id="getNodesByParamFuzzy" name="funType" class="radio" style="margin-left:36px;" checked /><span>getNodesByParamFuzzy (only string)</span><br/>
+						<input type="radio" id="getNodesByFilter" name="funType" class="radio" style="margin-left:36px;" /><span>getNodesByFilter (see source: function filter)</span><br/>
 					</p>
 				</li>
 				</ul>
