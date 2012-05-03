@@ -44,11 +44,11 @@
 		var log, className = "dark";
 		function beforeClick(treeId, treeNode, clickFlag) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
 			return (treeNode.click != false);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
-			showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
+			showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
 		}		
 		function showLog(str) {
 			if (!log) log = $("#log");
@@ -61,9 +61,8 @@
 			var now= new Date(),
 			h=now.getHours(),
 			m=now.getMinutes(),
-			s=now.getSeconds(),
-			ms=now.getMilliseconds();
-			return (h+":"+m+":"+s+ " " +ms);
+			s=now.getSeconds();
+			return (h+":"+m+":"+s);
 		}
 
 		$(document).ready(function(){
