@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - drag with other DOM</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="../../../css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../../../css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../../../js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../../../js/jquery.ztree.core-3.2.js"></script>
+	<script type="text/javascript" src="../../../js/jquery.ztree.excheck-3.2.js"></script>
+	<script type="text/javascript" src="../../../js/jquery.ztree.exedit-3.2.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			edit: {
+				enable: true,
+				showRemoveBtn: false,
+				showRenameBtn: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeDrag: beforeDrag,
+				beforeDrop: beforeDrop
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"植物", isParent: true, open:true},
+			{ id:2, pId:0, name:"动物", isParent: true, open:true},
+			{ id:20, pId:2, name:"大象"},
+			{ id:10, pId:1, name:"西红柿"}
+		];
+
+		function beforeDrag(treeId, treeNodes) {
+			for (var i=0,l=treeNodes.length; i<l; i++) {
+				if (treeNodes[i].drag === false) {
+					return false;
+				}
+			}
+			return true;
+		}
+		function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+			return targetNode ? targetNode.drop !== false : true;
+		}
+		
+		function setCheck() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			isCopy = $("#copy").attr("checked"),
+			isMove = $("#move").attr("checked"),
+			prev = $("#prev").attr("checked"),
+			inner = $("#inner").attr("checked"),
+			next = $("#next").attr("checked");
+			zTree.setting.edit.drag.isCopy = isCopy;
+			zTree.setting.edit.drag.isMove = isMove;
+			showCode(1, ['setting.edit.drag.isCopy = ' + isCopy, 'setting.edit.drag.isMove = ' + isMove]);
+
+			zTree.setting.edit.drag.prev = prev;
+			zTree.setting.edit.drag.inner = inner;
+			zTree.setting.edit.drag.next = next;
+			showCode(2, ['setting.edit.drag.prev = ' + prev, 'setting.edit.drag.inner = ' + inner, 'setting.edit.drag.next = ' + next]);
+		}
+		function showCode(id, str) {
+			var code = $("#code" + id);
+			code.empty();
+			for (var i=0, l=str.length; i<l; i++) {
+				code.append("<li>"+str[i]+"</li>");
+			}
+		}
+		
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			setCheck();
+			$("#copy").bind("change", setCheck);
+			$("#move").bind("change", setCheck);
+			$("#prev").bind("change", setCheck);
+			$("#inner").bind("change", setCheck);
+			$("#next").bind("change", setCheck);
+		});
+		//-->
+	</SCRIPT>
+	<style type="text/css">
+.domBtnDiv {padding:2px;border:1px gray dotted;background-color:powderblue}
+.domBtn {display:inline-block;cursor:pointer;padding:2px;margin:2px 5px;border:1px gray solid;background-color:#FFE6B0}
+	</style>
+</HEAD>
+
+<BODY>
+<h1>与其他 DOM 拖拽互动</h1>
+<h6>[ 文件路径: super/dragWithOther.html ]</h6>
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+	<div class="right">
+		<ul class="info">
+			<li class="title"><h2>实现方法说明</h2>
+				<ul class="list">
+				<li>zTree v3.2 版本修正了 onDrag/onDrop 中的 event 对象，因此可以较容易的与其他 DOM 进行拖拽互动</li>
+				<li>需要自己制作 DOM 相关的拖拽代码</li>
+				</ul>
+			</li>
+			<li class="title"><h2>请拖拽下面内容到 树节点上</h2>
+				<div class="domBtnDiv">
+					<span class="domBtn" domId="11" domPId="1">大树</span> <span class="domBtn" domId="12" domPId="1">小草</span> <span class="domBtn" domId="13" domPId="1">花朵</span>
+					<br/>
+					<span class="domBtn" domId="21" domPId="2">老虎</span> <span class="domBtn" domId="22" domPId="2">狗熊</span> <span class="domBtn" domId="23" domPId="2">狮子</span>
+				</div>
+				<span class="highlight_red">也可以把二级节点拖拽到以上图层 </span>
+			</li>
+		</ul>
+	</div>
+</div>
+</BODY>
+</HTML>
