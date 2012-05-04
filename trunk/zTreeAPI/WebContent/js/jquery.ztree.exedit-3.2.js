@@ -693,7 +693,7 @@
 					for (i=0, l=nodes.length; i<l; i++) {
 						view.selectNode(targetSetting, nodes[i], i>0);
 					}
-					setting.treeObj.trigger(consts.event.DROP, [event, setting.treeId, null, null, null, null]);
+					setting.treeObj.trigger(consts.event.DROP, [event, setting.treeId, nodes, null, null, null]);
 				}
 			}
 
