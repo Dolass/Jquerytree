@@ -12,7 +12,7 @@
 	<SCRIPT type="text/javascript">
 		<!--
 		var MoveTest = {
-			errorMsg: "放错了...请选择正确的类别！",
+			errorMsg: "Error!...Please drag it to the correct category!",
 			curTarget: null,
 			curTmpTarget: null,
 			noSel: function() {
@@ -68,7 +68,6 @@
 					target.addClass("domBtn");
 					alert(MoveTest.errorMsg);
 				}
-				MoveTest.updateType();
 				MoveTest.curTarget = null;
 				MoveTest.curTmpTarget = null;
 			},
@@ -178,12 +177,12 @@
 		};
 
 		var zNodes =[
-			{ id:1, pId:0, name:"植物", isParent: true, open:true},
-			{ id:2, pId:0, name:"动物", isParent: true, open:true},
-			{ id:20, pId:2, name:"大象"},
-			{ id:29, pId:2, name:"鲨鱼"},
-			{ id:10, pId:1, name:"大白菜"},
-			{ id:19, pId:1, name:"西红柿"}
+			{ id:1, pId:0, name:"PLANT", isParent: true, open:true},
+			{ id:2, pId:0, name:"ANIMAL", isParent: true, open:true},
+			{ id:20, pId:2, name:"Elephant"},
+			{ id:29, pId:2, name:"Shark"},
+			{ id:10, pId:1, name:"Cabbage"},
+			{ id:19, pId:1, name:"Tomato"}
 		];
 
 		$(document).ready(function(){
@@ -204,28 +203,28 @@
 </HEAD>
 
 <BODY>
-<h1>与其他 DOM 拖拽互动</h1>
-<h6>[ 文件路径: super/dragWithOther.html ]</h6>
+<h1>Drag With Other DOM</h1>
+<h6>[ File Path: super/dragWithOther.html ]</h6>
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>实现方法说明</h2>
+			<li class="title"><h2>Explanation of implementation method</h2>
 				<ul class="list">
-				<li>zTree v3.2 版本修正了 onDrag/onDrop 中的 event 对象，因此可以较容易的控制将节点拖拽到其他 DOM </li>
-				<li class="highlight_red">将其他 DOM 拖拽到 zTree 需要自己制作相关的拖拽代码</li>
-				<li class="highlight_red">这仅仅是一个最简单的演示，如果需要更炫的效果，需要制作更复杂的代码</li>
+				<li>zTree v3.2 modified the event object in onDrag/onDrop, thus the nodes can be draged to other DOMs easily.</li>
+				<li class="highlight_red">To drag other DOMS to zTree, you need to build the drag codes by yourself.</li>
+				<li class="highlight_red">This is just a simple Demo. If you need more features, please build more complicated codes.</li>
 				</ul>
 			</li>
-			<li class="title"><h2>请拖拽下面内容到 树节点上</h2>
+			<li class="title"><h2>Please drag and drop the following content to the tree node</h2>
 				<div class="domBtnDiv">
-					<div id="dom_1" class="categoryDiv"><span class="domBtn" domId="11">大树</span><span class="domBtn" domId="12">小草</span><span class="domBtn" domId="13">花朵</span></div>
+					<div id="dom_1" class="categoryDiv"><span class="domBtn" domId="11">Tree</span><span class="domBtn" domId="12">Grass</span><span class="domBtn" domId="13">Flower</span></div>
 					<div class="dom_line"></div>
-					<div id="dom_2" class="categoryDiv"><span class="domBtn" domId="21">老虎</span><span class="domBtn" domId="22">狗熊</span><span class="domBtn" domId="23">狮子</span></div>
+					<div id="dom_2" class="categoryDiv"><span class="domBtn" domId="21">Tiger</span><span class="domBtn" domId="22">Bear</span><span class="domBtn" domId="23">Lion</span></div>
 				</div>
-				<span class="highlight_red">也可以把二级节点拖拽到以上图层 </span>
+				<span class="highlight_red">You can drag the nodes of level 2 to the above layer.</span>
 			</li>
 		</ul>
 	</div>

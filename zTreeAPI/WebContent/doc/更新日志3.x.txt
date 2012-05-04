@@ -10,7 +10,6 @@
 <font color=#041594>
 *2012.03.15* v3.2
 增加 与其他 DOM 交互拖拽 的 Demo
-增加 showRenameBtn 和 showRemoveBtn 的演示
 增加 异步加载全部展开的 演示
 
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
@@ -27,6 +26,7 @@ http://tieba.baidu.com/p/1447523586
    * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
 http://ztreeapi.iteye.com/blog/1423986#comments
    * 【修改】onClick/onDrag/onDrop 回调中 event 不是原始 event 的 bug
+   * 【修改】onDrop 回调中 当拖拽无效时，无法获得 treeNodes 的 bug
    * 【修改】dataFilter中 return null 导致异常 的bug
    * 【修改】未开启异步加载模式时，拖拽节点到子节点为空的父节点内时 出现异常 的bug
 
