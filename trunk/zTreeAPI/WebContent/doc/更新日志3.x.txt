@@ -9,9 +9,6 @@
 
 <font color=#041594>
 *2012.03.15* v3.2
-增加 与其他 DOM 交互拖拽 的 Demo
-增加 异步加载全部展开的 演示
-
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
 
