@@ -11,8 +11,8 @@
 *2012.03.15* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
-   * 【增加】与其他 DOM 交互拖拽 的 Demo
-   * 【增加】异步加载全部展开的 演示
+   * 【增加】"与其他 DOM 拖拽互动" 的 Demo
+   * 【增加】"异步加载模式下全部展开" 的 Demo
 
    * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法 和 beforeRemove、onRemove 回调 转移到 core 内
    * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
