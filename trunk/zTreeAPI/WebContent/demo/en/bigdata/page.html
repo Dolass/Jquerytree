@@ -70,11 +70,11 @@
 			if (treeNode.level>0) return;
 			var aObj = $("#" + treeNode.tId + "_a");
 			if ($("#addBtn_"+treeNode.id).length>0) return;
-			var addStr = "<button type='button' class='lastPage' id='lastBtn_" + treeNode.id
-				+ "' title='last page' onfocus='this.blur();'></button><button type='button' class='nextPage' id='nextBtn_" + treeNode.id
-				+ "' title='next page' onfocus='this.blur();'></button><button type='button' class='prevPage' id='prevBtn_" + treeNode.id
-				+ "' title='prev page' onfocus='this.blur();'></button><button type='button' class='firstPage' id='firstBtn_" + treeNode.id
-				+ "' title='first page' onfocus='this.blur();'></button>";
+			var addStr = "<span class='button lastPage' id='lastBtn_" + treeNode.id
+				+ "' title='last page' onfocus='this.blur();'></span><span class='button nextPage' id='nextBtn_" + treeNode.id
+				+ "' title='next page' onfocus='this.blur();'></span><span class='button prevPage' id='prevBtn_" + treeNode.id
+				+ "' title='prev page' onfocus='this.blur();'></span><span class='button firstPage' id='firstBtn_" + treeNode.id
+				+ "' title='first page' onfocus='this.blur();'></span>";
 			aObj.after(addStr);
 			var first = $("#firstBtn_"+treeNode.id);
 			var prev = $("#prevBtn_"+treeNode.id);
@@ -109,10 +109,10 @@
 		//-->
 	</SCRIPT>
 	<style type="text/css">
-.ztree li button.firstPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -16px; vertical-align:top; *vertical-align:middle}
-.ztree li button.prevPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -48px; vertical-align:top; *vertical-align:middle}
-.ztree li button.nextPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -64px; vertical-align:top; *vertical-align:middle}
-.ztree li button.lastPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -32px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.firstPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -16px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.prevPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -48px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.nextPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -64px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.lastPage {float:right; margin-left:2px; margin-right: 0; background-position:-144px -32px; vertical-align:top; *vertical-align:middle}
 	</style>
  </HEAD>
 
