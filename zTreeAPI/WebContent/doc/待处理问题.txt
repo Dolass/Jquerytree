@@ -1,6 +1,5 @@
 ﻿需要核实的问题：
-(1) 希望zTreeObj.getCheckedNodes(checked)方法给个过滤器
-(2)在使用zTree过程中,我感觉对tree的搜索功能与某个节点的显示与隐藏需要扩展,
+(1) 在使用zTree过程中,我感觉对tree的搜索功能与某个节点的显示与隐藏需要扩展,
 比如在有些时候需要隐藏某个节点
 还有在获取一个treeNode后需要取得相应的document元素也没提供,应该扩展..
 (3)【增加】节点排序功能
@@ -8,7 +7,7 @@
 (5) Demo 带 checkbox 的多选下拉菜单 -- zTree
 http://www.baby666.cn/v3/demo.php#_509
 (6) 希望在 onAsyncSuccess 中能区分来源（zTree 自动加载? exandNode 方法触发？ reAsyncChildNodes 方法触发？）
-(7) addNodes  和 removeNode、removeChildNodes 方法转移到 core 核心包中
+(7) 拖拽显示效果改变 http://tieba.baidu.com/p/1577858591
 
 这个实例中选择加上如下的方式会不会更方便？
 1，选择大类后自动选择小类会更方便；
