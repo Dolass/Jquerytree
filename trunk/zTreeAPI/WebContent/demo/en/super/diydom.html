@@ -104,12 +104,12 @@
 			if (treeNode.parentNode && treeNode.parentNode.id!=2) return;
 			var aObj = $("#" + treeNode.tId + IDMark_A);
 			if (treeNode.id == 21) {
-				var editStr = "<span class='button icon01' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></span>";
+				var editStr = "<span class='demoIcon' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'><span class='button icon01'></span></span>";
 				aObj.append(editStr);
 				var btn = $("#diyBtn_"+treeNode.id);
 				if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
 			} else if (treeNode.id == 22) {
-				var editStr = "<span class='button icon02' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'></span>";
+				var editStr = "<span class='demoIcon' id='diyBtn_" +treeNode.id+ "' title='"+treeNode.name+"' onfocus='this.blur();'><span class='button icon02'></span></span>";
 				aObj.after(editStr);
 				var btn = $("#diyBtn_"+treeNode.id);
 				if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
@@ -122,8 +122,8 @@
 				var editStr = "<span id='diyBtn_" +treeNode.id+ "'>Text Demo...</span>";
 				aObj.after(editStr);
 			} else if (treeNode.id == 25) {
-				var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;'>link_1</a>" +
-					"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;'>link_2</a>";
+				var editStr = "<a id='diyBtn1_" +treeNode.id+ "' onclick='alert(1);return false;'>链接1</a>" +
+					"<a id='diyBtn2_" +treeNode.id+ "' onclick='alert(2);return false;'>链接2</a>";
 				aObj.after(editStr);
 			}
 		}
@@ -134,12 +134,13 @@
 		//-->
 	</SCRIPT>
 	<style type="text/css">
-.ztree li span.button.icon01{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/3.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.icon02{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/4.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.icon03{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/5.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.icon04{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/6.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.icon05{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/7.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.icon06{margin-right:2px; background: url(../../../css/zTreeStyle/img/diy/8.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.demoIcon{padding:0 2px 0 10px;}
+.ztree li span.button.icon01{margin:0; background: url(../../../css/zTreeStyle/img/diy/3.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon02{margin:0; background: url(../../../css/zTreeStyle/img/diy/4.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon03{margin:0; background: url(../../../css/zTreeStyle/img/diy/5.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon04{margin:0; background: url(../../../css/zTreeStyle/img/diy/6.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon05{margin:0; background: url(../../../css/zTreeStyle/img/diy/7.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon06{margin:0; background: url(../../../css/zTreeStyle/img/diy/8.png) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
 	</style>
  </HEAD>
 

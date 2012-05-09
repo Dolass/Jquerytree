@@ -15,20 +15,20 @@
    * 【增加】"异步加载模式下全部展开" 的 Demo
 
    * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法 和 beforeRemove、onRemove 回调 转移到 core 内
-   * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的bug
-   * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的bug
-   * 【修改】moveNode 后节点中的自定义元素的事件丢失的bug
-   * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
-   * 【修改】moveNode 方法中设置 isSilent = true 时，如果移动到已展开的 父节点后，出现异常的bug
-   * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的bug
+   * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的 bug
+   * 【修改】异步加载时，如果出现网络异常等，会导致 图标显示错误的 bug
+   * 【修改】dataFilter中 return null 导致异常 的 bug
+   * 【修改】removeChildNodes 方法清空子节点后，无法正常添加节点的 bug
+   * 【修改】moveNode 后节点中的自定义元素的事件丢失的 bug
+   * 【修改】moveNode 方法中设置 isSilent = true 时，如果移动到已展开的 父节点后，出现异常的 bug
    * 【修改】onClick/onDrag/onDrop 回调中 event 不是原始 event 的 bug
    * 【修改】onDrop 回调中 当拖拽无效时，无法获得 treeNodes 的 bug
-   * 【修改】dataFilter中 return null 导致异常 的bug
-   * 【修改】未开启异步加载模式时，拖拽节点到子节点为空的父节点内时 出现异常 的bug
-   * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的bug
+   * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
+   * 【修改】未开启异步加载模式时，拖拽节点到子节点为空的父节点内时 出现异常 的 bug
+   * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的 bug
    * 【修改】拖拽操作时箭头 与 targetNode 背景之间的细节现实问题，便于用户拖拽时更容易区分 prev、next 和 inner 操作
-   * 【修改】拖拽操作时IE6/7 下 在 节点右侧会导致 targetNode = root 的bug
-尚未制作
+   * 【修改】拖拽操作时IE6/7 下 在 节点<a> 右侧 10px 内会导致 targetNode = root 的 bug
+   * 【修改】编辑模式下 默认的编辑按钮、删除按钮点击后，如果相应的 before 回调 return false 时会触发 onClick 回调的 bug
 
 *2012.02.14* v3.1
    * 【增加】ajax 的参数 setting.async.contentType ，让提交参数适用于 json 数据提交 （主要适用于 .Net 的开发）。

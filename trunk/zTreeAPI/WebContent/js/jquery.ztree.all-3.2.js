@@ -2970,7 +2970,7 @@
 
 			$("#" + node.tId + consts.id.EDIT).bind('click',
 				function() {
-					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return true;
+					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeEditName, [setting.treeId, node], true) == false) return false;
 					view.editNode(setting, node);
 					return false;
 				}
@@ -2989,7 +2989,7 @@
 
 			$("#" + node.tId + consts.id.REMOVE).bind('click',
 				function() {
-					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return true;
+					if (!tools.uCanDo(setting) || tools.apply(setting.callback.beforeRemove, [setting.treeId, node], true) == false) return false;
 					view.removeNode(setting, node);
 					setting.treeObj.trigger(consts.event.REMOVE, [setting.treeId, node]);
 					return false;
