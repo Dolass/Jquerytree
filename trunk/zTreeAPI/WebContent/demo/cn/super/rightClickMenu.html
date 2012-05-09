@@ -83,7 +83,7 @@
 		var addCount = 1;
 		function addTreeNode() {
 			hideRMenu();
-			zTree.addNodes(zTree.getSelectedNodes()[0], [{ name:"增加" + (addCount++)}]);
+			zTree.addNodes(zTree.getSelectedNodes()[0], [{ name:"增加" + (addCount++), checked: zTree.getSelectedNodes()[0].checked}]);
 		}
 		function removeTreeNode() {
 			hideRMenu();

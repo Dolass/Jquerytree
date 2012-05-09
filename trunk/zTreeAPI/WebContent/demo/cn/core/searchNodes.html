@@ -58,7 +58,6 @@
 		}
 		function searchNode(e) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			updateNodes(false);
 			if (!$("#getNodesByFilter").attr("checked")) {
 				var value = $.trim(key.get(0).value);
 				var keyType = "";
@@ -77,6 +76,7 @@
 				if (lastValue === value) return;
 				lastValue = value;
 				if (value === "") return;
+				updateNodes(false);
 
 				if ($("#getNodeByParam").attr("checked")) {
 					var node = zTree.getNodeByParam(keyType, value);
@@ -91,6 +91,7 @@
 					nodeList = zTree.getNodesByParamFuzzy(keyType, value);
 				}
 			} else {
+				updateNodes(false);
 				nodeList = zTree.getNodesByFilter(filter);
 			}
 			updateNodes(true);
