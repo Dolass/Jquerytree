@@ -587,4 +587,12 @@
 		if (!nodes) return;
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
+	var _removeNode = view.removeNode;
+	view.removeNode = function(setting, node) {
+		var parentNode = node.getParentNode();
+		if (_removeNode) _removeNode.apply(view, arguments);
+		if (!node || !parentNode) return;
+		view.repairChkClass(setting, parentNode);
+		view.repairParentChkClass(setting, parentNode);
+	}
 })(jQuery);

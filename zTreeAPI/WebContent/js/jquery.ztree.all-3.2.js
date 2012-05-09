@@ -2180,6 +2180,14 @@
 		if (!nodes) return;
 		view.repairParentChkClassWithSelf(setting, parentNode);
 	}
+	var _removeNode = view.removeNode;
+	view.removeNode = function(setting, node) {
+		var parentNode = node.getParentNode();
+		if (_removeNode) _removeNode.apply(view, arguments);
+		if (!node || !parentNode) return;
+		view.repairChkClass(setting, parentNode);
+		view.repairParentChkClass(setting, parentNode);
+	}
 })(jQuery);
 /*
  * JQuery zTree exedit 3.2
@@ -2588,7 +2596,8 @@
 						event.target = (xT.length > 0) ? xT.get(0) : event.target;
 					} else if (tmpTarget) {
 						tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
-						if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE);
+						if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE + "_" + consts.move.TYPE_PREV)
+							.removeClass(consts.node.TMPTARGET_NODE + "_" + _consts.move.TYPE_NEXT).removeClass(consts.node.TMPTARGET_NODE + "_" + _consts.move.TYPE_INNER);
 					}
 					tmpTarget = null;
 					tmpTargetNodeId = null;
@@ -2704,30 +2713,32 @@
 								window.zTreeMoveTargetNodeTId = null
 							}
 						} else {
-							var tmpTargetA = $("#" + tmpTargetNodeId + consts.id.A, tmpTarget);
-							tmpTargetA.addClass(consts.node.TMPTARGET_NODE);
-
-							var prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1,
+							var tmpTargetA = $("#" + tmpTargetNodeId + consts.id.A, tmpTarget),
+							tmpNextA = tmpTargetNode.isLastNode ? null : $("#" + tmpTargetNode.getNextNode().tId + consts.id.A, tmpTarget.next()),
+							tmpTop = tmpTargetA.offset().top,
+							tmpLeft = tmpTargetA.offset().left,
+							prevPercent = canPrev ? (canInner ? 0.25 : (canNext ? 0.5 : 1) ) : -1,
 							nextPercent = canNext ? (canInner ? 0.75 : (canPrev ? 0.5 : 0) ) : -1,
-							dY_percent = (event.clientY + docScrollTop - tmpTargetA.offset().top)/tmpTargetA.height();
+							dY_percent = (event.clientY + docScrollTop - tmpTop)/tmpTargetA.height();
 							if ((prevPercent==1 ||dY_percent<=prevPercent && dY_percent>=-.2) && canPrev) {
 								dX = 1 - tmpArrow.width();
-								dY = 0 - tmpArrow.height()/2;
+								dY = tmpTop - tmpArrow.height()/2;
 								moveType = consts.move.TYPE_PREV;
 							} else if ((nextPercent==0 || dY_percent>=nextPercent && dY_percent<=1.2) && canNext) {
 								dX = 1 - tmpArrow.width();
-								dY = tmpTargetA.height() - tmpArrow.height()/2;
+								dY = (tmpNextA == null || (tmpTargetNode.isParent && tmpTargetNode.open)) ? (tmpTop + tmpTargetA.height() - tmpArrow.height()/2) : (tmpNextA.offset().top - tmpArrow.height()/2);
 								moveType = consts.move.TYPE_NEXT;
 							}else {
 								dX = 5 - tmpArrow.width();
-								dY = 0;
+								dY = tmpTop;
 								moveType = consts.move.TYPE_INNER;
 							}
 							tmpArrow.css({
 								"display":"block",
-								"top": (tmpTargetA.offset().top + dY) + "px",
-								"left": (tmpTargetA.offset().left + dX) + "px"
+								"top": dY + "px",
+								"left": (tmpLeft + dX) + "px"
 							});
+							tmpTargetA.addClass(consts.node.TMPTARGET_NODE + "_" + moveType);
 
 							if (preTmpTargetNodeId != tmpTargetNodeId || preTmpMoveType != moveType) {
 								startTime = (new Date()).getTime();
@@ -2790,7 +2801,8 @@
 				$("body").css("cursor", "auto");
 				if (tmpTarget) {
 					tmpTarget.removeClass(consts.node.TMPTARGET_TREE);
-					if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE);
+					if (tmpTargetNodeId) $("#" + tmpTargetNodeId + consts.id.A, tmpTarget).removeClass(consts.node.TMPTARGET_NODE + "_" + consts.move.TYPE_PREV)
+							.removeClass(consts.node.TMPTARGET_NODE + "_" + _consts.move.TYPE_NEXT).removeClass(consts.node.TMPTARGET_NODE + "_" + _consts.move.TYPE_INNER);
 				}
 				tools.showIfameMask(setting, false);
 
