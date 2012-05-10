@@ -1047,7 +1047,7 @@
 			}
 
 			//repair checkbox / radio
-			if (setting.check.enable && view.repairChkClass) {
+			if (!!setting.check && setting.check.enable && view.repairChkClass) {
 				view.repairChkClass(setting, oldParentNode);
 				view.repairParentChkClassWithSelf(setting, oldParentNode);
 				if (oldParentNode != node.parent)
