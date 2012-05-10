@@ -888,7 +888,7 @@
 			if (node) {
 				node.isAjaxing = true;
 				var icoObj = $("#" + node.tId + consts.id.ICON);
-				icoObj.attr({"style":"", "class":"ico_loading"});
+				icoObj.attr({"style":"", "class":"button ico_loading"});
 			}
 
 			var isJson = (setting.async.contentType == "application/json"), tmpParam = isJson ? "{" : "", jTemp="";
