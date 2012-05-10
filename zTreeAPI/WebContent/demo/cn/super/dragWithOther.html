@@ -52,6 +52,7 @@
 			},
 			dom2Tree: function(e, treeId, treeNode) {
 				var target = MoveTest.curTarget, tmpTarget = MoveTest.curTmpTarget;
+				if (!target) return;
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo"), parentNode;
 				if (treeNode != null && treeNode.isParent && "dom_" + treeNode.id == target.parent().attr("id")) {
 					parentNode = treeNode;
