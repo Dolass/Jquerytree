@@ -11,8 +11,8 @@
 *2012.03.15* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
-   * 【增加】"与其他 DOM 拖拽互动" 的 Demo
-   * 【增加】"异步加载模式下全部展开" 的 Demo
+   * 【增加】"与其他 DOM 拖拽互动" 的 Demo (http://www.baby666.cn/v3/demo.php#_511)
+   * 【增加】"异步加载模式下全部展开" 的 Demo (http://www.baby666.cn/v3/demo.php#_512)
 
    * 【修改】代码结构，将 addNodes、removeNode、removeChildNodes 方法 和 beforeRemove、onRemove 回调 转移到 core 内
    * 【修改】IE7的环境下无子节点的父节点反复展开出现多余空行的 bug
