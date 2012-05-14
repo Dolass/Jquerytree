@@ -8,7 +8,7 @@
 </font>
 
 <font color=#041594>
-*2012.03.15* v3.2
+*2012.05.13* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
    * 【增加】getNodesByFilter(filter, isSingle) 方法
    * 【增加】"与其他 DOM 拖拽互动" 的 Demo (http://www.baby666.cn/v3/demo.php#_511)
