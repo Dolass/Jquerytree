@@ -1,0 +1,12 @@
+/*
+ * JQuery zTree exedit 3.2
+ * http://code.google.com/p/jquerytree/
+ *
+ * Copyright (c) 2010 Hunter.z (baby666.cn)
+ *
+ * Licensed same as jquery - MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * email: hunter.z@263.net
+ * Date: 2012-05-13
+ */
