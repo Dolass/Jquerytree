@@ -857,9 +857,7 @@
 			if (ulObj.get(0)) {
 				ulObj.remove();
 			}
-
 			nObj.append(html.join(''));
-			view.createNodeCallback(setting);
 		},
 		asyncNode: function(setting, node, isSilent, callback) {
 			var i, l;
@@ -937,7 +935,7 @@
 						node.zAsync = true;
 					}
 					view.setNodeLineIcos(setting, node);
-					if (newNodes && newNodes != "") {
+					if (newNodes && newNodes !== "") {
 						newNodes = tools.apply(setting.async.dataFilter, [setting.treeId, node, newNodes], newNodes);
 						view.addNodes(setting, node, !!newNodes ? tools.clone(newNodes) : [], !!isSilent);
 					} else {
@@ -1022,6 +1020,7 @@
 			}
 			if (!node.open && node.isParent && ((!$("#" + node.tId + consts.id.UL).get(0)) || (node[childKey] && node[childKey].length>0 && !$("#" + node[childKey][0].tId).get(0)))) {
 				view.appendParentULDom(setting, node);
+				view.createNodeCallback(setting);
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
 			switchObj = $("#" + node.tId + consts.id.SWITCH),
