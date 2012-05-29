@@ -17,17 +17,18 @@ http://www.baby666.cn/v3/demo.php#_509
 *v3.0 - v3.x 计划*
   * 近期计划：
 发表文章：
-  zTree css 结构
-  zTree js 代码结构
-  如何制作 zTree 扩展包
   如何调试 js 代码（菜鸟必读）
+  zTree css 结构
+  zTree js 代码结构分析
+  如何制作 zTree 扩展包
+  如何制作 zTree 的皮肤
 
 制作：
    # 修改 Bug
-   # 【增加】扩展库 -- 节点排序功能
-   # 【增加】扩展库 -- 节点隐藏功能
-   # 【增加】扩展库 -- 键盘操作 zTree
-
+   # 【增加】扩展库 exSortNodes -- 节点排序功能
+   # 【增加】扩展库 exHideNodes -- 节点隐藏功能
+   # 【增加】扩展库 exTools -- 节点数据转换 json 字符串工具包
+   # 【增加】扩展库 exKeyboard -- 键盘操作 zTree
 
   * 远期计划：
    # 入门级教程的制作
