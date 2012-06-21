@@ -31,6 +31,8 @@ http://www.baby666.cn/v3/demo.php#_509
    # 【增加】扩展库 exHideNodes -- 节点隐藏功能
    # 【增加】扩展库 exTools -- 节点数据转换 json 字符串工具包
    # 【增加】扩展库 exKeyboard -- 键盘操作 zTree
+   # 【增加】扩展库 exMethod -- 更换 treeObj 的各个方法使用功能（例如：mcnjqe@163.com 的email 给reAsyncChildNodes方法增加了一个回调函数）
+
 
   * 远期计划：
    # 入门级教程的制作
