@@ -807,12 +807,12 @@
 			nameKey = setting.data.key.name,
 			titleKey = data.getTitleKey(setting);
 			for (var i = 0, l = nodes.length; i < l; i++) {
-				var node = nodes[i],
-				tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
-				tmpPChild = tmpPNode[childKey],
-				isFirstNode = ((tmpPChild.length == nodes.length) && (i == 0)),
-				isLastNode = (i == (nodes.length - 1));
+				var node = nodes[i];
 				if (initFlag) {
+					var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
+					tmpPChild = tmpPNode[childKey],
+					isFirstNode = ((tmpPChild.length == nodes.length) && (i == 0)),
+					isLastNode = (i == (nodes.length - 1));
 					data.initNode(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag);
 					data.addNodeCache(setting, node);
 				}

@@ -921,7 +921,7 @@
 				}
 				targetObj = $("#" + targetNode.tId);
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
-				if (!target_ulObj.get(0)) {
+				if (!!targetObj.get(0) && !target_ulObj.get(0)) {
 					var ulstr = [];
 					view.makeUlHtml(setting, targetNode, ulstr, '');
 					targetObj.append(ulstr.join(''));
@@ -929,6 +929,11 @@
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
 			}
 			var nodeDom = $("#" + node.tId);
+			if (!nodeDom.get(0)) {
+				nodeDom = view.appendNodes(setting, node.level, [node], null, false, true).join('');
+			} else if (!targetObj.get(0)) {
+				nodeDom.remove();
+			}
 			if (target_ulObj.get(0) && moveType == consts.move.TYPE_INNER) {
 				target_ulObj.append(nodeDom);
 			} else if (targetObj.get(0) && moveType == consts.move.TYPE_PREV) {

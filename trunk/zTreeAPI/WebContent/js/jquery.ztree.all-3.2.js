@@ -808,12 +808,12 @@
 			nameKey = setting.data.key.name,
 			titleKey = data.getTitleKey(setting);
 			for (var i = 0, l = nodes.length; i < l; i++) {
-				var node = nodes[i],
-				tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
-				tmpPChild = tmpPNode[childKey],
-				isFirstNode = ((tmpPChild.length == nodes.length) && (i == 0)),
-				isLastNode = (i == (nodes.length - 1));
+				var node = nodes[i];
 				if (initFlag) {
+					var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
+					tmpPChild = tmpPNode[childKey],
+					isFirstNode = ((tmpPChild.length == nodes.length) && (i == 0)),
+					isLastNode = (i == (nodes.length - 1));
 					data.initNode(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag);
 					data.addNodeCache(setting, node);
 				}
@@ -3123,7 +3123,7 @@
 				}
 				targetObj = $("#" + targetNode.tId);
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
-				if (!target_ulObj.get(0)) {
+				if (!!targetObj.get(0) && !target_ulObj.get(0)) {
 					var ulstr = [];
 					view.makeUlHtml(setting, targetNode, ulstr, '');
 					targetObj.append(ulstr.join(''));
@@ -3131,6 +3131,11 @@
 				target_ulObj = $("#" + targetNode.tId + consts.id.UL);
 			}
 			var nodeDom = $("#" + node.tId);
+			if (!nodeDom.get(0)) {
+				nodeDom = view.appendNodes(setting, node.level, [node], null, false, true).join('');
+			} else if (!targetObj.get(0)) {
+				nodeDom.remove();
+			}
 			if (target_ulObj.get(0) && moveType == consts.move.TYPE_INNER) {
 				target_ulObj.append(nodeDom);
 			} else if (targetObj.get(0) && moveType == consts.move.TYPE_PREV) {

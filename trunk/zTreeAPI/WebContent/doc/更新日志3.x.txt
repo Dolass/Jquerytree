@@ -12,11 +12,6 @@
    * 【修改】延迟加载方法 对于使用 expandAll 进行全部展开时，导致 onNodeCreated 回调 和 addDiyDom 方法触发过早的 bug
    * 【修改】异步加载模式下无法利用 server 返回 xml 并且 在 dataFilter 中继续处理的 bug
    * 【修改】使用 moveNode 移动尚未生成 DOM 的节点时，视图会出现异常的 bug
-尚未修改
-			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-			var node = treeObj.getNodeByParam ("id", "13");
-			var parentNode =  treeObj.getNodeByParam ("id", "23");
-			treeObj.moveNode(parentNode, node, "inner");
 
 *2012.05.13* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
