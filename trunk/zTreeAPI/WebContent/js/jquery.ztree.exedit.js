@@ -1083,7 +1083,7 @@
 	_z = {
 		tools: _tools,
 		view: _view,
-		event: event,
+		event: _event,
 		data: _data
 	};
 	$.extend(true, $.fn.zTree.consts, _consts);
