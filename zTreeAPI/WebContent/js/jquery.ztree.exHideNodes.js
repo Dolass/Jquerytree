@@ -30,16 +30,13 @@
 			
 		}
 		zTreeTools.hideNodes = function(nodes, options) {
-			if (!nodes || nodes.length == 0) {
-				return;
-			}
-
+			view.hideNodes(setting, nodes, options);
 		}
 		zTreeTools.hideNode = function(node, options) {
 			if (!node) {
 				return;
 			}
-			view.hideNode(setting, node, options);
+			view.hideNodes(setting, [node], options);
 		}
 	},
 	//method of operate data
@@ -52,11 +49,66 @@
 	_tools = {},
 	//method of operate ztree dom
 	_view = {
+		makeDOMNodeMainBefore: function(html, setting, node) {
+			html.push("<li ", (node.isHidden ? "style='display:none;' " : ""), "id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>");
+		},
 		showNode: function(setting, node, options) {
+			node.isHidden = false;
 			$("#" + node.tId).show();
 		},
+		hideNodes: function(setting, nodes, options) {
+			if (!nodes || nodes.length == 0) {
+				return;
+			}
+			var pList = {}, i, j;
+			for (i=0, j=nodes.length; i<j; i++) {
+				var n = nodes[i];
+				if ((n.isFirstNode || n.isLastNode) && !pList[n.parentTId]) {
+					var pn = n.getParentNode();
+					pList[n.parentTId] = (pn === null) ? data.getRoot(setting) : n.getParentNode();
+				}
+				view.hideNode(setting, n, options);
+			}
+			for (var tId in pList) {
+				var children = pList[tId][setting.data.key.children];
+				view.setFirstNodeForHide(setting, children);
+				view.setLastNodeForHide(setting, children);
+			}
+			
+		},
 		hideNode: function(setting, node, options) {
+			node.isHidden = true;
+			node.isFirstNode = false;
+			node.isLastNode = false;
 			$("#" + node.tId).hide();
+		},
+		setFirstNodeForHide: function(setting, nodes) {
+			var n,i,j;
+			for(i=0, j=nodes.length; i<j; i++) {
+				n = nodes[i];
+				if (n.isFirstNode) {
+					return;
+				}
+				if(!n.isHidden && !n.isFirstNode) {
+					n.isFirstNode = true;
+					view.setNodeLineIcos(setting, n);
+					break;
+				}
+			}			
+		},
+		setLastNodeForHide: function(setting, nodes) {
+			var n,i;
+			for(i=nodes.length-1; i>=0; i--) {
+				n = nodes[i];
+				if (n.isLastNode) {
+					return;
+				}
+				if(!n.isHidden && !n.isLastNode) {
+					n.isLastNode = true;
+					view.setNodeLineIcos(setting, n);
+					break;
+				}
+			}
 		}
 	},
 

@@ -121,7 +121,7 @@
 			r = {};
 			data.setRoot(setting, r);
 		}
-		r.children = [];
+		r[setting.data.key.children] = [];
 		r.expandTriggerFlag = false;
 		r.curSelectedList = [];
 		r.noSelection = true;
@@ -804,9 +804,7 @@
 		appendNodes: function(setting, level, nodes, parentNode, initFlag, openFlag) {
 			if (!nodes) return [];
 			var html = [],
-			childKey = setting.data.key.children,
-			nameKey = setting.data.key.name,
-			titleKey = data.getTitleKey(setting);
+			childKey = setting.data.key.children;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				var node = nodes[i];
 				if (initFlag) {
@@ -824,33 +822,20 @@
 					childHtml = view.appendNodes(setting, level + 1, node[childKey], node, initFlag, openFlag && node.open);
 				}
 				if (openFlag) {
-					var url = view.makeNodeUrl(setting, node),
-					fontcss = view.makeNodeFontCss(setting, node),
-					fontStyle = [];
-					for (var f in fontcss) {
-						fontStyle.push(f, ":", fontcss[f], ";");
-					}
-					html.push("<li id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>",
-						"<span id='", node.tId, consts.id.SWITCH,
-						"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></span>");
+					
+					view.makeDOMNodeMainBefore(html, setting, node);
+					view.makeDOMNodeLine(html, setting, node);
 					data.getBeforeA(setting, node, html);
-					html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
-						"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
-						"'");
-					if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {html.push("title='", node[titleKey].replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
-					html.push(">");
+					view.makeDOMNodeNameBefore(html, setting, node);
 					data.getInnerBeforeA(setting, node, html);
-					var name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-					html.push("<span id='", node.tId, consts.id.ICON,
-						"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node), "' style='", view.makeNodeIcoStyle(setting, node), "'></span><span id='", node.tId, consts.id.SPAN,
-						"'>",name,"</span>");
+					view.makeDOMNodeIcon(html, setting, node);
 					data.getInnerAfterA(setting, node, html);
-					html.push("</a>");
+					view.makeDOMNodeNameAfter(html, setting, node);
 					data.getAfterA(setting, node, html);
 					if (node.isParent && node.open) {
 						view.makeUlHtml(setting, node, html, childHtml.join(''));
 					}
-					html.push("</li>");
+					view.makeDOMNodeMainAfter(html, setting, node);
 					data.addCreatedNode(setting, node);
 				}
 			}
@@ -1099,6 +1084,40 @@
 			}
 			data.getRoot(setting).expandTriggerFlag = expandTriggerFlag;
 			view.expandCollapseNode(setting, node, expandFlag, animateFlag, callback );
+		},
+		makeDOMNodeIcon: function(html, setting, node) {
+			var nameKey = setting.data.key.name,
+			name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+			html.push("<span id='", node.tId, consts.id.ICON,
+				"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node),
+				"' style='", view.makeNodeIcoStyle(setting, node), "'></span><span id='", node.tId, consts.id.SPAN,
+				"'>",name,"</span>");
+		},
+		makeDOMNodeLine: function(html, setting, node) {
+			html.push("<span id='", node.tId, consts.id.SWITCH,	"' title='' class='", view.makeNodeLineClass(setting, node), "' treeNode", consts.id.SWITCH,"></span>");
+		},
+		makeDOMNodeMainAfter: function(html, setting, node) {
+			html.push("</li>");
+		},
+		makeDOMNodeMainBefore: function(html, setting, node) {
+			html.push("<li id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>");
+		},
+		makeDOMNodeNameAfter: function(html, setting, node) {
+			html.push("</a>");
+		},
+		makeDOMNodeNameBefore: function(html, setting, node) {
+			var titleKey = data.getTitleKey(setting),
+			url = view.makeNodeUrl(setting, node),
+			fontcss = view.makeNodeFontCss(setting, node),
+			fontStyle = [];
+			for (var f in fontcss) {
+				fontStyle.push(f, ":", fontcss[f], ";");
+			}
+			html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
+				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
+				"'");
+			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {html.push("title='", node[titleKey].replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
+			html.push(">");
 		},
 		makeNodeFontCss: function(setting, node) {
 			var fontCss = tools.apply(setting.view.fontCss, [setting.treeId, node], setting.view.fontCss);
@@ -3285,7 +3304,7 @@
 	_z = {
 		tools: _tools,
 		view: _view,
-		event: event,
+		event: _event,
 		data: _data
 	};
 	$.extend(true, $.fn.zTree.consts, _consts);
