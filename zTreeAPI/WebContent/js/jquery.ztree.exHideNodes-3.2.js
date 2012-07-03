@@ -1,3 +1,15 @@
+/*
+ * JQuery zTree exHideNodes 3.3
+ * http://code.google.com/p/jquerytree/
+ *
+ * Copyright (c) 2010 Hunter.z (baby666.cn)
+ *
+ * Licensed same as jquery - MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * email: hunter.z@263.net
+ * Date: 2012-07-15
+ */
 //checkbox 的处理、禁止移动
 (function($){
 	//default consts of exLib
@@ -14,7 +26,6 @@
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (typeof n.isHidden == "string") n.isHidden = tools.eqs(n.isHidden, "true");
 		n.isHidden = !!n.isHidden;
-		data.initHideForExCheck(setting, n);
 	},
 	//add dom for check
 	_beforeA = function(setting, node, html) {},
@@ -40,30 +51,7 @@
 		}
 	},
 	//method of operate data
-	_data = {
-		initHideForExCheck: function(setting, n) {
-			if (n.isHidden && setting.check.enable) {
-				n._nocheck = !!n.nocheck
-				n.nocheck = false;
-				if (view.repairParentChkClassWithSelf) {
-					view.repairParentChkClassWithSelf(setting, n);
-				}
-			}
-		},
-		initShowForExCheck: function(setting, n) {
-			if (!n.isHidden && setting.check.enable) {
-				n.nocheck = n._nocheck;
-				delete n._nocheck;
-				if (view.setChkClass) {
-					var checkObj = $("#" + n.tId + consts.id.CHECK);
-					view.setChkClass(setting, checkObj, n);
-				}
-				if (view.repairParentChkClassWithSelf) {
-					view.repairParentChkClassWithSelf(setting, n);
-				}
-			}
-		}
-	},
+	_data = {},
 	//method of event proxy
 	_event = {},
 	//method of event handler
@@ -105,7 +93,6 @@
 		},
 		showNode: function(setting, node, options) {
 			node.isHidden = false;
-			data.initShowForExCheck(setting, n);
 			$("#" + node.tId).show();
 		},
 		showNodes: function(setting, nodes, options) {
@@ -131,7 +118,6 @@
 			node.isHidden = true;
 			node.isFirstNode = false;
 			node.isLastNode = false;
-			data.initHideForExCheck(setting, n);
 			$("#" + node.tId).hide();
 		},
 		hideNodes: function(setting, nodes, options) {

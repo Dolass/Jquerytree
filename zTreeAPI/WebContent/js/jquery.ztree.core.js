@@ -372,8 +372,6 @@
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isLastNode) {
 				return null;
-			} else if (node.isFirstNode) {
-				return p[childKey][1];
 			} else {
 				for (var i=1, l=p[childKey].length-1; i<l; i++) {
 					if (p[childKey][i] === node) {
@@ -448,8 +446,6 @@
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isFirstNode) {
 				return null;
-			} else if (node.isLastNode) {
-				return p[childKey][p[childKey].length-2];
 			} else {
 				for (var i=1, l=p[childKey].length-1; i<l; i++) {
 					if (p[childKey][i] === node) {
@@ -1339,9 +1335,9 @@
 			} else {
 				nObj.text(node[nameKey]);
 			}
-			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {
+			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {
 				var aObj = $("#" + node.tId + consts.id.A);
-				aObj.attr("title", node[titleKey]);
+				aObj.attr("title", !node[titleKey] ? "" : node[titleKey]);
 			}
 		},
 		setNodeTarget: function(node) {

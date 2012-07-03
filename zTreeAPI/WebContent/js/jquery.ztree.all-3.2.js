@@ -385,8 +385,6 @@
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isLastNode) {
 				return null;
-			} else if (node.isFirstNode) {
-				return p[childKey][1];
 			} else {
 				for (var i=1, l=p[childKey].length-1; i<l; i++) {
 					if (p[childKey][i] === node) {
@@ -461,8 +459,6 @@
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
 			if (node.isFirstNode) {
 				return null;
-			} else if (node.isLastNode) {
-				return p[childKey][p[childKey].length-2];
 			} else {
 				for (var i=1, l=p[childKey].length-1; i<l; i++) {
 					if (p[childKey][i] === node) {
@@ -1352,9 +1348,9 @@
 			} else {
 				nObj.text(node[nameKey]);
 			}
-			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {
+			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {
 				var aObj = $("#" + node.tId + consts.id.A);
-				aObj.attr("title", node[titleKey]);
+				aObj.attr("title", !node[titleKey] ? "" : node[titleKey]);
 			}
 		},
 		setNodeTarget: function(node) {
@@ -3380,4 +3376,271 @@
 		}
 		return (!root.curEditNode) && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
 	}
+})(jQuery);
+/*
+ * JQuery zTree exHideNodes 3.3
+ * http://code.google.com/p/jquerytree/
+ *
+ * Copyright (c) 2010 Hunter.z (baby666.cn)
+ *
+ * Licensed same as jquery - MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * email: hunter.z@263.net
+ * Date: 2012-07-15
+ */
+//checkbox 的处理、禁止移动
+(function($){
+	//default consts of exLib
+	var _consts = {},
+	//default setting of exLib
+	_setting = {},
+	//default root of exLib
+	_initRoot = function (setting) {},
+	//default cache of exLib
+	_initCache = function(treeId) {},
+	//default bind event of exLib
+	_bindEvent = function(setting) {},
+	//default init node of exLib
+	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
+		if (typeof n.isHidden == "string") n.isHidden = tools.eqs(n.isHidden, "true");
+		n.isHidden = !!n.isHidden;
+	},
+	//add dom for check
+	_beforeA = function(setting, node, html) {},
+	//update zTreeObj, add method of exLib
+	_zTreeTools = function(setting, zTreeTools) {
+		zTreeTools.showNodes = function(nodes, options) {
+			view.showNodes(setting, nodes, options);
+		}
+		zTreeTools.showNode = function(node, options) {
+			if (!node) {
+				return;
+			}
+			view.showNodes(setting, [node], options);
+		}
+		zTreeTools.hideNodes = function(nodes, options) {
+			view.hideNodes(setting, nodes, options);
+		}
+		zTreeTools.hideNode = function(node, options) {
+			if (!node) {
+				return;
+			}
+			view.hideNodes(setting, [node], options);
+		}
+	},
+	//method of operate data
+	_data = {},
+	//method of event proxy
+	_event = {},
+	//method of event handler
+	_handler = {},
+	//method of tools for zTree
+	_tools = {},
+	//method of operate ztree dom
+	_view = {
+		clearOldFirstNode: function(setting, node) {
+			var n = node.getNextNode();
+			while(!!n){
+				if (n.isFirstNode) {
+					n.isFirstNode = false;
+					view.setNodeLineIcos(setting, n);
+					break;
+				}
+				if (n.isLastNode) {
+					break;
+				}
+				n = n.getNextNode();
+			}
+		},
+		clearOldLastNode: function(setting, node) {
+			var n = node.getPreNode();
+			while(!!n){
+				if (n.isLastNode) {
+					n.isLastNode = false;
+					view.setNodeLineIcos(setting, n);
+					break;
+				}
+				if (n.isFirstNode) {
+					break;
+				}
+				n = n.getPreNode();
+			}
+		},
+		makeDOMNodeMainBefore: function(html, setting, node) {
+			html.push("<li ", (node.isHidden ? "style='display:none;' " : ""), "id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>");
+		},
+		showNode: function(setting, node, options) {
+			node.isHidden = false;
+			$("#" + node.tId).show();
+		},
+		showNodes: function(setting, nodes, options) {
+			if (!nodes || nodes.length == 0) {
+				return;
+			}
+			var pList = {}, i, j;
+			for (i=0, j=nodes.length; i<j; i++) {
+				var n = nodes[i];
+				if (!pList[n.parentTId]) {
+					var pn = n.getParentNode();
+					pList[n.parentTId] = (pn === null) ? data.getRoot(setting) : n.getParentNode();
+				}
+				view.showNode(setting, n, options);
+			}
+			for (var tId in pList) {
+				var children = pList[tId][setting.data.key.children];
+				view.setFirstNodeForShow(setting, children);
+				view.setLastNodeForShow(setting, children);
+			}
+		},
+		hideNode: function(setting, node, options) {
+			node.isHidden = true;
+			node.isFirstNode = false;
+			node.isLastNode = false;
+			$("#" + node.tId).hide();
+		},
+		hideNodes: function(setting, nodes, options) {
+			if (!nodes || nodes.length == 0) {
+				return;
+			}
+			var pList = {}, i, j;
+			for (i=0, j=nodes.length; i<j; i++) {
+				var n = nodes[i];
+				if ((n.isFirstNode || n.isLastNode) && !pList[n.parentTId]) {
+					var pn = n.getParentNode();
+					pList[n.parentTId] = (pn === null) ? data.getRoot(setting) : n.getParentNode();
+				}
+				view.hideNode(setting, n, options);
+			}
+			for (var tId in pList) {
+				var children = pList[tId][setting.data.key.children];
+				view.setFirstNodeForHide(setting, children);
+				view.setLastNodeForHide(setting, children);
+			}			
+		},
+		setFirstNodeForHide: function(setting, nodes) {
+			var n,i,j;
+			for (i=0, j=nodes.length; i<j; i++) {
+				n = nodes[i];
+				if (n.isFirstNode) {
+					break;
+				}
+				if (!n.isHidden && !n.isFirstNode) {
+					n.isFirstNode = true;
+					view.setNodeLineIcos(setting, n);
+					break;
+				} else {
+					n = null;
+				}
+			}
+			return n;
+		},
+		setFirstNodeForShow: function(setting, nodes) {
+			var n,i,j, first, old;
+			for(i=0, j=nodes.length; i<j; i++) {
+				n = nodes[i];
+				if (!first && !n.isHidden && n.isFirstNode) {
+					first = n;
+					break;
+				} else if (!first && !n.isHidden && !n.isFirstNode) {
+					n.isFirstNode = true;
+					first = n;
+					view.setNodeLineIcos(setting, n);
+				} else if (first && n.isFirstNode) {
+					n.isFirstNode = false;
+					old = n;
+					view.setNodeLineIcos(setting, n);
+					break;
+				} else {
+					n = null;
+				}
+			}
+			return {"new":first, "old":old};
+		},
+		setLastNodeForHide: function(setting, nodes) {
+			var n,i;
+			for (i=nodes.length-1; i>=0; i--) {
+				n = nodes[i];
+				if (n.isLastNode) {
+					break;
+				}
+				if (!n.isHidden && !n.isLastNode) {
+					n.isLastNode = true;
+					view.setNodeLineIcos(setting, n);
+					break;
+				} else {
+					n = null;
+				}
+			}
+			return n;
+		},
+		setLastNodeForShow: function(setting, nodes) {
+			var n,i,j, last, old;
+			for (i=nodes.length-1; i>=0; i--) {
+				n = nodes[i];
+				if (!last && !n.isHidden && n.isLastNode) {
+					last = n;
+					break;
+				} else if (!last && !n.isHidden && !n.isLastNode) {
+					n.isLastNode = true;
+					last = n;
+					view.setNodeLineIcos(setting, n);
+				} else if (last && n.isLastNode) {
+					n.isLastNode = false;
+					old = n;
+					view.setNodeLineIcos(setting, n);
+					break;
+				} else {
+					n = null;
+				}
+			}
+			return {"new":last, "old":old};
+		}
+	},
+
+	_z = {
+		tools: _tools,
+		view: _view,
+		event: _event,
+		data: _data
+	};
+	$.extend(true, $.fn.zTree.consts, _consts);
+	$.extend(true, $.fn.zTree._z, _z);
+
+	var zt = $.fn.zTree,
+	tools = zt._z.tools,
+	consts = zt.consts,
+	view = zt._z.view,
+	data = zt._z.data,
+	event = zt._z.event;
+
+	data.exSetting(_setting);
+	data.addInitBind(_bindEvent);
+	data.addInitCache(_initCache);
+	data.addInitNode(_initNode);
+	data.addInitRoot(_initRoot);
+	data.addBeforeA(_beforeA);
+	data.addZTreeTools(_zTreeTools);
+
+//	Override method in core
+	var _dInitNode = data.initNode;
+	data.tmpHideParent = -1;
+	data.initNode = function(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag) {
+		if (data.tmpHideParent !== parentNode) {
+			data.tmpHideParent = parentNode;
+			var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
+			children = tmpPNode[setting.data.key.children];
+			data.tmpHideFirstNode = view.setFirstNodeForHide(setting, children);
+			data.tmpHideLastNode = view.setLastNodeForHide(setting, children);
+			view.setNodeLineIcos(setting, data.tmpHideFirstNode);
+			view.setNodeLineIcos(setting, data.tmpHideLastNode);
+		}
+		isFirstNode = (data.tmpHideFirstNode === node);
+		isLastNode = (data.tmpHideLastNode === node);
+		if (_dInitNode) _dInitNode.apply(data, arguments);
+		if (isLastNode) {
+			view.clearOldLastNode(setting, node);
+		}
+	}
+
 })(jQuery);
