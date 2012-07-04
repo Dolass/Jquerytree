@@ -383,13 +383,9 @@
 			if (!node) return null;
 			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
-			if (node.isLastNode) {
-				return null;
-			} else {
-				for (var i=1, l=p[childKey].length-1; i<l; i++) {
-					if (p[childKey][i] === node) {
-						return p[childKey][i+1];
-					}
+			for (var i=0, l=p[childKey].length-1; i<=l; i++) {
+				if (p[childKey][i] === node) {
+					return (i==l ? null : p[childKey][i+1]);
 				}
 			}
 			return null;
@@ -457,13 +453,9 @@
 			if (!node) return null;
 			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
-			if (node.isFirstNode) {
-				return null;
-			} else {
-				for (var i=1, l=p[childKey].length-1; i<l; i++) {
-					if (p[childKey][i] === node) {
-						return p[childKey][i-1];
-					}
+			for (var i=0, l=p[childKey].length; i<l; i++) {
+				if (p[childKey][i] === node) {
+					return (i==0 ? null : p[childKey][i-1]);
 				}
 			}
 			return null;
@@ -1206,6 +1198,18 @@
 				$("#" + node.tId + consts.id.UL).empty();
 			}
 		},
+                setFirstNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if ( childLength > 0) {
+                        parentNode[childKey][0].isFirstNode = true;
+                    }
+                },
+                setLastNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if ( childLength > 0) {
+                        parentNode[childKey][childLength - 1].isLastNode = true;
+                    }
+                },
 		removeNode: function(setting, node) {
 			var root = data.getRoot(setting),
 			childKey = setting.data.key.children,
@@ -1215,7 +1219,7 @@
 			node.isLastNode = false;
 			node.getPreNode = function() {return null;};
 			node.getNextNode = function() {return null;};
-
+                        
 			$("#" + node.tId).remove();
 			data.removeNodeCache(setting, node);
 			data.removeSelectedNode(setting, node);
@@ -1226,10 +1230,14 @@
 					break;
 				}
 			}
-			var tmp_ulObj,tmp_switchObj,tmp_icoObj;
+                        view.setFirstNode(setting, parentNode);
+                        view.setLastNode(setting, parentNode);
+                                                
+                        var tmp_ulObj,tmp_switchObj,tmp_icoObj, 
+                        childLength = parentNode[childKey].length;
 
 			//repair nodes old parent
-			if (!setting.data.keep.parent && parentNode[childKey].length < 1) {
+			if (!setting.data.keep.parent && childLength == 0) {
 				//old parentNode has no child nodes
 				parentNode.isParent = false;
 				parentNode.open = false;
@@ -1240,11 +1248,9 @@
 				view.replaceIcoClass(parentNode, tmp_icoObj, consts.folder.DOCU);
 				tmp_ulObj.css("display", "none");
 
-			} else if (setting.view.showLine && parentNode[childKey].length > 0) {
+			} else if (setting.view.showLine && childLength > 0) {
 				//old parentNode has child nodes
-				var newLast = parentNode[childKey][parentNode[childKey].length - 1];
-				newLast.isLastNode = true;
-				newLast.isFirstNode = (parentNode[childKey].length == 1);
+				var newLast = parentNode[childKey][childLength - 1];
 				tmp_ulObj = $("#" + newLast.tId + consts.id.UL);
 				tmp_switchObj = $("#" + newLast.tId + consts.id.SWITCH);
 				tmp_icoObj = $("#" + newLast.tId + consts.id.ICON);
@@ -3392,19 +3398,20 @@
 //checkbox 的处理、禁止移动
 (function($){
 	//default consts of exLib
-	var _consts = {},
+//	var _consts = {},
 	//default setting of exLib
-	_setting = {},
+//	_setting = {},
 	//default root of exLib
-	_initRoot = function (setting) {},
+//	_initRoot = function (setting) {},
 	//default cache of exLib
-	_initCache = function(treeId) {},
+//	_initCache = function(treeId) {},
 	//default bind event of exLib
-	_bindEvent = function(setting) {},
+//	_bindEvent = function(setting) {},
 	//default init node of exLib
-	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
+	var _initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (typeof n.isHidden == "string") n.isHidden = tools.eqs(n.isHidden, "true");
 		n.isHidden = !!n.isHidden;
+		data.initHideForExCheck(setting, n);
 	},
 	//add dom for check
 	_beforeA = function(setting, node, html) {},
@@ -3430,7 +3437,30 @@
 		}
 	},
 	//method of operate data
-	_data = {},
+	_data = {
+		initHideForExCheck: function(setting, n) {
+			if (n.isHidden && setting.check.enable) {
+				n._nocheck = !!n.nocheck
+				n.nocheck = true;
+				if (view.repairParentChkClassWithSelf) {
+					view.repairParentChkClassWithSelf(setting, n);
+				}
+			}
+		},
+		initShowForExCheck: function(setting, n) {
+			if (!n.isHidden && setting.check.enable) {
+				n.nocheck = n._nocheck;
+				delete n._nocheck;
+				if (view.setChkClass) {
+					var checkObj = $("#" + n.tId + consts.id.CHECK);
+					view.setChkClass(setting, checkObj, n);
+				}
+				if (view.repairParentChkClassWithSelf) {
+					view.repairParentChkClassWithSelf(setting, n);
+				}
+			}
+		}
+	},
 	//method of event proxy
 	_event = {},
 	//method of event handler
@@ -3472,6 +3502,7 @@
 		},
 		showNode: function(setting, node, options) {
 			node.isHidden = false;
+			data.initShowForExCheck(setting, node);
 			$("#" + node.tId).show();
 		},
 		showNodes: function(setting, nodes, options) {
@@ -3497,6 +3528,7 @@
 			node.isHidden = true;
 			node.isFirstNode = false;
 			node.isLastNode = false;
+			data.initHideForExCheck(setting, node);
 			$("#" + node.tId).hide();
 		},
 		hideNodes: function(setting, nodes, options) {
@@ -3518,6 +3550,22 @@
 				view.setLastNodeForHide(setting, children);
 			}			
 		},
+                setFirstNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+                        parentNode[childKey][0].isFirstNode = true;
+                    } else if (childLength > 0) {
+                        view.setFirstNodeForHide(setting, parentNode[childKey]);
+                    }
+                },
+                setLastNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+                        parentNode[childKey][childLength - 1].isLastNode = true;
+                    } else if (childLength > 0) {
+                        view.setLastNodeForHide(setting, parentNode[childKey]);
+                    }
+                },
 		setFirstNodeForHide: function(setting, nodes) {
 			var n,i,j;
 			for (i=0, j=nodes.length; i<j; i++) {
@@ -3604,7 +3652,7 @@
 		event: _event,
 		data: _data
 	};
-	$.extend(true, $.fn.zTree.consts, _consts);
+//	$.extend(true, $.fn.zTree.consts, _consts);
 	$.extend(true, $.fn.zTree._z, _z);
 
 	var zt = $.fn.zTree,
@@ -3614,11 +3662,11 @@
 	data = zt._z.data,
 	event = zt._z.event;
 
-	data.exSetting(_setting);
-	data.addInitBind(_bindEvent);
-	data.addInitCache(_initCache);
+//	data.exSetting(_setting);
+//	data.addInitBind(_bindEvent);
+//	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
-	data.addInitRoot(_initRoot);
+//	data.addInitRoot(_initRoot);
 	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 

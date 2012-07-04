@@ -382,13 +382,9 @@
 			if (!node) return null;
 			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
-			if (node.isLastNode) {
-				return null;
-			} else {
-				for (var i=1, l=p[childKey].length-1; i<l; i++) {
-					if (p[childKey][i] === node) {
-						return p[childKey][i+1];
-					}
+			for (var i=0, l=p[childKey].length-1; i<=l; i++) {
+				if (p[childKey][i] === node) {
+					return (i==l ? null : p[childKey][i+1]);
 				}
 			}
 			return null;
@@ -456,13 +452,9 @@
 			if (!node) return null;
 			var childKey = setting.data.key.children,
 			p = node.parentTId ? node.getParentNode() : data.getRoot(setting);
-			if (node.isFirstNode) {
-				return null;
-			} else {
-				for (var i=1, l=p[childKey].length-1; i<l; i++) {
-					if (p[childKey][i] === node) {
-						return p[childKey][i-1];
-					}
+			for (var i=0, l=p[childKey].length; i<l; i++) {
+				if (p[childKey][i] === node) {
+					return (i==0 ? null : p[childKey][i-1]);
 				}
 			}
 			return null;
@@ -1205,6 +1197,18 @@
 				$("#" + node.tId + consts.id.UL).empty();
 			}
 		},
+                setFirstNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if ( childLength > 0) {
+                        parentNode[childKey][0].isFirstNode = true;
+                    }
+                },
+                setLastNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if ( childLength > 0) {
+                        parentNode[childKey][childLength - 1].isLastNode = true;
+                    }
+                },
 		removeNode: function(setting, node) {
 			var root = data.getRoot(setting),
 			childKey = setting.data.key.children,
@@ -1214,7 +1218,7 @@
 			node.isLastNode = false;
 			node.getPreNode = function() {return null;};
 			node.getNextNode = function() {return null;};
-
+                        
 			$("#" + node.tId).remove();
 			data.removeNodeCache(setting, node);
 			data.removeSelectedNode(setting, node);
@@ -1225,10 +1229,14 @@
 					break;
 				}
 			}
-			var tmp_ulObj,tmp_switchObj,tmp_icoObj;
+                        view.setFirstNode(setting, parentNode);
+                        view.setLastNode(setting, parentNode);
+                                                
+                        var tmp_ulObj,tmp_switchObj,tmp_icoObj, 
+                        childLength = parentNode[childKey].length;
 
 			//repair nodes old parent
-			if (!setting.data.keep.parent && parentNode[childKey].length < 1) {
+			if (!setting.data.keep.parent && childLength == 0) {
 				//old parentNode has no child nodes
 				parentNode.isParent = false;
 				parentNode.open = false;
@@ -1239,11 +1247,9 @@
 				view.replaceIcoClass(parentNode, tmp_icoObj, consts.folder.DOCU);
 				tmp_ulObj.css("display", "none");
 
-			} else if (setting.view.showLine && parentNode[childKey].length > 0) {
+			} else if (setting.view.showLine && childLength > 0) {
 				//old parentNode has child nodes
-				var newLast = parentNode[childKey][parentNode[childKey].length - 1];
-				newLast.isLastNode = true;
-				newLast.isFirstNode = (parentNode[childKey].length == 1);
+				var newLast = parentNode[childKey][childLength - 1];
 				tmp_ulObj = $("#" + newLast.tId + consts.id.UL);
 				tmp_switchObj = $("#" + newLast.tId + consts.id.SWITCH);
 				tmp_icoObj = $("#" + newLast.tId + consts.id.ICON);
