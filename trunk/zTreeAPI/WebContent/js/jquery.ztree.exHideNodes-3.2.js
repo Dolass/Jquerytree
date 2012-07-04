@@ -13,19 +13,20 @@
 //checkbox 的处理、禁止移动
 (function($){
 	//default consts of exLib
-	var _consts = {},
+//	var _consts = {},
 	//default setting of exLib
-	_setting = {},
+//	_setting = {},
 	//default root of exLib
-	_initRoot = function (setting) {},
+//	_initRoot = function (setting) {},
 	//default cache of exLib
-	_initCache = function(treeId) {},
+//	_initCache = function(treeId) {},
 	//default bind event of exLib
-	_bindEvent = function(setting) {},
+//	_bindEvent = function(setting) {},
 	//default init node of exLib
-	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
+	var _initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (typeof n.isHidden == "string") n.isHidden = tools.eqs(n.isHidden, "true");
 		n.isHidden = !!n.isHidden;
+		data.initHideForExCheck(setting, n);
 	},
 	//add dom for check
 	_beforeA = function(setting, node, html) {},
@@ -51,7 +52,30 @@
 		}
 	},
 	//method of operate data
-	_data = {},
+	_data = {
+		initHideForExCheck: function(setting, n) {
+			if (n.isHidden && setting.check.enable) {
+				n._nocheck = !!n.nocheck
+				n.nocheck = true;
+				if (view.repairParentChkClassWithSelf) {
+					view.repairParentChkClassWithSelf(setting, n);
+				}
+			}
+		},
+		initShowForExCheck: function(setting, n) {
+			if (!n.isHidden && setting.check.enable) {
+				n.nocheck = n._nocheck;
+				delete n._nocheck;
+				if (view.setChkClass) {
+					var checkObj = $("#" + n.tId + consts.id.CHECK);
+					view.setChkClass(setting, checkObj, n);
+				}
+				if (view.repairParentChkClassWithSelf) {
+					view.repairParentChkClassWithSelf(setting, n);
+				}
+			}
+		}
+	},
 	//method of event proxy
 	_event = {},
 	//method of event handler
@@ -93,6 +117,7 @@
 		},
 		showNode: function(setting, node, options) {
 			node.isHidden = false;
+			data.initShowForExCheck(setting, node);
 			$("#" + node.tId).show();
 		},
 		showNodes: function(setting, nodes, options) {
@@ -118,6 +143,7 @@
 			node.isHidden = true;
 			node.isFirstNode = false;
 			node.isLastNode = false;
+			data.initHideForExCheck(setting, node);
 			$("#" + node.tId).hide();
 		},
 		hideNodes: function(setting, nodes, options) {
@@ -139,6 +165,22 @@
 				view.setLastNodeForHide(setting, children);
 			}			
 		},
+                setFirstNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+                        parentNode[childKey][0].isFirstNode = true;
+                    } else if (childLength > 0) {
+                        view.setFirstNodeForHide(setting, parentNode[childKey]);
+                    }
+                },
+                setLastNode: function(setting, parentNode) {
+                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+                        parentNode[childKey][childLength - 1].isLastNode = true;
+                    } else if (childLength > 0) {
+                        view.setLastNodeForHide(setting, parentNode[childKey]);
+                    }
+                },
 		setFirstNodeForHide: function(setting, nodes) {
 			var n,i,j;
 			for (i=0, j=nodes.length; i<j; i++) {
@@ -225,7 +267,7 @@
 		event: _event,
 		data: _data
 	};
-	$.extend(true, $.fn.zTree.consts, _consts);
+//	$.extend(true, $.fn.zTree.consts, _consts);
 	$.extend(true, $.fn.zTree._z, _z);
 
 	var zt = $.fn.zTree,
@@ -235,11 +277,11 @@
 	data = zt._z.data,
 	event = zt._z.event;
 
-	data.exSetting(_setting);
-	data.addInitBind(_bindEvent);
-	data.addInitCache(_initCache);
+//	data.exSetting(_setting);
+//	data.addInitBind(_bindEvent);
+//	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
-	data.addInitRoot(_initRoot);
+//	data.addInitRoot(_initRoot);
 	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 
