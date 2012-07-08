@@ -1,4 +1,3 @@
-//checkbox 的处理、禁止移动
 (function($){
 	//default consts of exLib
 //	var _consts = {},

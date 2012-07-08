@@ -1,8 +1,8 @@
 /*
  * JQuery zTree core 3.2
- * http://code.google.com/p/jquerytree/
+ * http://zTree.me/
  *
- * Copyright (c) 2010 Hunter.z (baby666.cn)
+ * Copyright (c) 2010 Hunter.z
  *
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
