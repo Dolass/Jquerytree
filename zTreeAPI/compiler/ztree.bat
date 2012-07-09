@@ -1,6 +1,6 @@
 @echo off
 set /p ver=Input zTree's version (3.0 or 3.1) :
-set file=core excheck exedit exHideNodes
+set file=core excheck exedit exhide
 
 cd ../WebContent/js/
 
