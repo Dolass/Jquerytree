@@ -1,27 +1,4 @@
-/*
- * JQuery zTree exHideNodes 3.3
- * http://code.google.com/p/jquerytree/
- *
- * Copyright (c) 2010 Hunter.z (baby666.cn)
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2012-07-15
- */
-//checkbox 的处理、禁止移动
 (function($){
-	//default consts of exLib
-//	var _consts = {},
-	//default setting of exLib
-//	_setting = {},
-	//default root of exLib
-//	_initRoot = function (setting) {},
-	//default cache of exLib
-//	_initCache = function(treeId) {},
-	//default bind event of exLib
-//	_bindEvent = function(setting) {},
 	//default init node of exLib
 	var _initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (typeof n.isHidden == "string") n.isHidden = tools.eqs(n.isHidden, "true");
@@ -76,12 +53,6 @@
 			}
 		}
 	},
-	//method of event proxy
-	_event = {},
-	//method of event handler
-	_handler = {},
-	//method of tools for zTree
-	_tools = {},
 	//method of operate ztree dom
 	_view = {
 		clearOldFirstNode: function(setting, node) {
@@ -262,12 +233,9 @@
 	},
 
 	_z = {
-		tools: _tools,
 		view: _view,
-		event: _event,
 		data: _data
 	};
-//	$.extend(true, $.fn.zTree.consts, _consts);
 	$.extend(true, $.fn.zTree._z, _z);
 
 	var zt = $.fn.zTree,
@@ -277,11 +245,7 @@
 	data = zt._z.data,
 	event = zt._z.event;
 
-//	data.exSetting(_setting);
-//	data.addInitBind(_bindEvent);
-//	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
-//	data.addInitRoot(_initRoot);
 	data.addBeforeA(_beforeA);
 	data.addZTreeTools(_zTreeTools);
 

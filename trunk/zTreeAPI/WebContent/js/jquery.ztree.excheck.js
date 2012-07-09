@@ -225,13 +225,20 @@
 		getTreeCheckedNodes: function(setting, nodes, checked, results) {
 			if (!nodes) return [];
 			var childKey = setting.data.key.children,
-			checkedKey = setting.data.key.checked;
+			checkedKey = setting.data.key.checked,
+			onlyOne = (setting.check.chkStyle == consts.radio.STYLE && setting.check.radioType == consts.radio.TYPE_ALL);
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i].nocheck !== true && nodes[i][checkedKey] == checked) {
 					results.push(nodes[i]);
+					if(onlyOne) {
+						break;
+					}
 				}
 				data.getTreeCheckedNodes(setting, nodes[i][childKey], checked, results);
+				if(onlyOne && results.length > 0) {
+					break;
+				}
 			}
 			return results;
 		},

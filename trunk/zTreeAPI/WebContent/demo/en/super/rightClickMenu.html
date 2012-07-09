@@ -83,7 +83,13 @@
 		var addCount = 1;
 		function addTreeNode() {
 			hideRMenu();
-			zTree.addNodes(zTree.getSelectedNodes()[0], [{ name:"newNode " + (addCount++), checked: zTree.getSelectedNodes()[0].checked}]);
+			var newNode = { name:"newNode " + (addCount++)};
+			if (zTree.getSelectedNodes()[0]) {
+				newNode.checked = zTree.getSelectedNodes()[0].checked;
+				zTree.addNodes(zTree.getSelectedNodes()[0], newNode);
+			} else {
+				zTree.addNodes(null, newNode);
+			}
 		}
 		function removeTreeNode() {
 			hideRMenu();
