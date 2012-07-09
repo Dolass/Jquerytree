@@ -9,14 +9,17 @@
 
 <font color=#041594>
 *2012.07.01* v3.3
+   * 【增加】扩展库 exHideNodes -- 节点隐藏功能
+
+   * 【修改】拖拽中测试代码未删除，导致出现黄颜色的 iframe 遮罩层的 bug
    * 【修改】延迟加载方法 对于使用 expandAll 进行全部展开时，导致 onNodeCreated 回调 和 addDiyDom 方法触发过早的 bug
    * 【修改】异步加载模式下无法利用 server 返回 xml 并且 在 dataFilter 中继续处理的 bug
    * 【修改】使用 moveNode 移动尚未生成 DOM 的节点时，视图会出现异常的 bug
    * 【修改】删除节点后，相关节点的 isFirstNode 属性未重置的 bug
    * 【修改】getPreNode(),getNextNode() 方法在对于特殊情况时计算错误的 bug
-   * 【修改】设置 title 之后，如果重新将 title 内容设置为空后，会导致无法更新 title 的bug
-提供：title bug 的邮箱 chengchen19860910@126.com
-http://my.iteye.com/messages/10211726
+   * 【修改】设置 title 之后，如果重新将 title 内容设置为空后，会导致无法更新 title 的 bug
+   * 【修改】针对 setting.check.chkStyle=="radio" && setting.check.radioType=="all" 的情况时，getTreeCheckedNodes方法优化，找到一个结果就 break
+   * 【修改】完善 API 中 beforeDrop / onDrop 的关于 treeId 的说明
 
 *2012.05.13* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性

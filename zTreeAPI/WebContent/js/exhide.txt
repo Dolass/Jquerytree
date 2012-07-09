@@ -1,8 +1,5 @@
 /*
  * JQuery zTree exHideNodes 3.3
- * 'exHideNodes' lib support the core and the 'excheck' lib.
- * 'exHideNodes' lib don't support the 'exedit' lib.
- * 
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z

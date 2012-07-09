@@ -1,8 +1,8 @@
 /*
  * JQuery zTree exedit 3.2
- * http://code.google.com/p/jquerytree/
+ * http://zTree.me/
  *
- * Copyright (c) 2010 Hunter.z (baby666.cn)
+ * Copyright (c) 2010 Hunter.z
  *
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
@@ -757,7 +757,7 @@
 				for (var i = 0, l = iframeList.length; i < l; i++) {
 					var obj = iframeList.get(i),
 					r = tools.getAbs(obj),
-					dragMask = $("<div id='zTreeMask_" + i + "' class='zTreeMask' style='background-color:yellow;opacity: 0.3;filter: alpha(opacity=30);    top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>");
+					dragMask = $("<div id='zTreeMask_" + i + "' class='zTreeMask' style='top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>");
 					dragMask.appendTo("body");
 					root.dragMaskList.push(dragMask);
 				}
