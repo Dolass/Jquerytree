@@ -107,7 +107,7 @@
 			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.id).length>0) return;
 			var addStr = "<span class='button add' id='addBtn_" + treeNode.id
 				+ "' title='add node' onfocus='this.blur();'></span>";
-			sObj.append(addStr);
+			sObj.after(addStr);
 			var btn = $("#addBtn_"+treeNode.id);
 			if (btn) btn.bind("click", function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
