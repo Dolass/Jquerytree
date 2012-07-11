@@ -3435,7 +3435,7 @@
 	//method of operate data
 	_data = {
 		initHideForExCheck: function(setting, n) {
-			if (n.isHidden && setting.check.enable) {
+			if (n.isHidden && setting.check && setting.check.enable) {
 				n._nocheck = !!n.nocheck
 				n.nocheck = true;
 				if (view.repairParentChkClassWithSelf) {
@@ -3444,7 +3444,7 @@
 			}
 		},
 		initShowForExCheck: function(setting, n) {
-			if (!n.isHidden && setting.check.enable) {
+			if (!n.isHidden && setting.check && setting.check.enable) {
 				n.nocheck = n._nocheck;
 				delete n._nocheck;
 				if (view.setChkClass) {
