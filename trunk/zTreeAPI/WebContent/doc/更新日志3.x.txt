@@ -21,6 +21,8 @@ Demo 还差 checkbox、radio
    * 【修改】设置 title 之后，如果重新将 title 内容设置为空后，会导致无法更新 title 的 bug
    * 【修改】针对 setting.check.chkStyle=="radio" && setting.check.radioType=="all" 的情况时，getTreeCheckedNodes方法优化，找到一个结果就 break
    * 【修改】完善 API 中 beforeDrop / onDrop 的关于 treeId 的说明
+   * 【修改】getNodesByFilter 方法，添加 invokeParam 自定义参数
+尚未修改
 
 *2012.05.13* v3.2
    * 【增加】setting.data.key.url 允许修改 treeNode.url 属性
