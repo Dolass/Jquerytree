@@ -11,7 +11,6 @@
 *2012.07.01* v3.3
    * 【增加】扩展库 exHideNodes -- 节点隐藏功能
 Demo 还差 checkbox、radio
-API 还差 isHidden、isFirstNode、isLastNode
 
    * 【修改】拖拽中测试代码未删除，导致出现黄颜色的 iframe 遮罩层的 bug
    * 【修改】延迟加载方法 对于使用 expandAll 进行全部展开时，导致 onNodeCreated 回调 和 addDiyDom 方法触发过早的 bug
