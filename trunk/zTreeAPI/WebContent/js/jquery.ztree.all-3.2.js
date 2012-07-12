@@ -3431,6 +3431,16 @@
 			}
 			view.hideNodes(setting, [node], options);
 		}
+
+		var _checkNode = zTreeTools.checkNode;
+		if (_checkNode) {
+			zTreeTools.checkNode = function(node, checked, checkTypeFlag, callbackFlag) {
+				if (!!node && !!node.isHidden) {
+					return;
+				}
+				_checkNode.apply(zTreeTools, arguments);
+			}
+		}
 	},
 	//method of operate data
 	_data = {
@@ -3438,6 +3448,7 @@
 			if (n.isHidden && setting.check && setting.check.enable) {
 				n._nocheck = !!n.nocheck
 				n.nocheck = true;
+				n.check_Child_State = -1;
 				if (view.repairParentChkClassWithSelf) {
 					view.repairParentChkClassWithSelf(setting, n);
 				}
@@ -3519,6 +3530,7 @@
 			node.isFirstNode = false;
 			node.isLastNode = false;
 			data.initHideForExCheck(setting, node);
+			view.cancelPreSelectedNode(setting, node);
 			$("#" + node.tId).hide();
 		},
 		hideNodes: function(setting, nodes, options) {
@@ -3538,24 +3550,24 @@
 				var children = pList[tId][setting.data.key.children];
 				view.setFirstNodeForHide(setting, children);
 				view.setLastNodeForHide(setting, children);
-			}			
+			}
 		},
-                setFirstNode: function(setting, parentNode) {
-                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
-                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
-                        parentNode[childKey][0].isFirstNode = true;
-                    } else if (childLength > 0) {
-                        view.setFirstNodeForHide(setting, parentNode[childKey]);
-                    }
-                },
-                setLastNode: function(setting, parentNode) {
-                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
-                    if (childLength > 0 && !parentNode[childKey][0].isHidden) {
-                        parentNode[childKey][childLength - 1].isLastNode = true;
-                    } else if (childLength > 0) {
-                        view.setLastNodeForHide(setting, parentNode[childKey]);
-                    }
-                },
+		setFirstNode: function(setting, parentNode) {
+			var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+			if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+				parentNode[childKey][0].isFirstNode = true;
+			} else if (childLength > 0) {
+				view.setFirstNodeForHide(setting, parentNode[childKey]);
+			}
+		},
+		setLastNode: function(setting, parentNode) {
+			var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+			if (childLength > 0 && !parentNode[childKey][0].isHidden) {
+				parentNode[childKey][childLength - 1].isLastNode = true;
+			} else if (childLength > 0) {
+				view.setLastNodeForHide(setting, parentNode[childKey]);
+			}
+		},
 		setFirstNodeForHide: function(setting, nodes) {
 			var n,i,j;
 			for (i=0, j=nodes.length; i<j; i++) {
@@ -3674,4 +3686,59 @@
 		}
 	}
 
+	var _makeChkFlag = data.makeChkFlag;
+	if (!!_makeChkFlag) {
+		data.makeChkFlag = function(setting, node) {
+			if (!!node && !!node.isHidden) {
+				return;
+			}
+			_makeChkFlag.apply(data, arguments);
+		}
+	}
+
+	var _getTreeCheckedNodes = data.getTreeCheckedNodes;
+	if (!!_getTreeCheckedNodes) {
+		data.getTreeCheckedNodes = function(setting, nodes, checked, results) {
+			if (!!nodes && nodes.length > 0) {
+				var p = nodes[0].getParentNode();
+				if (!!p && !!p.isHidden) {
+					return [];
+				}
+			}
+			return _getTreeCheckedNodes.apply(data, arguments);
+		}
+	}
+
+	var _getTreeChangeCheckedNodes = data.getTreeChangeCheckedNodes;
+	if (!!_getTreeChangeCheckedNodes) {
+		data.getTreeChangeCheckedNodes = function(setting, nodes, results) {
+			if (!!nodes && nodes.length > 0) {
+				var p = nodes[0].getParentNode();
+				if (!!p && !!p.isHidden) {
+					return [];
+				}
+			}
+			return _getTreeChangeCheckedNodes.apply(data, arguments);
+		}
+	}
+
+	var _setSonNodeCheckBox = view.setSonNodeCheckBox;
+	if (!!_setSonNodeCheckBox) {
+		view.setSonNodeCheckBox = function(setting, node, value, srcNode) {
+			if (!!node && !!node.isHidden) {
+				return;
+			}
+			_setSonNodeCheckBox.apply(view, arguments);
+		}
+	}
+
+	var _repairParentChkClassWithSelf = view.repairParentChkClassWithSelf;
+	if (!!_repairParentChkClassWithSelf) {
+		view.repairParentChkClassWithSelf = function(setting, node) {
+			if (!!node && !!node.isHidden) {
+				return;
+			}
+			_repairParentChkClassWithSelf.apply(view, arguments);
+		}
+	}
 })(jQuery);

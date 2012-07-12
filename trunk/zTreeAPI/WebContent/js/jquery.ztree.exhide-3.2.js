@@ -158,7 +158,7 @@
 				var children = pList[tId][setting.data.key.children];
 				view.setFirstNodeForHide(setting, children);
 				view.setLastNodeForHide(setting, children);
-			}			
+			}
 		},
 		setFirstNode: function(setting, parentNode) {
 			var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
