@@ -43,7 +43,7 @@
 		var _checkNode = zTreeTools.checkNode;
 		if (_checkNode) {
 			zTreeTools.checkNode = function(node, checked, checkTypeFlag, callbackFlag) {
-				if (node && node.isHidden) {
+				if (!!node && !!node.isHidden) {
 					return;
 				}
 				_checkNode.apply(zTreeTools, arguments);
@@ -138,6 +138,7 @@
 			node.isFirstNode = false;
 			node.isLastNode = false;
 			data.initHideForExCheck(setting, node);
+			view.cancelPreSelectedNode(setting, node);
 			$("#" + node.tId).hide();
 		},
 		hideNodes: function(setting, nodes, options) {
@@ -296,7 +297,7 @@
 	var _makeChkFlag = data.makeChkFlag;
 	if (!!_makeChkFlag) {
 		data.makeChkFlag = function(setting, node) {
-			if (!!node && node.isHidden) {
+			if (!!node && !!node.isHidden) {
 				return;
 			}
 			_makeChkFlag.apply(data, arguments);
@@ -309,10 +310,10 @@
 			if (!!nodes && nodes.length > 0) {
 				var p = nodes[0].getParentNode();
 				if (!!p && !!p.isHidden) {
-					return;
+					return [];
 				}
 			}
-			_getTreeCheckedNodes.apply(data, arguments);
+			return _getTreeCheckedNodes.apply(data, arguments);
 		}
 	}
 
@@ -322,20 +323,30 @@
 			if (!!nodes && nodes.length > 0) {
 				var p = nodes[0].getParentNode();
 				if (!!p && !!p.isHidden) {
-					return;
+					return [];
 				}
 			}
-			_getTreeChangeCheckedNodes.apply(data, arguments);
+			return _getTreeChangeCheckedNodes.apply(data, arguments);
 		}
 	}
 
 	var _setSonNodeCheckBox = view.setSonNodeCheckBox;
 	if (!!_setSonNodeCheckBox) {
 		view.setSonNodeCheckBox = function(setting, node, value, srcNode) {
-			if (!!node && node.isHidden) {
+			if (!!node && !!node.isHidden) {
 				return;
 			}
 			_setSonNodeCheckBox.apply(view, arguments);
+		}
+	}
+
+	var _repairParentChkClassWithSelf = view.repairParentChkClassWithSelf;
+	if (!!_repairParentChkClassWithSelf) {
+		view.repairParentChkClassWithSelf = function(setting, node) {
+			if (!!node && !!node.isHidden) {
+				return;
+			}
+			_repairParentChkClassWithSelf.apply(view, arguments);
 		}
 	}
 })(jQuery);
