@@ -1851,7 +1851,7 @@
 			if (!nodes) return [];
 			var childKey = setting.data.key.children,
 			checkedKey = setting.data.key.checked,
-			onlyOne = (setting.check.chkStyle == consts.radio.STYLE && setting.check.radioType == consts.radio.TYPE_ALL);
+			onlyOne = (checked && setting.check.chkStyle == consts.radio.STYLE && setting.check.radioType == consts.radio.TYPE_ALL);
 			results = !results ? [] : results;
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				if (nodes[i].nocheck !== true && nodes[i][checkedKey] == checked) {
