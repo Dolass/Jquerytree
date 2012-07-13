@@ -421,16 +421,16 @@
 			}
 			return result;
 		},
-		getNodesByFilter: function(setting, nodes, filter, isSingle) {
+		getNodesByFilter: function(setting, nodes, filter, isSingle, invokeParam) {
 			if (!nodes) return (isSingle ? null : []);
 			var childKey = setting.data.key.children,
 			result = isSingle ? null : [];
 			for (var i = 0, l = nodes.length; i < l; i++) {
-				if (tools.apply(filter, [nodes[i]], false)) {
+				if (tools.apply(filter, [nodes[i], invokeParam], false)) {
 					if (isSingle) {return nodes[i];}
 					result.push(nodes[i]);
 				}
-				var tmpResult = data.getNodesByFilter(setting, nodes[i][childKey], filter, isSingle);
+				var tmpResult = data.getNodesByFilter(setting, nodes[i][childKey], filter, isSingle, invokeParam);
 				if (isSingle && !!tmpResult) {return tmpResult;}
 				result = isSingle ? tmpResult : result.concat(tmpResult);
 			}
@@ -1485,10 +1485,10 @@
 					if (!key) return null;
 					return data.getNodesByParamFuzzy(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), key, value);
 				},
-				getNodesByFilter: function(filter, isSingle, parentNode) {
+				getNodesByFilter: function(filter, isSingle, parentNode, invokeParam) {
 					isSingle = !!isSingle;
 					if (!filter || (typeof filter != "function")) return (isSingle ? null : []);
-					return data.getNodesByFilter(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), filter, isSingle);
+					return data.getNodesByFilter(this.setting, parentNode?parentNode[this.setting.data.key.children]:data.getNodes(this.setting), filter, isSingle, invokeParam);
 				},
 				getNodeIndex : function(node) {
 					if (!node) return null;
