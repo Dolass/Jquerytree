@@ -9,7 +9,7 @@
 
 <font color=#041594>
 *2012.07.16* v3.3
-   * 【增加】扩展库 exHideNodes -- 节点隐藏功能
+   * 【增加】扩展库 exhide -- 节点隐藏功能
 
    * 【修改】getNodesByFilter 方法，添加 invokeParam 自定义参数
    * 【修改】拖拽中测试代码未删除，导致出现黄颜色的 iframe 遮罩层的 bug
