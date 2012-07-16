@@ -6,11 +6,11 @@
 
 具体修改内容可参考：
 
-   * [http://www.baby666.cn/v3/api.php zTree v3.0 API 文档]
+   * [http://www.ztree.me/v3/api.php zTree v3.0 API 文档]
 
-   * [http://www.baby666.cn/v3/demo.php#_101 zTree v3.0 Demo 演示]
+   * [http://www.ztree.me/v3/demo.php#_101 zTree v3.0 Demo 演示]
 
-   * [http://www.baby666.cn/v3/faq.php#_101 zTree v3.0 常见问题]
+   * [http://www.ztree.me/v3/faq.php#_101 zTree v3.0 常见问题]
 
 </font>
 
