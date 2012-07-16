@@ -61,7 +61,7 @@
       CSS 中 filter:alpha(opacity=80) 造成的，应该是 ie 的 bug，需要更新 css 文件
    * 【修改】title 设置后，如果属性不存在，则默认为 title 为空，便于数据容错和用户灵活使用
    * 【修改】editName 方法如果针对尚未展开的 父节点，会导致该父节点自动展开的 bug
-   * 【修改】title 中存在标签时导致 title 显示异常的bug（例如：蓝色字22%"'<input/>）
+   * 【修改】title 中存在标签时导致 title 显示异常的bug（例如：蓝色字22%"'`<input/>`）
 
 *2012.01.10* v3.0
    * 【增加】setting.check.autoCheckTrigger 默认值 false，可以设置联动选中时是否触发事件回调函数
