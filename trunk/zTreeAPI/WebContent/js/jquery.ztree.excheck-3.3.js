@@ -136,9 +136,6 @@
 		n.check_Child_State = -1;
 		n.check_Focus = false;
 		n.getCheckStatus = function() {return data.getCheckStatus(setting, n);};
-		if (isLastNode) {
-			data.makeChkFlag(setting, parentNode);
-		}
 	},
 	//add dom for check
 	_beforeA = function(setting, node, html) {
@@ -601,5 +598,17 @@
 		if (!node || !parentNode) return;
 		view.repairChkClass(setting, parentNode);
 		view.repairParentChkClass(setting, parentNode);
+	}
+
+	var _appendNodes = view.appendNodes;
+	view.appendNodes = function(setting, level, nodes, parentNode, initFlag, openFlag) {
+		var html = "";
+		if (_appendNodes) {
+			html = _appendNodes.apply(view, arguments);
+		}
+		if (parentNode) {
+			data.makeChkFlag(setting, parentNode);
+		}
+		return html;
 	}
 })(jQuery);
