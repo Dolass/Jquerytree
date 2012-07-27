@@ -1218,6 +1218,10 @@
 			node.isLastNode = false;
 			node.getPreNode = function() {return null;};
 			node.getNextNode = function() {return null;};
+
+			if (!data.getNodeCache(setting, node.tId)) {
+				return;
+			}
                         
 			$("#" + node.tId).remove();
 			data.removeNodeCache(setting, node);
@@ -1229,11 +1233,11 @@
 					break;
 				}
 			}
-                        view.setFirstNode(setting, parentNode);
-                        view.setLastNode(setting, parentNode);
+			view.setFirstNode(setting, parentNode);
+			view.setLastNode(setting, parentNode);
                                                 
-                        var tmp_ulObj,tmp_switchObj,tmp_icoObj, 
-                        childLength = parentNode[childKey].length;
+			var tmp_ulObj,tmp_switchObj,tmp_icoObj,
+			childLength = parentNode[childKey].length;
 
 			//repair nodes old parent
 			if (!setting.data.keep.parent && childLength == 0) {
