@@ -14,7 +14,11 @@
 </font>
 
 <font color=#041594>
+   * 【增加】清空 zTree 的方法
+尚未处理
+
    * 【修改】初始化时 多层父节点的 checkbox 半选状态计算错误的bug
+   * 【修改】同时选中父、子节点后，利用 getSelectedNodes 获取选中节点并利用 removeNode 删除时报错的bug
    * 【修改】ajax 加载时添加时间戳，避免缓存导致数据错误
 尚未处理
    * 【修改】异步加载模式下无法利用 server 返回 xml 并且 在 dataFilter 中继续处理的 bug
