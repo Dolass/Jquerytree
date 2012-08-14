@@ -394,6 +394,14 @@
 			var n = caches[setting.treeId].nodes[tId];
 			return n ? n : null;
 		},
+		getNodeName: function(setting, node) {
+			var nameKey = setting.data.key.name;
+			return "" + node[nameKey];
+		},
+		getNodeTitle: function(setting, node) {
+			var t = setting.data.key.title === "" ? setting.data.key.name : setting.data.key.title;
+			return "" + node[t];
+		},
 		getNodes: function(setting) {
 			return data.getRoot(setting)[setting.data.key.children];
 		},
@@ -455,9 +463,6 @@
 		},
 		getSettings: function() {
 			return settings;
-		},
-		getTitleKey: function(setting) {
-			return setting.data.key.title === "" ? setting.data.key.name : setting.data.key.title;
 		},
 		getZTreeTools: function(treeId) {
 			var r = this.getRoot(this.getSetting(treeId));
@@ -1061,8 +1066,8 @@
 			view.expandCollapseNode(setting, node, expandFlag, animateFlag, callback );
 		},
 		makeDOMNodeIcon: function(html, setting, node) {
-			var nameKey = setting.data.key.name,
-			name = setting.view.nameIsHTML ? node[nameKey] : node[nameKey].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+			var nameStr = data.getNodeName(setting, node),
+			name = setting.view.nameIsHTML ? nameStr : nameStr.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 			html.push("<span id='", node.tId, consts.id.ICON,
 				"' title='' treeNode", consts.id.ICON," class='", view.makeNodeIcoClass(setting, node),
 				"' style='", view.makeNodeIcoStyle(setting, node), "'></span><span id='", node.tId, consts.id.SPAN,
@@ -1081,7 +1086,7 @@
 			html.push("</a>");
 		},
 		makeDOMNodeNameBefore: function(html, setting, node) {
-			var titleKey = data.getTitleKey(setting),
+			var title = data.getNodeTitle(setting, node),
 			url = view.makeNodeUrl(setting, node),
 			fontcss = view.makeNodeFontCss(setting, node),
 			fontStyle = [];
@@ -1091,7 +1096,7 @@
 			html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 				"'");
-			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && node[titleKey]) {html.push("title='", node[titleKey].replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
+			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && title) {html.push("title='", title.replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
 			html.push(">");
 		},
 		makeNodeFontCss: function(setting, node) {
@@ -1336,18 +1341,17 @@
 			icoObj.attr("class", view.makeNodeIcoClass(setting, node));
 		},
 		setNodeName: function(setting, node) {
-			var nameKey = setting.data.key.name,
-			titleKey = data.getTitleKey(setting),
+			var title = data.getNodeTitle(setting, node),
 			nObj = $("#" + node.tId + consts.id.SPAN);
 			nObj.empty();
 			if (setting.view.nameIsHTML) {
-				nObj.html(node[nameKey]);
+				nObj.html(data.getNodeName(setting, node));
 			} else {
-				nObj.text(node[nameKey]);
+				nObj.text(data.getNodeName(setting, node));
 			}
 			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle)) {
 				var aObj = $("#" + node.tId + consts.id.A);
-				aObj.attr("title", !node[titleKey] ? "" : node[titleKey]);
+				aObj.attr("title", !title ? "" : title);
 			}
 		},
 		setNodeTarget: function(node) {
