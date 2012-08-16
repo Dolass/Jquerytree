@@ -117,9 +117,9 @@
 		if (typeof n[checkedKey] == "string") n[checkedKey] = tools.eqs(n[checkedKey], "true");
 		n[checkedKey] = !!n[checkedKey];
 		n.checkedOld = n[checkedKey];
-		if (typeof n[nocheck] == "string") n[nocheck] = tools.eqs(n[nocheck], "true");
+		if (typeof n.nocheck == "string") n.nocheck = tools.eqs(n.nocheck, "true");
 		n.nocheck = !!n.nocheck || (setting.check.nocheckInherit && parentNode && !!parentNode.nocheck);
-		if (typeof n[chkDisabled] == "string") n[chkDisabled] = tools.eqs(n[chkDisabled], "true");
+		if (typeof n.chkDisabled == "string") n.chkDisabled = tools.eqs(n.chkDisabled, "true");
 		n.chkDisabled = !!n.chkDisabled || (parentNode && !!parentNode.chkDisabled);
 		if (typeof n.halfCheck == "string") n.halfCheck = tools.eqs(n.halfCheck, "true");
 		n.halfCheck = !!n.halfCheck;
