@@ -906,7 +906,9 @@
 						} else {
 							newNodes = msg;
 						}
-					} catch(err) {}
+					} catch(err) {
+						newNodes = msg;
+					}
 
 					if (node) {
 						node.isAjaxing = null;
