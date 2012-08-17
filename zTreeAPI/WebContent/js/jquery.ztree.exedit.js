@@ -78,25 +78,29 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj;
 		var c = consts.event;
-		o.unbind(c.RENAME);
 		o.bind(c.RENAME, function (event, treeId, treeNode) {
 			tools.apply(setting.callback.onRename, [event, treeId, treeNode]);
 		});
 
-		o.unbind(c.REMOVE);
 		o.bind(c.REMOVE, function (event, treeId, treeNode) {
 			tools.apply(setting.callback.onRemove, [event, treeId, treeNode]);
 		});
 
-		o.unbind(c.DRAG);
 		o.bind(c.DRAG, function (event, srcEvent, treeId, treeNodes) {
 			tools.apply(setting.callback.onDrag, [srcEvent, treeId, treeNodes]);
 		});
 
-		o.unbind(c.DROP);
 		o.bind(c.DROP, function (event, srcEvent, treeId, treeNodes, targetNode, moveType, isCopy) {
 			tools.apply(setting.callback.onDrop, [srcEvent, treeId, treeNodes, targetNode, moveType, isCopy]);
 		});
+	},
+	_unbindEvent = function(setting) {
+		var o = setting.treeObj;
+		var c = consts.event;
+		o.unbind(c.RENAME);
+		o.unbind(c.REMOVE);
+		o.unbind(c.DRAG);
+		o.unbind(c.DROP);
 	},
 	//default event proxy of exedit
 	_eventProxy = function(e) {
@@ -1098,6 +1102,7 @@
 
 	data.exSetting(_setting);
 	data.addInitBind(_bindEvent);
+	data.addInitUnBind(_unbindEvent);
 	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
 	data.addInitProxy(_eventProxy);
