@@ -69,10 +69,14 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
-		o.unbind(c.CHECK);
 		o.bind(c.CHECK, function (event, treeId, node) {
 			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
+	},
+	_unbindEvent = function(setting) {
+		var o = setting.treeObj,
+		c = consts.event;
+		o.unbind(c.CHECK);
 	},
 	//default event proxy of excheck
 	_eventProxy = function(e) {
@@ -580,6 +584,7 @@
 
 	data.exSetting(_setting);
 	data.addInitBind(_bindEvent);
+	data.addInitUnBind(_unbindEvent);
 	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
 	data.addInitProxy(_eventProxy);

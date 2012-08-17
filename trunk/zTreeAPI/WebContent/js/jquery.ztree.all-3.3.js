@@ -141,40 +141,44 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
-		o.unbind(c.NODECREATED);
 		o.bind(c.NODECREATED, function (event, treeId, node) {
 			tools.apply(setting.callback.onNodeCreated, [event, treeId, node]);
 		});
 
-		o.unbind(c.CLICK);
 		o.bind(c.CLICK, function (event, srcEvent, treeId, node, clickFlag) {
 			tools.apply(setting.callback.onClick, [srcEvent, treeId, node, clickFlag]);
 		});
 
-		o.unbind(c.EXPAND);
 		o.bind(c.EXPAND, function (event, treeId, node) {
 			tools.apply(setting.callback.onExpand, [event, treeId, node]);
 		});
 
-		o.unbind(c.COLLAPSE);
 		o.bind(c.COLLAPSE, function (event, treeId, node) {
 			tools.apply(setting.callback.onCollapse, [event, treeId, node]);
 		});
 
-		o.unbind(c.ASYNC_SUCCESS);
 		o.bind(c.ASYNC_SUCCESS, function (event, treeId, node, msg) {
 			tools.apply(setting.callback.onAsyncSuccess, [event, treeId, node, msg]);
 		});
 
-		o.unbind(c.ASYNC_ERROR);
 		o.bind(c.ASYNC_ERROR, function (event, treeId, node, XMLHttpRequest, textStatus, errorThrown) {
 			tools.apply(setting.callback.onAsyncError, [event, treeId, node, XMLHttpRequest, textStatus, errorThrown]);
 		});
 	},
+	_unbindEvent = function(setting) {
+		var o = setting.treeObj,
+		c = consts.event;
+		o.unbind(c.NODECREATED)
+		.unbind(c.CLICK)
+		.unbind(c.EXPAND)
+		.unbind(c.COLLAPSE)
+		.unbind(c.ASYNC_SUCCESS)
+		.unbind(c.ASYNC_ERROR);
+	},	
 	//default event proxy of core
 	_eventProxy = function(event) {
 		var target = event.target,
-		setting = settings[event.data.treeId],
+		setting = data.getSetting(event.data.treeId),
 		tId = "", node = null,
 		nodeEventType = "", treeEventType = "",
 		nodeEventCallback = null, treeEventCallback = null,
@@ -281,6 +285,7 @@
 	},
 	_init = {
 		bind: [_bindEvent],
+		unbind: [_unbindEvent],
 		caches: [_initCache],
 		nodes: [_initNode],
 		proxys: [_eventProxy],
@@ -310,6 +315,9 @@
 		},
 		addInitBind: function(bindEvent) {
 			_init.bind.push(bindEvent);
+		},
+		addInitUnBind: function(unbindEvent) {
+			_init.unbind.push(unbindEvent);
 		},
 		addInitCache: function(initCache) {
 			_init.caches.push(initCache);
@@ -584,25 +592,33 @@
 				_init.bind[i].apply(this, arguments);
 			}
 		},
+		unbindEvent: function(setting) {
+			for (var i=0, j=_init.unbind.length; i<j; i++) {
+				_init.unbind[i].apply(this, arguments);
+			}
+		},
 		bindTree: function(setting) {
 			var eventParam = {
 				treeId: setting.treeId
 			},
 			o = setting.treeObj;
-			o.unbind('click', event.proxy);
 			o.bind('click', eventParam, event.proxy);
-			o.unbind('dblclick', event.proxy);
 			o.bind('dblclick', eventParam, event.proxy);
-			o.unbind('mouseover', event.proxy);
 			o.bind('mouseover', eventParam, event.proxy);
-			o.unbind('mouseout', event.proxy);
 			o.bind('mouseout', eventParam, event.proxy);
-			o.unbind('mousedown', event.proxy);
 			o.bind('mousedown', eventParam, event.proxy);
-			o.unbind('mouseup', event.proxy);
 			o.bind('mouseup', eventParam, event.proxy);
-			o.unbind('contextmenu', event.proxy);
 			o.bind('contextmenu', eventParam, event.proxy);
+		},
+		unbindTree: function(setting) {
+			var o = setting.treeObj;
+			o.unbind('click', event.proxy)
+			.unbind('dblclick', event.proxy)
+			.unbind('mouseover', event.proxy)
+			.unbind('mouseout', event.proxy)
+			.unbind('mousedown', event.proxy)
+			.unbind('mouseup', event.proxy)
+			.unbind('contextmenu', event.proxy);
 		},
 		doProxy: function(e) {
 			var results = [];
@@ -642,7 +658,7 @@
 	//method of event handler
 	handler = {
 		onSwitchNode: function (event, node) {
-			var setting = settings[event.data.treeId];
+			var setting = data.getSetting(event.data.treeId);
 			if (node.open) {
 				if (tools.apply(setting.callback.beforeCollapse, [setting.treeId, node], true) == false) return true;
 				data.getRoot(setting).expandTriggerFlag = true;
@@ -655,7 +671,7 @@
 			return true;
 		},
 		onClickNode: function (event, node) {
-			var setting = settings[event.data.treeId],
+			var setting = data.getSetting(event.data.treeId),
 			clickFlag = ( (setting.view.autoCancelSelected && event.ctrlKey) && data.isSelectedNode(setting, node)) ? 0 : (setting.view.autoCancelSelected && event.ctrlKey && setting.view.selectedMulti) ? 2 : 1;
 			if (tools.apply(setting.callback.beforeClick, [setting.treeId, node, clickFlag], true) == false) return true;
 			if (clickFlag === 0) {
@@ -667,28 +683,28 @@
 			return true;
 		},
 		onZTreeMousedown: function(event, node) {
-			var setting = settings[event.data.treeId];
+			var setting = data.getSetting(event.data.treeId);
 			if (tools.apply(setting.callback.beforeMouseDown, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onMouseDown, [event, setting.treeId, node]);
 			}
 			return true;
 		},
 		onZTreeMouseup: function(event, node) {
-			var setting = settings[event.data.treeId];
+			var setting = data.getSetting(event.data.treeId);
 			if (tools.apply(setting.callback.beforeMouseUp, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onMouseUp, [event, setting.treeId, node]);
 			}
 			return true;
 		},
 		onZTreeDblclick: function(event, node) {
-			var setting = settings[event.data.treeId];
+			var setting = data.getSetting(event.data.treeId);
 			if (tools.apply(setting.callback.beforeDblClick, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onDblClick, [event, setting.treeId, node]);
 			}
 			return true;
 		},
 		onZTreeContextmenu: function(event, node) {
-			var setting = settings[event.data.treeId];
+			var setting = data.getSetting(event.data.treeId);
 			if (tools.apply(setting.callback.beforeRightClick, [setting.treeId, node], true)) {
 				tools.apply(setting.callback.onRightClick, [event, setting.treeId, node]);
 			}
@@ -987,6 +1003,17 @@
 				}
 			}
 			view.createNodeCallback(setting);
+		},
+		destory: function(setting) {
+			if (!setting) return;
+			data.initCache(setting);
+			data.initRoot(setting);
+			event.unbindTree(setting);
+			event.unbindEvent(setting);
+			setting.treeObj.empty();
+			for (var s in setting) {
+				delete setting[s];
+			}			
 		},
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
@@ -1408,6 +1435,15 @@
 			var o = data.getZTreeTools(treeId);
 			return o ? o : null;
 		},
+		destory: function(treeId) {
+			if (!!treeId && treeId.length > 0) {
+				view.destory(data.getSetting(treeId));
+			} else {
+				for(var s in settings) {
+					view.destory(settings[s]);
+				}
+			}
+		},
 		init: function(obj, zSetting, zNodes) {
 			var setting = tools.clone(_setting);
 			$.extend(true, setting, zSetting);
@@ -1430,7 +1466,9 @@
 			}
 
 			data.initCache(setting);
+			event.unbindTree(setting);
 			event.bindTree(setting);
+			event.unbindEvent(setting);
 			event.bindEvent(setting);
 			
 			var zTreeTools = {
@@ -1453,6 +1491,9 @@
 				},
 				cancelSelectedNode : function(node) {
 					view.cancelPreSelectedNode(this.setting, node);
+				},
+				destory : function() {
+					view.destory(this.setting);
 				},
 				expandAll : function(expandFlag) {
 					expandFlag = !!expandFlag;
@@ -1692,10 +1733,14 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
-		o.unbind(c.CHECK);
 		o.bind(c.CHECK, function (event, treeId, node) {
 			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
+	},
+	_unbindEvent = function(setting) {
+		var o = setting.treeObj,
+		c = consts.event;
+		o.unbind(c.CHECK);
 	},
 	//default event proxy of excheck
 	_eventProxy = function(e) {
@@ -2203,6 +2248,7 @@
 
 	data.exSetting(_setting);
 	data.addInitBind(_bindEvent);
+	data.addInitUnBind(_unbindEvent);
 	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
 	data.addInitProxy(_eventProxy);
@@ -2329,25 +2375,29 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj;
 		var c = consts.event;
-		o.unbind(c.RENAME);
 		o.bind(c.RENAME, function (event, treeId, treeNode) {
 			tools.apply(setting.callback.onRename, [event, treeId, treeNode]);
 		});
 
-		o.unbind(c.REMOVE);
 		o.bind(c.REMOVE, function (event, treeId, treeNode) {
 			tools.apply(setting.callback.onRemove, [event, treeId, treeNode]);
 		});
 
-		o.unbind(c.DRAG);
 		o.bind(c.DRAG, function (event, srcEvent, treeId, treeNodes) {
 			tools.apply(setting.callback.onDrag, [srcEvent, treeId, treeNodes]);
 		});
 
-		o.unbind(c.DROP);
 		o.bind(c.DROP, function (event, srcEvent, treeId, treeNodes, targetNode, moveType, isCopy) {
 			tools.apply(setting.callback.onDrop, [srcEvent, treeId, treeNodes, targetNode, moveType, isCopy]);
 		});
+	},
+	_unbindEvent = function(setting) {
+		var o = setting.treeObj;
+		var c = consts.event;
+		o.unbind(c.RENAME);
+		o.unbind(c.REMOVE);
+		o.unbind(c.DRAG);
+		o.unbind(c.DROP);
 	},
 	//default event proxy of exedit
 	_eventProxy = function(e) {
@@ -3349,6 +3399,7 @@
 
 	data.exSetting(_setting);
 	data.addInitBind(_bindEvent);
+	data.addInitUnBind(_unbindEvent);
 	data.addInitCache(_initCache);
 	data.addInitNode(_initNode);
 	data.addInitProxy(_eventProxy);
