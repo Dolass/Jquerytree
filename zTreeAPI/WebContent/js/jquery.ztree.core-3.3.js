@@ -11,7 +11,7 @@
  * Date: 2012-07-16
  */
 (function($){
-	var settings = {}, roots = {}, caches = {}, zId = 0,
+	var settings = {}, roots = {}, caches = {},
 	//default consts of core
 	_consts = {
 		event: {
@@ -125,6 +125,7 @@
 		r.curSelectedList = [];
 		r.noSelection = true;
 		r.createdNodes = [];
+		r.zId = 0;
 	},
 	//default cache of core
 	_initCache = function(setting) {
@@ -259,9 +260,10 @@
 	//default init node of core
 	_initNode = function(setting, level, n, parentNode, isFirstNode, isLastNode, openFlag) {
 		if (!n) return;
-		var childKey = setting.data.key.children;
+		var r = data.getRoot(setting),
+		childKey = setting.data.key.children;
 		n.level = level;
-		n.tId = setting.treeId + "_" + (++zId);
+		n.tId = setting.treeId + "_" + (++r.zId);
 		n.parentTId = parentNode ? parentNode.tId : null;
 		if (n[childKey] && n[childKey].length > 0) {
 			if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
