@@ -1,6 +1,6 @@
 
 /*
- * JQuery zTree core 3.3
+ * JQuery zTree core 3.4
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -9,7 +9,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-07-16
+ * Date: 2012-09-03
  */
 (function($){
 	var settings = {}, roots = {}, caches = {},
@@ -301,7 +301,10 @@
 	//method of operate data
 	data = {
 		addNodeCache: function(setting, node) {
-			data.getCache(setting).nodes[node.tId] = node;
+			data.getCache(setting).nodes[data.getNodeCacheId(node.tId)] = node;
+		},
+		getNodeCacheId: function(tId) {
+			return tId.substring(tId.lastIndexOf("_")+1);
 		},
 		addAfterA: function(afterA) {
 			_init.afterA.push(afterA);
@@ -414,7 +417,7 @@
 		},
 		getNodeCache: function(setting, tId) {
 			if (!tId) return null;
-			var n = caches[setting.treeId].nodes[tId];
+			var n = caches[setting.treeId].nodes[data.getNodeCacheId(tId)];
 			return n ? n : null;
 		},
 		getNodeName: function(setting, node) {
@@ -520,7 +523,7 @@
 					arguments.callee(setting, node[childKey][i]);
 				}
 			}
-			delete data.getCache(setting).nodes[node.tId];
+			data.getCache(setting).nodes[data.getNodeCacheId(node.tId)] = null;
 		},
 		removeSelectedNode: function(setting, node) {
 			var root = data.getRoot(setting);
@@ -1006,7 +1009,7 @@
 			}
 			view.createNodeCallback(setting);
 		},
-		destory: function(setting) {
+		destroy: function(setting) {
 			if (!setting) return;
 			data.initCache(setting);
 			data.initRoot(setting);
@@ -1434,12 +1437,12 @@
 			var o = data.getZTreeTools(treeId);
 			return o ? o : null;
 		},
-		destory: function(treeId) {
+		destroy: function(treeId) {
 			if (!!treeId && treeId.length > 0) {
-				view.destory(data.getSetting(treeId));
+				view.destroy(data.getSetting(treeId));
 			} else {
 				for(var s in settings) {
-					view.destory(settings[s]);
+					view.destroy(settings[s]);
 				}
 			}
 		},
@@ -1491,8 +1494,8 @@
 				cancelSelectedNode : function(node) {
 					view.cancelPreSelectedNode(this.setting, node);
 				},
-				destory : function() {
-					view.destory(this.setting);
+				destroy : function() {
+					view.destroy(this.setting);
 				},
 				expandAll : function(expandFlag) {
 					expandFlag = !!expandFlag;
@@ -1662,7 +1665,7 @@
 	consts = zt.consts;
 })(jQuery);
 /*
- * JQuery zTree excheck 3.3
+ * JQuery zTree excheck 3.4
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -1671,7 +1674,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-07-16
+ * Date: 2012-09-03
  */
 (function($){
 	//default consts of excheck
@@ -2283,7 +2286,7 @@
 	}
 })(jQuery);
 /*
- * JQuery zTree exedit 3.3
+ * JQuery zTree exedit 3.4
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -2292,7 +2295,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-07-16
+ * Date: 2012-09-03
  */
 (function($){
 	//default consts of exedit
