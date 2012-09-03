@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+	<script type="text/javascript">
+	var logObj, order = 0;
+	$(document).ready(function(){
+		logObj = $("#log");
+		$("#test01").bind("click", {}, function(){log("bind click event 1 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 2 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 3 --- return false"); return false;});
+		$("#test02").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+		$("#test03").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+		$("#test04").bind("click", {}, function(){log("bind click event 1 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 2 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 3 --- return false"); return false;});
+		$("#test05").bind("click", {}, function(){log("bind click event 1 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+		$("#test06").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 3 --- return false"); return false;});
+		$("#test07").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return false"); return false;});
+		$("#test08").bind("click", {}, function(){log("bind click event 1 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 2 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+		$("#test09").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+		$("#test10").bind("click", {}, function(){log("bind click event 1 --- return false"); return false;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return false"); return false;});
+		$("#test11").bind("click", {}, function(){log("bind click event 1 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 2 --- return true"); return true;})
+			.bind("click", {}, function(){log("bind click event 3 --- return true"); return true;});
+
+		$("#testDiv").bind("click", {}, function(){log("bind click event [testDiv] --- return true"); return true;})
+
+	});
+
+	function log(msg) {
+		logObj.append("<li>" + (order === 0 ? "" : "[" + order +"] : " )+ msg + "</li>")
+		order++;
+	}
+
+	function clearLog() {
+		order = 0;
+		logObj.empty();
+	}
+
+	function stop(evt) {
+		evt = evt || window.event;
+		if(evt.preventDefault) {
+			evt.preventDefault();
+		} else {
+			window.event.returnValue = false;
+		}
+	}
+	</script>
+  </head>
+  <body>
+<div id="testDiv" style="width:800px">
+	<div style="width:300px; position: relative; float: left; ">
+all return false: <a href="#01" id="test01" onclick="clearLog(); log(this.id); log('onclick -- return false'); return false;">test 01</a><br/>
+all return true: <a href="#02" id="test02" onclick="clearLog(); log(this.id); log('onclick -- return true'); return true;">test 02</a><br/><br/>
+onclick return false: <a href="#03" id="test03" onclick="clearLog(); log(this.id); log('onclick -- return false'); return false;">test 03</a><br/>
+onclick return true: <a href="#04" id="test04" onclick="clearLog(); log(this.id); log('onclick -- return true'); return true;">test 04</a><br/><br/>
+click first return false: <a href="#05" id="test05" onclick="clearLog(); log(this.id); log('onclick -- return true'); return true;">test 05</a><br/>
+click first return true: <a href="#06" id="test06" onclick="clearLog(); log(this.id); log('onclick -- return false'); return false;">test 06</a><br/><br/>
+click last return false: <a href="#07" id="test07" onclick="clearLog(); log(this.id); log('onclick -- return true'); return true;">test 07</a><br/>
+click last return true: <a href="#08" id="test08" onclick="clearLog(); log(this.id); log('onclick -- return false'); return false;">test 08</a><br/><br/>
+click mid return false: <a href="#09" id="test09" onclick="clearLog(); log(this.id); log('onclick -- return true'); return true;">test 09</a><br/>
+click mid return true: <a href="#10" id="test10" onclick="clearLog(); log(this.id); log('onclick -- return false'); return false;">test 10</a><br/><br/>
+stop default event : <a href="#11" id="test11" onclick="clearLog(); log(this.id); log('onclick -- stop default event'); stop(event); return true;">test 11</a><br/>
+only onclick : <a href="#12" id="test12" onclick="clearLog(); log(this.id); log('onclick -- return false;'); return false;">test 12</a><br/>
+	</div>
+	<div style="position: relative; float: right;">
+		<ul id="log"></ul>
+	</div>
+</div>
+
+  </body>
+</html>
