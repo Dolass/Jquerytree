@@ -1233,18 +1233,18 @@
 				$("#" + node.tId + consts.id.UL).empty();
 			}
 		},
-                setFirstNode: function(setting, parentNode) {
-                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
-                    if ( childLength > 0) {
-                        parentNode[childKey][0].isFirstNode = true;
-                    }
-                },
-                setLastNode: function(setting, parentNode) {
-                    var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
-                    if ( childLength > 0) {
-                        parentNode[childKey][childLength - 1].isLastNode = true;
-                    }
-                },
+		setFirstNode: function(setting, parentNode) {
+			var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+			if ( childLength > 0) {
+				parentNode[childKey][0].isFirstNode = true;
+			}
+		},
+		setLastNode: function(setting, parentNode) {
+			var childKey = setting.data.key.children, childLength = parentNode[childKey].length;
+			if ( childLength > 0) {
+				parentNode[childKey][childLength - 1].isLastNode = true;
+			}
+		},
 		removeNode: function(setting, node) {
 			var root = data.getRoot(setting),
 			childKey = setting.data.key.children,
@@ -1581,7 +1581,12 @@
 						parentNode = data.getRoot(this.setting);
 					}
 					if (reloadType=="refresh") {
-						parentNode[this.setting.data.key.children] = [];
+						var childKey = this.setting.data.key.children;
+						for (var i = 0, l = parentNode[childKey].length; i < l; i++) {
+							data.removeNodeCache(setting, parentNode[childKey][i]);
+						}
+						data.removeSelectedNode(setting);
+						parentNode[childKey] = [];
 						if (isRoot) {
 							this.setting.treeObj.empty();
 						} else {
