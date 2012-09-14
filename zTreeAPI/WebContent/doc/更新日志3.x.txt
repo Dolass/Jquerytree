@@ -14,6 +14,9 @@
 </font>
 
 <font color=#041594>
+*2012.10.03* v3.5
+   * 【修改】方法 reAsyncChildNodes 导致内存泄露 的 bug
+
 *2012.09.03* v3.4
    * 【增加】 Demo —— OutLook 样式的左侧菜单
    * 【增加】清空 zTree 的方法 $.fn.zTree.destory(treeId) & zTree.destory()
