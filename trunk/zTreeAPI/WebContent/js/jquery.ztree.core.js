@@ -1023,13 +1023,13 @@
 				};
 				root.expandTriggerFlag = false;
 			}
-			if (node.open == expandFlag) {
-				tools.apply(callback, []);
-				return;
-			}
 			if (!node.open && node.isParent && ((!$("#" + node.tId + consts.id.UL).get(0)) || (node[childKey] && node[childKey].length>0 && !$("#" + node[childKey][0].tId).get(0)))) {
 				view.appendParentULDom(setting, node);
 				view.createNodeCallback(setting);
+			}
+			if (node.open == expandFlag) {
+				tools.apply(callback, []);
+				return;
 			}
 			var ulObj = $("#" + node.tId + consts.id.UL),
 			switchObj = $("#" + node.tId + consts.id.SWITCH),
