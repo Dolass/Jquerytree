@@ -27,6 +27,7 @@ http://code.google.com/p/jquerytree/issues/detail?id=69
 尚未修改
    * 【修改】API 中 dataFilter 的参数名称 chidNodes ->  requestData
 尚未修改
+   * 【修改】异步加载时，在 onNodeCreated 中执行 selectNode 后，导致节点折叠的 bug
 
 *2012.09.03* v3.4
    * 【增加】 Demo —— OutLook 样式的左侧菜单
