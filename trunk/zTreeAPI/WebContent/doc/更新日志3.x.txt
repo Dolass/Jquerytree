@@ -22,11 +22,10 @@ jack21429@163.com
    * 【修改】对隐藏的ztree调用 selectNode 时 IE 系列报错 Can't move focus
 http://code.google.com/p/jquerytree/issues/detail?id=69
 尚未修改
-   * 【修改】所有 callback 中的 event ，保证与触发事件中的 event 一致
+   * 【修改】onCheck 回调中的 event ，保证与触发事件中的 event 一致
 "kilma.b" <155284392@qq.com>
-尚未修改
-   * 【修改】API 中 dataFilter 的参数名称 chidNodes ->  responseData
-尚未修改
+
+   * 【修改】API 中 dataFilter 的参数名称 childNodes ->  responseData
    * 【修改】异步加载时，在 onNodeCreated 中执行 selectNode 后，导致节点折叠的 bug
 
 *2012.09.03* v3.4
