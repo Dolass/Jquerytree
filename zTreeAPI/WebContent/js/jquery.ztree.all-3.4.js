@@ -1740,8 +1740,8 @@
 	_bindEvent = function(setting) {
 		var o = setting.treeObj,
 		c = consts.event;
-		o.bind(c.CHECK, function (event, treeId, node) {
-			tools.apply(setting.callback.onCheck, [event, treeId, node]);
+		o.bind(c.CHECK, function (event, srcEvent, treeId, node) {
+			tools.apply(setting.callback.onCheck, [!!srcEvent?srcEvent : event, treeId, node]);
 		});
 	},
 	_unbindEvent = function(setting) {
@@ -1848,7 +1848,7 @@
 				view.setChkClass(this.setting, checkObj, node);
 				view.repairParentChkClassWithSelf(this.setting, node);
 				if (callbackFlag) {
-					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+					setting.treeObj.trigger(consts.event.CHECK, [null, setting.treeId, node]);
 				}
 			}
 		}
@@ -2008,7 +2008,7 @@
 			var checkObj = $("#" + node.tId + consts.id.CHECK);
 			view.setChkClass(setting, checkObj, node);
 			view.repairParentChkClassWithSelf(setting, node);
-			setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+			setting.treeObj.trigger(consts.event.CHECK, [event, setting.treeId, node]);
 			return true;
 		},
 		onMouseoverCheck: function(event, node) {
