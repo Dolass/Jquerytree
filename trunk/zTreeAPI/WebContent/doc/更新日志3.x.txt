@@ -18,7 +18,8 @@
    * 【修改】hide父节点后，使用 expandAll 方法导致 父节点展开的 bug
 http://tieba.baidu.com/p/1950764645
 尚未修改
-
+   * 【修改】正在异步加载时，执行 destory 或 init方法会导致异步加载的节点影响新树的 bug
+尚未修改
    * 【修改】方法 reAsyncChildNodes 导致内存泄露 的 bug
 jack21429@163.com
 
