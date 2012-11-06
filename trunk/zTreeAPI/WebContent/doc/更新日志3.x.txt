@@ -33,6 +33,8 @@ http://code.google.com/p/jquerytree/issues/detail?id=69
    * 【修改】异步加载时，在 onNodeCreated 中执行 selectNode 后，导致节点折叠的 bug
    * 【修改】API 中 dataFilter 的参数名称 childNodes ->  responseData
    * 【修改】API 中 iconSkin 的 举例内容
+   * 【修改】API 中 chkDisabled 的说明
+尚未修改
 
 *2012.09.03* v3.4
    * 【增加】 Demo —— OutLook 样式的左侧菜单
