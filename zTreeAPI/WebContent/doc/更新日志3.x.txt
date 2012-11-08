@@ -27,6 +27,9 @@ jack21429@163.com
    * 【修改】对隐藏的ztree调用 selectNode 时 IE 系列报错 Can't move focus
 http://code.google.com/p/jquerytree/issues/detail?id=69
 尚未修改
+   * 【修改】对于 使用 html格式的 节点无法触发 双击事件 的 bug
+http://ztreeapi.iteye.com/blog/1670049#comments
+尚未修改
    * 【修改】onCheck 回调中的 event ，保证与触发事件中的 event 一致
 "kilma.b" <155284392@qq.com>
 

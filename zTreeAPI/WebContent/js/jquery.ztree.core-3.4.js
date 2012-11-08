@@ -93,6 +93,7 @@
 		callback: {
 			beforeAsync:null,
 			beforeClick:null,
+			beforeDblClick:null,
 			beforeRightClick:null,
 			beforeMouseDown:null,
 			beforeMouseUp:null,
@@ -104,6 +105,7 @@
 			onAsyncSuccess:null,
 			onNodeCreated:null,
 			onClick:null,
+			onDblClick:null,
 			onRightClick:null,
 			onMouseDown:null,
 			onMouseUp:null,
