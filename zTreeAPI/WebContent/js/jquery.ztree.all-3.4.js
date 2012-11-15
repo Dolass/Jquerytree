@@ -129,6 +129,7 @@
 		r.noSelection = true;
 		r.createdNodes = [];
 		r.zId = 0;
+		r._ver = (new Date()).getTime();
 	},
 	//default cache of core
 	_initCache = function(setting) {
@@ -926,6 +927,7 @@
 			if (tmpParam.length > 1) tmpParam = tmpParam.substring(0, tmpParam.length-1);
 			if (isJson) tmpParam += "}";
 
+			var _tmpV = data.getRoot(setting)._ver;
 			$.ajax({
 				contentType: setting.async.contentType,
 				type: setting.async.type,
@@ -933,6 +935,9 @@
 				data: tmpParam,
 				dataType: setting.async.dataType,
 				success: function(msg) {
+					if (_tmpV != data.getRoot(setting)._ver) {
+						return;
+					}
 					var newNodes = [];
 					try {
 						if (!msg || msg.length == 0) {
@@ -961,6 +966,9 @@
 					tools.apply(callback);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					if (_tmpV != data.getRoot(setting)._ver) {
+						return;
+					}
 					if (node) node.isAjaxing = null;
 					view.setNodeLineIcos(setting, node);
 					setting.treeObj.trigger(consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
