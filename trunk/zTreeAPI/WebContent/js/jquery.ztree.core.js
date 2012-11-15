@@ -960,7 +960,6 @@
 			for (var i=0, j=list.length-1; j>=i; j--) {
 				if (!node || node === list[j]) {
 					$("#" + list[j].tId + consts.id.A).removeClass(consts.node.CURSELECTED);
-					view.setNodeName(setting, list[j]);
 					if (node) {
 						data.removeSelectedNode(setting, node);
 						break;
