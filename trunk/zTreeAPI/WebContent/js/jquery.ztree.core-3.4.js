@@ -730,26 +730,15 @@
 			var childKey = setting.data.key.children;
 			return (setting.async.enable && node && node.isParent && !(node.zAsync || (node[childKey] && node[childKey].length > 0)));
 		},
-		clone: function (jsonObj) {
-			var buf;
-			if (jsonObj instanceof Array) {
-				buf = [];
-				var i = jsonObj.length;
-				while (i--) {
-					buf[i] = arguments.callee(jsonObj[i]);
+		clone: function (obj){
+			if (obj === null) return null;
+			var o = obj.constructor === Array ? [] : {};
+			for(var i in obj){
+				if(obj.hasOwnProperty(i)){
+					o[i] = typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i];
 				}
-				return buf;
-			}else if (typeof jsonObj == "function"){
-				return jsonObj;
-			}else if (jsonObj instanceof Object){
-				buf = {};
-				for (var k in jsonObj) {
-					buf[k] = arguments.callee(jsonObj[k]);
-				}
-				return buf;
-			}else{
-				return jsonObj;
 			}
+			return o;
 		},
 		eqs: function(str1, str2) {
 			return str1.toLowerCase() === str2.toLowerCase();
@@ -1532,12 +1521,12 @@
 					data.getRoot(setting).expandTriggerFlag = callbackFlag;
 					if (sonSign) {
 						view.expandCollapseSonNode(this.setting, node, expandFlag, true, function() {
-							if (focus !== false) {$("#" + node.tId).focus().blur();}
+							if (focus !== false) {try{$("#" + node.tId).focus().blur();}catch(e){}}
 						});
 					} else {
 						node.open = !expandFlag;
 						view.switchNode(this.setting, node);
-						if (focus !== false) {$("#" + node.tId).focus().blur();}
+						if (focus !== false) {try{$("#" + node.tId).focus().blur();}catch(e){}}
 					}
 					return expandFlag;
 				},
@@ -1636,10 +1625,10 @@
 						addFlag = setting.view.selectedMulti && addFlag;
 						if (node.parentTId) {
 							view.expandCollapseParentNode(this.setting, node.getParentNode(), true, false, function() {
-								$("#" + node.tId).focus().blur();
+								try{$("#" + node.tId).focus().blur();}catch(e){}
 							});
 						} else {
-							$("#" + node.tId).focus().blur();
+							try{$("#" + node.tId).focus().blur();}catch(e){}
 						}
 						view.selectNode(this.setting, node, addFlag);
 					}
