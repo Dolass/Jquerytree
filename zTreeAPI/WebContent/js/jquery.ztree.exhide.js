@@ -318,6 +318,16 @@
 		}
 	}
 
+	var _expandCollapseSonNode = view.expandCollapseSonNode;
+	if (!!_expandCollapseSonNode) {
+		view.expandCollapseSonNode = function(setting, node, expandFlag, animateFlag, callback) {
+			if (!!node && !!node.isHidden) {
+				return;
+			}
+			_expandCollapseSonNode.apply(view, arguments);
+		}
+	}
+
 	var _setSonNodeCheckBox = view.setSonNodeCheckBox;
 	if (!!_setSonNodeCheckBox) {
 		view.setSonNodeCheckBox = function(setting, node, value, srcNode) {

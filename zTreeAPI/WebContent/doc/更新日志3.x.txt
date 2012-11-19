@@ -15,22 +15,19 @@
 
 <font color=#041594>
 *2012.10.03* v3.5
-   * 【修改】hide父节点后，使用 expandAll 方法导致 父节点展开的 bug
+   * 【优化】原先的 clone 方法 （特别感谢：愚人码头）
+   * 【修改】隐藏父节点后，使用 expandAll 方法导致 父节点展开的 bug
 http://tieba.baidu.com/p/1950764645
-尚未修改
-   * 【修改】正在异步加载时，执行 destory 或 init方法后，异步加载的节点影响新树的 bug
-   * 【修改】方法 reAsyncChildNodes 导致内存泄露 的 bug
-jack21429@163.com
-
-   * 【修改】批量节点拖拽到其他父节点内（inner）时，导致顺序反转 的 bug
-   * 【修改】对隐藏的ztree调用 selectNode 时 IE 系列报错 Can't move focus
+   * 【修改】使用 jQuery v1.7 以上时，设置 zTree 容器 ul 隐藏（visibility: hidden;）后， 调用 selectNode 导致 IE 浏览器报错 Can't move focus 的 bug
 http://code.google.com/p/jquerytree/issues/detail?id=69
-尚未修改
+   * 【修改】正在异步加载时，执行 destory 或 init 方法后，异步加载的节点影响新树的 bug
+   * 【修改】方法 reAsyncChildNodes 在 refresh 的时候未清空内部 cache 导致内存泄露 的 bug
+jack21429@163.com
+   * 【修改】批量节点拖拽到其他父节点内（inner）时，导致顺序反转 的 bug
    * 【修改】对于 使用 html格式的 节点无法触发 双击事件 的 bug
 http://ztreeapi.iteye.com/blog/1670049#comments
    * 【修改】onCheck 回调中的 event ，保证与触发事件中的 event 一致
 "kilma.b" <155284392@qq.com>
-
    * 【修改】异步加载时，在 onNodeCreated 中执行 selectNode 后，导致节点折叠的 bug
    * 【修改】API 中 dataFilter 的参数名称 childNodes ->  responseData
    * 【修改】API 中 iconSkin 的 举例内容
