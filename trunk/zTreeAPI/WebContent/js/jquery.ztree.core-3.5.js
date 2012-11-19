@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.4
+ * JQuery zTree core 3.5
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2012-09-03
+ * Date: 2012-11-20
  */
 (function($){
 	var settings = {}, roots = {}, caches = {},
@@ -735,7 +735,7 @@
 			var o = obj.constructor === Array ? [] : {};
 			for(var i in obj){
 				if(obj.hasOwnProperty(i)){
-					o[i] = typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i];
+					o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i]);
 				}
 			}
 			return o;
