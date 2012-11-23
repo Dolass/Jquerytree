@@ -722,9 +722,7 @@
 			if (obj === null) return null;
 			var o = obj.constructor === Array ? [] : {};
 			for(var i in obj){
-				if(obj.hasOwnProperty(i)){
-					o[i] = typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i];
-				}
+				o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i]);
 			}
 			return o;
 		},
