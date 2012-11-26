@@ -1566,7 +1566,7 @@
 					}
 					if (reloadType=="refresh") {
 						var childKey = this.setting.data.key.children;
-						for (var i = 0, l = parentNode[childKey].length; i < l; i++) {
+						for (var i = 0, l = parentNode[childKey] ? parentNode[childKey].length : 0; i < l; i++) {
 							data.removeNodeCache(setting, parentNode[childKey][i]);
 						}
 						data.removeSelectedNode(setting);

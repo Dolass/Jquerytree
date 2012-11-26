@@ -87,7 +87,7 @@
 		function ajaxGetNodes(treeNode, reloadType) {
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			if (reloadType == "refresh") {
-				treeNode.icon = "../../css/zTreeStyle/img/loading.gif";
+				treeNode.icon = "../../../css/zTreeStyle/img/loading.gif";
 				zTree.updateNode(treeNode);
 			}
 			zTree.reAsyncChildNodes(treeNode, reloadType, true);
