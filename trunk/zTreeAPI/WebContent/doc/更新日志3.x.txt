@@ -18,6 +18,9 @@
    * 【优化】clone 方法
    * 【修正】对于初始化无 children 属性的父节点进行 reAsyncChildNodes 操作时出错的 bug
 http://tieba.baidu.com/p/2004516795
+   * 【修正】beforeRename 回调中使用 cancelEditName 方法后，再 return false 导致无法重新进行编辑的 bug
+http://tieba.baidu.com/p/2012596303
+尚未修正
 
 *2012.11.20* v3.5
    * 【优化】原先的 clone 方法 （特别感谢：愚人码头）
