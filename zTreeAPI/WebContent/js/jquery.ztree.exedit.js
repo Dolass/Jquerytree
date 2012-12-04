@@ -1131,8 +1131,9 @@
 		}
 	}
 
+	var _makeNodeUrl = view.makeNodeUrl;
 	view.makeNodeUrl = function(setting, node) {
-		return (node.url && !setting.edit.enable) ? node.url : null;
+		return setting.edit.enable ? null : (_makeNodeUrl.apply(view, arguments));
 	}
 
 	var _removeNode = view.removeNode;
