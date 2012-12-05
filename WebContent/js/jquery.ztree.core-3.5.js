@@ -1,3 +1,15 @@
+/*
+ * JQuery zTree core 3.5
+ * http://zTree.me/
+ *
+ * Copyright (c) 2010 Hunter.z
+ *
+ * Licensed same as jquery - MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * email: hunter.z@263.net
+ * Date: 2012-11-20
+ */
 (function($){
 	var settings = {}, roots = {}, caches = {},
 	//default consts of core
@@ -722,7 +734,9 @@
 			if (obj === null) return null;
 			var o = obj.constructor === Array ? [] : {};
 			for(var i in obj){
-				o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i]);
+				if(obj.hasOwnProperty(i)){
+					o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i]);
+				}
 			}
 			return o;
 		},
@@ -1566,7 +1580,7 @@
 					}
 					if (reloadType=="refresh") {
 						var childKey = this.setting.data.key.children;
-						for (var i = 0, l = parentNode[childKey] ? parentNode[childKey].length : 0; i < l; i++) {
+						for (var i = 0, l = parentNode[childKey].length; i < l; i++) {
 							data.removeNodeCache(setting, parentNode[childKey][i]);
 						}
 						data.removeSelectedNode(setting);

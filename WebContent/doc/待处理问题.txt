@@ -13,11 +13,6 @@ http://www.baby666.cn/v3/demo.php#_509
 1，选择大类后自动选择小类会更方便；
 2，shift按键结合选择
 
-*v4.x 计划*
-1. updateNode - addDiyDom - addHoverDom 直接的协调问题
-2. 全面采用回调结构
-3. setting 重构
-4. 
 
 *v3.0 - v3.x 计划*
   * 近期计划：

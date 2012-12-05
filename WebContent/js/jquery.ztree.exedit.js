@@ -820,6 +820,7 @@
 				var inputObj = root.curEditInput;
 				var newName = forceName ? forceName:inputObj.val();
 				if (!forceName && tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+					node.editNameFlag = true;
 					return false;
 				} else {
 					node[nameKey] = newName ? newName:inputObj.val();
@@ -1131,9 +1132,8 @@
 		}
 	}
 
-	var _makeNodeUrl = view.makeNodeUrl;
 	view.makeNodeUrl = function(setting, node) {
-		return setting.edit.enable ? null : (_makeNodeUrl.apply(view, arguments));
+		return (node.url && !setting.edit.enable) ? node.url : null;
 	}
 
 	var _removeNode = view.removeNode;

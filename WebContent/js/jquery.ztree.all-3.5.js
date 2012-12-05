@@ -735,7 +735,9 @@
 			if (obj === null) return null;
 			var o = obj.constructor === Array ? [] : {};
 			for(var i in obj){
-				o[i] = (obj[i] instanceof Date) ? new Date(obj[i].getTime()) : (typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i]);
+				if(obj.hasOwnProperty(i)){
+					o[i] = typeof obj[i] === "object" ? arguments.callee(obj[i]) : obj[i];
+				}
 			}
 			return o;
 		},
@@ -1579,7 +1581,7 @@
 					}
 					if (reloadType=="refresh") {
 						var childKey = this.setting.data.key.children;
-						for (var i = 0, l = parentNode[childKey] ? parentNode[childKey].length : 0; i < l; i++) {
+						for (var i = 0, l = parentNode[childKey].length; i < l; i++) {
 							data.removeNodeCache(setting, parentNode[childKey][i]);
 						}
 						data.removeSelectedNode(setting);
@@ -2178,7 +2180,7 @@
 				node[checkedKey] = value;
 				view.setChkClass(setting, checkObj, node);
 				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
-					setting.treeObj.trigger(consts.event.CHECK, [null, setting.treeId, node]);
+					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
 				}
 			}
 			if (node.parentTId) {
@@ -2226,7 +2228,7 @@
 				}
 				view.setChkClass(setting, checkObj, node);
 				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
-					setting.treeObj.trigger(consts.event.CHECK, [null, setting.treeId, node]);
+					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
 				}
 			}
 
@@ -3120,6 +3122,7 @@
 				var inputObj = root.curEditInput;
 				var newName = forceName ? forceName:inputObj.val();
 				if (!forceName && tools.apply(setting.callback.beforeRename, [setting.treeId, node, newName], true) === false) {
+					node.editNameFlag = true;
 					return false;
 				} else {
 					node[nameKey] = newName ? newName:inputObj.val();
@@ -3431,9 +3434,8 @@
 		}
 	}
 
-	var _makeNodeUrl = view.makeNodeUrl;
 	view.makeNodeUrl = function(setting, node) {
-		return setting.edit.enable ? null : (_makeNodeUrl.apply(view, arguments));
+		return (node.url && !setting.edit.enable) ? node.url : null;
 	}
 
 	var _removeNode = view.removeNode;
