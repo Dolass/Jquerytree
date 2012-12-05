@@ -499,7 +499,7 @@
 				node[checkedKey] = value;
 				view.setChkClass(setting, checkObj, node);
 				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
-					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+					setting.treeObj.trigger(consts.event.CHECK, [null, setting.treeId, node]);
 				}
 			}
 			if (node.parentTId) {
@@ -547,7 +547,7 @@
 				}
 				view.setChkClass(setting, checkObj, node);
 				if (setting.check.autoCheckTrigger && node != srcNode && node.nocheck !== true) {
-					setting.treeObj.trigger(consts.event.CHECK, [setting.treeId, node]);
+					setting.treeObj.trigger(consts.event.CHECK, [null, setting.treeId, node]);
 				}
 			}
 
