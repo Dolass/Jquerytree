@@ -23,6 +23,9 @@ http://tieba.baidu.com/p/2012596303
    * 【修正】exedit 扩展包让 setting.data.key.url 失效的 bug
    * 【修正】setting.check.autoCheckTrigger 设置为 true 时，onCheck 回调缺少 event 参数的 bug
 
+   * 【修正】moveNode 操作后节点的 isLast 和 isFirst 没有正确修正的 bug
+需要检查 http://tieba.baidu.com/p/2028155662
+
 *2012.11.20* v3.5
    * 【优化】原先的 clone 方法 （特别感谢：愚人码头）
    * 【修改】隐藏父节点后，使用 expandAll 方法导致 父节点展开的 bug
