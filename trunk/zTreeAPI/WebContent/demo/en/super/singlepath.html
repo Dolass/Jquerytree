@@ -28,42 +28,25 @@
 			}
 		};
 
-		var zNodes =[
-			{ id:1, pId:0, name:"Root 1"},
-			{ id:11, pId:1, name:"Parent Node 1-1"},
-			{ id:111, pId:11, name:"Leaf Node 1-1-1"},
-			{ id:1111, pId:111, name:"Leaf Node 1-1-1-1"},
-			{ id:1112, pId:111, name:"Leaf Node 1-1-1-2"},
-			{ id:1113, pId:111, name:"Leaf Node 1-1-1-3"},
-			{ id:112, pId:11, name:"Leaf Node 1-1-2"},
-			{ id:1121, pId:112, name:"Leaf Node 1-1-2-1"},
-			{ id:1122, pId:112, name:"Leaf Node 1-1-2-2"},
-			{ id:1123, pId:112, name:"Leaf Node 1-1-2-3"},
-			{ id:113, pId:11, name:"Leaf Node 1-1-3"},
-			{ id:114, pId:11, name:"Leaf Node 1-1-4"},
-			{ id:12, pId:1, name:"Parent Node 1-2"},
-			{ id:121, pId:12, name:"Leaf Node 1-2-1"},
-			{ id:1211, pId:121, name:"Leaf Node 1-2-1-1"},
-			{ id:1212, pId:121, name:"Leaf Node 1-2-1-2"},
-			{ id:1213, pId:121, name:"Leaf Node 1-2-1-3"},
-			{ id:122, pId:12, name:"Leaf Node 1-2-2"},
-			{ id:1221, pId:122, name:"Leaf Node 1-2-2-1"},
-			{ id:1222, pId:122, name:"Leaf Node 1-2-2-2"},
-			{ id:1223, pId:122, name:"Leaf Node 1-2-2-3"},
-			{ id:123, pId:12, name:"Leaf Node 1-2-3"},
-			{ id:124, pId:12, name:"Leaf Node 1-2-4"},
-			{ id:2, pId:0, name:"Root 2"},
-			{ id:21, pId:2, name:"Parent Node 2-1"},
-			{ id:211, pId:21, name:"Leaf Node 2-1-1"},
-			{ id:212, pId:21, name:"Leaf Node 2-1-2"},
-			{ id:213, pId:21, name:"Leaf Node 2-1-3"},
-			{ id:214, pId:21, name:"Leaf Node 2-1-4"},
-			{ id:22, pId:2, name:"Parent Node 2-2"},
-			{ id:221, pId:22, name:"Leaf Node 2-2-1"},
-			{ id:222, pId:22, name:"Leaf Node 2-2-2"},
-			{ id:223, pId:22, name:"Leaf Node 2-2-3"},
-			{ id:224, pId:22, name:"Leaf Node 2-2-4"}
-		];
+				function createNodes(maxNodesNumInLevel, maxLevel, curLevel, curPId) {
+			if (maxNodesNumInLevel<5) {
+				maxNodesNumInLevel = 5;
+			}
+			var nodes = [], num = 0;
+			while(num<3) {
+				num = parseInt(Math.random()*1024)%maxNodesNumInLevel+1;
+			}
+			for (var i=0; i<num; i++) {
+				var id = curPId ? curPId + "-" + i : "" + i, isParent = (parseInt(Math.random()*9999)%3!=0),
+				node = {id: id, pId : curPId, name : "N" + id};
+				nodes.push(node);
+				if (isParent && curLevel<maxLevel) {
+					nodes = nodes.concat(createNodes(maxNodesNumInLevel, maxLevel, curLevel+1, id));
+				}
+			}
+			return nodes;
+		}
+		var zNodes =createNodes(5, 5, 0);
 
 		var curExpandNode = null;
 		function beforeExpand(treeId, treeNode) {
@@ -113,12 +96,7 @@
 							}
 						}
 						if (newParents.length>0) {
-							for (var i = Math.min(newParents.length, oldParents.length)-1; i>=0; i--) {
-								if (newParents[i] !== oldParents[i]) {
-									zTree.expandNode(oldParents[i], false);
-									break;
-								}
-							}
+							zTree.expandNode(oldParents[Math.abs(oldParents.length-newParents.length)-1], false);
 						} else {
 							zTree.expandNode(oldParents[oldParents.length-1], false);
 						}
