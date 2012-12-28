@@ -18,7 +18,7 @@
 需要检查 http://tieba.baidu.com/p/2028155662
 
 <font color=#041594>
-*2012.13.21* v3.5.02
+*2013.01.21* v3.5.02
    * 【增加】setting.check.chkDisabledInherit 属性，用于设置 chkDisabled 在初始化时子节点是否可以继承父节点的 chkDisabled 属性
    * 【修改】setChkDisabled 方法，增加 inheritParent, inheritChildren 参数设置是否让父子节点继承 disabled
    * 【修改】checkbox_nocheck.html & checkbox_chkDisabled.html 这两个 Demo
