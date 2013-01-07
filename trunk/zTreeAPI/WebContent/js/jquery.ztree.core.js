@@ -865,41 +865,24 @@
 				icoObj.attr({"style":"", "class":"button ico_loading"});
 			}
 
-			var isJson = (setting.async.contentType == "application/json"), tmpParam = isJson ? "{" : "", jTemp="";
+			var tmpParam = {};
 			for (i = 0, l = setting.async.autoParam.length; node && i < l; i++) {
 				var pKey = setting.async.autoParam[i].split("="), spKey = pKey;
 				if (pKey.length>1) {
 					spKey = pKey[1];
 					pKey = pKey[0];
 				}
-				if (isJson) {
-					jTemp = (typeof node[pKey] == "string") ? '"' : '';
-					tmpParam += '"' + spKey + ('":' + jTemp + node[pKey]).replace(/'/g,'\\\'') + jTemp + ',';
-				} else {
-					tmpParam += spKey + ("=" + node[pKey]).replace(/&/g,'%26') + "&";
-				}
+				tmpParam[spKey] = node[pKey];
 			}
 			if (tools.isArray(setting.async.otherParam)) {
 				for (i = 0, l = setting.async.otherParam.length; i < l; i += 2) {
-					if (isJson) {
-						jTemp = (typeof setting.async.otherParam[i + 1] == "string") ? '"' : '';
-						tmpParam += '"' + setting.async.otherParam[i] + ('":' + jTemp + setting.async.otherParam[i + 1]).replace(/'/g,'\\\'') + jTemp + ",";
-					} else {
-						tmpParam += setting.async.otherParam[i] + ("=" + setting.async.otherParam[i + 1]).replace(/&/g,'%26') + "&";
-					}
+					tmpParam[setting.async.otherParam[i]] = setting.async.otherParam[i + 1];
 				}
 			} else {
 				for (var p in setting.async.otherParam) {
-					if (isJson) {
-						jTemp = (typeof setting.async.otherParam[p] == "string") ? '"' : '';
-						tmpParam += '"' + p + ('":' + jTemp + setting.async.otherParam[p]).replace(/'/g,'\\\'') + jTemp + ",";
-					} else {
-						tmpParam += p + ("=" + setting.async.otherParam[p]).replace(/&/g,'%26') + "&";
-					}
+					tmpParam[p] = setting.async.otherParam[p];
 				}
 			}
-			if (tmpParam.length > 1) tmpParam = tmpParam.substring(0, tmpParam.length-1);
-			if (isJson) tmpParam += "}";
 
 			var _tmpV = data.getRoot(setting)._ver;
 			$.ajax({
