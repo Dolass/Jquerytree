@@ -17,7 +17,8 @@ http://www.baby666.cn/v3/demo.php#_509
 1. updateNode - addDiyDom - addHoverDom 直接的协调问题
 2. 全面采用回调结构
 3. setting 重构
-4. 
+4. 事件触发机制（bind/unbind）
+5. 结构拆分
 
 *v3.0 - v3.x 计划*
   * 近期计划：
