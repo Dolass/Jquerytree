@@ -19,6 +19,7 @@ http://www.baby666.cn/v3/demo.php#_509
 3. setting 重构
 4. 事件触发机制（bind/unbind）
 5. 结构拆分
+6. 支持链式调用
 
 *v3.0 - v3.x 计划*
   * 近期计划：
