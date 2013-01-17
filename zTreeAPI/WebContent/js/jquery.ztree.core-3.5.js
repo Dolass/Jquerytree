@@ -1431,7 +1431,7 @@
 			setting.treeObj = obj;
 			setting.treeObj.empty();
 			settings[setting.treeId] = setting;
-			//For some older browser, ex: ie6
+			//For some older browser,(e.g., ie6)
 			if(typeof document.body.style.maxHeight === "undefined") {
 				setting.view.expandSpeed = "";
 			}
