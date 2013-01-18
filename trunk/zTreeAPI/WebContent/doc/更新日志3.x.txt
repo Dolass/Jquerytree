@@ -13,6 +13,8 @@
 
 </font>
 
+IE10 ajax Post 无法提交参数的bug
+http://bugs.jquery.com/ticket/12790
 
    * 【修正】moveNode 操作后节点的 isLast 和 isFirst 没有正确修正的 bug
 需要检查 http://tieba.baidu.com/p/2028155662
