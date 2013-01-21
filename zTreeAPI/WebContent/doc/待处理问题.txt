@@ -16,6 +16,7 @@ http://www.baby666.cn/v3/demo.php#_509
 *v4.x 计划*
 1. updateNode - addDiyDom - addHoverDom 直接的协调问题
 2. 全面采用回调结构
+   应用案例：moveNode 操作后，如果是异步加载模式下，要等ajax 结束后才会修正节点的 isLast 和 isFirst 数据
 3. setting 重构
 4. 事件触发机制（bind/unbind）
 5. 结构拆分

@@ -16,11 +16,8 @@
 IE10 ajax Post 无法提交参数的bug
 http://bugs.jquery.com/ticket/12790
 
-   * 【修正】moveNode 操作后节点的 isLast 和 isFirst 没有正确修正的 bug
-需要检查 http://tieba.baidu.com/p/2028155662
-
 <font color=#041594>
-*2013.01.21* v3.5.02
+*2013.01.28* v3.5.02
    * 【增加】setting.check.chkDisabledInherit 属性，用于设置 chkDisabled 在初始化时子节点是否可以继承父节点的 chkDisabled 属性
    * 【删除】内部 noSel 方法，使用 selectstart事件 和 "-moz-user-select"样式 处理禁止 节点文字被选择的功能
    * 【修改】不兼容 jQuery 1.9 的bug
@@ -30,6 +27,8 @@ http://bugs.jquery.com/ticket/12790
    * 【修正】1-2-3 3级节点时，如果 2级节点 全部设置为 nocheck 或 chkDisabled后，勾选3级节点时，1级节点的半勾选状态错误的 bug
    * 【修改】Demo: checkbox_nocheck.html & checkbox_chkDisabled.html;
    * 【修改】Demo: edit_super.html，增加 showRenameBtn & showRemoveBtn 的演示
+   * 【修改】Demo: asyncForAll, 将 post 修改为 get；为了避免由于 IE10 的 bug 造成的客户端 以及 服务端崩溃
+      IE10 ajax Post 无法提交参数的bug (http://bugs.jquery.com/ticket/12790)
 
 *2012.12.21* v3.5.01
    * 【优化】clone 方法
