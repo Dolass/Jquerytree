@@ -323,7 +323,6 @@
 				}
 				var i, l, tmpNode, tmpDom, tmpNodes,
 				childKey = setting.data.key.children;
-				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
 				if (root.dragFlag == 0) {

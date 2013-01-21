@@ -610,6 +610,14 @@
 				treeId: setting.treeId
 			},
 			o = setting.treeObj;
+			// for can't select text
+			o.bind('selectstart', function(e){
+					var n = e.srcElement.nodeName.toLowerCase();
+					return (n === "input" || n === "textarea" );
+				}
+			).css({
+				"-moz-user-select":"-moz-none"
+			});
 			o.bind('click', eventParam, event.proxy);
 			o.bind('dblclick', eventParam, event.proxy);
 			o.bind('mouseover', eventParam, event.proxy);
@@ -655,11 +663,6 @@
 					r = proxyResult.treeEventCallback.apply(proxyResult, [e, proxyResult.node]) && r;
 				}
 			}
-			try{
-				if (x && $("input:focus").length == 0) {
-					tools.noSel(setting);
-				}
-			} catch(e) {}
 			return r;
 		}
 	},
@@ -756,14 +759,6 @@
 				curDom = curDom.parentNode;
 			}
 			return null;
-		},
-		noSel: function(setting) {
-			var r = data.getRoot(setting);
-			if (r.noSelection) {
-				try {
-					window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
-				} catch(e){}
-			}
 		},
 		uCanDo: function(setting, e) {
 			return true;
@@ -2597,7 +2592,6 @@
 				}
 				var i, l, tmpNode, tmpDom, tmpNodes,
 				childKey = setting.data.key.children;
-				tools.noSel(setting);
 				$("body").css("cursor", "pointer");
 
 				if (root.dragFlag == 0) {
