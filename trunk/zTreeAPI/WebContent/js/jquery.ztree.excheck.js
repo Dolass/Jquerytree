@@ -421,7 +421,7 @@
 			}
 			var chkName = setting.check.chkStyle + "_" + (node[checkedKey] ? c.TRUE : c.FALSE) + "_" + fullStyle;
 			chkName = (node.check_Focus && node.chkDisabled !== true) ? chkName + "_" + c.FOCUS : chkName;
-			return "button " + c.DEFAULT + " " + chkName;
+			return consts.className.BUTTON + " " + c.DEFAULT + " " + chkName;
 		},
 		repairAllChk: function(setting, checked) {
 			if (setting.check.enable && setting.check.chkStyle === consts.checkbox.STYLE) {
