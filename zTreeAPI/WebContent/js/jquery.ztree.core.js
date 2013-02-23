@@ -2,6 +2,12 @@
 	var settings = {}, roots = {}, caches = {},
 	//default consts of core
 	_consts = {
+		className: {
+			BUTTON: "zbutton",
+			LEVEL: "level",
+			ICO_LOADING: "ico_loading",
+			SWITCH: "switch"
+		},
 		event: {
 			NODECREATED: "ztree_nodeCreated",
 			CLICK: "ztree_click",
@@ -856,7 +862,7 @@
 			if (node) {
 				node.isAjaxing = true;
 				var icoObj = $("#" + node.tId + consts.id.ICON);
-				icoObj.attr({"style":"", "class":"button ico_loading"});
+				icoObj.attr({"style":"", "class":consts.className.BUTTON + " " + consts.className.ICO_LOADING});
 			}
 
 			var tmpParam = {};
@@ -1084,7 +1090,7 @@
 			html.push("</li>");
 		},
 		makeDOMNodeMainBefore: function(html, setting, node) {
-			html.push("<li id='", node.tId, "' class='level", node.level,"' tabindex='0' hidefocus='true' treenode>");
+			html.push("<li id='", node.tId, "' class='", consts.className.LEVEL, node.level,"' tabindex='0' hidefocus='true' treenode>");
 		},
 		makeDOMNodeNameAfter: function(html, setting, node) {
 			html.push("</a>");
@@ -1097,7 +1103,7 @@
 			for (var f in fontcss) {
 				fontStyle.push(f, ":", fontcss[f], ";");
 			}
-			html.push("<a id='", node.tId, consts.id.A, "' class='level", node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
+			html.push("<a id='", node.tId, consts.id.A, "' class='", consts.className.LEVEL, node.level,"' treeNode", consts.id.A," onclick=\"", (node.click || ''),
 				"\" ", ((url != null && url.length > 0) ? "href='" + url + "'" : ""), " target='",view.makeNodeTarget(node),"' style='", fontStyle.join(''),
 				"'");
 			if (tools.apply(setting.view.showTitle, [setting.treeId, node], setting.view.showTitle) && title) {html.push("title='", title.replace(/'/g,"&#39;").replace(/</g,'&lt;').replace(/>/g,'&gt;'),"'");}
@@ -1117,7 +1123,7 @@
 					icoCss.push(consts.folder.DOCU);
 				}
 			}
-			return "button " + icoCss.join('_');
+			return consts.className.BUTTON + " " + icoCss.join('_');
 		},
 		makeNodeIcoStyle: function(setting, node) {
 			var icoStyle = [];
@@ -1153,7 +1159,7 @@
 			return view.makeNodeLineClassEx(node) + lineClass.join('_');
 		},
 		makeNodeLineClassEx: function(node) {
-			return "button level" + node.level + " switch ";
+			return consts.className.BUTTON + " " + consts.className.LEVEL + node.level + " " + consts.className.SWITCH + " ";
 		},
 		makeNodeTarget: function(node) {
 			return (node.target || "_blank");
@@ -1163,7 +1169,7 @@
 			return node[urlKey] ? node[urlKey] : null;
 		},
 		makeUlHtml: function(setting, node, html, content) {
-			html.push("<ul id='", node.tId, consts.id.UL, "' class='level", node.level, " ", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
+			html.push("<ul id='", node.tId, consts.id.UL, "' class='", consts.className.LEVEL, node.level, " ", view.makeUlLineClass(setting, node), "' style='display:", (node.open ? "block": "none"),"'>");
 			html.push(content);
 			html.push("</ul>");
 		},
