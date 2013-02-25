@@ -3,7 +3,7 @@
 	//default consts of core
 	_consts = {
 		className: {
-			BUTTON: "zbutton",
+			BUTTON: "button",
 			LEVEL: "level",
 			ICO_LOADING: "ico_loading",
 			SWITCH: "switch"

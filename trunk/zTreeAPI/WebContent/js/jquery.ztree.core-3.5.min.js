@@ -1,5 +1,5 @@
 /*
- * JQuery zTree core 3.5.02
+ * JQuery zTree core 3.5.12
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
