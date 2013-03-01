@@ -102,6 +102,8 @@
    * 【修改】onDrop 无法判断拖拽是 移动还是复制的问题
    * 【修改】未开启异步加载模式时，拖拽节点到子节点为空的父节点内时 出现异常 的 bug
    * 【修改】拖拽过程中，反复在 父节点图标上划动时，会出现停顿的 bug
+            (需要css 结构—— button -> span.button)
+
    * 【修改】拖拽操作时箭头 与 targetNode 背景之间的细节现实问题，便于用户拖拽时更容易区分 prev、next 和 inner 操作
    * 【修改】拖拽操作时IE6/7 下 在 节点<a> 右侧 10px 内会导致 targetNode = root 的 bug
    * 【修改】编辑模式下 默认的编辑按钮、删除按钮点击后，如果相应的 before 回调 return false 时会触发 onClick 回调的 bug
