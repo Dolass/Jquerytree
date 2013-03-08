@@ -32,7 +32,6 @@ http://learn.jquery.com/performance/optimize-selectors/
    * 【修改】对已经隐藏的节点(nochecked=false)使用 hideNodes 或 hideNode 方法后，导致勾选框消失的bug。
    * 【修改】className 结构，提取 _consts.className.BUTTON / LEVEL / ICO_LOADING / SWITCH，便于快速修改 css 冲突。
    * 【修改】getNodesByParamFuzzy 支持 大小写模糊。
-尚未制作
    * 【优化】css 选择器（需要更新 css 文件）。
 尚未制作
 
