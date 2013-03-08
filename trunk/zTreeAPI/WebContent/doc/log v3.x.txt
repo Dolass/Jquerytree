@@ -13,17 +13,6 @@
 
 </font>
 
-http://my.iteye.com/messages/11358645
-from: tigerl 
-那就是CSS里的选择器，我看你大量用到了多层选择器，其实这是很耗费性能的 
-最佳的写法是ID和CLASS选择器，在网上有大量的优化文章！ 
-
-在这里给你推荐2个网站： 
-http://css-tricks.com/efficiently-rendering-css/ 
-https://developers.google.com/speed/docs/best-practices/rendering?hl=zh-TW 
-http://learn.jquery.com/performance/optimize-selectors/ 
-
-
 <font color=#041594>
 *2013.02.20* v3.5.12 beta
    * 【修改】由于 jquery 1.9 中移除 event.srcElement 导致的 js 报错的bug。
@@ -32,8 +21,6 @@ http://learn.jquery.com/performance/optimize-selectors/
    * 【修改】对已经隐藏的节点(nochecked=false)使用 hideNodes 或 hideNode 方法后，导致勾选框消失的bug。
    * 【修改】className 结构，提取 _consts.className.BUTTON / LEVEL / ICO_LOADING / SWITCH，便于快速修改 css 冲突。
    * 【修改】getNodesByParamFuzzy 支持 大小写模糊。
-   * 【优化】css 选择器（需要更新 css 文件）。
-尚未制作
 
 *2013.01.28* v3.5.02
    * 【增加】setting.check.chkDisabledInherit 属性，用于设置 chkDisabled 在初始化时子节点是否可以继承父节点的 chkDisabled 属性
