@@ -21,6 +21,18 @@ http://www.baby666.cn/v3/demo.php#_509
 4. 事件触发机制（bind/unbind）
 5. 结构拆分
 6. 支持链式调用
+7.【优化】css 选择器（需要更新 css 文件）。
+http://my.iteye.com/messages/11358645
+from: tigerl 
+那就是CSS里的选择器，我看你大量用到了多层选择器，其实这是很耗费性能的 
+最佳的写法是ID和CLASS选择器，在网上有大量的优化文章！ 
+
+在这里给你推荐2个网站： 
+http://css-tricks.com/efficiently-rendering-css/ 
+https://developers.google.com/speed/docs/best-practices/rendering?hl=zh-TW 
+http://learn.jquery.com/performance/optimize-selectors/ 
+
+
 
 *v3.0 - v3.x 计划*
   * 近期计划：
