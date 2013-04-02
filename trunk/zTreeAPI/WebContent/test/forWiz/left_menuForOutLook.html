@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - left_menu for Outlook</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="css/demo.css" type="text/css">
+	<link rel="stylesheet" href="css/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.exedit-3.5.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		var curMenu = null, zTree_Menu = null;
+		var setting = {
+			view: {
+				showLine: false,
+				showIcon: false,
+				selectedMulti: false,
+				dblClickExpand: false,
+				addDiyDom: addDiyDom
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			edit: {
+				enable: true,
+				drag : {
+					inner : dragToMenuInner,
+					prev : dragToMenuPrev,
+					next : dragToMenuNext
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				
+				onClick: onClickMenu
+			}
+		};
+		var docSetting = {
+			view: {
+				showLine: false,
+				showIcon: false,
+				selectedMulti: false,
+				dblClickExpand: false,
+				addDiyDom: addDiyDomForDoc
+			},
+			data: {
+				
+			},
+			edit: {
+				enable: true,
+				drag : {
+					inner : false,
+					prev : false,
+					next : false
+				}
+			},
+			callback: {
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"文件夹", open:true},
+			{ id:11, pId:1, name:"收件箱"},
+			{ id:111, pId:11, name:"收件箱1"},
+			{ id:112, pId:11, name:"收件箱2", docListNodes : [
+				{ id:1001, name:"文档 001", date:"2013年03月10日"},
+				{ id:1002, name:"文档 002", date:"2013年03月10日"},
+				{ id:1003, name:"文档 003", date:"2013年03月10日"},
+				{ id:1004, name:"文档 004", date:"2013年03月10日"},
+				{ id:1005, name:"文档 005", date:"2013年03月10日"},
+				{ id:1006, name:"文档 006", date:"2013年03月10日"},
+				{ id:1007, name:"文档 007", date:"2013年03月10日"},
+				{ id:1008, name:"文档 008", date:"2013年03月10日"},
+				{ id:1009, name:"文档 009文档 009文档 009文档 009", date:"2013年03月10日"}
+			]},
+			{ id:113, pId:11, name:"收件箱3", docListNodes : [
+				{ id:2001, name:"文档 101", date:"2013年03月10日"},
+				{ id:2002, name:"文档 102", date:"2013年03月10日"},
+				{ id:2003, name:"文档 103", date:"2013年03月10日"},
+				{ id:2004, name:"文档 104", date:"2013年03月10日"},
+				{ id:2005, name:"文档 105", date:"2013年03月10日"},
+				{ id:2006, name:"文档 106", date:"2013年03月10日"},
+				{ id:2007, name:"文档 107", date:"2013年03月10日"},
+				{ id:2008, name:"文档 108", date:"2013年03月10日"},
+				{ id:2009, name:"文档 109文档 109文档 109文档 109", date:"2013年03月10日"}
+			]},
+			{ id:114, pId:11, name:"收件箱4", docListNodes : [
+				{ id:2001, name:"文档 201", date:"2013年03月10日"},
+				{ id:2002, name:"文档 202", date:"2013年03月10日"},
+				{ id:2003, name:"文档 203", date:"2013年03月10日"},
+				{ id:2004, name:"文档 204", date:"2013年03月10日"},
+				{ id:2005, name:"文档 205", date:"2013年03月10日"},
+				{ id:2006, name:"文档 206", date:"2013年03月10日"},
+				{ id:2007, name:"文档 207", date:"2013年03月10日"},
+				{ id:2008, name:"文档 208", date:"2013年03月10日"},
+				{ id:2009, name:"文档 209文档 209文档 209文档 209", date:"2013年03月10日"}
+			]},
+			{ id:12, pId:1, name:"垃圾邮件"},
+			{ id:13, pId:1, name:"草稿"},
+			{ id:14, pId:1, name:"已发送邮件"},
+			{ id:15, pId:1, name:"已删除邮件"},
+			{ id:3, pId:0, name:"快速视图"},
+			{ id:31, pId:3, name:"文档"},
+			{ id:32, pId:3, name:"照片"}
+		];
+
+		function addDiyDom(treeId, treeNode) {
+			var spaceWidth = 5;
+			var switchObj = $("#" + treeNode.tId + "_switch"),
+			icoObj = $("#" + treeNode.tId + "_ico");
+			switchObj.remove();
+			icoObj.before(switchObj);
+
+			if (treeNode.level > 1) {
+				var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+				switchObj.before(spaceStr);
+			}
+		}
+		function addDiyDomForDoc(treeId, treeNode) {
+			var spaceWidth = 5;
+			var switchObj = $("#" + treeNode.tId + "_switch"),
+			icoObj = $("#" + treeNode.tId + "_ico");
+			switchObj.remove();
+			icoObj.before(switchObj);
+
+			if (treeNode.level > 1) {
+				var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+				switchObj.before(spaceStr);
+			}
+		}
+
+		function beforeClick(treeId, treeNode) {
+			if (treeNode.level == 0 ) {
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.expandNode(treeNode);
+				return false;
+			}
+			return true;
+		}
+
+		function onClickMenu(e, treeId, treeNode) {
+			//文档列表 树
+			$.fn.zTree.init($("#docTree"), docSetting, treeNode.docListNodes);
+			
+		}
+
+		function dragToMenuInner(treeId, treeNodes, targetNode) {
+			return true;
+		}
+		function dragToMenuPrev(treeId, treeNodes, targetNode) {
+			return treeNodes[0].id<1000;
+		}
+		function dragToMenuNext(treeId, treeNodes, targetNode) {
+			return treeNodes[0].id<1000;
+		}
+
+		$(document).ready(function(){
+			var treeObj = $("#treeDemo");
+			$.fn.zTree.init(treeObj, setting, zNodes);
+			zTree_Menu = $.fn.zTree.getZTreeObj("treeDemo");
+			curMenu = zTree_Menu.getNodes()[0].children[0].children[0];
+			zTree_Menu.selectNode(curMenu);
+
+			treeObj.hover(function () {
+				if (!treeObj.hasClass("showIcon")) {
+					treeObj.addClass("showIcon");
+				}
+			}, function() {
+				treeObj.removeClass("showIcon");
+			});
+
+			//自动选中目录树
+			var testNode = zTree_Menu.getNodeByParam("id",112),
+			docListNodes = testNode.docListNodes;
+			zTree_Menu.selectNode(testNode);
+
+			//文档列表 树
+			$.fn.zTree.init($("#docTree"), docSetting, docListNodes);
+			
+		});
+		//-->
+	</SCRIPT>
+	<style type="text/css">
+.ztree * {font-size: 10pt;font-family:"Microsoft Yahei",Verdana,Simsun,"Segoe UI Web Light","Segoe UI Light","Segoe UI Web Regular","Segoe UI","Segoe UI Symbol","Helvetica Neue",Arial}
+.ztree li ul{ margin:0; padding:0}
+.ztree li {line-height:30px;}
+.ztree li a {width:200px;height:30px;padding-top: 0px;}
+.ztree li a:hover {text-decoration:none; background-color: #E7E7E7;}
+.ztree li a span.button.switch {visibility:hidden}
+.ztree.showIcon li a span.button.switch {visibility:visible}
+.ztree li a.curSelectedNode {background-color:#D4D4D4;border:0;height:30px;}
+.ztree li a.tmpTargetNode_inner {height:28px}
+.ztree li span {line-height:30px;}
+.ztree li span.button {margin-top: -7px;}
+.ztree li span.button.switch {width: 16px;height: 16px;}
+
+.ztree li a.level0 span {font-size: 150%;font-weight: bold;}
+.ztree li span.button {background-image:url("./left_menuForOutLook.png"); *background-image:url("./left_menuForOutLook.gif")}
+.ztree li span.button.switch.level0 {width: 20px; height:20px}
+.ztree li span.button.switch.level1 {width: 20px; height:20px}
+.ztree li span.button.noline_open {background-position: 0 0;}
+.ztree li span.button.noline_close {background-position: -18px 0;}
+.ztree li span.button.noline_open.level0 {background-position: 0 -18px;}
+.ztree li span.button.noline_close.level0 {background-position: -18px -18px;}
+
+.ztree.ztree_doc li a.level0 span {font-size: 100%;font-weight: normal;width: 100px;display: inline-block;text-overflow: ellipsis;overflow: hidden;}
+.ztree.ztree_doc li span.button.switch {display:none}
+ul.ztree.ztree_doc.zTreeDragUL {line-height:30px;}
+
+	</style>
+ </HEAD>
+
+<BODY>
+<h1>OutLook 样式的左侧菜单</h1>
+<h6>[ 文件路径: super/left_menuForOutLook.html ]</h6>
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+	<div class="zTreeDemoBackground left">
+		<ul id="docTree" class="ztree ztree_doc"></ul>
+	</div>
+</div>
+</BODY>
+</HTML>
