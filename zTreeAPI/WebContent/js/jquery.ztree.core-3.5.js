@@ -847,19 +847,19 @@
 		},
 		appendParentULDom: function(setting, node) {
 			var html = [],
-			nObj = $("#" + node.tId),
-			ulObj = $("#" + node.tId + consts.id.UL),
-			childKey = setting.data.key.children,
-			childHtml = view.appendNodes(setting, node.level+1, node[childKey], node, false, true);
-			view.makeUlHtml(setting, node, html, childHtml.join(''));
+			nObj = $("#" + node.tId);
+
 			if (!nObj.get(0) && !!node.parentTId) {
 				view.appendParentULDom(setting, node.getParentNode());
 				nObj = $("#" + node.tId);
 			}
-			if (ulObj.get(0)) {
-				ulObj.remove();
+			var ulObj = $("#" + node.tId + consts.id.UL);
+			if (!ulObj.get(0)) {
+				var childKey = setting.data.key.children,
+				childHtml = view.appendNodes(setting, node.level+1, node[childKey], node, false, true);
+				view.makeUlHtml(setting, node, html, childHtml.join(''));
+				nObj.append(html.join(''));
 			}
-			nObj.append(html.join(''));
 		},
 		asyncNode: function(setting, node, isSilent, callback) {
 			var i, l;
