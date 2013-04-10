@@ -3,10 +3,10 @@
  **/
 (function($){
 	var zCatchTextNode  = {
-		ASPAN_CLASS : "_wizTmp",
+		WIZTAG : "wiz",
 		_isEditing : false,
 		_curObj : null,
-		//初始化 html （主要用于处理 <a> ）
+		//初始化 html （主要用于处理 <a><span> ）
 		initHtml : function(content){
 			if (!content || !content.get(0)) {
 				return;
@@ -16,15 +16,20 @@
 				aObj = aList[i];
 				zCatchTextNode.initAnchor(aObj);
 			}
+			var sList = content.find("span"), sObj;
+			for(i=0,j=sList.length; i<j; i++) {
+				sObj = sList[i];
+				zCatchTextNode.initSpan(sObj);
+			}
 		},
-		//还原 html （主要用于处理 <a> ）
+		//还原 html （主要用于处理 <a><span> ）
 		recoverHtml : function(content){
 			if (!content || !content.get(0)) {
 				return;
 			}
-			var aList = content.find("a span." + zCatchTextNode.ASPAN_CLASS), i, j, aObj;
+			var aList = content.find(zCatchTextNode.WIZTAG), i, j, aObj;
 			for(i=0,j=aList.length; i<j; i++) {
-				zCatchTextNode.recoverAnchor(aList[i]);
+				zCatchTextNode.recoverWiz(aList[i]);
 			}
 		},
 		//处理 a 标签内的  TextNode
@@ -32,22 +37,36 @@
 			if (!aObj) {
 				return;
 			}
-			var aChildNodes, i, j, tmpObj, tmpParent, tmpNext, newObj;
+			var aChildNodes, i, j;
 			aChildNodes = aObj.childNodes;
 			for(i=0,j=aChildNodes.length; i<j; i++) {
-				tmpObj = aChildNodes[i];
-				if (tmpObj.nodeType == 3) {
-					tmpParent = tmpObj.parentNode;
-					tmpNext = tmpObj.nextSibling;
-					newObj = document.createElement("span");
-					newObj.className = zCatchTextNode.ASPAN_CLASS;
-					newObj.appendChild(tmpObj);
-					tmpParent.insertBefore(newObj,tmpNext);
-				}
+				zCatchTextNode._TextNodeToWiz(aChildNodes[i]);
 			}
 		},
+		//处理 span 标签内的  TextNode & DOM 混合情况
+		initSpan : function(sObj) {
+			if (!sObj || sObj.childNodes.length == 1 || sObj.children.length == sObj.childNodes.length) {
+				return;
+			}
+			var sChildNodes, i, j;
+			sChildNodes = sObj.childNodes;
+			for(i=0,j=sChildNodes.length; i<j; i++) {
+				zCatchTextNode._TextNodeToWiz(sChildNodes[i]);
+			}
+		},
+		_TextNodeToWiz : function(node) {
+			if (node.nodeType != 3) {
+				return;
+			}
+			var tmpParent, tmpNext, newObj
+			tmpParent = node.parentNode;
+			tmpNext = node.nextSibling;
+			newObj = document.createElement(zCatchTextNode.WIZTAG);
+			newObj.appendChild(node);
+			tmpParent.insertBefore(newObj,tmpNext);
+		},
 		//还原 a 标签内的  TextNode
-		recoverAnchor : function(sObj) {
+		recoverWiz : function(sObj) {
 			if (!sObj) {
 				return;
 			}
