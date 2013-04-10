@@ -7,125 +7,50 @@
 	<script type="text/javascript" src="js/editorForHtml.js"></script>
 	<SCRIPT type="text/javascript">
 		<!--
-		(function($){
-			var zCatchTextNode  = {
-				handler : {
-					onClick: function(e) {
-						var textNode = window.getSelection().baseNode,
-						x = e.clientX,
-						y = e.clientY,
-						eObj = document.elementFromPoint(x, y),
-						children = eObj.childNodes,
-						isChild = false, i,j, lastNode, tmpObj, tmpOffset, tmpX, tmpY;
-						for (i=0, j=children.length; i<j; i++) {
-							if (children[i] == textNode) {
-								isChild = true;
-								break;
-							}
-						}
-//						console.log(e);
-//
-//						console.log(window.getSelection());
-//
-//						console.log(eObj);
-//						console.log(textNode);
-//						console.log(e.target);
-						if (isChild) {
-							e.data.callback.apply(this, [textNode]);
-						} else if (eObj.tagName.toLowerCase() == "a") {
-							console.log(eObj);
-							if (eObj.childElementCount==0 && eObj.childNodes.length>0) {
-								e.data.callback.apply(this, [eObj]);
-							} else {
-								for(i=0, j=eObj.childNodes.length; i<j; i++) {
-									tmpObj = eObj.childNodes[i];
-									if (tmpObj.nodeType == 1) {
-										tmpObj = $(tmpObj);
-										tmpOffset = tmpObj.offset(),
-										tmpX = tmpOffset.left + tmpObj.width(),
-										tmpY = tmpOffset.top + tmpObj.height();
-										if (y<tmpOffset.top || (y<tmpY && x<tmpX)) {
-											break;
-										}
-									} else if (tmpObj.nodeType == 3) {
-										lastNode = tmpObj;
-									}
-								}
-								e.data.callback.apply(this, [lastNode]);
-							}
-						} else {
-							e.data.callback.apply(this, [eObj]);
-						}
-						if(e.preventDefault) {
-							e.preventDefault();
-						}						
-						if(e.bubbles) {
-							e.bubbles = false;
-						}
-					}
-				}
-			};
-
-			$.fn.startEditor = function(options) {
-				if (!this.get(0)) {
-					return;
-				}
-				this.bind("click", {callback:options.callback.getNode}, zCatchTextNode.handler.onClick);
-				this.bind("mousedown", function(e) {
-					if(e.bubbles) {
-							e.bubbles = false;
-						}
-				});
-			}
-			$.fn.stopEditor = function() {
-				if (!this.get(0)) {
-					return;
-				}
-				this.unbind("click", zCatchTextNode.handler.onClick);
-			}
-		})(jQuery)
-
 		$(document).ready(function(){
-
 			$("#startEditBtn").bind("click", function(e) {
-				$("#test").startEditor({
+				$("#test").wizEditorStart({
 					callback : {
 						getNode : function(node) {
 							if (node.nodeType == 3) {
-								$("#inputTxt").text(node.textContent);
+								$("#inputTxt").get(0).value = (node.textContent);
 							} else {
-								$("#inputTxt").text(node.innerText);
+								$("#inputTxt").get(0).value = (node.innerText);
 							}
 						}
 					}
 				});
 			});
 			$("#stopEditBtn").bind("click", function(e) {
-				$("#inputTxt").text("");
-				$("#test").stopEditor();
+				$("#inputTxt").get(0).value = ("");
+				$("#test").wizEditorStop();
+			});
+			$("#submitBtn").bind("click", function(e) {
+				$("#test").wizEditorUpdate($("#inputTxt").get(0).value);
+				$("#inputTxt").get(0).value = ("");
+			});
+			$("#cancelBtn").bind("click", function(e) {
+				$("#inputTxt").get(0).value = ("");
+				$("#test").wizEditorReset();
 			});
 
 		});
 		//-->
 	</SCRIPT>
 	<style type="text/css">
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-	margin: 0;padding: 0;border: 0;outline: 0;font-weight: inherit;font-style: inherit;font-size: 100%;font-family: inherit;vertical-align: baseline;}
-body {color: #2f332a;font: 15px/21px Arial, Helvetica, simsun, sans-serif;background: #f0f6e4 \9;}
-h1, h2, h3, h4, h5, h6 {color: #2f332a;font-weight: bold;font-family: Helvetica, Arial, sans-serif;padding-bottom: 5px;}
-h1 {font-size: 24px;line-height: 34px;text-align: center;}
-h2 {font-size: 14px;line-height: 24px;padding-top: 5px;}
-h6 {font-weight: normal;font-size: 12px;letter-spacing: 1px;line-height: 24px;text-align: center;}
-div.left{float: left;width: 70%}
-div.right{float: right;width: 30%;}
+body,html {margin:0;padding:0;font-size: 100%;height:100%;}
+div.wrap {height:100%;position: relative;}
+div.top {height: 70%; padding: 10px; padding-bottom: 60px; overflow:scroll }
+div.bottom {height: 145px;width: 100%;position: absolute;bottom: 0;padding: 10px 0;background-color: #AAA;}
+#inputTxt {width: 95%; height:60%}
 	</style>
  </HEAD>
 
 <BODY>
-<h1>Editor Test</h1>
-<div class="content_wrap">
-	<div id="test" class="left">
+<div class="wrap">
+	<div id="test" class="top">
 
+<h1>Editor Test</h1>
 <div>aa</div>
 <div><span style="font-size: large;"><strong>001</strong></span></div>
 <div><span style="color: #ff0000;">002 123</span></div>
@@ -134,11 +59,11 @@ div.right{float: right;width: 30%;}
 <div><span style="color: #888888;"><input disabled="true" type="checkbox" class="en-todo">123</span></div>
 <div><br clear="none"></div>
 <div><br clear="none"></div>
-<div>abc<img name="1f25e17e-44f6-41b2-97c9-e85ca9b1002b" src="https://app.yinxiang.com/shard/s14/res/1f25e17e-44f6-41b2-97c9-e85ca9b1002b/200904072019365483.png?resizeSmall&amp;width=860" class="en-media">def</div>
+<div>abc<img name="1f25e17e-44f6-41b2-97c9-e85ca9b1002b" src="http://www.wiz.cn/assets/img/logo.png" class="en-media">def</div>
 <div><br clear="none"></div>
 <div>
 <div>
-<p><span>显示以下查询字词的结果：</span>&nbsp;<a shape="rect" href="https://www.google.com.hk/search?hl=zh-CN&amp;newwindow=1&amp;safe=strict&amp;q=iframe+designmode&amp;spell=1&amp;sa=X&amp;ei=IYBhUZDnK4LOiAe2-IGYCA&amp;ved=0CC4QvwUoAA" target="_blank" id="">iframe&nbsp;<em>designmode</em> test</a><br clear="none"><span>仍然搜索：</span>&nbsp;<a shape="rect" href="https://www.google.com.hk/search?hl=zh-CN&amp;newwindow=1&amp;safe=strict&amp;q=iframe+designmodel&amp;nfpr=1&amp;sa=X&amp;ei=IYBhUZDnK4LOiAe2-IGYCA&amp;ved=0CC8QvgUoAQ" target="_blank" id="">iframe designmodel</a></p>
+<p><span>显示以下查询字词的结果：</span>&nbsp;<a shape="rect" href="https://www.google.com.hk/search?hl=zh-CN&amp;newwindow=1&amp;safe=strict&amp;q=iframe+designmode&amp;spell=1&amp;sa=X&amp;ei=IYBhUZDnK4LOiAe2-IGYCA&amp;ved=0CC4QvwUoAA" target="_blank" id="">iframe iframe  iframe  iframe  iframe  iframe iframe iframe iframe iframe <em>designmode designmode designmode designmode designmode designmode designmode designmode designmode</em> test</a><br clear="none"><span>仍然搜索：</span>&nbsp;<a shape="rect" href="https://www.google.com.hk/search?hl=zh-CN&amp;newwindow=1&amp;safe=strict&amp;q=iframe+designmodel&amp;nfpr=1&amp;sa=X&amp;ei=IYBhUZDnK4LOiAe2-IGYCA&amp;ved=0CC8QvgUoAQ" target="_blank" id="">iframe designmodel</a></p>
 </div>
 <div>
 <div><br clear="none"></div>
@@ -181,12 +106,14 @@ div.right{float: right;width: 30%;}
 </div>
 
 	</div>
-	<div class="right">
+	<div class="bottom">
+		<div>
 		<button type="button" id="startEditBtn" >开始编辑</button>
-		<button type="button" id="stopEditBtn" >停止编辑</button>
-		<textarea id="inputTxt" style="width:95%;height:300px"></textarea>
-		<button type="button" id="cancelBtn" >取消</button>
-		<button type="button" id="submitBtn" >确定</button>
+		<button type="button" id="stopEditBtn" >停止编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" id="cancelBtn" >取消修改</button>
+		<button type="button" id="submitBtn" >确定修改</button><br/>
+		</div>
+		<textarea id="inputTxt"></textarea>
 	</div>
 </div>
 </BODY>
