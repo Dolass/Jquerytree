@@ -59,7 +59,7 @@
 					delete n._nocheck;
 				}
 				if (view.setChkClass) {
-					var checkObj = $("#" + n.tId + consts.id.CHECK);
+					var checkObj = $$(n, consts.id.CHECK, setting);
 					view.setChkClass(setting, checkObj, n);
 				}
 				if (view.repairParentChkClassWithSelf) {
@@ -104,7 +104,7 @@
 		showNode: function(setting, node, options) {
 			node.isHidden = false;
 			data.initShowForExCheck(setting, node);
-			$("#" + node.tId).show();
+			$$(node, setting).show();
 		},
 		showNodes: function(setting, nodes, options) {
 			if (!nodes || nodes.length == 0) {
@@ -131,7 +131,7 @@
 			node.isLastNode = false;
 			data.initHideForExCheck(setting, node);
 			view.cancelPreSelectedNode(setting, node);
-			$("#" + node.tId).hide();
+			$$(node, setting).hide();
 		},
 		hideNodes: function(setting, nodes, options) {
 			if (!nodes || nodes.length == 0) {
@@ -259,7 +259,8 @@
 	consts = zt.consts,
 	view = zt._z.view,
 	data = zt._z.data,
-	event = zt._z.event;
+	event = zt._z.event,
+	$$ = tools.$;
 
 	data.addInitNode(_initNode);
 	data.addBeforeA(_beforeA);
