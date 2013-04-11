@@ -1,9 +1,24 @@
 /*
  * 对于不支持 contenteditable 的Android 采用的 Html 简易编辑器
  **/
+var zWizContentSelector = "body";
+var zWizEditorCallback = {
+	callback : {
+		getDomImg : function() {
+			alert("getImg");
+		},
+		getDomTxt : function(txt) {
+			//window.WizNote.onEditorClickText(txt);
+			alert(txt);
+		}
+	}
+};
+
 (function($){
 	var zCatchTextNode  = {
 		WIZTAG : "wiz",
+		WIZTAG_RegExp : /<wiz>|<\/wiz>/ig,
+		IMG_BORDER : "solid yellow",
 		_isEditing : false,
 		_main : null,
 		_curObj : null,
@@ -37,7 +52,7 @@
 		},
 		//获取 html
 		getHTML : function() {
-			return zCatchTextNode._main.html().replace(/<wiz>|<\/wiz>/ig, "");
+			return zCatchTextNode._main.html().replace(zCatchTextNode.WIZTAG_RegExp, "");
 		},
 		//处理 a 标签内的  TextNode
 		initAnchor : function(aObj) {
@@ -92,9 +107,21 @@
 			}
 			zCatchTextNode.resetEdit();
 		},
+		//更新图片
+		updateImg : function(img) {
+			if (!zCatchTextNode._isEditing || !zCatchTextNode._curObj) {
+				return;
+			}
+			var imgObj = zCatchTextNode._curObj;
+			imgObj.src = img.src;
+			zCatchTextNode.resetEdit();
+		},
 		//状态重置
 		resetEdit : function() {
 			zCatchTextNode._isEditing = true;
+			if (zCatchTextNode._curObj && zCatchTextNode._curObj.tagName && zCatchTextNode._curObj.tagName.toLowerCase() == "img") {
+				zCatchTextNode._curObj.style.border = "";
+			}
 			zCatchTextNode._curObj = null;
 		},
 		handler : {
@@ -104,26 +131,39 @@
 				eObj = e.target,
 				children = eObj.childNodes,
 				isChild = false, i,j, lastNode, tmpObj, tmpOffset, tmpX, tmpY;
-				for (i=0, j=children.length; i<j; i++) {
-					if (children[i] == textNode) {
-						isChild = true;
-						break;
-					}
-				}
-				var outTxt = "";
-				if (isChild) {
-					zCatchTextNode._curObj = textNode;
-					outTxt = textNode.textContent;
-				} else if (eObj.children.length == 0){
-					zCatchTextNode._curObj = eObj;
-					outTxt = eObj.innerText;
-				}
-				if (outTxt.length > 0) {
-					e.data.callback.apply(this, [outTxt]);
-				} else {
-					zCatchTextNode._curObj = null;
+
+				if (zCatchTextNode._curObj) {
+					zCatchTextNode.resetEdit();
 				}
 
+				if (eObj.tagName.toLowerCase() == "img") {
+					//处理 img
+					eObj.style.border = zCatchTextNode.IMG_BORDER;
+					zCatchTextNode._curObj = eObj;
+
+				} else {
+					//处理 html
+					for (i=0, j=children.length; i<j; i++) {
+						if (children[i] == textNode) {
+							isChild = true;
+							break;
+						}
+					}
+					var outTxt = "";
+					if (isChild) {
+						zCatchTextNode._curObj = textNode;
+						outTxt = textNode.textContent;
+					} else if (eObj.children.length == 0){
+						zCatchTextNode._curObj = eObj;
+						outTxt = eObj.innerText;
+					}
+					if (outTxt.length > 0) {
+						e.data.callback.apply(this, [outTxt]);
+					} else {
+						zCatchTextNode._curObj = null;
+					}
+				}
+				
 				if(e.preventDefault) {
 					e.preventDefault();
 				}
@@ -144,7 +184,13 @@
 		zCatchTextNode.resetEdit();
 		zCatchTextNode._main = this;
 		zCatchTextNode.initHtml();
-		this.bind("click", {callback:options.callback.getDomTxt}, zCatchTextNode.handler.onClick);
+		this.bind("click", {callback:function(obj){
+			if (typeof obj == "string") {
+				options.callback.getDomTxt.apply(this, [obj]);
+			} else {
+				options.callback.getDomImg.apply(this, []);
+			}
+		}}, zCatchTextNode.handler.onClick);
 	}
 	//停止编辑
 	$.fn.wizEditorStop = function() {
@@ -158,20 +204,21 @@
 		this.unbind("click", zCatchTextNode.handler.onClick);
 	}
 	//获取内容
-	$.fn.wizEditorGetHtml = function(txt) {
+	window.zWizEditorGetHtml = function(txt) {
 		return zCatchTextNode.getHTML();
 	}
 	//编辑内容更改
-	$.fn.wizEditorUpdate = function(txt) {
+	window.zWizEditorUpdateHtml = function(txt) {
 		zCatchTextNode.updateText(txt);
 	}
+	//图片更改
+	window.zWizEditorUpdateImg = function(img) {
+		zCatchTextNode.updateImg(img);
+	}
 	//编辑当前状态取消
-	$.fn.wizEditorReset = function() {
+	window.zWizEditorReset = function() {
 		zCatchTextNode.resetEdit();
 	}
-	window.zWizEditorGetHtml = $.fn.wizEditorGetHtml;
-	window.zWizEditorUpdate = $.fn.wizEditorUpdate;
-	window.zWizEditorReset = $.fn.wizEditorReset;
 })(jQuery);
 
 $(zWizContentSelector).wizEditorStart(zWizEditorCallback);
