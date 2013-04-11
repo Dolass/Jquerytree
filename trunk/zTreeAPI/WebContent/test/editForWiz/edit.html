@@ -3,40 +3,6 @@
 <HEAD>
 	<TITLE> ZTREE DEMO - Simple Data</TITLE>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="js/editorForHtml.js"></script>
-	<SCRIPT type="text/javascript">
-		<!--
-		$(document).ready(function(){
-			$("#startEditBtn").bind("click", function(e) {
-				$("#test").wizEditorStart({
-					callback : {
-						getNode : function(node) {
-							if (node.nodeType == 3) {
-								$("#inputTxt").get(0).value = (node.textContent);
-							} else {
-								$("#inputTxt").get(0).value = (node.innerText);
-							}
-						}
-					}
-				});
-			});
-			$("#stopEditBtn").bind("click", function(e) {
-				$("#inputTxt").get(0).value = ("");
-				$("#test").wizEditorStop();
-			});
-			$("#submitBtn").bind("click", function(e) {
-				$("#test").wizEditorUpdate($("#inputTxt").get(0).value);
-				$("#inputTxt").get(0).value = ("");
-			});
-			$("#cancelBtn").bind("click", function(e) {
-				$("#inputTxt").get(0).value = ("");
-				$("#test").wizEditorReset();
-			});
-
-		});
-		//-->
-	</SCRIPT>
 	<style type="text/css">
 body,html {margin:0;padding:0;font-size: 100%;height:100%;}
 div.wrap {height:100%;position: relative;}
@@ -108,13 +74,53 @@ div.bottom {height: 145px;width: 100%;position: absolute;bottom: 0;padding: 10px
 	</div>
 	<div class="bottom">
 		<div>
-		<button type="button" id="startEditBtn" >开始编辑</button>
-		<button type="button" id="stopEditBtn" >停止编辑</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" id="getHtmlBtn" >获取HTML</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button type="button" id="cancelBtn" >取消修改</button>
 		<button type="button" id="submitBtn" >确定修改</button><br/>
 		</div>
 		<textarea id="inputTxt"></textarea>
 	</div>
 </div>
+
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		//------------------加载 editorForHtml.js 前定义-------------------------
+		var zWizContentSelector = "#test";
+		var zWizEditorCallback = {
+			callback : {
+				getDomTxt : function(txt) {
+					$("#inputTxt").get(0).value = txt;
+					alert(txt);
+				}
+			}
+		};
+		//------------------加载 editorForHtml.js 前定义-------------------------
+		
+
+		//Demo 绑定事件
+		$(document).ready(function(){
+			$("#getHtmlBtn").bind("click", function(e) {
+				//获取 html
+				alert(zWizEditorGetHtml());
+//				$(zWizContentSelector).wizEditorStart(zWizEditorCallback);
+			});
+			$("#submitBtn").bind("click", function(e) {
+				//更新内容
+				zWizEditorUpdate($("#inputTxt").get(0).value);
+				$("#inputTxt").get(0).value = ("");
+			});
+			$("#cancelBtn").bind("click", function(e) {
+				//取消按钮
+				zWizEditorReset();
+				$("#inputTxt").get(0).value = ("");
+			});
+
+		});
+		//-->
+	</SCRIPT>
+	<script type="text/javascript" src="js/editorForHtml.js"></script>
+
+	
 </BODY>
 </HTML>
