@@ -5,9 +5,11 @@
 	var zCatchTextNode  = {
 		WIZTAG : "wiz",
 		_isEditing : false,
+		_main : null,
 		_curObj : null,
 		//初始化 html （主要用于处理 <a><span> ）
-		initHtml : function(content){
+		initHtml : function(){
+			var content = zCatchTextNode._main;
 			if (!content || !content.get(0)) {
 				return;
 			}
@@ -23,7 +25,8 @@
 			}
 		},
 		//还原 html （主要用于处理 <a><span> ）
-		recoverHtml : function(content){
+		recoverHtml : function(){
+			var content = zCatchTextNode._main;
 			if (!content || !content.get(0)) {
 				return;
 			}
@@ -31,6 +34,10 @@
 			for(i=0,j=aList.length; i<j; i++) {
 				zCatchTextNode.recoverWiz(aList[i]);
 			}
+		},
+		//获取 html
+		getHTML : function() {
+			return zCatchTextNode._main.html().replace(/<wiz>|<\/wiz>/ig, "");
 		},
 		//处理 a 标签内的  TextNode
 		initAnchor : function(aObj) {
@@ -103,13 +110,20 @@
 						break;
 					}
 				}
+				var outTxt = "";
 				if (isChild) {
 					zCatchTextNode._curObj = textNode;
-					e.data.callback.apply(this, [textNode]);
+					outTxt = textNode.textContent;
 				} else if (eObj.children.length == 0){
 					zCatchTextNode._curObj = eObj;
-					e.data.callback.apply(this, [eObj]);
+					outTxt = eObj.innerText;
 				}
+				if (outTxt.length > 0) {
+					e.data.callback.apply(this, [outTxt]);
+				} else {
+					zCatchTextNode._curObj = null;
+				}
+
 				if(e.preventDefault) {
 					e.preventDefault();
 				}
@@ -128,8 +142,9 @@
 			return;
 		}
 		zCatchTextNode.resetEdit();
-		zCatchTextNode.initHtml(this);
-		this.bind("click", {callback:options.callback.getNode}, zCatchTextNode.handler.onClick);
+		zCatchTextNode._main = this;
+		zCatchTextNode.initHtml();
+		this.bind("click", {callback:options.callback.getDomTxt}, zCatchTextNode.handler.onClick);
 	}
 	//停止编辑
 	$.fn.wizEditorStop = function() {
@@ -138,15 +153,25 @@
 		}
 		zCatchTextNode._isEditing = false;
 		zCatchTextNode._curObj = null;
-		zCatchTextNode.recoverHtml(this);
+		zCatchTextNode.recoverHtml();
+		zCatchTextNode._main = null;
 		this.unbind("click", zCatchTextNode.handler.onClick);
+	}
+	//获取内容
+	$.fn.wizEditorGetHtml = function(txt) {
+		return zCatchTextNode.getHTML();
 	}
 	//编辑内容更改
 	$.fn.wizEditorUpdate = function(txt) {
-		zCatchTextNode.updateText(txt)
+		zCatchTextNode.updateText(txt);
 	}
 	//编辑当前状态取消
 	$.fn.wizEditorReset = function() {
 		zCatchTextNode.resetEdit();
 	}
-})(jQuery)
+	window.zWizEditorGetHtml = $.fn.wizEditorGetHtml;
+	window.zWizEditorUpdate = $.fn.wizEditorUpdate;
+	window.zWizEditorReset = $.fn.wizEditorReset;
+})(jQuery);
+
+$(zWizContentSelector).wizEditorStart(zWizEditorCallback);
