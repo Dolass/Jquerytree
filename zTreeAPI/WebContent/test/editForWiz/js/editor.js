@@ -5,7 +5,11 @@ var zWizContentSelector = "body";
 var zWizEditorCallback = {
 	callback : {
 		getDomImg : function() {
+//			window.WizNote.onEditorClickImage();
 			alert("getImg");
+//			zWizEditorUpdateImg({src:"http://tb.himg.baidu.com/sys/portrait/item/5a127a547265654150490e0d"});
+			zWizEditorUpdateImg({src:""});
+
 		},
 		getDomTxt : function(txt) {
 			//window.WizNote.onEditorClickText(txt);
@@ -112,8 +116,13 @@ var zWizEditorCallback = {
 			if (!zCatchTextNode._isEditing || !zCatchTextNode._curObj) {
 				return;
 			}
-			var imgObj = zCatchTextNode._curObj;
-			imgObj.src = img.src;
+			if (!img.src) {
+				zCatchTextNode._curObj.parentNode.removeChild(zCatchTextNode._curObj);
+			} else {
+				var imgObj = zCatchTextNode._curObj;
+				imgObj.src = img.src;
+
+			}
 			zCatchTextNode.resetEdit();
 		},
 		//状态重置
@@ -140,6 +149,7 @@ var zWizEditorCallback = {
 					//处理 img
 					eObj.style.border = zCatchTextNode.IMG_BORDER;
 					zCatchTextNode._curObj = eObj;
+					e.data.callback.apply(this, [eObj]);
 
 				} else {
 					//处理 html
