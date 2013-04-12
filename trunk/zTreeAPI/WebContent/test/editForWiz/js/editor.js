@@ -4,11 +4,11 @@
 var zWizContentSelector = "body";
 var zWizEditorCallback = {
 	callback : {
-		getDomImg : function() {
+		getDomImg : function(src) {
 //			window.WizNote.onEditorClickImage();
-			alert("getImg");
-//			zWizEditorUpdateImg({src:"http://tb.himg.baidu.com/sys/portrait/item/5a127a547265654150490e0d"});
-			zWizEditorUpdateImg({src:""});
+			alert(src);
+			zWizEditorUpdateImg({src:"http://tb.himg.baidu.com/sys/portrait/item/5a127a547265654150490e0d"});
+//			zWizEditorUpdateImg({src:""});
 
 		},
 		getDomTxt : function(txt) {
@@ -198,7 +198,7 @@ var zWizEditorCallback = {
 			if (typeof obj == "string") {
 				options.callback.getDomTxt.apply(this, [obj]);
 			} else {
-				options.callback.getDomImg.apply(this, []);
+				options.callback.getDomImg.apply(this, [obj.src]);
 			}
 		}}, zCatchTextNode.handler.onClick);
 	}
