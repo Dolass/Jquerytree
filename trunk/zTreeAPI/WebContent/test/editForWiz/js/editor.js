@@ -5,15 +5,15 @@ var zWizContentSelector = "body";
 var zWizEditorCallback = {
 	callback : {
 		getDomImg : function(src) {
-			window.WizNote.onEditorClickImage();
-//			alert(src);
+//			window.WizNote.onEditorClickImage(src);
+			alert(src);
 //			zWizEditorUpdateImg({src:"http://tb.himg.baidu.com/sys/portrait/item/5a127a547265654150490e0d"});
 //			zWizEditorUpdateImg({src:""});
 
 		},
 		getDomTxt : function(txt) {
-			window.WizNote.onEditorClickText(txt);
-//			alert(txt);
+//			window.WizNote.onEditorClickText(txt);
+			alert(txt);
 		}
 	}
 };
