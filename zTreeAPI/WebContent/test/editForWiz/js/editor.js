@@ -5,12 +5,12 @@ var zWizContentSelector = "body";
 var zWizEditorCallback = {
 	callback : {
 		getDomImg : function(src) {
-//			window.WizNote.onEditorClickImage(src);
-			alert(src);
+			window.WizNote.onEditorClickImage(src);
+//			alert(src);
 		},
 		getDomTxt : function(txt) {
-//			window.WizNote.onEditorClickText(txt);
-			alert(txt);
+			window.WizNote.onEditorClickText(txt);
+//			alert(txt);
 		}
 	}
 };
