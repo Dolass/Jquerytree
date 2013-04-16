@@ -1,5 +1,5 @@
 /*
- * 对于不支持 contenteditable 的Android 采用的 Html 简易编辑器
+ * Simple Editor for Android (can't support the contenteditable)
  **/
 var zWizContentSelector = "body";
 var zWizEditorCallback = {
@@ -7,9 +7,6 @@ var zWizEditorCallback = {
 		getDomImg : function(src) {
 //			window.WizNote.onEditorClickImage(src);
 			alert(src);
-//			zWizEditorUpdateImg({src:"http://tb.himg.baidu.com/sys/portrait/item/5a127a547265654150490e0d"});
-//			zWizEditorUpdateImg({src:""});
-
 		},
 		getDomTxt : function(txt) {
 //			window.WizNote.onEditorClickText(txt);
@@ -26,7 +23,7 @@ var zWizEditorCallback = {
 		_isEditing : false,
 		_main : null,
 		_curObj : null,
-		//初始化 html （主要用于处理 <a><span> ）
+		//init html ( for: <a><span> )
 		initHtml : function(){
 			var content = zCatchTextNode._main;
 			if (!content || !content.get(0)) {
@@ -43,7 +40,7 @@ var zWizEditorCallback = {
 				zCatchTextNode.initSpan(sObj);
 			}
 		},
-		//还原 html （主要用于处理 <a><span> ）
+		//recover the html (for: <a><span>)
 		recoverHtml : function(){
 			var content = zCatchTextNode._main;
 			if (!content || !content.get(0)) {
@@ -54,11 +51,11 @@ var zWizEditorCallback = {
 				zCatchTextNode.recoverWiz(aList[i]);
 			}
 		},
-		//获取 html
+		//get html's innerHTML
 		getHTML : function() {
 			return zCatchTextNode._main.html().replace(zCatchTextNode.WIZTAG_RegExp, "");
 		},
-		//处理 a 标签内的  TextNode
+		//init TextNode in <a>
 		initAnchor : function(aObj) {
 			if (!aObj) {
 				return;
@@ -69,7 +66,7 @@ var zWizEditorCallback = {
 				zCatchTextNode._TextNodeToWiz(aChildNodes[i]);
 			}
 		},
-		//处理 span 标签内的  TextNode & DOM 混合情况
+		//init TextNode in <span>, if the <span> has ElementNodes
 		initSpan : function(sObj) {
 			if (!sObj || sObj.childNodes.length == 1 || sObj.children.length == sObj.childNodes.length) {
 				return;
@@ -91,7 +88,7 @@ var zWizEditorCallback = {
 			newObj.appendChild(node);
 			tmpParent.insertBefore(newObj,tmpNext);
 		},
-		//还原 a 标签内的  TextNode
+		//recover <wiz> to textNode
 		recoverWiz : function(sObj) {
 			if (!sObj) {
 				return;
@@ -99,7 +96,7 @@ var zWizEditorCallback = {
 			sObj.parentNode.insertBefore(sObj.childNodes[0], sObj.nextSibling);
 			sObj.parentNode.removeChild(sObj);
 		},
-		//更新文本
+		//update Text
 		updateText : function(txt) {
 			if (!zCatchTextNode._isEditing || !zCatchTextNode._curObj) {
 				return;
@@ -111,7 +108,7 @@ var zWizEditorCallback = {
 			}
 			zCatchTextNode.resetEdit();
 		},
-		//更新图片
+		//update the image
 		updateImg : function(img) {
 			if (!zCatchTextNode._isEditing || !zCatchTextNode._curObj) {
 				return;
@@ -125,7 +122,7 @@ var zWizEditorCallback = {
 			}
 			zCatchTextNode.resetEdit();
 		},
-		//状态重置
+		//reset the Edit status
 		resetEdit : function() {
 			zCatchTextNode._isEditing = true;
 			if (zCatchTextNode._curObj && zCatchTextNode._curObj.tagName && zCatchTextNode._curObj.tagName.toLowerCase() == "img") {
@@ -134,7 +131,7 @@ var zWizEditorCallback = {
 			zCatchTextNode._curObj = null;
 		},
 		handler : {
-			//click 点击要编辑的 DOM
+			//click the DOM
 			onClick: function(e) {
 				var textNode = window.getSelection().baseNode,
 				eObj = e.target,
@@ -146,13 +143,13 @@ var zWizEditorCallback = {
 				}
 
 				if (eObj.tagName.toLowerCase() == "img") {
-					//处理 img
+					//img
 					eObj.style.border = zCatchTextNode.IMG_BORDER;
 					zCatchTextNode._curObj = eObj;
 					e.data.callback.apply(this, [eObj]);
 
 				} else {
-					//处理 html
+					//html
 					for (i=0, j=children.length; i<j; i++) {
 						if (children[i] == textNode) {
 							isChild = true;
@@ -184,9 +181,9 @@ var zWizEditorCallback = {
 		}
 	};
 	/*
-	 * 注册 jQuery Fn
+	 * regist jQuery Fn
 	 */
-	//开始编辑
+	//start to edit
 	$.fn.wizEditorStart = function(options) {
 		if (!this.get(0) || !!zCatchTextNode._isEditing) {
 			return;
@@ -202,7 +199,7 @@ var zWizEditorCallback = {
 			}
 		}}, zCatchTextNode.handler.onClick);
 	}
-	//停止编辑
+	//stop to edit
 	$.fn.wizEditorStop = function() {
 		if (!this.get(0)) {
 			return;
@@ -213,19 +210,19 @@ var zWizEditorCallback = {
 		zCatchTextNode._main = null;
 		this.unbind("click", zCatchTextNode.handler.onClick);
 	}
-	//获取内容
+	//get html
 	window.zWizEditorGetHtml = function(txt) {
 		return zCatchTextNode.getHTML();
 	}
-	//编辑内容更改
-	window.zWizEditorUpdateHtml = function(txt) {
+	//update text
+	window.zWizEditorUpdateText = function(txt) {
 		zCatchTextNode.updateText(txt);
 	}
-	//图片更改
+	//update image
 	window.zWizEditorUpdateImg = function(img) {
 		zCatchTextNode.updateImg(img);
 	}
-	//编辑当前状态取消
+	//cancel the edited status
 	window.zWizEditorReset = function() {
 		zCatchTextNode.resetEdit();
 	}
