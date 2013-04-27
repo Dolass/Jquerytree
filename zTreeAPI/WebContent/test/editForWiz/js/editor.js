@@ -6,11 +6,11 @@ var zWizEditorCallback = {
 	callback : {
 		getDomImg : function(src) {
 			window.WizNote.onEditorClickImage(src);
-//			alert(src);
+			alert(src);
 		},
 		getDomTxt : function(txt) {
 			window.WizNote.onEditorClickText(txt);
-//			alert(txt);
+			alert(txt);
 		}
 	}
 };
@@ -105,6 +105,31 @@ var zWizEditorCallback = {
 				zCatchTextNode._curObj.textContent = txt;
 			} else {
 				zCatchTextNode._curObj.innerText = txt;
+			}
+			zCatchTextNode.resetEdit();
+		},
+		//update Html
+		updateHtml : function(html) {
+			if (!zCatchTextNode._isEditing || !zCatchTextNode._curObj) {
+				return;
+			}
+			if (zCatchTextNode._curObj.nodeType == 3) {
+				var p = zCatchTextNode._curObj.parentNode,
+				n = zCatchTextNode._curObj.nextSibling;
+				p.removeChild(zCatchTextNode._curObj);
+				if (!zCatchTextNode.tmpDiv) {
+					zCatchTextNode.tmpDiv = document.createElement("div");					
+				} else {
+					zCatchTextNode.tmpDiv.innerHTML = "";
+				}
+				zCatchTextNode.tmpDiv.innerHTML = html;
+				var childs = zCatchTextNode.tmpDiv.childNodes;
+				for (var i=0, j=childs.length; i<j; i++) {
+					p.insertBefore(childs[0], n);
+				}
+				zCatchTextNode.tmpDiv.innerHTML = "";
+			} else {
+				zCatchTextNode._curObj.innerHTML = html;
 			}
 			zCatchTextNode.resetEdit();
 		},
@@ -217,6 +242,10 @@ var zWizEditorCallback = {
 	//update text
 	window.zWizEditorUpdateText = function(txt) {
 		zCatchTextNode.updateText(txt);
+	}
+	//update html
+	window.zWizEditorUpdateHtml = function(html) {
+		zCatchTextNode.updateHtml(html);
 	}
 	//update image
 	window.zWizEditorUpdateImg = function(img) {
