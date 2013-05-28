@@ -115,7 +115,7 @@
 		if (tools.eqs(e.type, "mouseover")) {
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 			if (tmp) {
-				tId = tmp.parentNode.id;
+				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "hoverOverNode";
 			}
 		} else if (tools.eqs(e.type, "mouseout")) {
@@ -127,7 +127,7 @@
 		} else if (tools.eqs(e.type, "mousedown")) {
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 			if (tmp) {
-				tId = tmp.parentNode.id;
+				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "mousedownNode";
 			}
 		}

@@ -189,12 +189,12 @@
 			treeEventType = "contextmenu";
 		} else if (tools.eqs(event.type, "click")) {
 			if (tools.eqs(target.tagName, "span") && target.getAttribute("treeNode"+ consts.id.SWITCH) !== null) {
-				tId = ($(target).parent("li").get(0) || $(target).parentsUntil("li").parent().get(0)).id;
+				tId = tools.getNodeMainDom(target).id;
 				nodeEventType = "switchNode";
 			} else {
 				tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 				if (tmp) {
-					tId = ($(tmp).parent("li").get(0) || $(tmp).parentsUntil("li").parent().get(0)).id;
+					tId = tools.getNodeMainDom(tmp).id;
 					nodeEventType = "clickNode";
 				}
 			}
@@ -202,13 +202,13 @@
 			treeEventType = "dblclick";
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
 			if (tmp) {
-				tId = ($(tmp).parent("li").get(0) || $(tmp).parentsUntil("li").parent().get(0)).id;
+				tId = tools.getNodeMainDom(tmp).id;
 				nodeEventType = "switchNode";
 			}
 		}
 		if (treeEventType.length > 0 && tId.length == 0) {
 			tmp = tools.getMDom(setting, target, [{tagName:"a", attrName:"treeNode"+consts.id.A}]);
-			if (tmp) {tId = ($(tmp).parent("li").get(0) || $(tmp).parentsUntil("li").parent().get(0)).id;}
+			if (tmp) {tId = tools.getNodeMainDom(tmp).id;}
 		}
 		// event to node
 		if (tId.length>0) {
@@ -326,8 +326,12 @@
 		addInitNode: function(initNode) {
 			_init.nodes.push(initNode);
 		},
-		addInitProxy: function(initProxy) {
-			_init.proxys.push(initProxy);
+		addInitProxy: function(initProxy, isFirst) {
+			if (!!isFirst) {
+				_init.proxys.splice(0,0,initProxy);
+			} else {
+				_init.proxys.push(initProxy);
+			}
 		},
 		addInitRoot: function(initRoot) {
 			_init.roots.push(initRoot);
@@ -766,6 +770,9 @@
 				curDom = curDom.parentNode;
 			}
 			return null;
+		},
+		getNodeMainDom:function(target) {
+			return ($(target).parent("li").get(0) || $(target).parentsUntil("li").parent().get(0));
 		},
 		uCanDo: function(setting, e) {
 			return true;
