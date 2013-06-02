@@ -1,6 +1,6 @@
 
 /*
- * JQuery zTree core 3.5.13-beta.10
+ * JQuery zTree core 3.5.13
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -9,7 +9,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2013-05-28
+ * Date: 2013-06-02
  */
 (function($){
 	var settings = {}, roots = {}, caches = {},
@@ -1671,7 +1671,7 @@
 	consts = zt.consts;
 })(jQuery);
 /*
- * JQuery zTree excheck 3.5.13-beta.10
+ * JQuery zTree excheck 3.5.13
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -1680,7 +1680,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2013-05-28
+ * Date: 2013-06-02
  */
 (function($){
 	//default consts of excheck
@@ -2297,7 +2297,7 @@
 	}
 })(jQuery);
 /*
- * JQuery zTree exedit 3.5.13-beta.10
+ * JQuery zTree exedit 3.5.13
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -2306,7 +2306,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2013-05-28
+ * Date: 2013-06-02
  */
 (function($){
 	//default consts of exedit

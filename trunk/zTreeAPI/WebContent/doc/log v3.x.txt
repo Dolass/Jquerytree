@@ -14,9 +14,10 @@
 </font>
 
 <font color=#041594>
-*2013.04.27* v3.5.13-beta.9
-1. 问题检查完毕：http://www.oschina.net/question/1047295_109723
-2. 问题检查：http://tieba.baidu.com/p/2335038886
+遗留问题 iframe-shim：http://tieba.baidu.com/p/2335038886
+
+
+*2013.06.02* v3.5.13
 
    * 【增加】beforeRename & onRename 增加 isCancel 参数，可以监控用户 ESC 取消编辑的事件
 
