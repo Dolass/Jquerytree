@@ -862,12 +862,13 @@
 				nObj = $$(node, setting);
 			}
 			var ulObj = $$(node, consts.id.UL, setting);
-			if (!ulObj.get(0)) {
-				var childKey = setting.data.key.children,
-				childHtml = view.appendNodes(setting, node.level+1, node[childKey], node, false, true);
-				view.makeUlHtml(setting, node, html, childHtml.join(''));
-				nObj.append(html.join(''));
+			if (ulObj.get(0)) {
+				ulObj.remove();
 			}
+			var childKey = setting.data.key.children,
+			childHtml = view.appendNodes(setting, node.level+1, node[childKey], node, false, true);
+			view.makeUlHtml(setting, node, html, childHtml.join(''));
+			nObj.append(html.join(''));
 		},
 		asyncNode: function(setting, node, isSilent, callback) {
 			var i, l;
