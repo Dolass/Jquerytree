@@ -708,8 +708,10 @@
 	//method of tools for zTree
 	_tools = {
 		getAbs: function (obj) {
-			var oRect = obj.getBoundingClientRect();
-			return [oRect.left,oRect.top]
+			var oRect = obj.getBoundingClientRect(),
+			scrollTop = document.body.scrollTop+document.documentElement.scrollTop,
+			scrollLeft = document.body.scrollLeft+document.documentElement.scrollLeft;
+			return [oRect.left+scrollLeft,oRect.top+scrollTop];
 		},
 		inputFocus: function(inputObj) {
 			if (inputObj.get(0)) {
@@ -749,7 +751,7 @@
 					var obj = iframeList.get(i),
 					r = tools.getAbs(obj),
 					dragMask = $$("<div id='zTreeMask_" + i + "' class='zTreeMask' style='top:" + r[1] + "px; left:" + r[0] + "px; width:" + obj.offsetWidth + "px; height:" + obj.offsetHeight + "px;'></div>", setting);
-					dragMask.appendTo(body);
+					dragMask.appendTo($$("body", setting));
 					root.dragMaskList.push(dragMask);
 				}
 			}
