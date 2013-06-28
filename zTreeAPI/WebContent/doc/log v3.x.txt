@@ -18,7 +18,7 @@
 需要检查 http://tieba.baidu.com/p/2372557947
 修改后联系 mmeroad http://ztreeapi.iteye.com/blog/1881286#comments
 
-*2013.06.12* v3.5.14
+*2013.06.28* v3.5.14
    * 【修改】 拖拽节点时 iframe 遮罩异常的bug
    * 【修改】 清空子节点后重新添加子节点无法显示的bug
 
