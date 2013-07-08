@@ -20,6 +20,7 @@
 
 *2013.07.05* v3.5.15
    * 【修改】 使用 cancelEditName 方法时，beforeRename & onRename 的 isCancel 始终为 false 的bug
+   * 【修改】 编辑状态， beforeRename 回调 return false 时，提示信息导致 input 失去焦点后， 当树再次得到焦点时，让 input 自动获取焦点
 
 *2013.06.28* v3.5.14
    * 【修改】 拖拽节点时 iframe 遮罩异常的bug
