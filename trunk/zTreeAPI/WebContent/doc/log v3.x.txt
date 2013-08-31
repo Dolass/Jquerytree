@@ -19,6 +19,10 @@
 需要检查：http://tieba.baidu.com/p/2512956849 （http://guodefu909.iteye.com/blog/1923554）
           http://tieba.baidu.com/p/2527748877
           https://github.com/zTree/zTree_v3/issues/23
+          http://guodefu909.iteye.com/
+
+拖拽时 页面上如果有 object 拖拽的节点会被遮挡。
+
 
 修改后联系 mmeroad http://ztreeapi.iteye.com/blog/1881286#comments
 
