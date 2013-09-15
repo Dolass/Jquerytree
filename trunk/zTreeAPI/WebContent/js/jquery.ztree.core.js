@@ -774,6 +774,9 @@
 		getNodeMainDom:function(target) {
 			return ($(target).parent("li").get(0) || $(target).parentsUntil("li").parent().get(0));
 		},
+		isChildOrSelf: function(dom, parentId) {
+			return ( $(dom).closest("#" + parentId).length> 0 );
+		},
 		uCanDo: function(setting, e) {
 			return true;
 		}
