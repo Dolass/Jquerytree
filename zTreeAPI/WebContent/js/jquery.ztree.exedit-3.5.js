@@ -444,7 +444,7 @@
 					isTreeLeft = (isLeft && targetSetting.treeObj.scrollLeft() <= 0),
 					isTreeRight = (isRight && (targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width()+10) >= scrollWidth);
 
-					if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
+					if (event.target && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
 						//get node <li> dom
 						var targetObj = event.target;
 						while (targetObj && targetObj.tagName && !tools.eqs(targetObj.tagName, "li") && targetObj.id != targetSetting.treeId) {
@@ -463,18 +463,15 @@
 								break;
 							}
 						}
-						if (canMove) {
-							if (event.target.id &&
-								(event.target.id == (targetObj.id + consts.id.A) || $(event.target).parents("#" + targetObj.id + consts.id.A).length > 0)) {
-								tmpTarget = $(targetObj);
-								tmpTargetNodeId = targetObj.id;
-							}
+						if (canMove && event.target && tools.isChildOrSelf(event.target, targetObj.id + consts.id.A)) {
+							tmpTarget = $(targetObj);
+							tmpTargetNodeId = targetObj.id;
 						}
 					}
 
 					//the mouse must be in zTree
 					tmpNode = nodes[0];
-					if (isTreeInner && (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length>0)) {
+					if (isTreeInner && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
 						//judge mouse move in root of ztree
 						if (!tmpTarget && (event.target.id == targetSetting.treeId || isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || (!isOtherTree && tmpNode.parentTId))) {
 							tmpTarget = targetSetting.treeObj;
