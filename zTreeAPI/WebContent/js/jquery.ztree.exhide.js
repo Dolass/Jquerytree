@@ -268,24 +268,20 @@
 
 //	Override method in core
 	var _dInitNode = data.initNode;
-	data.tmpHideParent = -1;
 	data.initNode = function(setting, level, node, parentNode, isFirstNode, isLastNode, openFlag) {
-		if (data.tmpHideParent !== parentNode) {
-			data.tmpHideParent = parentNode == null ? -1 : parentNode;
-			var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
+		var tmpPNode = (parentNode) ? parentNode: data.getRoot(setting),
 			children = tmpPNode[setting.data.key.children];
-			data.tmpHideFirstNode = view.setFirstNodeForHide(setting, children);
-			data.tmpHideLastNode = view.setLastNodeForHide(setting, children);
-			view.setNodeLineIcos(setting, data.tmpHideFirstNode);
-			view.setNodeLineIcos(setting, data.tmpHideLastNode);
-		}
+		data.tmpHideFirstNode = view.setFirstNodeForHide(setting, children);
+		data.tmpHideLastNode = view.setLastNodeForHide(setting, children);
+		view.setNodeLineIcos(setting, data.tmpHideFirstNode);
+		view.setNodeLineIcos(setting, data.tmpHideLastNode);
 		isFirstNode = (data.tmpHideFirstNode === node);
 		isLastNode = (data.tmpHideLastNode === node);
 		if (_dInitNode) _dInitNode.apply(data, arguments);
 		if (isLastNode) {
 			view.clearOldLastNode(setting, node);
 		}
-	}
+	};
 
 	var _makeChkFlag = data.makeChkFlag;
 	if (!!_makeChkFlag) {
