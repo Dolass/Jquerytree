@@ -6,9 +6,9 @@
 
 具体修改内容可参考：
 
-   * [http://www.ztree.me/v3/api.php zTree v3.5.02 API 文档]
+   * [http://www.ztree.me/v3/api.php zTree v3.5.15 API 文档]
 
-   * [http://www.ztree.me/v3/demo.php#_101 zTree v3.5.02 Demo 演示]
+   * [http://www.ztree.me/v3/demo.php#_101 zTree v3.5.15 Demo 演示]
 
    * [http://www.ztree.me/v3/faq.php#_101 zTree v3.x 常见问题]
 
