@@ -1009,6 +1009,7 @@
 			event.unbindTree(setting);
 			event.unbindEvent(setting);
 			setting.treeObj.empty();
+			delete settings[setting.treeId];
 		},
 		expandCollapseNode: function(setting, node, expandFlag, animateFlag, callback) {
 			var root = data.getRoot(setting),
