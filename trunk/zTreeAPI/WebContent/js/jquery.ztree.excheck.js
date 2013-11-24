@@ -59,7 +59,8 @@
 		var o = setting.treeObj,
 		c = consts.event;
 		o.bind(c.CHECK, function (event, srcEvent, treeId, node) {
-			tools.apply(setting.callback.onCheck, [!!srcEvent?srcEvent : event, treeId, node]);
+			event.srcEvent = srcEvent;
+			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
 	},
 	_unbindEvent = function(setting) {

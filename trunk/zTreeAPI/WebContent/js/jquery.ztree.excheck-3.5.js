@@ -1,5 +1,5 @@
 /*
- * JQuery zTree excheck v3.5.16-beta.1
+ * JQuery zTree excheck v3.5.16-beta.3
  * http://zTree.me/
  *
  * Copyright (c) 2010 Hunter.z
@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * email: hunter.z@263.net
- * Date: 2013-11-03
+ * Date: 2013-11-24
  */
 (function($){
 	//default consts of excheck
@@ -71,7 +71,8 @@
 		var o = setting.treeObj,
 		c = consts.event;
 		o.bind(c.CHECK, function (event, srcEvent, treeId, node) {
-			tools.apply(setting.callback.onCheck, [!!srcEvent?srcEvent : event, treeId, node]);
+			event.srcEvent = srcEvent;
+			tools.apply(setting.callback.onCheck, [event, treeId, node]);
 		});
 	},
 	_unbindEvent = function(setting) {
