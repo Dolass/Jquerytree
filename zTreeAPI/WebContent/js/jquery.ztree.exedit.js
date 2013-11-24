@@ -5,7 +5,8 @@
 			DRAG: "ztree_drag",
 			DROP: "ztree_drop",
 			REMOVE: "ztree_remove",
-			RENAME: "ztree_rename"
+			RENAME: "ztree_rename",
+			DRAGMOVE:"ztree_dragmove"
 		},
 		id: {
 			EDIT: "_edit",
@@ -57,6 +58,7 @@
 			beforeEditName:null,
 			beforeRename:null,
 			onDrag:null,
+			onDragMove:null,
 			onDrop:null,
 			onRename:null
 		}
@@ -90,6 +92,10 @@
 			tools.apply(setting.callback.onDrag, [srcEvent, treeId, treeNodes]);
 		});
 
+		o.bind(c.DRAGMOVE,function(event, srcEvent, treeId, treeNodes){
+			tools.apply(setting.callback.onDragMove,[srcEvent, treeId, treeNodes]);
+		});
+
 		o.bind(c.DROP, function (event, srcEvent, treeId, treeNodes, targetNode, moveType, isCopy) {
 			tools.apply(setting.callback.onDrop, [srcEvent, treeId, treeNodes, targetNode, moveType, isCopy]);
 		});
@@ -100,6 +106,7 @@
 		o.unbind(c.RENAME);
 		o.unbind(c.REMOVE);
 		o.unbind(c.DRAG);
+		o.unbind(c.DRAGMOVE);
 		o.unbind(c.DROP);
 	},
 	//default event proxy of exedit
@@ -579,6 +586,8 @@
 					}
 					preTmpTargetNodeId = tmpTargetNodeId;
 					preTmpMoveType = moveType;
+
+					setting.treeObj.trigger(consts.event.DRAGMOVE, [event, setting.treeId, nodes]);
 				}
 				return false;
 			}
