@@ -386,6 +386,10 @@
 						view.selectNode(setting, tmpNode, i>0);
 						view.removeTreeDom(setting, tmpNode);
 
+						if (i > setting.edit.drag.maxShowNodeNum-1) {
+							continue;
+						}
+
 						tmpDom = $$("<li id='"+ tmpNode.tId +"_tmp'></li>", setting);
 						tmpDom.append($$(tmpNode, consts.id.A, setting).clone());
 						tmpDom.css("padding", "0");
