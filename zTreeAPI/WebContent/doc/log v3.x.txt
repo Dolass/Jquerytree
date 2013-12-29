@@ -26,8 +26,7 @@
    * 【修改】使用 destory 方法销毁树以后，依然可以从 getZTreeObj 方法中获取到 zTree 对象的 bug。
    * 【修改】onCheck 回调的 event，恢复为 zTree 自身的 event 事件，同时利用 srcEvent 传递原始 event 对象。（感谢 yumi301）
    * 【修改】拖拽多个节点时，超出 maxShowNodeNum 设置个数的节点会失去 被选择状态的 bug
-   * 【修改】chkStyle: "radio" 并且 设定radioType = "all"时， updateNode 和 checkNode 方法会导致已勾选的节点 状态异常的 bug
-
+   * 【修改】excheck & exedit 扩展包的 zTree 方法中 setting 数据错误导致 checkNode、updateNode 等方法操作 radio 失效的 bug
 
 *2013.10.19* v3.5.15
    * 【增加】setting.view.txtSelectedEnable 属性，满足部分项目中客户对于可以选择节点文本信息的强烈欲望。
