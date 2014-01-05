@@ -365,12 +365,14 @@
 					if (setting.check.radioType == r.TYPE_ALL) {
 						for (i = checkedList.length-1; i >= 0; i--) {
 							pNode = checkedList[i];
-							pNode[checkedKey] = false;
-							checkedList.splice(i, 1);
+							if (pNode[checkedKey] && pNode != node) {
+								pNode[checkedKey] = false;
+								checkedList.splice(i, 1);
 
-							view.setChkClass(setting, $$(pNode, consts.id.CHECK, setting), pNode);
-							if (pNode.parentTId != node.parentTId) {
-								view.repairParentChkClassWithSelf(setting, pNode);
+								view.setChkClass(setting, $$(pNode, consts.id.CHECK, setting), pNode);
+								if (pNode.parentTId != node.parentTId) {
+									view.repairParentChkClassWithSelf(setting, pNode);
+								}
 							}
 						}
 						checkedList.push(node);
