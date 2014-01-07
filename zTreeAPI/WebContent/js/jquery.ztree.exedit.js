@@ -388,7 +388,6 @@
 						if (i == setting.edit.drag.maxShowNodeNum-1) {
 							tmpDom = $$("<li id='"+ tmpNode.tId +"_moretmp'><a>  ...  </a></li>", setting);
 							curNode.append(tmpDom);
-							break;
 						}
 					}
 					curNode.attr("id", nodes[0].tId + consts.id.UL + "_tmp");
