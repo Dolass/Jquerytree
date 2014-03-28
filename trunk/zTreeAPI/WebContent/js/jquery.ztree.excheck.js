@@ -493,8 +493,7 @@
 			} else {
 				obj.show();
 			}
-			obj.removeClass();
-			obj.addClass(view.makeChkClass(setting, node));
+            obj.attr('class', view.makeChkClass(setting, node));
 		},
 		setParentNodeCheckBox: function(setting, node, value, srcNode) {
 			var childKey = setting.data.key.children,
