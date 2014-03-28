@@ -13,11 +13,6 @@
 
 </font>
 
-遗留问题 iframe-shim：http://tieba.baidu.com/p/2335038886
-拖拽时 页面上某些特殊的 object 拖拽的节点会被遮挡。
-需要检查：http://tieba.baidu.com/p/2512956849 （http://guodefu909.iteye.com/blog/1923554）
-          http://guodefu909.iteye.com/
-
 *2014.03.28* v3.5.17-beta.1
    * 【修改】excheck 扩展中 removeClass 与 jQueryUI 1.9 冲突的问题，目前放弃 removeClass 方法
 
