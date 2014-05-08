@@ -33,7 +33,9 @@ http://www.baby666.cn/v3/demo.php#_509
 http://my.iteye.com/messages/11358645
 from: tigerl 
 那就是CSS里的选择器，我看你大量用到了多层选择器，其实这是很耗费性能的 
-最佳的写法是ID和CLASS选择器，在网上有大量的优化文章！ 
+最佳的写法是ID和CLASS选择器，在网上有大量的优化文章！
+8. ajax 一定要设置 cache=false 避免 get 方式的用户 ie 浏览器下有缓存
+
 
 在这里给你推荐2个网站： 
 http://css-tricks.com/efficiently-rendering-css/ 
